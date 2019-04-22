@@ -17,6 +17,6 @@ El Dr. Cassol es ingeniero en informática, Master en Software engineering por e
      Facultad de Ingeniería de la Universidad Austral. 
      Sus areas de investigación son le refactorización de código estructurado y la genómica y la ciencia de datos.
      
-[Curso 1](https://gitlab.com/icassol/cursor/Mod1.html)
+[Curso 1]("/Mod1.html")
 [Curso 2]("/Mod2.html")
 [Curso 3]("/Mod3.html")
