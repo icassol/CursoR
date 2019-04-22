@@ -1,0 +1,222 @@
+---
+title: 'Introducción al análisis de datos con R'
+author: "Ignacio Cassol"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    fig_caption: yes
+    fig_height: 4
+    fig_width: 4.5
+    highlight: textmate
+    keep_md: yes
+    number_sections: yes
+    self_contained: no
+    theme: flatly
+    toc: yes
+    toc_depth: 2
+---
+
+<!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
+```{r style, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
+if (!"BiocStyle" %in% rownames(installed.packages()))
+  BiocManager::install("BiocStyle")
+
+library(BiocStyle)
+BiocStyle::markdown()
+options(width=100)
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+```
+
+# Objetivos del curso
+Al finalizar el curso, se espera que el alumno sea capaz de:
+
+* Comprender la importancia de la exploración de los datos mediante tablas y gráficos.
+* Distinguir los distintos tipos de variables y sus características.
+* Conocer los métodos de estadística descriptiva para el estudio conjunto de dos variables. 
+* Utilizar el programa R para la exploración y descripción de datos.
+
+# ¿Qué es R?
+
+R es muchas cosas:
+
+* Es una simple calculadora.
+
+* Es un programa para el análisis de datos, que dispone de procedimientos específicos para:
+
+      * Estadística descriptiva.
+      * Inferencia estadística.
+      * Ajuste de Modelos.
+      * Estadística espacial.
+      * Epidemiología.
+      * Análisis de señales.
+      * Genética
+      * Econometría
+      * Series Temporales
+      * Ecuaciones estructurales
+      * Métodos bayesianos
+      …
+
+* Es una herramienta de cálculo numérico con procedimientos para el álgebra lineal, las ecuaciones diferenciales, la optimización, etc.
+
+* Es un lenguaje de programación con las siguientes características:
+
+      * Actúa como interfaz para procedimientos computacionales muy diversos.
+      * Es interactivo.
+      * Su modelo de programación es funcional.
+      * Es orientado a objetos. Todo en R es un “objeto”.
+      * Es modular, construido a partir de mútiples “piezas” ajustadas a un formato estándar.
+      * Es colaborativo: es software libre, abierto a la participación de quien desee aportar su conocimiento y experiencia.
+
+Es sobre todo un entorno de trabajo en el que se pueden manipular múltiples elementos: archivos de datos, gráficos, accesos a internet, etc. Este entorno de trabajo cuenta con la indiscutible ventaja de ser idéntico en los tres grandes sistemas operativos: Linux, Windows y Mac.
+
+# ¿Por qué R se ha convertido en una opción tan interesante?
+
+1. Lenguaje robusto.
+
+R es un lenguaje con una curva de aprendizaje compleja, pero muy robusto y efectivo para el manejo de datos estadísticos. Es un lenguaje orientado a objetos. Además, R es un lenguaje de programación que está en constante evolución y del que se dispone de una amplia documentación. Hay una gran comunidad viva y colaborativa. 
+
+2. Facilidad en la preparación de los datos.
+
+Cuando un programador maneja volúmenes de datos muy elevados, gran parte del tiempo se dedica a preparar la información para la visualización de la que se pueden extraer conclusiones. Con R esa preparación es relativamente sencilla, en gran medida porque automatiza muchos procesos mediante la programación de ´scripts´.
+
+3. R funciona con cualquier tipo de archivo.
+
+R es muy flexible, puede trabajar con datos procedentes de todo tipo de archivos: un .txt, un .csv, un JSON o un EXCEL.
+
+4. Gestión de un gran volumen de datos.
+
+R es un lenguaje que permite la implementación de paquetes adicionales que le dan una capacidad de gestión de datos enorme. En proyectos de gran volumen, la escalabilidad es un elemento clave.
+
+5. Es de código abierto y gratuito.
+
+Si eres programador y quieres empezar con R, esto es un detalle importante. No hay limitaciones. El código está en cualquier repositorio de plataformas de desarrollo colaborativo como `GitHub´ o foros de dudas para desarrolladores como `Stackoverflow´. Hay librerías y paquetes adicionales para impulsar proyectos, cuyo código se puede modificar para implementar nuevas funcionalidades. Y gratis.
+
+# Metodología del curso 
+
+El curso consiste en la lectura y estudio del material escrito. Las clases presenciales seguirán estas guías y se intercambiarán ejercicios. 
+
+Para afianzar los contenidos, se recomienda vivamente probar los conceptos con datos reales. Para eso, por ejemplo, se puede instalar el paquete `datasets`:
+
+```{r}
+library(datasets)
+```
+
+[Aquí](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html) encontrarás un listado de los data.frames que contiene el paquete.  
+
+# ¿Cómo puedo descargar R?
+
+Habitualmente, el lenguaje R se utiliza con la ayuda de una interfaz gráfica llamada Rstudio. Como en este curso utilizaremos R a través de Rstudio, tendrás que instalar R, y luego Rstudio. 
+
+## Instalación de R
+
+R es software libre y por tanto no es necesario pagar para adquirirlo. Se puede descargar directamente desde la web [www.r-project.org](https://www.r-project.org/).
+
+Click en [***download R***](https://cran.r-project.org/mirrors.html) y seleccionar el [servidor para Argentina](http://mirror.fcaglp.unlp.edu.ar/CRAN/). Luego tendrás que clickear el link que corresponda a tu sistema operativo. 
+
+## Instalación de Rstudio
+
+Una vez que tienes el lenguaje R instalado, estas en condiciones de instalar la interfaz gráfica. La versión ***Open Source*** puede descargarse libremente desde [www.rstudio.com](www.rstudio.com). Se recomienda descargar la versión gratuita de "RStudio Desktop". Deberás clickear sobre el "installer" acorde a tu sistema operativo. 
+
+La interfaz de Rstudio permite un acceso más cómodo a la edición de código, los resultados, los gráficos, la descarga de librerías, los objetos en memoria, etc. Además permite generar muy fácilmente informes con los procedimientos y resultados de nuestros análisis en varios formatos (html, pdf y word).
+
+En los últimos años Rstudio ha experimentado un notable desarrollo y se ha convertido, de facto, en la GUI por excelencia para R. Dispone de versiones (idénticas en su funcionamiento) para Linux, Mac y Windows.
+
+## Primer ingreso a Rstudio
+
+Abre Rstudio para empezar a trabajar. Luego **File** -> **New file** -> **R Script**. La pantalla debería ser similar a esto: 
+
+![](https://github.com/icassol/platform-samples/blob/master/InicioRst.png?raw=true)
+
+
+Esta pantalla contiene las cuatro áreas de trabajo de Rstudio: 
+
+* ***Script:*** Aquí es donde se escriben los programas en r. Son scripts, o sea, archivos que contienen instrucciones en R. Aquí es donde vamos a escribir algoritmos o conjuntos de instrucciones para, luego, ejecutarlas. Para ejecutar un script, antes, hay que nombrarlo y grabarlo. En nuestro caso, el script figura como "Untitled1" porque está recién creado, vacío y todavía no le pusimos nombre.  
+* ***Console:*** Es una línea de comando. En esta área se pueden ejecutar instrucciones individuales en R. 
+* ***Enviroment/History/Connections:*** Dependiendo de la pestaña, esta área muestra: las variables/objetos/funciones en memoria o los comandos ya ejecutados (History). Connections se utiliza para la gestión de repositorios o trabajo colaborativo entre varios programadores. 
+* ***File/Plots/Packages/Help/Viewer:*** Esta área la iremos viendo a medida que avancemos en el curso. 
+
+Probemos las áreas: 
+
+- En la consola escribir:
+
+``` {r cache=TRUE, message=FALSE}
+a<-1
+```
+
+Con esta instrucción estamos creando una variable llamada "a", y le estamos cargando el valor "1". Esa variable se podrá ver en el área "Environment". 
+
+En la consola también puedes escribir, por ejemplo: 
+
+![](http://www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/imagenes/ejemplo2+2.png)
+
+Puedes probar con múltiples funciones: raiz cuadrada (sqrt), cuadrado ( ^ 2), logaritmo, etc:
+
+![](http://www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/imagenes/variasOperaciones.png)
+
+Puedes asignar valores a variables:
+
+![](http://www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/imagenes/valVari.png)
+
+Una variable puede contener muchos valores; en tal caso la variable puede expresarse como un vector de dimensión n, que se construye mediante la función de concatenación, ´c()´:
+
+![](http://www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/imagenes/vectores.png)
+
+Las operaciones con variables n-dimensionales se realizan término a término:
+
+![](http://www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/imagenes/operaVectores.png)
+
+Hasta ahora hemos ejecutados instrucciones en R en la consola. Ahora bien, cuando cerremos Rstudio,no quedará rastro de lo que hemos estado haciendo. Para eso es que debemos trabajar con ***scripts***. 
+
+En muchas ocasiones nos interesará guardar los comandos que hemos empleado, por múltiples razones:
+
+* Porque el análisis de datos se prolonga durante varios días.
+* Porque nos interesa documentar todo lo que hacemos con nuestros datos para futuras referencias o reanálisis.
+* Porque los comandos que hemos empleado para este análisis pueden ser reutilizados para analizar otros datos distintos.
+* Porque tenemos colaboradores a los que queremos mostrar exactamente la forma en que hemos llevado a cabo el análisis de datos.
+* Simplemente porque el análisis de los datos es parte del proceso de investigación científica. Tradicionalmente, al publicar un trabajo el investigador suele ser muy cuidadoso en la descripción del material y métodos empleados, ya que esta es la forma de conseguir que el trabajo se pueda reproducir y se puedan confirmar (o no) los hallazgos realizados. Pero tan importante como la descripción del material y métodos es la comunicación más fiel y exacta posible del análisis estadístico realizado.
+
+### Ejecución de scripts con R
+
+Vamos a crear nuestro primer script. En el area de "Untitled1" pegar el siguiente código: 
+
+``` {r cache=TRUE, message=FALSE}
+mensaje<-"Hola mundo"
+fecha<-date()
+repeticiones<-5
+
+print(fecha)
+for (i in 1:repeticiones){
+  print(mensaje)
+}
+```
+
+Cuando programamos un script, las intrucciones no se ejecutan como sucede en la consola (que se ejecutan automáticamente luego de presionar enter). Tenemos dos maneras de ejecutarlas: 
+
+- *Ejecución línea a línea*: ubicarse en la línea a ejecutar y hacer click en "Run".
+- *Ejecución de la región seleccionada*: seleccionar el conjunto de instrucciones y hacer click en "Run".
+
+Te conviene ejectuar todas las instrucciones de tu scripts. Por ese motivo, selecciona todas las líneas de código y luego, click en "Run". En la consola podrás ver el resultado de tu primer programa. 
+
+Características de un buen scripts:
+
+* Que pueda ser reutilizado muchas veces con distintos conjuntos de datos.
+* Que pueda ser entendible para otros programadores. Calidad de los nombres. Incluir líneas de comentarios. 
+* Nombres en inglés. 
+* "Atomizar" el código. El cada archivo contenga un concepto. 
+* Tabular correctamente. 
+* No hacer instrucciones muy largas.
+
+# ¿Dónde puedo encontrar más material sobre R?
+
+En la actualidad, numerosas plataformas de enseñanza online ofrecen cursos de R, o cursos de estadística que emplean R como herramienta para el análisis de datos:
+
+[DataCamp](https://www.datacamp.com/)
+
+[Code School](https://www.pluralsight.com/courses/r-programming-fundamentals)
+
+[Leyendo libros y documentación en internet](https://www.r-project.org/doc/bib/R-books.html)
+
+[Curso de introducción a R](http://www.dma.ulpgc.es/profesores/personal/stat/cursoR4ULPGC/index.html). Recomendado. Varias clases y ejemplos de este curso, se tomaron de este sitio. 
+
+[Programming in R](http://manuals.bioinformatics.ucr.edu/home/programming-in-r#TOC-Introduction)
+
