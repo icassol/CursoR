@@ -8,9 +8,9 @@ output:
     fig_height: 4
     fig_width: 4.5
     highlight: haddock
-    keep_md: yes
+    keep_md: no
     number_sections: yes
-    self_contained: no
+    self_contained: yes
     theme: flatly
     toc: yes
     toc_depth: 2
