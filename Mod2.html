@@ -11,7 +11,7 @@
 
 <meta name="author" content="Ignacio Cassol" />
 
-<meta name="date" content="2019-04-19" />
+<meta name="date" content="2019-04-25" />
 
 <title>Datos y algunos algoritmos en R</title>
 
@@ -192,56 +192,60 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Datos y algunos algoritmos en R</h1>
 <h4 class="author">Ignacio Cassol</h4>
-<h4 class="date">2019-04-19</h4>
+<h4 class="date">2019-04-25</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#objetos-en-r"><span class="toc-section-number">1</span> Objetos en R</a></li>
-<li><a href="#tipos-basicos-de-datos"><span class="toc-section-number">2</span> Tipos básicos de datos</a><ul>
-<li><a href="#factores"><span class="toc-section-number">2.1</span> Factores</a></li>
-<li><a href="#variables-logicas"><span class="toc-section-number">2.2</span> Variables lógicas</a></li>
+<li><a href="#objetos"><span class="toc-section-number">1</span> Objetos</a></li>
+<li><a href="#paquetes"><span class="toc-section-number">2</span> Paquetes</a></li>
+<li><a href="#tipos-basicos-de-datos"><span class="toc-section-number">3</span> Tipos básicos de datos</a><ul>
+<li><a href="#factores"><span class="toc-section-number">3.1</span> Factores</a></li>
+<li><a href="#variables-logicas"><span class="toc-section-number">3.2</span> Variables lógicas</a></li>
 </ul></li>
-<li><a href="#arreglos"><span class="toc-section-number">3</span> Arreglos</a><ul>
-<li><a href="#longitud"><span class="toc-section-number">3.1</span> Longitud</a></li>
-<li><a href="#acceso-a-los-componentes"><span class="toc-section-number">3.2</span> Acceso a los componentes</a></li>
-<li><a href="#seleccion-condicionada-de-valores"><span class="toc-section-number">3.3</span> Selección condicionada de valores</a></li>
-<li><a href="#funcion-unique"><span class="toc-section-number">3.4</span> Función <code>unique()</code></a></li>
-<li><a href="#funcion-table"><span class="toc-section-number">3.5</span> Función <code>table()</code></a></li>
-<li><a href="#operaciones-con-variables-numericas"><span class="toc-section-number">3.6</span> Operaciones con variables numéricas</a></li>
-<li><a href="#operaciones-con-arreglos-de-clase-character."><span class="toc-section-number">3.7</span> Operaciones con arreglos de clase <code>character</code>.</a></li>
-<li><a href="#el-paquete-stringr"><span class="toc-section-number">3.8</span> El paquete <code>stringr</code></a></li>
+<li><a href="#arreglos"><span class="toc-section-number">4</span> Arreglos</a><ul>
+<li><a href="#longitud"><span class="toc-section-number">4.1</span> Longitud</a></li>
+<li><a href="#acceso-a-los-componentes"><span class="toc-section-number">4.2</span> Acceso a los componentes</a></li>
+<li><a href="#seleccion-condicionada-de-valores"><span class="toc-section-number">4.3</span> Selección condicionada de valores</a></li>
+<li><a href="#funcion-unique"><span class="toc-section-number">4.4</span> Función <code>unique()</code></a></li>
+<li><a href="#funcion-table"><span class="toc-section-number">4.5</span> Función <code>table()</code></a></li>
+<li><a href="#operaciones-con-variables-numericas"><span class="toc-section-number">4.6</span> Operaciones con variables numéricas</a></li>
+<li><a href="#operaciones-con-arreglos-de-clase-character."><span class="toc-section-number">4.7</span> Operaciones con arreglos de clase <code>character</code>.</a></li>
+<li><a href="#el-paquete-stringr"><span class="toc-section-number">4.8</span> El paquete <code>stringr</code></a></li>
 </ul></li>
-<li><a href="#matrices"><span class="toc-section-number">4</span> Matrices</a><ul>
-<li><a href="#operaciones"><span class="toc-section-number">4.1</span> Operaciones</a></li>
+<li><a href="#matrices"><span class="toc-section-number">5</span> Matrices</a><ul>
+<li><a href="#operaciones"><span class="toc-section-number">5.1</span> Operaciones</a></li>
 </ul></li>
-<li><a href="#data.frames"><span class="toc-section-number">5</span> Data.frames</a><ul>
-<li><a href="#creacion"><span class="toc-section-number">5.1</span> Creación</a></li>
-<li><a href="#convertir-una-matriz-en-data.frame"><span class="toc-section-number">5.2</span> Convertir una matriz en data.frame</a></li>
-<li><a href="#acceso-a-variables"><span class="toc-section-number">5.3</span> Acceso a variables</a></li>
-<li><a href="#eliminar-repetidos.-merge"><span class="toc-section-number">5.4</span> Eliminar repetidos. <code>merge()</code></a></li>
-<li><a href="#ordenamiento"><span class="toc-section-number">5.5</span> Ordenamiento</a></li>
-<li><a href="#funcion-table-1"><span class="toc-section-number">5.6</span> función <code>table()</code></a></li>
+<li><a href="#data.frames"><span class="toc-section-number">6</span> Data.frames</a><ul>
+<li><a href="#creacion"><span class="toc-section-number">6.1</span> Creación</a></li>
+<li><a href="#convertir-una-matriz-en-data.frame"><span class="toc-section-number">6.2</span> Convertir una matriz en data.frame</a></li>
+<li><a href="#acceso-a-variables"><span class="toc-section-number">6.3</span> Acceso a variables</a></li>
+<li><a href="#eliminar-repetidos.-merge"><span class="toc-section-number">6.4</span> Eliminar repetidos. <code>merge()</code></a></li>
+<li><a href="#ordenamiento"><span class="toc-section-number">6.5</span> Ordenamiento</a></li>
+<li><a href="#funcion-table-1"><span class="toc-section-number">6.6</span> función <code>table()</code></a></li>
 </ul></li>
-<li><a href="#listas"><span class="toc-section-number">6</span> Listas</a></li>
-<li><a href="#coercion"><span class="toc-section-number">7</span> Coerción</a></li>
-<li><a href="#algunas-operaciones-basicas"><span class="toc-section-number">8</span> Algunas operaciones básicas</a><ul>
-<li><a href="#variables-declaradas-como-sucesiones-de-valores"><span class="toc-section-number">8.1</span> Variables declaradas como sucesiones de valores</a></li>
-<li><a href="#funciones-matematicas"><span class="toc-section-number">8.2</span> Funciones matemáticas</a></li>
-<li><a href="#algunas-funciones"><span class="toc-section-number">8.3</span> Algunas funciones</a></li>
+<li><a href="#listas"><span class="toc-section-number">7</span> Listas</a></li>
+<li><a href="#coercion"><span class="toc-section-number">8</span> Coerción</a></li>
+<li><a href="#algunas-operaciones-basicas"><span class="toc-section-number">9</span> Algunas operaciones básicas</a><ul>
+<li><a href="#funciones-matematicas"><span class="toc-section-number">9.1</span> Funciones matemáticas</a></li>
+<li><a href="#algunas-funciones"><span class="toc-section-number">9.2</span> Algunas funciones</a></li>
 </ul></li>
-<li><a href="#algunos-conceptos-algoritmicos-en-r"><span class="toc-section-number">9</span> Algunos conceptos algorítmicos en R</a><ul>
-<li><a href="#flujos-de-control"><span class="toc-section-number">9.1</span> Flujos de control</a></li>
-<li><a href="#funciones"><span class="toc-section-number">9.2</span> Funciones</a></li>
-<li><a href="#paquetes-en-r"><span class="toc-section-number">9.3</span> Paquetes en R</a></li>
+<li><a href="#algunos-conceptos-algoritmicos-en-r"><span class="toc-section-number">10</span> Algunos conceptos algorítmicos en R</a><ul>
+<li><a href="#flujos-de-control"><span class="toc-section-number">10.1</span> Flujos de control</a></li>
+<li><a href="#funciones"><span class="toc-section-number">10.2</span> Funciones</a></li>
 </ul></li>
 </ul>
 </div>
 
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
-<div id="objetos-en-r" class="section level1">
-<h1><span class="header-section-number">1</span> Objetos en R</h1>
+<hr />
+<blockquote>
+<p><strong><em>Help operator</em></strong>: R provee el operador <code>?</code> para conocer las opciones y parámetros de las instrucciones. Ej: <code>help(&quot;paste&quot;)</code> o <code>?paste</code>.</p>
+</blockquote>
+<hr />
+<div id="objetos" class="section level1">
+<h1><span class="header-section-number">1</span> Objetos</h1>
 <p>En términos genéricos, todos los elementos que maneja R son objetos: un valor numérico es un objeto, un arreglo es un objeto, una función es un objeto, una base de datos es un objeto, un gráfico es un objeto, …</p>
 <p>Para realizar un uso eficiente de R es preciso entender y aprender a manipular bien las distintas clases de objetos que maneja el programa. En esta sección nos vamos a ocupar particulamente de aquellos objetos que R utiliza para representar datos: valores, vectores, matrices, dataframes, series temporales y listas.</p>
 <p>R utiliza, de hecho, programación orientada a objetos. Ello significa que una misma función hace cosas distintas según la clase del objeto que recibe como argumento, pudiendo incluso no hacer nada (o producir un error) si se le pasan argumentos de una clase inadecuada.</p>
@@ -265,9 +269,43 @@ atendidos2</code></pre>
 <p>Como podemos ver, la clase del objeto <code>atendidos2</code> es <code>ts</code> (time series). Podemos comprobar que si aplicamos la misma función <code>plot()</code> a <code>atendidos2</code>, el gráfico obtenido es distinto que cuando se aplica a <code>atendidos</code>, aún cuando los datos sean exactamente los mismos:</p>
 <pre class="r"><code>plot(atendidos2)</code></pre>
 <p><img src="Mod2_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
+<hr />
+</div>
+<div id="paquetes" class="section level1">
+<h1><span class="header-section-number">2</span> Paquetes</h1>
+<p>Una de las grandes potencialidades que tiene R es la utilización de paquetes (o librerías). R tiene una serie de comandos que se cargan por default. Sin embargo, hay una gran cantidad de funcionalidades que se deben cargar a través de paquetes.</p>
+<p>Un paquete (package) es una colección de funciones, datos y código R que se almacenan en una carpeta conforme a una estructura bien definida, fácilmente accesible para R. En la web de R se puede consultar la lista de paquetes disponibles.</p>
+<p>Puede haber paquetes: * <strong>Instalados en R pero que no están en memoria</strong>. Son paquetes que se han descargado junto con la instalación de R pero que, para su uso, se requiere cargarlos en memoria. Ejemplo:</p>
+<pre class="r"><code>library(&quot;plyr&quot;)</code></pre>
+<ul>
+<li><strong>No instalados en R</strong>. Son paquetes que 1º debes instalar y luego cargarlos en memoria. Por ejemplo:</li>
+</ul>
+<pre class="r"><code>if (!is.element(&quot;readr&quot;, installed.packages()[,1])){
+  install.packages(&quot;readr&quot;, repos = &quot;http://mirror.fcaglp.unlp.edu.ar/CRAN/&quot;)
+}
+library(&quot;readr&quot;)</code></pre>
+<ul>
+<li><strong>En memoria</strong>. Estos paquetes se cargan automáticamente en memoria cuando se agre Rstudio, o cuando se utiliza R.</li>
+</ul>
+<p>Veamos un ejemplo:</p>
+<p>R posee, en memoria, una tabla-ejemplo llamada <code>airquality</code>. Se puede ver por consola escribiendo su nombre+Enter. Si quisieramos cambiar el signo de los valores de la columna “Ozone”, podríamos cargar el paquete “plyr” que contiene la función “mutate()”. Este paquete ya está instalado pero se requiere cargarlo en memoria. Para eso vamos a cargar en memoria el paquete:</p>
+<pre class="r"><code>library(&quot;plyr&quot;)</code></pre>
+<p>Ahora que el paquete está en memoria, podemos ejecutar la instrucción:</p>
+<pre class="r"><code>head(mutate(airquality, Ozone = -Ozone))</code></pre>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day
+## 1   -41     190  7.4   67     5   1
+## 2   -36     118  8.0   72     5   2
+## 3   -12     149 12.6   74     5   3
+## 4   -18     313 11.5   62     5   4
+## 5    NA      NA 14.3   56     5   5
+## 6   -28      NA 14.9   66     5   6</code></pre>
+<p>Y podremos ver por consola cómo combió el signo.</p>
+<p>En el area <strong><em>File/Plots/Packages/Help/Viewer:</em></strong>, si haces click en “Packages” podrás ver un listado de paquetes, y qué paquetes tienes instalados. Puedes instalar paquetes haciendo click en “Install”.</p>
+<p>En <a href="https://cran.r-project.org/web/packages/index.html">este link</a> puedes ver un listado completo de paquetes disponibles.</p>
+<hr />
 </div>
 <div id="tipos-basicos-de-datos" class="section level1">
-<h1><span class="header-section-number">2</span> Tipos básicos de datos</h1>
+<h1><span class="header-section-number">3</span> Tipos básicos de datos</h1>
 <p>R distingue los siguientes tipos de variables:</p>
 <ul>
 <li><strong>numeric</strong>: variables numéricas continuas.</li>
@@ -283,7 +321,7 @@ c &lt;- as.integer(a) # para transformar un variable float en entera. </code></p
 <li><strong>factor</strong>: variables categóricas; R almacena internamente los valores de un factor como números enteros, pero los muestra como valores alfanuméricos.</li>
 </ul>
 <div id="factores" class="section level2">
-<h2><span class="header-section-number">2.1</span> Factores</h2>
+<h2><span class="header-section-number">3.1</span> Factores</h2>
 <p>Un factor es una variable categórica con un número finito de valores o niveles. En R los factores se utilizan habitualmente para realizar clasificaciones de los datos, estableciendo su pertenencia a los grupos o categorías determinados por los niveles del factor.</p>
 <p>Los factores juegan un papel muy importante en la elaboración de modelos estadísticos. En particular, los modelos lineales pueden dar resultados muy diferentes según que una variable se declare como numérica o como factor.</p>
 <p>Los niveles de un factor puede estar codificados como valores numéricos o como caracteres. Independientemente de que el factor sea numérico o carácter, sus valores son siempre almacenados internamente por R como números enteros, con lo que se consigue economizar memoria.</p>
@@ -333,7 +371,7 @@ maquina</code></pre>
 <pre><code>##  [1] 27 27 27 27 27 32 32 32 32 32 55 55 55 55 55
 ## Levels: 27 32 55</code></pre>
 <div id="coercion-de-factores" class="section level3">
-<h3><span class="header-section-number">2.1.1</span> Coerción de factores</h3>
+<h3><span class="header-section-number">3.1.1</span> Coerción de factores</h3>
 <p>Un factor puede convertirse en variable numérica mediante la función as.numeric(). Ahora bien, dichas conversiones deben realizarse con cierta precaución. Así por ejemplo, si en el caso anterior aplicamos la función as.numeric() al factor maquina obtenemos:</p>
 <pre class="r"><code>as.numeric(maquina)  </code></pre>
 <pre><code>##  [1] 1 1 1 1 1 2 2 2 2 2 3 3 3 3 3</code></pre>
@@ -343,7 +381,7 @@ maquina</code></pre>
 </div>
 </div>
 <div id="variables-logicas" class="section level2">
-<h2><span class="header-section-number">2.2</span> Variables lógicas</h2>
+<h2><span class="header-section-number">3.2</span> Variables lógicas</h2>
 <p>Las variables lógicas constituyen un tipo particular de factor en R, que se caracteriza por tomar sólo dos valores: <strong>TRUE</strong> o <strong>FALSE</strong> codificados, respectivamente, como 1 y 0. Es posible construir condiciones lógicas utilizando los operadores ‘y’ (<code>&amp;</code>), ‘o’ (<code>|</code>) y ‘no’ (<code>!</code>).</p>
 <p>La comparación de valores se lleva a cabo mediante <code>==</code> (‘es igual a’) y <code>!=</code> (‘es distinto de’).</p>
 <p>ATENCIÓN: No debe confundirse el operador de asignación = con el de comparación ==.</p>
@@ -366,6 +404,55 @@ a==b  # ¿es a igual a b?</code></pre>
 <pre><code>## [1] FALSE</code></pre>
 <pre class="r"><code>all(c(a==2, b==4, 2&lt;3))</code></pre>
 <pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="arreglos" class="section level1">
+<h1><span class="header-section-number">4</span> Arreglos</h1>
+<p>Se pueden agrupar varios elementos de la misma clase para formar un arreglo mediante el comando de concatenación <code>c()</code>. Así, podemos guardar las edades de 10 personas de una muestra en la variable edad mediante:</p>
+<pre class="r"><code>edad &lt;- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
+edad</code></pre>
+<pre><code>##  [1] 22 34 29 25 30 33 31 27 25 25</code></pre>
+<pre class="r"><code>class(edad)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<div id="longitud" class="section level2">
+<h2><span class="header-section-number">4.1</span> Longitud</h2>
+<p>La función <code>length()</code> devuelve la longitud (número de elementos) del arreglo:</p>
+<pre class="r"><code>x &lt;- c(1,4,5,2,4,5,4,3,2,2,3,2,2,4,4,5,5,6,6,7)
+length(x)</code></pre>
+<pre><code>## [1] 20</code></pre>
+</div>
+<div id="acceso-a-los-componentes" class="section level2">
+<h2><span class="header-section-number">4.2</span> Acceso a los componentes</h2>
+<p>Es posible acceder al valor que ocupa la posición <code>k</code> dentro de un arreglo <code>x</code> refiriéndonos a él como <code>x[k]</code>. Así, por ejemplo, podemos ver el contenido del tercer y quinto valores del arreglo <code>edad</code>:</p>
+<pre class="r"><code>edad &lt;- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
+edad[3]</code></pre>
+<pre><code>## [1] 29</code></pre>
+<pre class="r"><code>edad[5]</code></pre>
+<pre><code>## [1] 30</code></pre>
+<div id="operador" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Operador <code>:</code></h3>
+<p>Si deseamos asignar a una variable una sucesión de valores consecutivos podemos utilizar el operador <code>:</code>. Así para asignar a la variable x los valores de 1 a 10 procederíamos del siguiente modo:</p>
+<pre class="r"><code>x &lt;- 1:10
+x</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<p>Podemos construir secuencias de números más complejas mediante la función <code>seq()</code>:</p>
+<p>Sucesión de valores de 1 a 20 de 2 en 2:</p>
+<pre class="r"><code>x &lt;- seq(1,20,by=2)
+x</code></pre>
+<pre><code>##  [1]  1  3  5  7  9 11 13 15 17 19</code></pre>
+<p>Sucesión de 8 valores equiespaciados entre 1 y 20:</p>
+<pre class="r"><code>y &lt;- seq(1,20,length=8)
+y</code></pre>
+<pre><code>## [1]  1.000000  3.714286  6.428571  9.142857 11.857143 14.571429 17.285714 20.000000</code></pre>
+<p>Podemos acceder también simultáneamente a varios valores dentro de un arreglo. Por ejemplo, si deseamos ver del segundo al quinto de los valores observados en la variable edad:</p>
+<pre class="r"><code>edad[2:5]</code></pre>
+<pre><code>## [1] 34 29 25 30</code></pre>
+<p>Y si quisiéramos ver sólo los valores primero, tercero y séptimo:</p>
+<pre class="r"><code>edad[c(1,3,7)]</code></pre>
+<pre><code>## [1] 22 29 31</code></pre>
+</div>
+<div id="operador-in" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Operador `%in%</h3>
 <p>La función %in% permite determinar si uno o varios valores están contenidos en un arreglo:</p>
 <pre class="r"><code>x &lt;- 1:10
 a &lt;- 2
@@ -376,38 +463,8 @@ b %in% x</code></pre>
 <pre><code>## [1]  TRUE  TRUE FALSE  TRUE FALSE</code></pre>
 </div>
 </div>
-<div id="arreglos" class="section level1">
-<h1><span class="header-section-number">3</span> Arreglos</h1>
-<p>Se pueden agrupar varios elementos de la misma clase para formar un arreglo mediante el comando de concatenación <code>c()</code>. Así, podemos guardar las edades de 10 personas de una muestra en la variable edad mediante:</p>
-<pre class="r"><code>edad &lt;- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
-edad</code></pre>
-<pre><code>##  [1] 22 34 29 25 30 33 31 27 25 25</code></pre>
-<pre class="r"><code>class(edad)</code></pre>
-<pre><code>## [1] &quot;numeric&quot;</code></pre>
-<div id="longitud" class="section level2">
-<h2><span class="header-section-number">3.1</span> Longitud</h2>
-<p>La función <code>length()</code> devuelve la longitud (número de elementos) del arreglo:</p>
-<pre class="r"><code>x &lt;- c(1,4,5,2,4,5,4,3,2,2,3,2,2,4,4,5,5,6,6,7)
-length(x)</code></pre>
-<pre><code>## [1] 20</code></pre>
-</div>
-<div id="acceso-a-los-componentes" class="section level2">
-<h2><span class="header-section-number">3.2</span> Acceso a los componentes</h2>
-<p>Es posible acceder al valor que ocupa la posición <code>k</code> dentro de un arreglo <code>x</code> refiriéndonos a él como <code>x[k]</code>. Así, por ejemplo, podemos ver el contenido del tercer y quinto valores del arreglo <code>edad</code>:</p>
-<pre class="r"><code>edad &lt;- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
-edad[3]</code></pre>
-<pre><code>## [1] 29</code></pre>
-<pre class="r"><code>edad[5]</code></pre>
-<pre><code>## [1] 30</code></pre>
-<p>Podemos acceder también simultáneamente a varios valores dentro de un arreglo. Por ejemplo, si deseamos ver del segundo al quinto de los valores observados en la variable edad:</p>
-<pre class="r"><code>edad[2:5]</code></pre>
-<pre><code>## [1] 34 29 25 30</code></pre>
-<p>Y si quisiéramos ver sólo los valores primero, tercero y séptimo:</p>
-<pre class="r"><code>edad[c(1,3,7)]</code></pre>
-<pre><code>## [1] 22 29 31</code></pre>
-</div>
 <div id="seleccion-condicionada-de-valores" class="section level2">
-<h2><span class="header-section-number">3.3</span> Selección condicionada de valores</h2>
+<h2><span class="header-section-number">4.3</span> Selección condicionada de valores</h2>
 <p>La función <code>which()</code> nos da las posiciones, dentro de un arreglo, de los valores que cumplen cierta condición. Por ejemplo, si definimos:</p>
 <pre class="r"><code>edad &lt;- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)</code></pre>
 <p>La siguiente función nos devuelve las posiciones de los valores de este arreglo que son mayores que 25:</p>
@@ -430,13 +487,13 @@ edad[3]</code></pre>
 <pre><code>## [1] 22 25 30 31 27</code></pre>
 </div>
 <div id="funcion-unique" class="section level2">
-<h2><span class="header-section-number">3.4</span> Función <code>unique()</code></h2>
+<h2><span class="header-section-number">4.4</span> Función <code>unique()</code></h2>
 <p>Es frecuente que, dado un conjunto de datos, nos interese solamente conocer los valores, sin importar su repetición en el conjunto:</p>
 <pre class="r"><code>unique(sexo)</code></pre>
 <pre><code>## [1] &quot;M&quot; &quot;H&quot;</code></pre>
 </div>
 <div id="funcion-table" class="section level2">
-<h2><span class="header-section-number">3.5</span> Función <code>table()</code></h2>
+<h2><span class="header-section-number">4.5</span> Función <code>table()</code></h2>
 <p>Si quisieramos conocer cuántas repeticiones tiene cada elemento se puede utilizar:</p>
 <pre class="r"><code>table(edad)</code></pre>
 <pre><code>## edad
@@ -444,12 +501,12 @@ edad[3]</code></pre>
 ##  1  3  1  1  1  1  1  1</code></pre>
 </div>
 <div id="operaciones-con-variables-numericas" class="section level2">
-<h2><span class="header-section-number">3.6</span> Operaciones con variables numéricas</h2>
+<h2><span class="header-section-number">4.6</span> Operaciones con variables numéricas</h2>
 <p>Si <code>x</code> e <code>y</code> son dos arreglos de la misma dimensión, las operaciones elementales se realizan término a término (característica que se conoce como aritmética vectorial):</p>
-<pre class="r"><code>x=seq(2,20,by=2)  # Números pares entre 2 y 20
+<pre class="r"><code>x &lt;- seq(2,20,by=2)  # Números pares entre 2 y 20
 x</code></pre>
 <pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20</code></pre>
-<pre class="r"><code>y=seq(1,20,by=2)  # Números impares entre 1 y 20
+<pre class="r"><code>y &lt;- seq(1,20,by=2)  # Números impares entre 1 y 20
 y</code></pre>
 <pre><code>##  [1]  1  3  5  7  9 11 13 15 17 19</code></pre>
 <pre class="r"><code>x+y</code></pre>
@@ -462,7 +519,7 @@ y</code></pre>
 <pre><code>##  [1] 2.000000 1.333333 1.200000 1.142857 1.111111 1.090909 1.076923 1.066667 1.058824 1.052632</code></pre>
 </div>
 <div id="operaciones-con-arreglos-de-clase-character." class="section level2">
-<h2><span class="header-section-number">3.7</span> Operaciones con arreglos de clase <code>character</code>.</h2>
+<h2><span class="header-section-number">4.7</span> Operaciones con arreglos de clase <code>character</code>.</h2>
 <p>En R se pueden declarar arreglos alfanuméricos (o de clase carácter):</p>
 <pre class="r"><code>letras &lt;- c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;)
 class(letras)</code></pre>
@@ -484,7 +541,7 @@ codigos</code></pre>
 <pre class="r"><code>paste(c(&quot;una&quot;, &quot;frase&quot;, &quot;simple&quot;), collapse = &quot; &quot;)</code></pre>
 <pre><code>## [1] &quot;una frase simple&quot;</code></pre>
 <div id="seleccionasignacion-de-una-parte-de-una-cadena-de-caracteres." class="section level3">
-<h3><span class="header-section-number">3.7.1</span> Selección/asignación de una parte de una cadena de caracteres.</h3>
+<h3><span class="header-section-number">4.7.1</span> Selección/asignación de una parte de una cadena de caracteres.</h3>
 <p>La función <code>substr(x,n1,n2)</code> selecciona los caracteres de <code>x</code> entre las posiciones <code>n1</code> y <code>n2</code>. También permite realizar asignaciones:</p>
 <pre class="r"><code>substr(&quot;abcdef&quot;, 2, 4)</code></pre>
 <pre><code>## [1] &quot;bcd&quot;</code></pre>
@@ -499,7 +556,7 @@ x</code></pre>
 </div>
 </div>
 <div id="el-paquete-stringr" class="section level2">
-<h2><span class="header-section-number">3.8</span> El paquete <code>stringr</code></h2>
+<h2><span class="header-section-number">4.8</span> El paquete <code>stringr</code></h2>
 <p>El paquete <a href="https://cran.r-project.org/web/packages/stringr/index.html"><code>stringr</code></a> ofrece funciones para el manejo de caracteres. Como este paquete no viene con R, hay que instalarlo y cargarlo en memoria:</p>
 <pre class="r"><code>if (!is.element(&quot;stringr&quot;, installed.packages()[,1])){
   install.packages(&quot;stringr&quot;)
@@ -545,8 +602,8 @@ library(stringr)</code></pre>
 </div>
 </div>
 <div id="matrices" class="section level1">
-<h1><span class="header-section-number">4</span> Matrices</h1>
-<p>Hay varias maneras de definir una matriz en R. Si es una matriz pequeña podemos utilizar la siguiente sintaxis:</p>
+<h1><span class="header-section-number">5</span> Matrices</h1>
+<p>En R las matrices solamente pueden ser numéricas y hay varias maneras de definirlas. Si es pequeña podemos utilizar la siguiente sintaxis:</p>
 <pre class="r"><code>A &lt;- matrix(nrow=3,ncol=3, c(1,2,3,4,5,6,7,8,9), byrow=TRUE)</code></pre>
 <p>Con el argumento <code>nrow</code> hemos indicado el número de filas de nuestra matriz, con <code>ncol</code> el número de columnas. A continuación hemos puesto los valores que forman la matriz (los valores del 1 al 9), y le hemos pedido a R que use esos valores para rellenar la matriz <code>A</code> por filas `(byrow=TRUE)´. La matriz A así construida es:</p>
 <pre class="r"><code>A</code></pre>
@@ -556,19 +613,6 @@ library(stringr)</code></pre>
 ## [3,]    7    8    9</code></pre>
 <p>Tarea:</p>
 <p>Comprueba cómo queda la matriz si se utiliza <code>byrow=FALSE</code>.</p>
-<p>Si disponemos de varios arreglos de la misma longitud que queremos utilizar como filas (o columnas) de una matriz, podemos utilizar la función <code>rbind()</code> para unirlos por filas, o la función <code>cbind()</code> para unirlos por columnas, como vemos en el siguiente ejemplo:</p>
-<pre class="r"><code>vector1 = c(1,2,3,4)
-vector2 = c(5,6,7,8)
-vector3 = c(9,10,11,12)
-M1 = cbind(vector1,vector2,vector3) # Unimos por columnas
-M1  </code></pre>
-<pre><code>##      vector1 vector2 vector3
-## [1,]       1       5       9
-## [2,]       2       6      10
-## [3,]       3       7      11
-## [4,]       4       8      12</code></pre>
-<p>Tarea:</p>
-<p>Crea una matriz M2 con los arreglos anteriores unidos por filas mediante <code>rbind()</code>. Compara el resultado con la matriz M1 anterior.</p>
 <p>Se pueden seleccionar partes de una matriz utilizando los índices de posición [fila, columna] entre corchetes. El siguiente ejemplo ilustra la forma de hacerlo:</p>
 <pre class="r"><code>A[2,3]   # Se selecciona el valor de la fila 2, columna 3</code></pre>
 <pre><code>## [1] 6</code></pre>
@@ -583,17 +627,24 @@ M1  </code></pre>
 <li>Selecciona la submatriz de A formada por la primera y tercera filas</li>
 <li>Selecciona la submatriz de A formada por las segunda y tercera columnas de la primera y segunda filas.</li>
 </ol>
+<p>Si disponemos de varios arreglos de la misma longitud que queremos utilizar como filas (o columnas) de una matriz, podemos utilizar la función <code>rbind()</code> para unirlos por filas, o la función <code>cbind()</code> para unirlos por columnas, como vemos en el siguiente ejemplo:</p>
+<pre class="r"><code>vector1 = c(1,2,3,4)
+vector2 = c(5,6,7,8)
+vector3 = c(9,10,11,12)
+M1 = cbind(vector1,vector2,vector3) # Unimos por columnas
+M1  </code></pre>
+<pre><code>##      vector1 vector2 vector3
+## [1,]       1       5       9
+## [2,]       2       6      10
+## [3,]       3       7      11
+## [4,]       4       8      12</code></pre>
+<p>Tarea:</p>
+<p>Crea una matriz M2 con los arreglos anteriores unidos por filas mediante <code>rbind()</code>. Compara el resultado con la matriz M1 anterior.</p>
 <div id="operaciones" class="section level2">
-<h2><span class="header-section-number">4.1</span> Operaciones</h2>
-<p>La función diag() extrae la diagonal principal de una matriz:</p>
-<pre class="r"><code>A[2,3]   # Se selecciona el valor de la fila 2, columna 3</code></pre>
-<pre><code>## [1] 6</code></pre>
-<pre class="r"><code>A[2,]    # Se selecciona la fila 2 completa</code></pre>
-<pre><code>## [1] 4 5 6</code></pre>
-<pre class="r"><code>A[,3]    # Se selecciona la columna 3 completa</code></pre>
-<pre><code>## [1] 3 6 9</code></pre>
-<pre class="r"><code>A[1,2:3] # Se seleccionan el segundo y tercer valor de la fila 1</code></pre>
-<pre><code>## [1] 2 3</code></pre>
+<h2><span class="header-section-number">5.1</span> Operaciones</h2>
+<p>La función <code>diag()</code> extrae la diagonal principal de una matriz:</p>
+<pre class="r"><code>diag(A)</code></pre>
+<pre><code>## [1] 1 5 9</code></pre>
 <p>Tarea:</p>
 <ul>
 <li>Probar el resultado de las funciones diag(A), diag(c(1,2,3,4)), t(A), det(A), diag(1,nrow=4), A+2.</li>
@@ -606,10 +657,10 @@ M1  </code></pre>
 </div>
 </div>
 <div id="data.frames" class="section level1">
-<h1><span class="header-section-number">5</span> Data.frames</h1>
+<h1><span class="header-section-number">6</span> Data.frames</h1>
 <p>El término “dataframe” es difícil de traducir al castellano. Podría traducirse como Hoja de datos o Marco de datos. Los dataframes son una clase de objetos especial en R. Normalmente, cuando se realiza un estudio estadístico sobre los sujetos u objetos de una muestra, la información se organiza precisamente en un dataframe: una hoja de datos, en los que cada fila corresponde a un sujeto y cada columna a una variable. La estructura de un data.frame es muy similar a la de una matriz. La diferencia es que una matriz sólo admite valores numéricos, mientras que en un dataframe podemos incluir también datos alfanuméricos.</p>
 <div id="creacion" class="section level2">
-<h2><span class="header-section-number">5.1</span> Creación</h2>
+<h2><span class="header-section-number">6.1</span> Creación</h2>
 <p>El siguiente ejemplo nos muestra como crear un data.frame a partir de los datos recogidos sobre una muestra de 10 personas, para cada una de las cuales se ha registrado su edad, sexo y tiempo en minutos que estuvo hablando por teléfono el día antes de la encuesta:</p>
 <pre class="r"><code>edad &lt;- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
 tiempo &lt;- c(14.21, 10.36, 11.89, 13.81, 12.03, 10.99, 12.48, 13.37, 12.29, 11.92)
@@ -638,7 +689,7 @@ misDatos</code></pre>
 <p>Cuando desde R se leen datos situados en un fichero externo (un fichero de texto, una hoja excel, un archivo de datos de SPSS,…), estos datos se importan en un data.frame.</p>
 </div>
 <div id="convertir-una-matriz-en-data.frame" class="section level2">
-<h2><span class="header-section-number">5.2</span> Convertir una matriz en data.frame</h2>
+<h2><span class="header-section-number">6.2</span> Convertir una matriz en data.frame</h2>
 <pre class="r"><code>str(M1)</code></pre>
 <pre><code>##  num [1:4, 1:3] 1 2 3 4 5 6 7 8 9 10 ...
 ##  - attr(*, &quot;dimnames&quot;)=List of 2
@@ -652,7 +703,7 @@ str(M2)</code></pre>
 ##  $ vector3: num  9 10 11 12</code></pre>
 </div>
 <div id="acceso-a-variables" class="section level2">
-<h2><span class="header-section-number">5.3</span> Acceso a variables</h2>
+<h2><span class="header-section-number">6.3</span> Acceso a variables</h2>
 <p>El acceso a los datos que se encuentran en un data.frame es muy similar al acceso a los datos de una matriz que ya vimos en la sección anterior. Sin embargo, para los data.frames R dispone de algunas funciones que facilitan la tarea de seleccionar o filtrar datos. Así por ejemplo, si queremos ver sólo los datos de los sujetos (filas) 3 a 6, escribiríamos:</p>
 <pre class="r"><code>misDatos[3:6,] #Mostrar solo las personas de las filas 3 a 6.</code></pre>
 <pre><code>##   edad tiempo sexo
@@ -722,8 +773,8 @@ hombres</code></pre>
 </ul>
 </div>
 <div id="eliminar-repetidos.-merge" class="section level2">
-<h2><span class="header-section-number">5.4</span> Eliminar repetidos. <code>merge()</code></h2>
-<p>Como ya comentamos en la sección de matrices, <code>rbind</code> (acrónimo de rowbind, pegar por filas) permite combinar arreglos (o matrices o data.fraes) “uno debajo del otro”:</p>
+<h2><span class="header-section-number">6.4</span> Eliminar repetidos. <code>merge()</code></h2>
+<p>Como ya comentamos en la sección de matrices, <code>rbind</code> (acrónimo de rowbind, pegar por filas) permite combinar arreglos (o matrices o data.frames) “uno debajo del otro”:</p>
 <pre class="r"><code>animales1 &lt;- data.frame(animal=c(&quot;vaca&quot;,&quot;perro&quot;,&quot;rana&quot;,&quot;lagarto&quot;,&quot;mosca&quot;,&quot;jilguero&quot;), 
                        clase=c(&quot;mamífero&quot;,&quot;mamífero&quot;,&quot;anfibio&quot;,&quot;reptil&quot;,&quot;insecto&quot;,&quot;ave&quot;))
 animales2 &lt;- data.frame(animal=c(&quot;atún&quot;, &quot;cocodrilo&quot;, &quot;gato&quot;,&quot;rana&quot;), clase=c(&quot;pez&quot;, &quot;reptil&quot;, &quot;mamífero&quot;,&quot;anfibio&quot;))
@@ -768,7 +819,7 @@ merge(animales3,superficieAnimales) # Muestra sólo los animales comunes a ambos
 ## 7   tortuga     &lt;NA&gt; placas óseas</code></pre>
 </div>
 <div id="ordenamiento" class="section level2">
-<h2><span class="header-section-number">5.5</span> Ordenamiento</h2>
+<h2><span class="header-section-number">6.5</span> Ordenamiento</h2>
 <p>Para ordenar un dataframe hemos de aplicar la función <code>order()</code> al elemento o elementos por el que queramos ordenar, y utilizar el resultado de esta función como índice del data.frame.</p>
 <p>Por ejemplo, si queremos ordenar el dataframe <code>animales1</code> por orden alfabético de animales, haríamos:</p>
 <pre class="r"><code>ordenacion &lt;- order(animales1$animal) # Posiciones dentro del dataframe &#39;animales1&#39; de los animales ordenados alfabéticamente
@@ -780,7 +831,7 @@ animales1 &lt;- animales1[order(animales1$animal),]  # lo mismo pero en una sola
 <pre class="r"><code>misDatos &lt;- misDatos[order(misDatos$edad,misDatos$tiempo),]</code></pre>
 </div>
 <div id="funcion-table-1" class="section level2">
-<h2><span class="header-section-number">5.6</span> función <code>table()</code></h2>
+<h2><span class="header-section-number">6.6</span> función <code>table()</code></h2>
 <p>Ya utilizamos la función <code>table()</code> en arreglos. Lo hicimos para saber cuántas repeticiones tenía cada elemento de un arreglo. Esta función también se puede usar en matrices o data.frames:</p>
 <pre class="r"><code>table(misDatos[,&quot;sexo&quot;])</code></pre>
 <pre><code>## 
@@ -794,7 +845,7 @@ animales1 &lt;- animales1[order(animales1$animal),]  # lo mismo pero en una sola
 </div>
 </div>
 <div id="listas" class="section level1">
-<h1><span class="header-section-number">6</span> Listas</h1>
+<h1><span class="header-section-number">7</span> Listas</h1>
 <p>Una lista, en R, se puede ver como un contenedor de objetos que pueden ser de cualquier clase: números, arreglos, matrices, funciones, data.frames, incluso otras listas. Una lista puede contener a la vez otros objetos, que pueden ser además de distintas dimensiones.</p>
 <p>Por ejemplo, podemos crear una lista que contenga el data.frame <code>misDatos</code>, la matriz <code>A</code>, la matriz <code>M</code>, el arreglo <code>x &lt;- c(1,2,3,4)</code> y la constante <code>e &lt;- exp(1)</code>:</p>
 <pre class="r"><code>A &lt;- matrix(1:9,nrow=3)
@@ -866,9 +917,10 @@ str(contraste)</code></pre>
 <pre><code>## [1] -2.9378177 -0.4421823
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95</code></pre>
+<hr />
 </div>
 <div id="coercion" class="section level1">
-<h1><span class="header-section-number">7</span> Coerción</h1>
+<h1><span class="header-section-number">8</span> Coerción</h1>
 <p>En R es posible “forzar” (“coerce”) la conversión de una clase de datos en otra, mediante comandos de la forma as.class. Por ejemplo:</p>
 <pre class="r"><code>x=&quot;1&quot;
 x</code></pre>
@@ -885,9 +937,10 @@ z</code></pre>
 <pre><code>## [1] &quot;1&quot;</code></pre>
 <pre class="r"><code>class(z)</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
+<hr />
 </div>
 <div id="algunas-operaciones-basicas" class="section level1">
-<h1><span class="header-section-number">8</span> Algunas operaciones básicas</h1>
+<h1><span class="header-section-number">9</span> Algunas operaciones básicas</h1>
 <p>R tiene un manejo muy potente de operaciones entre tipos primitivos &lt;-&gt; arreglos &lt;-&gt; matrices. Veamos unos ejemplos:</p>
 <pre class="r"><code>a &lt;- c(1,2,3,4)
 # operaciones entre escalares y arreglos:
@@ -911,7 +964,7 @@ a[e]</code></pre>
 <pre class="r"><code>a &lt;- c(10,20,30,40,NA)
 sum(a)</code></pre>
 <pre><code>## [1] NA</code></pre>
-<pre class="r"><code>sum(a, na.rm = TRUE)</code></pre>
+<pre class="r"><code>sum(a, na.rm = TRUE) # el parámetro na.rm = TRUE significa que no se deben tener en cuenta los valores NA. </code></pre>
 <pre><code>## [1] 100</code></pre>
 <pre class="r"><code>is.na(a)</code></pre>
 <pre><code>## [1] FALSE FALSE FALSE FALSE  TRUE</code></pre>
@@ -919,37 +972,22 @@ sum(a)</code></pre>
 <pre><code>## [1] 10 20 30 40</code></pre>
 <pre class="r"><code>b &lt;- a[!is.na(a)]
 b &lt;- a[a&lt;6]</code></pre>
-<div id="variables-declaradas-como-sucesiones-de-valores" class="section level2">
-<h2><span class="header-section-number">8.1</span> Variables declaradas como sucesiones de valores</h2>
-<p>Si deseamos asignar a una variable una sucesión de valores consecutivos podemos utilizar el operador :. Así para asignar a la variable x los valores de 1 a 10 procederíamos del siguiente modo:</p>
-<pre class="r"><code>x=1:10
-x</code></pre>
-<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<p>Podemos construir secuencias de números más complejas mediante la función <code>seq()</code>:</p>
-<p>Sucesión de valores de 1 a 20 de 2 en 2:</p>
-<pre class="r"><code>x=seq(1,20,by=2)
-x</code></pre>
-<pre><code>##  [1]  1  3  5  7  9 11 13 15 17 19</code></pre>
-<p>Sucesión de 8 valores equiespaciados entre 1 y 20:</p>
-<pre class="r"><code>y=seq(1,20,length=8)
-y</code></pre>
-<pre><code>## [1]  1.000000  3.714286  6.428571  9.142857 11.857143 14.571429 17.285714 20.000000</code></pre>
-</div>
 <div id="funciones-matematicas" class="section level2">
-<h2><span class="header-section-number">8.2</span> Funciones matemáticas</h2>
+<h2><span class="header-section-number">9.1</span> Funciones matemáticas</h2>
 <p>R cuenta con un catálogo muy completo de funciones matemáticas. Por citar unas pocas: logaritmo neperiano (log), exponencial (exp), seno (sin), coseno (cos), valor absoluto (abs), parte entera (floor), redondeo (round). Cuando una función se aplica a un arreglo, se aplica a todos y cada uno de sus elementos:</p>
-<pre class="r"><code>x^2</code></pre>
-<pre><code>##  [1]   1   9  25  49  81 121 169 225 289 361</code></pre>
+<pre class="r"><code>x &lt;- 1
+
+x^2</code></pre>
+<pre><code>## [1] 1</code></pre>
 <pre class="r"><code>log(x)</code></pre>
-<pre><code>##  [1] 0.000000 1.098612 1.609438 1.945910 2.197225 2.397895 2.564949 2.708050 2.833213 2.944439</code></pre>
+<pre><code>## [1] 0</code></pre>
 <pre class="r"><code>3*x</code></pre>
-<pre><code>##  [1]  3  9 15 21 27 33 39 45 51 57</code></pre>
+<pre><code>## [1] 3</code></pre>
 <pre class="r"><code>1/exp(x)</code></pre>
-<pre><code>##  [1] 3.678794e-01 4.978707e-02 6.737947e-03 9.118820e-04 1.234098e-04 1.670170e-05 2.260329e-06
-##  [8] 3.059023e-07 4.139938e-08 5.602796e-09</code></pre>
+<pre><code>## [1] 0.3678794</code></pre>
 </div>
 <div id="algunas-funciones" class="section level2">
-<h2><span class="header-section-number">8.3</span> Algunas funciones</h2>
+<h2><span class="header-section-number">9.2</span> Algunas funciones</h2>
 <p>Instrucciones simples y útiles:</p>
 <pre class="r"><code># cargar números reales hasta que se presione Enter, y guardarlos en la variable a:
 a&lt;-scan(what=double(0))</code></pre>
@@ -958,11 +996,11 @@ a&lt;-scan(what=double(0))</code></pre>
 </div>
 </div>
 <div id="algunos-conceptos-algoritmicos-en-r" class="section level1">
-<h1><span class="header-section-number">9</span> Algunos conceptos algorítmicos en R</h1>
+<h1><span class="header-section-number">10</span> Algunos conceptos algorítmicos en R</h1>
 <div id="flujos-de-control" class="section level2">
-<h2><span class="header-section-number">9.1</span> Flujos de control</h2>
+<h2><span class="header-section-number">10.1</span> Flujos de control</h2>
 <div id="if" class="section level3">
-<h3><span class="header-section-number">9.1.1</span> if</h3>
+<h3><span class="header-section-number">10.1.1</span> if</h3>
 <pre class="r"><code>x &lt;- 0.1
 if( x &lt; 0.2)
   {
@@ -978,7 +1016,7 @@ if( x == 0)
 x</code></pre>
 </div>
 <div id="for" class="section level3">
-<h3><span class="header-section-number">9.1.2</span> for</h3>
+<h3><span class="header-section-number">10.1.2</span> for</h3>
 <pre class="r"><code># op1:
 for(cont in (1:10)){
   print(paste0(&quot;Iteración número: &quot;,cont))
@@ -997,7 +1035,7 @@ for (loop in x)
  }</code></pre>
 </div>
 <div id="while" class="section level3">
-<h3><span class="header-section-number">9.1.3</span> while</h3>
+<h3><span class="header-section-number">10.1.3</span> while</h3>
 <p>Probar el siguiente programa y explicar qué operación realiza:</p>
 <pre class="r"><code>lupe &lt;- 1
 x &lt;- 1
@@ -1009,7 +1047,7 @@ while(x &lt; 4)
  }</code></pre>
 </div>
 <div id="la-familia-de-funciones-apply" class="section level3">
-<h3><span class="header-section-number">9.1.4</span> La familia de funciones <code>apply</code></h3>
+<h3><span class="header-section-number">10.1.4</span> La familia de funciones <code>apply</code></h3>
 <p>Las funciones <code>apply()</code>, <code>sapply()</code>, <code>lapply()</code> y <code>tapply()</code> resultan extremadamente útiles también para evitar bucles. Su objetivo fundamental es aplicar (de ahí el nombre) una función a todos los elementos de un objeto. En realidad son funciones que de alguna manera ejecutan un bucle, pero este bucle se ejecuta en código compilado lo que hace que sea más rápido que utilizar los comandos <code>for</code>, <code>repeat</code> o <code>while</code> que siempre deben ser interpretados. No siempre será posible sustituir un bucle por una función de la familia <code>apply</code>, pero cuando lo sea, su utilización es muy ventajosa.</p>
 <p>Concretamente:</p>
 <ul>
@@ -1019,24 +1057,24 @@ while(x &lt; 4)
 <pre class="r"><code>A = matrix(runif(50),nrow=10) # Matriz de dimensión 10x10 cuyos elementos son valores
                                # aleatorios con distribución uniforme en (0,1)
 A</code></pre>
-<pre><code>##             [,1]      [,2]      [,3]       [,4]      [,5]
-##  [1,] 0.24687574 0.4361192 0.8929724 0.87088140 0.8542430
-##  [2,] 0.01752231 0.3269275 0.9923880 0.03968296 0.9997034
-##  [3,] 0.92740063 0.9207430 0.7187599 0.06368317 0.5602961
-##  [4,] 0.99639911 0.1305669 0.7167816 0.10315475 0.1946927
-##  [5,] 0.53501760 0.5542041 0.5893868 0.24068631 0.2867604
-##  [6,] 0.08279324 0.1003300 0.6821528 0.41599200 0.2354503
-##  [7,] 0.89107579 0.9564403 0.5817943 0.37855251 0.6643253
-##  [8,] 0.44440914 0.5690105 0.4577831 0.03786062 0.3024870
-##  [9,] 0.25526720 0.4930666 0.6307942 0.75754506 0.5940131
-## [10,] 0.82743565 0.2567343 0.7643852 0.87015053 0.3785220</code></pre>
+<pre><code>##            [,1]       [,2]       [,3]      [,4]      [,5]
+##  [1,] 0.7869470 0.41148169 0.04402697 0.4155422 0.6434122
+##  [2,] 0.9004329 0.93876453 0.36589699 0.2925122 0.9265038
+##  [3,] 0.1955579 0.54621547 0.63072042 0.5560660 0.6577522
+##  [4,] 0.6097433 0.26365348 0.67319170 0.9058026 0.7863455
+##  [5,] 0.4210824 0.03177462 0.89248179 0.2811374 0.9432428
+##  [6,] 0.5290511 0.17063900 0.10824290 0.8045688 0.9243453
+##  [7,] 0.1475598 0.06520490 0.78882009 0.4313330 0.9352947
+##  [8,] 0.1976616 0.65186759 0.86798659 0.3310061 0.6686367
+##  [9,] 0.2791395 0.30333518 0.18219112 0.6616278 0.1105841
+## [10,] 0.1613072 0.37776732 0.51141360 0.1619119 0.9559369</code></pre>
 <pre class="r"><code>sumCuadrados=function(x){sum(x^2)}  # Función que calcula la suma de cuadrados de 
                                     # los términos de un vector x
 apply(A,1,sumCuadrados)  # Devuelve la suma de cuadrados de cada fila de A</code></pre>
-<pre><code>##  [1] 2.5367129 2.0930041 2.5424428 1.5721809 1.0809242 0.7107394 2.6319088 0.8237696 1.6329035
-## [10] 2.2352879</code></pre>
+<pre><code>##  [1] 1.3771958 2.7699116 1.4762498 2.3333047 1.9435890 1.8224745 1.7090871 1.7740422 0.6531049
+## [10] 1.3703028</code></pre>
 <pre class="r"><code>apply(A,2,sumCuadrados)  # Devuelve la suma de cuadrados de cada columna de A</code></pre>
-<pre><code>## [1] 3.948563 3.026683 5.155571 2.481457 3.247600</code></pre>
+<pre><code>## [1] 2.462083 2.112491 3.465430 2.873876 6.315382</code></pre>
 <ul>
 <li><p><code>lapply(L,fun)</code>: aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>. El resultado se devuelve también en una lista.</p></li>
 <li><p><code>sapply(L,fun)</code>: al igual que <code>lapply()</code>, aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>, pero devuelve el resultado en forma de vector o matriz</p></li>
@@ -1049,7 +1087,7 @@ tapply(grupo$edad,grupo$sexo,mean) # Edad media para cada sexo</code></pre>
 </div>
 </div>
 <div id="funciones" class="section level2">
-<h2><span class="header-section-number">9.2</span> Funciones</h2>
+<h2><span class="header-section-number">10.2</span> Funciones</h2>
 <p>R permite la programación de funciones propias. En una función tenemos 3 tipos de elementos:</p>
 <ul>
 <li>Argumentos (o valores de entrada).</li>
@@ -1076,43 +1114,11 @@ resultado
  list(cateto1=cateto1,cateto2=cateto2,hipotenusa=h)
 }</code></pre>
 <div id="buena-practica-para-la-programacion-de-funciones" class="section level3">
-<h3><span class="header-section-number">9.2.1</span> Buena práctica para la programación de funciones</h3>
+<h3><span class="header-section-number">10.2.1</span> Buena práctica para la programación de funciones</h3>
 <p>Es recomendable programar las funciones en un archivo .r y, cuando se los necesita, cargarlo en memoria con el comando:</p>
 <pre class="r"><code>source(&#39;misFunciones.R&#39;)</code></pre>
 <p>Tarea: - definir una función que devuelva el valor absoluto de un entero.</p>
 </div>
-</div>
-<div id="paquetes-en-r" class="section level2">
-<h2><span class="header-section-number">9.3</span> Paquetes en R</h2>
-<p>Una de las grandes potencialidades que tiene R es la utilización de paquetes (o librerías). R tiene una serie de comandos que se cargan por default. Sin embargo, hay una gran cantidad de funcionalidades que se deben cargar a través de paquetes.</p>
-<p>Un paquete (package) es una colección de funciones, datos y código R que se almacenan en una carpeta conforme a una estructura bien definida, fácilmente accesible para R. En la web de R se puede consultar la lista de paquetes disponibles.</p>
-<p>Puede haber paquetes: * <strong>Instalados en R pero que no están en memoria</strong>. Son paquetes que se han descargado junto con la instalación de R pero que, para su uso, se requiere cargarlos en memoria. Ejemplo:</p>
-<pre class="r"><code>library(&quot;plyr&quot;)</code></pre>
-<ul>
-<li><strong>No instalados en R</strong>. Son paquetes que 1º debes instalar y luego cargarlos en memoria. Por ejemplo:</li>
-</ul>
-<pre class="r"><code>if (!is.element(&quot;readr&quot;, installed.packages()[,1])){
-  install.packages(&quot;readr&quot;)
-}
-library(&quot;readr&quot;)</code></pre>
-<ul>
-<li><strong>En memoria</strong>. Estos paquetes se cargan automáticamente en memoria cuando se agre Rstudio, o cuando se utiliza R.</li>
-</ul>
-<p>Veamos un ejemplo:</p>
-<p>R posee, en memoria, una tabla-ejemplo llamada <code>airquality</code>. Se puede ver por consola escribiendo su nombre+Enter. Si quisieramos cambiar el signo de los valores de la columna “Ozone”, podríamos cargar el paquete “plyr” que contiene la función “mutate()”. Este paquete ya está instalado pero se requiere cargarlo en memoria. Para eso vamos a cargar en memoria el paquete:</p>
-<pre class="r"><code>library(&quot;plyr&quot;)</code></pre>
-<p>Ahora que el paquete está en memoria, podemos ejecutar la instrucción:</p>
-<pre class="r"><code>head(mutate(airquality, Ozone = -Ozone))</code></pre>
-<pre><code>##   Ozone Solar.R Wind Temp Month Day
-## 1   -41     190  7.4   67     5   1
-## 2   -36     118  8.0   72     5   2
-## 3   -12     149 12.6   74     5   3
-## 4   -18     313 11.5   62     5   4
-## 5    NA      NA 14.3   56     5   5
-## 6   -28      NA 14.9   66     5   6</code></pre>
-<p>Y podremos ver por consola cómo combió el signo.</p>
-<p>En el area <strong><em>File/Plots/Packages/Help/Viewer:</em></strong>, si haces click en “Packages” podrás ver un listado de paquetes, y qué paquetes tienes instalados. Puedes instalar paquetes haciendo click en “Install”.</p>
-<p>En <a href="https://cran.r-project.org/web/packages/index.html">este link</a> puedes ver un listado completo de paquetes disponibles.</p>
 </div>
 </div>
 

@@ -1,0 +1,26 @@
+---
+title: "Curso R"
+author: 'Ignacio Cassol & Bautista Baiocchi-lora'
+github: 'Bautista Baiocchi-lora'
+date: '2019-04-25'
+output: 
+  html_document:
+    keep_md: false
+    self_contianed: false
+    theme: flatly
+    highlight: textmate
+---
+
+# Modulos 
+
+* [Modulo 1 - Introducción al análisis de datos con R](./Mod1.html)
+
+* [Modulo 2 - Datos y algunos algoritmos en R](./Mod2.html)
+
+* [Modulo 3 - Estadística descriptiva en R](./Mod3.html)
+
+* [Modulo 4 - Introducción al análisis de datos con R](./Mod4.html)
+
+* [Modulo 5 - R Markdown](./Mod5.html)
+
+* [Modulo 6 - Webs con Shiny](./Mod6.html)
