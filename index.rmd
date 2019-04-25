@@ -6,7 +6,7 @@ date: '2019-04-25'
 output: 
   html_document:
     keep_md: false
-    self_contianed: false
+    self_contianed: true
     theme: flatly
     highlight: textmate
 ---
