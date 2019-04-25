@@ -11,9 +11,10 @@ output:
     keep_md: yes
     number_sections: yes
     self_contained: no
+    toc_float: true
     theme: flatly
     toc: yes
-    toc_depth: 2
+    toc_depth: 3
 ---
 
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
@@ -68,7 +69,7 @@ Para crear un nuevo .rmd, en RStudio, lo más facil es `File -> New File -> R Ma
 
 ---
 
-# Sintaxis
+# Sintaxis 
 
 Los documentos .rmd tienen una estrcutura muy simple:
 1. Encabezado
@@ -197,7 +198,7 @@ Y se mostrará:
 
 ### Estilos de lafuente
 
-El texto en cursiva va decorado de guiones bajos o asteriscos, por ejemplo, \_text_ o \*texto\*. El texto en negrita se programa utilizando un par de asteriscos dobles, por ejemplo, \**texto**. Un par de tildes ~ convierte el texto en un subíndice, por ejemplo, H\~3\~PO\~4~ representa H~3~PO~4~). Un par de ^ produce un superíndice, por ejemplo, Cu\^2+^ produce Cu^2+^.
+El texto en cursiva va decorado de guiones bajos o asteriscos, por ejemplo, \_text_ o \*texto\*. El texto en negrita se programa utilizando un par de asteriscos dobles, por ejemplo, \**texto**. Un par de tildes ~ convierte el texto en un subíndice, por ejemplo, H\~3\~PO\~4~ representa H~3~PO~4~. Un par de ^ produce un superíndice, por ejemplo, Cu\^2+^ produce Cu^2+^.
 
 Ejemplos: 
 
@@ -205,9 +206,9 @@ Ejemplos:
 
 \*text* -> *text*
 
-\**text*\*  -> **text**
+\*\*text\*\*  -> **text**
 
-\***text*** -> ***text***
+\*\*\*text\*\*\* -> ***text***
 
 ---
 
@@ -390,7 +391,7 @@ Otra opción, para hacer tablas, es utilizando el paquete DT.
 
 Ejemplo: 
 
-```{r }
+```{r}
 library(DT)
 datatable(mtcars, rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T) )
 ```
