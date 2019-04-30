@@ -1,7 +1,5 @@
 ---
 title: 'Reportes con RMarkdown'
-author: "Ignacio Cassol & Bautista Baiocchi-lora"
-date: '`r Sys.Date()`'
 output:
   html_document: 
     highlight: textmate

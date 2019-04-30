@@ -1,7 +1,5 @@
 ---
 title: 'Introducción al análisis de datos con R'
-author: "Ignacio Cassol"
-date: '`r Sys.Date()`'
 output:
   html_document:
     fig_caption: yes
@@ -28,6 +26,7 @@ knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
 ```
 
 # Objetivos del curso
+
 Al finalizar el curso, se espera que el alumno sea capaz de:
 
 * Comprender la importancia de la exploración de los datos mediante tablas y gráficos.

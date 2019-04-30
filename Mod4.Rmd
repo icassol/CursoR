@@ -1,7 +1,5 @@
 ---
 title: 'Introducción al análisis de datos con R'
-author: "Ignacio Cassol"
-date: '`r Sys.Date()`'
 output:
   html_document:
     fig_caption: yes
@@ -10,7 +8,7 @@ output:
     highlight: textmate
     keep_md: no
     number_sections: yes
-    self_contained: no
+    self_contained: yes
     theme: flatly
     toc: yes
     toc_depth: 2
@@ -133,7 +131,8 @@ En el mismo paquete `Lock5Data` podemos encontrar el dataframe `SalaryGender` qu
 ``` {r cache=TRUE, message=FALSE}
 data(SalaryGender)
 attach(SalaryGender)
-Gender=factor(Gender,levels=c(0,1),labels=c("Female","Male"))
+Salary<-SalaryGender[,1]
+Gender<-factor(SalaryGender[,2],levels=c(0,1),labels=c("Female","Male"))
 library(plotrix)
 histStack(Salary,Gender,legend.pos="topright")
 ```
@@ -155,7 +154,7 @@ barp(table(Region),col="lightblue",cylindrical=TRUE,shadow=TRUE)
 Es posible construir diagramas de barras por categorías; podemos, por ejemplo representar la frecuencia de doctores por sexo utilizando los datos del dataframe SalaryGender:
 
 ``` {r cache=TRUE, message=FALSE}
-PhD=factor(PhD,levels=c(0,1),c("PhD","non PhD"))
+PhD<-factor(PhD,levels=c(0,1),labels=c("PhD","non PhD"))
 barplot(table(Gender,PhD),beside=TRUE,legend.text=TRUE,col=c("pink","cyan"))
 ```
 
@@ -224,8 +223,7 @@ Nuestro objetivo en esta sección será construir el siguiente diagrama de barra
 
 ``` {r cache=TRUE, echo=FALSE, message=FALSE}
 library(readxl)
-setwd("/Users/Ignacio/Downloads/")
-BRCA_all_data <- read_excel("BRCA_all_data.xlsx")
+BRCA_all_data <- read_excel("./resources/BRCA_all_data.xlsx")
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"),main="Mujeres con cancer de mama",ylim=c(0,0.8),
         ylab ="Frecuencias Relativas",las=1,font.axis=4)

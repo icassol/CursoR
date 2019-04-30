@@ -1,7 +1,5 @@
 ---
 title: 'Estadística descriptiva en R'
-author: "Ignacio Cassol"
-date: '`r Sys.Date()`'
 output:
   html_document:
     fig_caption: yes
