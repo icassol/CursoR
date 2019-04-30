@@ -1,0 +1,27 @@
+---
+name: 'Curso-R'
+outpur_dir: "."
+navbar:
+  title: "Curso R"
+  left: 
+    - text: "Home"
+      href: Index.html
+    - text: "Modulo 1"
+      href: Mod1.html
+    - text: "Modulo 2"
+      href: Mod2.html
+    - text: "Modulo 3"
+      href: Mod3.html
+    - text: "Modulo 4"
+      href: Mod4.html
+    - text: "Modulo 5"
+      href: Mod5.html
+    - text: "Modulo 6"
+      href: Mod6.html
+output: 
+  html_document:
+    keep_md: false
+    self_contianed: true
+    theme: flatly
+    highlight: textmate
+---
