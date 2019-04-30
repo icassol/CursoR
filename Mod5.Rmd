@@ -1,20 +1,17 @@
 ---
 title: 'Reportes con RMarkdown'
-author: "Ignacio Cassol"
+author: "Ignacio Cassol & Bautista Baiocchi-lora"
 date: '`r Sys.Date()`'
 output:
   html_document: 
-    fig_caption: yes
-    fig_height: 4
-    fig_width: 4.5
     highlight: textmate
     keep_md: no
     number_sections: yes
-    self_contained: yes
-    toc_float: true
+    self_contained: no
+    toc_float: false
     theme: flatly
     toc: yes
-    toc_depth: 3
+    toc_depth: 2
 ---
 
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
@@ -59,7 +56,7 @@ Los archivos rmarkdown son texto plano, con extensión .rmd.
 
 ![](https://d33wubrfki0l68.cloudfront.net/61d189fd9cdf955058415d3e1b28dd60e1bd7c9b/b739c/lesson-images/rmarkdownflow.png)
 
-El código se ejecuta clickeando en `Knit`, en el area de programación. El botón está al lado de la lupa. Se hace click en la flechita de opciones (al lado del ícono) se podrá observar que Knit genera reportes en formato `html`, `pdf` o `word.  
+El código se ejecuta clickeando en `Knit`, en el area de programación. El botón está al lado de la lupa. Se hace click en la flechita de opciones (al lado del ícono) se podrá observar que Knit genera reportes en formato `html`, `pdf` o `word`.  
 
 [Knit](https://yihui.name/knitr/) ejecuta todos los fragmentos de código y crea un nuevo markdown (.md) que incluye el código y su salida.
 
@@ -88,44 +85,39 @@ title: 'Reportes con RMarkdown'
 author: "Ignacio Cassol"
 date: '`r Sys.Date()`'
 output:
-  html_document: #el output será un html.
-    fig_caption: yes
-    fig_height: 4
-    fig_width: 4.5
-    highlight: textmate
-    keep_md: yes
-    number_sections: yes #que las secciones/subsecciones tengan número
-    self_contained: no
-    theme: flatly #definición del look&feel del output. 
-    toc: yes
-    toc_depth: 2
+  html_document: # El output será un html.
+    highlight: textmate # Resalto de sintaxis
+    keep_md: yes # Compilar a formato .md
+    number_sections: yes # Que las secciones/subsecciones tengan número
+    self_contained: false # Usar dependencias almacenadas localmente
+    theme: flatly # definición del look&feel del output. 
+    toc: yes # Tabla de contenidos
+    toc_depth: 2 # profundidad de tabla de contenidos
 ---
 ```
+
+> [Aquí](https://bookdown.org/yihui/rmarkdown/html-document.html) encontrarás los posibles valores que pueden tomar los parámetros para el formato de salida HTML. 
 
 ### Formatos de salidas
 
 el comando `output:` del encabezado admite dos tipos de documentos: ***documents*** y ***presentations***. Listamos los formatos disponibles: 
 
-* beamer_presentation
-* github_document
-* html_document
-* ioslides_presentation
-* latex_document
-* md_document
-* odt_document
-* pdf_document
-* powerpoint_presentation
-* rtf_document
-* slidy_presentation
-* word_document
+* [beamer_presentation](https://bookdown.org/yihui/rmarkdown/beamer-presentation.html)
+* [html_document](https://bookdown.org/yihui/rmarkdown/html-document.html)
+* [ioslides_presentation](https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html)
+* [md_document](https://bookdown.org/yihui/rmarkdown/markdown-document.html)
+* [odt_document](https://bookdown.org/yihui/rmarkdown/opendocument-text-document.html)
+* [pdf_document](https://bookdown.org/yihui/rmarkdown/pdf-document.html)
+* [powerpoint_presentation](https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html)
+* [rtf_document](https://bookdown.org/yihui/rmarkdown/rich-text-format-document.html)
+* [slidy_presentation](https://bookdown.org/yihui/rmarkdown/slidy-presentation.html)
+* [word_document](https://bookdown.org/yihui/rmarkdown/word-document.html)
 
 Dependiendo del formato, cada parámetro tiene sus propias opciones. 
 
-#### Sugerencias sobre formatos
-
 > [Aquí](https://rmarkdown.rstudio.com/lesson-9.html) encontrarás los formatos soportados de salida. La galería ejectua utiliza el comando `render()` para generar la salida. Es una opción válida. Nosotros estamos usando la opción de hacer click sobre el botón "Knit".
 
-> [Aquí](https://bookdown.org/yihui/rmarkdown/html-document.html) encontrarás los posibles valores que pueden tomar los parámetros para el formato de salida HTML. 
+### Sugerencias sobre formatos
 
 > [Aquí](http://www.datadreaming.org/post/r-markdown-theme-gallery/) encontrarás una galería de temas (**themes**) para los outputs.   
 
@@ -137,7 +129,7 @@ Luego del encabezado, ya estás en condiciones de comenzar a programar el docume
 
 [Aquí](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf) encontrarás una guía de toda la sintaxis básica de R Markdown. 
 
-### Secciones/subsecciones
+## Secciones/subsecciones
 
 Las secciones se señalan con #:
 
@@ -153,14 +145,23 @@ Y se mostrará:
 ## Sección 1.1 {.unnumbered}
 ### Sección 1.1.1 {.unnumbered}
 
+---
 
 Las secciones pueden tener asociado un id para que se pueda hacer un link de referencia dentro del documento. 
 
 Ejemplo: 
 
-### Esto es una cabecera con un Id {#cabecera1 .unnumbered}
+```{}
+### Cabecera 1 {#cabecera1 .unnumbered}
 
-[Enlace a esa cabecera](#cabecera1)
+[Enlace a Cabecera 1](#cabecera1)
+```
+
+### Cabecera 1 {#cabecera1 .unnumbered}
+
+[Enlace a Cabecera 1](#cabecera1)
+
+---
 
 ### Listas con bullets: 
 
@@ -243,35 +244,31 @@ $$X = \begin{bmatrix}1 & x_{1}\\
 
 Es posible organizar contenidos en pestañas como el siguiente ejemplo: 
 
-![](https://bookdown.org/yihui/rmarkdown/images/tabset.png)
+###Autos {.tabset .unnumbered}
+
+#### Auto Nuevo {- .unnumbered}
+![Un Super Telsa!](./resources/tesla.jpg)
+
+#### Auto Viejo {- .unnumbered}
+![Falta pintura...](./resources/broken-car.jpg)
+
+### {.unnumbered}
 
 Esto se realiza agregando el atributo `{.tabset}` a una sección o subsección. 
 
-Por ejemplo: 
+Por ejemplo, el codigo correspondiente a los tabs anteriores es: 
 
 ```{}
-## Quarterly Results {.tabset} 
+##Autos {.tabset .unnumbered}
 
-### By Product
+### Auto Nuevo {- .unnumbered}
+![Un Super Telsa!](./resources/tesla.jpg)
 
-(tab content)
+### Auto Viejo {- .unnumbered}
+![Falta pintura...](./resources/broken-car.jpg)
 
-### By Region
-
-(tab content)
+## {.unnumbered}
 ```
-
-Y se mostrará: 
-
-## Quarterly Results {.tabset .unnumbered}
-
-### By Product {- .unnumbered}
-(tab content 1)
-
-### By Region {- .unnumbered}
-(tab content 2)
-
-## {- .unnumbered}
 
 ---
 
@@ -279,15 +276,29 @@ Es posible modificar el aspecto y el comportamiento de la sección de pestañas.
 
 Por ejemplo: 
 
-## Quarterly Results {.tabset .tabset-fade .tabset-pills .unnumbered}
+```{}
+## Autos {.tabset .tabset-fade .tabset-pills .unnumbered}
 
-### By Product {.unnumbered}
-(tab content 1)
+### Auto Nuevo {- .unnumbered}
+![Un Super Telsa!](./resources/tesla.jpg)
 
-### By Region {.unnumbered}
-(tab content 2)
+### Auto Viejo {- .unnumbered}
+![Falta pintura...](./resources/broken-car.jpg)
 
 ## {.unnumbered}
+```
+
+Y se mostrara: 
+
+### Autos {.tabset .tabset-fade .tabset-pills .unnumbered}
+
+#### Auto Nuevo {- .unnumbered}
+![Un Super Telsa!](./resources/tesla.jpg)
+
+#### Auto Viejo {- .unnumbered}
+![Falta pintura...](./resources/broken-car.jpg)
+
+### {.unnumbered}
 
 ---
 
@@ -374,13 +385,16 @@ Hay diferentes páginas web que permiten generar tablas para .rmd:
 
 ### El paquete `kable`
 
-Una de las maneras más simples de administrar tablas en RMarkdown es con el paquete `kable`. 
+Una de las maneras más simples de administrar tablas en RMarkdown es con el paquete [kable](http://haozhu233.github.io/kableExtra/) 
 
 Por ejemplo:
 
 ```{r tables-mtcars}
+if (!is.element("kableExtra", installed.packages()[,1])){
+  install.packages("kableExtra", repos = "http://mirror.fcaglp.unlp.edu.ar/CRAN/")
+}
 library(kableExtra)
-knitr::kable(iris[1:5, ], caption = 'A caption')
+knitr::kable(iris[1:5, ], caption = 'A Caption')
 ```
 
 [Aquí](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) encontrarás excelente tutorial para aprovechar todas las potencialidades de `kable`.
@@ -392,6 +406,9 @@ Otra opción, para hacer tablas, es utilizando el paquete DT.
 Ejemplo: 
 
 ```{r}
+if (!is.element("DT", installed.packages()[,1])){
+  install.packages("DT", repos = "http://mirror.fcaglp.unlp.edu.ar/CRAN/")
+}
 library(DT)
 datatable(mtcars, rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T) )
 ```
