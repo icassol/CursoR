@@ -284,7 +284,7 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Index.html">Home</a>
+  <a href="index.html">Home</a>
 </li>
 <li>
   <a href="Mod1.html">Modulo 1</a>
@@ -1181,24 +1181,23 @@ while(x &lt; 4)
 <pre class="r"><code>A = matrix(runif(50),nrow=10) # Matriz de dimensión 10x10 cuyos elementos son valores
                                # aleatorios con distribución uniforme en (0,1)
 A</code></pre>
-<pre><code>##            [,1]      [,2]       [,3]       [,4]      [,5]
-##  [1,] 0.4244510 0.8151665 0.85698484 0.10866567 0.1253992
-##  [2,] 0.8325065 0.8244143 0.12438446 0.06074222 0.4011553
-##  [3,] 0.4934755 0.6172492 0.68164036 0.75377969 0.3142090
-##  [4,] 0.4208511 0.2341311 0.64809209 0.79733000 0.8206333
-##  [5,] 0.5541963 0.9180135 0.84430555 0.91126376 0.5448159
-##  [6,] 0.4315106 0.3393182 0.48503421 0.56929057 0.9622677
-##  [7,] 0.6849021 0.8212080 0.98139259 0.04282647 0.4233688
-##  [8,] 0.4633069 0.1192685 0.58459964 0.02342615 0.2443315
-##  [9,] 0.1549693 0.5770501 0.08455527 0.52130642 0.3516558
-## [10,] 0.1648496 0.5046229 0.85126622 0.21610570 0.7673463</code></pre>
+<pre><code>##            [,1]      [,2]      [,3]      [,4]      [,5]
+##  [1,] 0.5802643 0.3253770 0.8213059 0.1198663 0.7029148
+##  [2,] 0.7829314 0.6102934 0.5892099 0.5368029 0.1830628
+##  [3,] 0.2366587 0.2337925 0.9640332 0.4681869 0.4598964
+##  [4,] 0.9712683 0.2730488 0.9409388 0.4123671 0.3109455
+##  [5,] 0.8482614 0.8475991 0.9476742 0.7221195 0.0545923
+##  [6,] 0.8865480 0.9537541 0.7854121 0.5822359 0.6056075
+##  [7,] 0.9703489 0.2141096 0.7670295 0.5821959 0.6184177
+##  [8,] 0.8933469 0.3360096 0.6025951 0.3391954 0.9641731
+##  [9,] 0.3595254 0.4882680 0.7204297 0.3498756 0.6565923
+## [10,] 0.1569433 0.7024683 0.9713053 0.9141598 0.5784257</code></pre>
 <pre class="r"><code>sumCuadrados=function(x){sum(x^2)}  # Función que calcula la suma de cuadrados de 
                                     # los términos de un vector x
 apply(A,1,sumCuadrados)  # Devuelve la suma de cuadrados de cada fila de A</code></pre>
-<pre><code>##  [1] 1.6066113 1.5528127 1.7560594 1.9611305 2.9899601 1.7866474 2.2876800 0.6308817 0.7595740
-## [10] 1.6419959</code></pre>
+<pre><code>##  [1] 1.625577 1.654277 1.470730 2.170017 2.860495 3.018246 2.297147 2.318775 1.440209 2.631791</code></pre>
 <pre class="r"><code>apply(A,2,sumCuadrados)  # Devuelve la suma de cuadrados de cada columna de A</code></pre>
-<pre><code>## [1] 2.522129 4.014094 4.619353 2.694755 3.123021</code></pre>
+<pre><code>## [1] 5.348108 3.126227 6.765304 2.964333 3.283294</code></pre>
 <ul>
 <li><p><code>lapply(L,fun)</code>: aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>. El resultado se devuelve también en una lista.</p></li>
 <li><p><code>sapply(L,fun)</code>: al igual que <code>lapply()</code>, aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>, pero devuelve el resultado en forma de vector o matriz</p></li>
