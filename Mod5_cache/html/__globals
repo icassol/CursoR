@@ -1,2 +1,0 @@
-tables-mtcars	is.element	installed.packages	install.packages	library	kableExtra	kable	iris
-unnamed-chunk-1	is.element	installed.packages	install.packages	library	DT	datatable	mtcars	list	T

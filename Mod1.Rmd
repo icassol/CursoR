@@ -22,7 +22,7 @@ if (!"BiocStyle" %in% rownames(installed.packages()))
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+knitr::opts_chunk$set( autodep=TRUE)
 ```
 
 # Objetivos del curso
@@ -138,7 +138,7 @@ Probemos las áreas:
 
 - En la consola escribir:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 a<-1
 ```
 
@@ -178,7 +178,7 @@ En muchas ocasiones nos interesará guardar los comandos que hemos empleado, por
 
 Vamos a crear nuestro primer script. En el area de "Untitled1" pegar el siguiente código: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 mensaje<-"Hola mundo"
 fecha<-date()
 repeticiones<-5

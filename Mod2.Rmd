@@ -18,7 +18,7 @@ if (!"BiocStyle" %in% rownames(installed.packages()))
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+knitr::opts_chunk$set( autodep=TRUE)
 ```
 
 ---
@@ -37,37 +37,37 @@ R utiliza, de hecho, programación orientada a objetos. Ello significa que una m
 
 A modo de ejemplo, veamos cómo la función `plot()` puede mostrar distintos gráficos según la clase del objeto a representar. Para ello supongamos que el siguiente arreglo representa el número de personas atendidas mensualmente en el servicio de urgencias de un centro de salud durante el año 2000 (datos de enero a diciembre):
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 atendidos <- c(728,632,596,689,745,865,694,583,657,643,794,887)
 atendidos
 ```
 
 La asignación de valores a un variable se realiza a través del operador `<-`. En este caso, la variable `atendidos` recibe 12 números. 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 class(atendidos)
 ```
 
 La función `class()` nos devuelve la clase del objeto atendidos, que como vemos es `numeric`. Podemos obtener una representación gráfica de este arreglo simplemente mediante:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 plot(atendidos)
 ```
 
 Ahora convertimos estos datos en serie temporal mediante la función ts(), indicando que esta serie comienza en enero del año 2009 y que tiene una frecuencia de 12 observaciones por año (esto es, una por mes):
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 atendidos2 <- ts(atendidos,frequency=12,start=c(2009,1))
 atendidos2
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 class(atendidos2)
 ```
 
 Como podemos ver, la clase del objeto `atendidos2` es `ts` (time series). Podemos comprobar que si aplicamos la misma función `plot()` a `atendidos2`, el gráfico obtenido es distinto que cuando se aplica a `atendidos`, aún cuando los datos sean exactamente los mismos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 plot(atendidos2)
 ```
 
@@ -82,13 +82,13 @@ Un paquete (package) es una colección de funciones, datos y código R que se al
 Puede haber paquetes: 
 * **Instalados en R pero que no están en memoria**. Son paquetes que se han descargado junto con la instalación de R pero que, para su uso, se requiere cargarlos en memoria. Ejemplo: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 library("plyr")
 ```
 
 * **No instalados en R**. Son paquetes que 1º debes instalar y luego cargarlos en memoria. Por ejemplo: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 if (!is.element("readr", installed.packages()[,1])){
   install.packages("readr", repos = "http://mirror.fcaglp.unlp.edu.ar/CRAN/")
 }
@@ -101,13 +101,13 @@ Veamos un ejemplo:
 
 R posee, en memoria, una tabla-ejemplo llamada `airquality`. Se puede ver por consola escribiendo su nombre+Enter. Si quisieramos cambiar el signo de los valores de la columna "Ozone", podríamos cargar el paquete "plyr" que contiene la función "mutate()". Este paquete ya está instalado pero se requiere cargarlo en memoria. Para eso vamos a cargar en memoria el paquete: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 library("plyr")
 ```
 
 Ahora que el paquete está en memoria, podemos ejecutar la instrucción: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 head(mutate(airquality, Ozone = -Ozone))
 ```
 
@@ -125,13 +125,13 @@ R distingue los siguientes tipos de variables:
 
 + **numeric**: variables numéricas continuas.
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 a <- 2.15
 ```
 
 + **integer**: variables numéricas discretas.
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 b <- 3
 c <- as.integer(a) # para transformar un variable float en entera. 
 ```
@@ -149,34 +149,34 @@ Los niveles de un factor puede estar codificados como valores numéricos o como 
 
 Consideremos el siguiente ejemplo. La variable:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 sexo <- c("M", "H", "M", "M", "M", "H", "M", "M", "H", "H")
 sexo
 ```
 
 puede ser considerada un factor, ya que establece para cada sujeto su pertenencia a una de las dos categorías “Hombre”" o “Mujer”. Para que R reconozca al sexo como factor, una vez introducidos los datos utilizamos la función:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 sexo <- factor(sexo)
 sexo
 ```
 
 con lo que hemos convertido sexo en un factor con dos niveles M y H. En muchos casos, los niveles del factor son poco ilustrativos de su significado. La siguiente sintaxis especifica explícitamente los niveles del factor (levels) y asigna etiquetas (labels) a cada uno de ellos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 sexo <- factor(sexo,levels=c("H","M"),labels=c("Hombre","Mujer"))
 sexo
 ```
 
 Estas etiquetas aparecerán en los resultados de los procedimientos estadísticos donde apareza el factor, aclarando su significado. Por ejemplo, si pedimos a R que nos construya la tabla de frecuencias de sexos, en lugar de H o M nos mostrará los términos “Hombre”" o “Mujer”:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 table(sexo)
 ```
 
 Hay alguna funciones en R que requieren que la variable de entrada sea necesariamente un factor (aún cuando la variable esté codificada numéricamente). Para ello basta recodificar la variable original como factor. Por ejemplo, supongamos que se ha registrado la producción de tres máquinas (identificadas como 27, 32 y 55) durante cinco días sucesivos, dando como resultado los siguientes datos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 produccion=c(120,100,132,112,95,164,172,183,155,176,110,115,122,108,120)
 maquina=c(27,27,27,27,27,32,32,32,32,32,55,55,55,55,55)
 dia=c(1,2,3,4,5,1,2,3,4,5,1,2,3,4,5)
@@ -185,7 +185,7 @@ cbind(maquina,dia,produccion)
 
 Si se pretende evaluar la producción de estas tres máquinas a lo largo de estos días, es evidente que sus números de identificación (27, 32 y 55) son simples etiquetas sin que su valor intrínseco tenga ningún sentido en el problema. En este caso resulta razonable (y, como veremos, en el ajuste de modelos de análisis de la varianza es además necesario) convertir esta variable en factor. Para ello simplemente ejecutamos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 maquina=factor(maquina)
 maquina
 ```
@@ -194,13 +194,13 @@ maquina
 
 Un factor puede convertirse en variable numérica mediante la función as.numeric(). Ahora bien, dichas conversiones deben realizarse con cierta precaución. Así por ejemplo, si en el caso anterior aplicamos la función as.numeric() al factor maquina obtenemos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 as.numeric(maquina)  
 ```
 
 ¡No se han recuperado los valores originales 27, 32 y 55!. Lo que ocurre en este caso es que R muestra la codificación interna de los niveles del factor (habitualmente valores enteros ordenados desde 1 hasta el número total de niveles). Si quisiéramos recuperar los valores numéricos originales de la variable maquina debemos primero convertirla en carácter, y a continuación en numérica:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 as.numeric(as.character(maquina))
 ```
 
@@ -214,7 +214,7 @@ ATENCIÓN: No debe confundirse el operador de asignación = con el de comparaci�
 
 Veamos algunos ejemplos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 a <- 2
 b <- 4
 a==b  # ¿es a igual a b?
@@ -227,7 +227,7 @@ Funciones any() y all()
 
 Las funciones any(x) y all(x) determinan, respectivamente, si alguno o todos los elementos de x son TRUE:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 any(c(a==2, a==3, a==4))
 
 any(c(a==3, a==4, a==5, a==6))
@@ -239,12 +239,12 @@ all(c(a==2, b==4, 2<3))
 
 Se pueden agrupar varios elementos de la misma clase para formar un arreglo mediante el comando de concatenación `c()`. Así, podemos guardar las edades de 10 personas de una muestra en la variable edad mediante:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad <- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
 edad
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 class(edad)
 ```
 
@@ -252,7 +252,7 @@ class(edad)
 
 La función `length()` devuelve la longitud (número de elementos) del arreglo:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 x <- c(1,4,5,2,4,5,4,3,2,2,3,2,2,4,4,5,5,6,6,7)
 length(x)
 ```
@@ -261,7 +261,7 @@ length(x)
 
 Es posible acceder al valor que ocupa la posición `k` dentro de un arreglo `x` refiriéndonos a él como `x[k]`. Así, por ejemplo, podemos ver el contenido del tercer y quinto valores del arreglo `edad`:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad <- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
 edad[3]
 edad[5]
@@ -271,7 +271,7 @@ edad[5]
 
 Si deseamos asignar a una variable una sucesión de valores consecutivos podemos utilizar el operador `:`. Así para asignar a la variable x los valores de 1 a 10 procederíamos del siguiente modo:
 
-```{r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 x <- 1:10
 x
 ```
@@ -280,27 +280,27 @@ Podemos construir secuencias de números más complejas mediante la función `se
 
 Sucesión de valores de 1 a 20 de 2 en 2:
 
-```{r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 x <- seq(1,20,by=2)
 x
 ```
 
 Sucesión de 8 valores equiespaciados entre 1 y 20:
 
-```{r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 y <- seq(1,20,length=8)
 y
 ```
 
 Podemos acceder también simultáneamente a varios valores dentro de un arreglo. Por ejemplo, si deseamos ver del segundo al quinto de los valores observados en la variable edad:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad[2:5]
 ```
 
 Y si quisiéramos ver sólo los valores primero, tercero y séptimo:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad[c(1,3,7)]
 ```
 
@@ -308,13 +308,13 @@ edad[c(1,3,7)]
 
 La función %in% permite determinar si uno o varios valores están contenidos en un arreglo:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 x <- 1:10
 a <- 2
 a %in% x
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 b <- c(6,8,14,2,15)
 b %in% x
 ```
@@ -323,13 +323,13 @@ b %in% x
 
 La función `which()` nos da las posiciones, dentro de un arreglo, de los valores que cumplen cierta condición. Por ejemplo, si definimos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad <- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
 ```
 
 La siguiente función nos devuelve las posiciones de los valores de este arreglo que son mayores que 25:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 which(edad>25)
 ```
 
@@ -337,19 +337,19 @@ Esto es: los valores del arreglo `edad` mayores que 25 son los que ocupan las po
 
 Podemos asignar estas posiciones a una nueva variable:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 mayores25 <- which(edad>25)
 ```
 
 y utilizarla para mostrar cuáles son concretamente esos valores mediante:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad[mayores25]
 ```
 
 Esta expresión puede simplificarse, si no utilizamos `which()`:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad[edad>25]
 ```
 
@@ -357,13 +357,13 @@ La operación `which()` es aplicable también a otras estructuras de datos en R.
 
 Se puede realizar también la selección de valores de un arreglo condicionando por los valores de otro arreglo. Por ejemplo, si las diez edades del ejemplo anterior corresponden a personas cuyo sexo viene dado por:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 sexo <- c("M","H","H","M","M","H","M","M","H","H")
 ```
 
 podríamos seleccionar la edad de las mujeres simplemente mediante:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad[sexo=="M"]
 ```
 
@@ -371,7 +371,7 @@ edad[sexo=="M"]
 
 Es frecuente que, dado un conjunto de datos, nos interese solamente conocer los valores, sin importar su repetición en el conjunto: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 unique(sexo)
 ```
 
@@ -379,7 +379,7 @@ unique(sexo)
 
 Si quisieramos conocer cuántas repeticiones tiene cada elemento se puede utilizar: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 table(edad)
 ```
 
@@ -387,7 +387,7 @@ table(edad)
 
 Si `x` e `y` son dos arreglos de la misma dimensión, las operaciones elementales se realizan término a término (característica que se conoce como aritmética vectorial):
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 x <- seq(2,20,by=2)  # Números pares entre 2 y 20
 x
 y <- seq(1,20,by=2)  # Números impares entre 1 y 20
@@ -406,20 +406,20 @@ x/y
 
 En R se pueden declarar arreglos alfanuméricos (o de clase carácter):
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 letras <- c("a","b","c","d")
 class(letras)
 ```
 
 * `paste()`: esta función “pega” (o concatena) variables de clase `character`; la opción `sep` indica el símbolo que separa los valores que se han pegado; en caso de que no se quiera dejar ningún símbolo de separación, debe usarse `sep=""`:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 paste("A","B",sep="-")
 ```
 
 Podemos pegar arreglos (se pegarán término a término: primer valor con primer valor, segundo con segundo, etc.)
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 codigos <- paste(c("A", "B"), 2:3, sep = "")
 codigos
 
@@ -431,7 +431,7 @@ Obsérvese, que con la opción `sep` se obtiene como resultado un arreglo de la 
 
 Cuando se utiliza `paste()` sobre un único arreglo con la opción `collapse`, se “pegan” todos los términos del arreglo en un único valor:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 paste(c("una", "frase", "simple"), collapse = " ")
 ```
 
@@ -439,7 +439,7 @@ paste(c("una", "frase", "simple"), collapse = " ")
 
 La función `substr(x,n1,n2)` selecciona los caracteres de `x` entre las posiciones `n1` y `n2`. También permite realizar asignaciones:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 substr("abcdef", 2, 4)
 
 x <- "ABCDEF"
@@ -457,7 +457,7 @@ Utiliza la ayuda de R para averiguar la utilidad de las funciones  `nchar`, `gre
 
 El paquete [`stringr`](https://cran.r-project.org/web/packages/stringr/index.html) ofrece funciones para el manejo de caracteres. Como este paquete no viene con R, hay que instalarlo y cargarlo en memoria: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 if (!is.element("stringr", installed.packages()[,1])){
   install.packages("stringr")
 }
@@ -478,13 +478,13 @@ La siguiente tabla contiene algunas funciones de `stringr` para operar sobre car
 
 En R las matrices solamente pueden ser numéricas y hay varias maneras de definirlas. Si es pequeña podemos utilizar la siguiente sintaxis:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 A <- matrix(nrow=3,ncol=3, c(1,2,3,4,5,6,7,8,9), byrow=TRUE)
 ```
 
 Con el argumento `nrow` hemos indicado el número de filas de nuestra matriz, con `ncol` el número de columnas. A continuación hemos puesto los valores que forman la matriz (los valores del 1 al 9), y le hemos pedido a R que use esos valores para rellenar la matriz `A` por filas `(byrow=TRUE)´. La matriz A así construida es:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 A
 ```
 
@@ -494,7 +494,7 @@ Comprueba cómo queda la matriz si se utiliza `byrow=FALSE`.
 
 Se pueden seleccionar partes de una matriz utilizando los índices de posición [fila, columna] entre corchetes. El siguiente ejemplo ilustra la forma de hacerlo:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 A[2,3]   # Se selecciona el valor de la fila 2, columna 3
 
 A[2,]    # Se selecciona la fila 2 completa
@@ -511,7 +511,7 @@ Tarea:
 
 Si disponemos de varios arreglos de la misma longitud que queremos utilizar como filas (o columnas) de una matriz, podemos utilizar la función `rbind()` para unirlos por filas, o la función `cbind()` para unirlos por columnas, como vemos en el siguiente ejemplo:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 vector1 = c(1,2,3,4)
 vector2 = c(5,6,7,8)
 vector3 = c(9,10,11,12)
@@ -527,7 +527,7 @@ Crea una matriz M2 con los arreglos anteriores unidos por filas mediante `rbind(
 
 La función `diag()` extrae la diagonal principal de una matriz:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 diag(A)
 ```
 
@@ -547,7 +547,7 @@ El término “dataframe” es difícil de traducir al castellano. Podría tradu
 
 El siguiente ejemplo nos muestra como crear un data.frame a partir de los datos recogidos sobre una muestra de 10 personas, para cada una de las cuales se ha registrado su edad, sexo y tiempo en minutos que estuvo hablando por teléfono el día antes de la encuesta:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 edad <- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
 tiempo <- c(14.21, 10.36, 11.89, 13.81, 12.03, 10.99, 12.48, 13.37, 12.29, 11.92)
 sexo <- c("M","H","H","M","M","H","M","M","H","H")
@@ -555,11 +555,11 @@ misDatos <- data.frame(edad,tiempo,sexo)
 misDatos
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 str(misDatos)    # Estructura de 'misDatos'
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 names(misDatos)  # Nombre de las variables contenidas en 'misDatos'
 ```
 
@@ -569,7 +569,7 @@ Cuando desde R se leen datos situados en un fichero externo (un fichero de texto
 
 ## Convertir una matriz en data.frame
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 str(M1)
 M2<-as.data.frame(M1)
 str(M2)
@@ -579,7 +579,7 @@ str(M2)
 
 El acceso a los datos que se encuentran en un data.frame es muy similar al acceso a los datos de una matriz que ya vimos en la sección anterior. Sin embargo, para los data.frames R dispone de algunas funciones que facilitan la tarea de seleccionar o filtrar datos. Así por ejemplo, si queremos ver sólo los datos de los sujetos (filas) 3 a 6, escribiríamos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 misDatos[3:6,] #Mostrar solo las personas de las filas 3 a 6.
 misDatos[,1] #Mostrar solo la edad de las personas.
 misDatos$edad #Otra manera de mostrar solo la edad de las personas. 
@@ -590,7 +590,7 @@ Tarea:
 
 - Probar los siguientes comandos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 medidas <- data.frame(longitud=c(6,4,7), peso=c(240,326,315), diametro=c(8,9,9))
 with(medidas,{
   volumen <- longitud*pi*(diametro/2)^2  # Calcula el volumen de los objetos
@@ -599,7 +599,7 @@ with(medidas,{
 })
 ``` 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 hombres <- subset(misDatos,sexo=="H")
 hombres
 
@@ -625,7 +625,7 @@ hombres
 
 Como ya comentamos en la sección de matrices, `rbind` (acrónimo de rowbind, pegar por filas) permite combinar arreglos (o matrices o data.frames) "uno debajo del otro":
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 animales1 <- data.frame(animal=c("vaca","perro","rana","lagarto","mosca","jilguero"), 
                        clase=c("mamífero","mamífero","anfibio","reptil","insecto","ave"))
 animales2 <- data.frame(animal=c("atún", "cocodrilo", "gato","rana"), clase=c("pez", "reptil", "mamífero","anfibio"))
@@ -635,14 +635,14 @@ animales3 <- rbind(animales1,animales2)
 
 El comando `rbind` no controla la posible aparición de casos repetidos en los dos dataframes (podemos comprobar que la **rana** está repetida en el dataframe ‘animales3’). La función `merge()` evita este problema; utilizando la opción `all=TRUE` ó `all=FALSE` (valor por defecto) se consigue que se muestren todos los datos de ambos data.frames, o sólo aquellos que son comunes a ambos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 animales4=merge(animales1,animales2)
 animales5=merge(animales1,animales2,all=TRUE)
 ```
 
 Si los data.frames tienen estructura distinta, pero contienen variables en común que permiten identificar unívocamente a los mismos objetos en ambos conjuntos, también podemos combinarlos mediante `merge()`:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 superficieAnimales=data.frame(animal=c("perro","tortuga","jilguero", 
                                        "cocodrilo","vaca","lagarto","sardina"),
                      superficie=c("pelo","placas óseas","plumas",
@@ -661,7 +661,7 @@ Para ordenar un dataframe hemos de aplicar la función `order()` al elemento o e
 
 Por ejemplo, si queremos ordenar el dataframe `animales1` por orden alfabético de animales, haríamos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 ordenacion <- order(animales1$animal) # Posiciones dentro del dataframe 'animales1' de los animales ordenados alfabéticamente
 
 animales1 <- animales1[ordenacion,]  # Se reordenan las filas del dataframe animales1
@@ -671,7 +671,7 @@ animales1 <- animales1[order(animales1$animal),]  # lo mismo pero en una sola l�
 
 Si queremos ordenar nuestro primer data.frame (`misDatos`) primero por edad y luego por tiempo utilizando el celular:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 misDatos <- misDatos[order(misDatos$edad,misDatos$tiempo),]
 ```
 
@@ -679,7 +679,7 @@ misDatos <- misDatos[order(misDatos$edad,misDatos$tiempo),]
 
 Ya utilizamos la función `table()` en arreglos. Lo hicimos para saber cuántas repeticiones tenía cada elemento de un arreglo. Esta función también se puede usar en matrices o data.frames: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 table(misDatos[,"sexo"])
 table(misDatos[,c("sexo", "edad")])
 ```
@@ -690,7 +690,7 @@ Una lista, en R, se puede ver como un contenedor de objetos que pueden ser de cu
 
 Por ejemplo, podemos crear una lista que contenga el data.frame `misDatos`, la matriz `A`, la matriz `M`, el arreglo `x <- c(1,2,3,4)` y la constante `e <- exp(1)`:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 A <- matrix(1:9,nrow=3)
 M <- matrix(1,4,nrow=2)
 MiLista <- list(misDatos,A,M=M,x=c(1,2,3,4),e=exp(1))
@@ -698,7 +698,7 @@ MiLista <- list(misDatos,A,M=M,x=c(1,2,3,4),e=exp(1))
 
 Obsérvese a continuación cómo podemos acceder a los distintos elementos de la lista. Póngase especial atención a lo que ocurre con los elementos `misDatos` y `A`, cuyo nombre no se utilizó explícitamente en la declaración de la lista:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 MiLista$misDatos
 MiLista[[1]]
 MiLista$A
@@ -711,20 +711,20 @@ Como vemos, para acceder a los objetos que forman parte de una lista, basta con 
 
 R utiliza las listas, sobre, todo como salida de los distintos procedimientos estadísticos. Así, por ejemplo, al realizar un contraste de medias de dos poblaciones, R calcula, entre otras cosas, la diferencia de medias muestrales, el valor del estadístico de contraste, el p-valor del test y el intervalo de confianza para la diferencia observada. Todos estos términos forman parte de una lista. La sintaxis para comparar, por ejemplo, el tiempo medio de uso del celular entre hombres y mujeres a partir de nuestros datos sería:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 t.test(tiempo~sexo, data=misDatos)
 ```
 
 Si guardamos el resultado de este contraste en el objeto contraste, podemos observar que tiene estructura de lista:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 contraste <- t.test(tiempo~sexo, data=misDatos)
 str(contraste)
 ```
 
 Si deseamos extraer, por ejemplo, solo el intervalo de confianza de la lista anterior nos bastaría con ejecutar:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 contraste$conf.int
 ```
 
@@ -734,30 +734,30 @@ contraste$conf.int
 
 En R es posible “forzar” (“coerce”) la conversión de una clase de datos en otra, mediante comandos de la forma as.class. Por ejemplo:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 x="1"
 x
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 class(x)
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 y=as.integer(x)
 y
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 class(x)
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 z=as.character(y)
 z
 ```
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 class(z)
 ```
 
@@ -767,7 +767,7 @@ class(z)
 
 R tiene un manejo muy potente de operaciones entre tipos primitivos <-> arreglos <-> matrices. Veamos unos ejemplos: 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 a <- c(1,2,3,4)
 # operaciones entre escalares y arreglos:
 a + 5
@@ -794,7 +794,7 @@ b <- a[a<6]
 
 R cuenta con un catálogo muy completo de funciones matemáticas. Por citar unas pocas: logaritmo neperiano (log), exponencial (exp), seno (sin), coseno (cos), valor absoluto (abs), parte entera (floor), redondeo (round). Cuando una función se aplica a un arreglo, se aplica a todos y cada uno de sus elementos:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 x <- 1
 
 x^2
@@ -812,7 +812,7 @@ log(x)
 
 Instrucciones simples y útiles: 
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 # cargar números reales hasta que se presione Enter, y guardarlos en la variable a:
 a<-scan(what=double(0))
 ```
@@ -827,7 +827,7 @@ Sugerimos que explores, por tu cuenta, los siguientes comandos: `help(repeat)`, 
 
 ### if
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 x <- 0.1
 if( x < 0.2)
   {
@@ -845,7 +845,7 @@ x
 
 ### for
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 # op1:
 for(cont in (1:10)){
   print(paste0("Iteración número: ",cont))
@@ -868,7 +868,7 @@ for (loop in x)
 
 Probar el siguiente programa y explicar qué operación realiza: 
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 lupe <- 1
 x <- 1
 while(x < 4)
@@ -940,7 +940,7 @@ La última línea del código será el valor que devolverá la función.
 
 Ejemplo1 de función: 
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 suma <- function(x,y){
      # suma de los elementos "x" e "y”
      x+y
@@ -951,13 +951,13 @@ Una vez que ejecutes este comando, busca en el area Enviroment. Debajo de las va
 
 Para probar la nueva función, en la consola puedes escribir: 
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 suma(2,3)
 ```
 
 Ejemplo2 de función:
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 hipotenusa<-function(cateto1, cateto2){
  h<-sqrt(cateto1^2+cateto2^2)
  list(cateto1=cateto1,cateto2=cateto2,hipotenusa=h)
@@ -968,7 +968,7 @@ hipotenusa<-function(cateto1, cateto2){
 
 Es recomendable programar las funciones en un archivo .r y, cuando se los necesita, cargarlo en memoria con el comando: 
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 source('misFunciones.R')
 ```
 
