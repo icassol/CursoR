@@ -5,11 +5,7 @@ output:
     fig_caption: yes
     fig_height: 4
     fig_width: 4.5
-    highlight: textmate
-    keep_md: no
     number_sections: yes
-    self_contained: yes
-    theme: flatly
     toc: yes
     toc_depth: 2
 ---
@@ -106,9 +102,9 @@ Esta función ofrece muchas variantes dependiendo del tipo de objeto al que se a
 
 A modo de ejemplo se muestra a continuación un gráfico de la esperanza de vida (***LifeExpectancy***, que será nuestra variable y) frente al índice de felicidad (***Happiness***, que es la x) en una muestra de 143 países. Los datos se encuentran en el dataframe(`HappyPlanetIndex`) del paquete (`Lock5Data`) (consultar `help(HappyPlanetIndex)` para ver las variables en este dataframe, y http://www.happyplanetindex.org/about/ para más información sobre este estudio):
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 if (!is.element("Lock5Data", installed.packages()[,1])){
-  install.packages("Lock5Data")
+  install.packages("Lock5Data", repos = "http://mirror.fcaglp.unlp.edu.ar/CRAN/")
 }
 library(Lock5Data)
 data(HappyPlanetIndex)
@@ -120,7 +116,7 @@ plot(Happiness,LifeExpectancy,pch=19,col="red")
 
 Esta función permite dibujar histogramas de frecuencias para variables continuas. Por ejemplo, el histograma de los niveles de felicidad en los distintos países de la muestra se obtiene fácilmente como:
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 data(HappyPlanetIndex)
 attach(HappyPlanetIndex)
 hist(Happiness,col="darkolivegreen1")
@@ -128,11 +124,10 @@ hist(Happiness,col="darkolivegreen1")
 
 En el mismo paquete `Lock5Data` podemos encontrar el dataframe `SalaryGender` que contiene una muestra de 100 profesores universitarios de EEUU, 50 hombres y 50 mujeres; para cada uno se tiene el salario anual (en miles de dólares), la edad y la variable PhD que vale 1 si el profesor es doctor y 0 si no lo es. Podemos ver la distribución de salarios entre hombres y mujeres mediante un histograma combinado utilizando la función `histStack()` del paquete `plotrix`:
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 data(SalaryGender)
 attach(SalaryGender)
-Salary<-SalaryGender[,1]
-Gender<-factor(SalaryGender[,2],levels=c(0,1),labels=c("Female","Male"))
+Gender=factor(Gender,levels=c(0,1),labels=c("Female","Male"))
 library(plotrix)
 histStack(Salary,Gender,legend.pos="topright")
 ```
@@ -141,19 +136,19 @@ histStack(Salary,Gender,legend.pos="topright")
 
 Se utiliza para dibujar diagramas de barras. El siguiente ejemplo muestra el número de países en cada una de las 7 regiones en que se dividió el planeta para el estudio de los niveles de felicidad:
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 barplot(table(Region),xlab="Region",main="Happiness level by region", col=rainbow(10))
 ```
 
 El paquete `plotrix` contiene la función `barp()` que permite dar “volumen” a la barras:
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 barp(table(Region),col="lightblue",cylindrical=TRUE,shadow=TRUE)
 ```
 
 Es posible construir diagramas de barras por categorías; podemos, por ejemplo representar la frecuencia de doctores por sexo utilizando los datos del dataframe SalaryGender:
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=TRUE, warning=TRUE}
 PhD<-factor(PhD,levels=c(0,1),labels=c("PhD","non PhD"))
 barplot(table(Gender,PhD),beside=TRUE,legend.text=TRUE,col=c("pink","cyan"))
 ```
@@ -162,13 +157,13 @@ barplot(table(Gender,PhD),beside=TRUE,legend.text=TRUE,col=c("pink","cyan"))
 
 Aporta la misma información que el diagrama de barras, pero en forma de diagrama de sectores:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 pie(table(Region))
 ```
 
 El paquete `plotrix` permite elaborar diagramas de sectores en 3D mediante la función `pie3D`:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 pie3D(table(Region))
 ```
 
@@ -176,7 +171,7 @@ pie3D(table(Region))
 
 Lleva a cabo la representación de gráficos de “caja y bigote”. El siguiente ejemplo muestra el reparto de los niveles de felicidad entre las distintas regiones del globo:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 boxplot(Happiness~Region,col="gold",xlab="Region",ylab="Happiness level",
         main="Average happiness level by region")
 ```
@@ -185,7 +180,7 @@ boxplot(Happiness~Region,col="gold",xlab="Region",ylab="Happiness level",
 
 Esta función realiza representaciones tridimensionales (superficies). El dataframe `volcano` que se distribuye junto con la instalación básica de R (ver `help(volcano)`) contiene información topográfica del volcán Maunga Whau en Auckland, Nueva Zelanda, definida sobre una malla de 870×610 metros, con un nodo cada 10 metros. Podemos trazar el perfil topográfico de este volcán mediante:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 persp(x = 10*(1:nrow(volcano)), y=10*(1:ncol(volcano)), z=3*volcano, 
       theta = 135, phi = 30, col = "green3", scale = FALSE,
       ltheta = -120, shade = 0.75, border = NA, box = FALSE, main="Volcán Maunga Whau, Auckland, NZ")
@@ -198,20 +193,20 @@ Representación de nubes de puntos
 
 La función `plot` es una función genérica para la representación gráfica de objetos en R. Los gráficos más sencillos que permite generar esta función son nubes de puntos (x,y). Para ver un ejemplo utilizaremos el dataframe `trees`, disponible en el paquete  `datasets`. Este dataframe contiene datos de tres variables medidas en una muestra de 31 cerezos: Girth (diámetro del tronco en pulgadas), Height (altura del árbol en pies) y Volume (volumen de madera en el árbol). Mostramos los datos a continuación:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 data(trees)
 trees
 ```
 
 El comando plot() ejecutado directamente sobre el dataframe muestra las nubes de puntos correspondientes a todas las posibles parejas de variables:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 plot(trees)
 ```
 
 Si sólo deseamos representar la altura del árbol frente al diámetro del tronco, especificamos simplemente estas dos variables:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 with(trees,plot(Girth,Height))
 ```
 
@@ -221,7 +216,7 @@ Para ver este gráfico usaremos los pacientes de cancer de mama (BRCA_all_data).
 
 Nuestro objetivo en esta sección será construir el siguiente diagrama de barras con la variable `vital_status`. A esta gráfica la denominaremos “gráfica patrón” a lo largo del texto.
 
-``` {r cache=TRUE, echo=FALSE, message=FALSE}
+```{r  echo=FALSE, message=FALSE}
 library(readxl)
 BRCA_all_data <- read_excel("./resources/BRCA_all_data.xlsx")
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
@@ -233,7 +228,7 @@ Primer Paso
 
 En primer lugar ejecutamos `help(barplot)` para leer la información que proporciona la ayuda de R sobre la función `barplot`. Para empezar, debemos pasar como argumento a dicha función los datos de la variable que queremos representar. En concreto, debemos especificar las frecuencias relativas de las categorías presentes en la variable especie. El cálculo de las frecuencias relativas se realiza a través de las funciones `table()` y `prop.table()`.
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 barplot(prop.table(table(BRCA_all_data$vital_status)))
 ``` 
 
@@ -241,14 +236,14 @@ Color
 
 En la gráfica anterior ya tenemos representado el mismo contenido que en la gráfica patrón. Vamos ahora a darle color. El argumento que controla los colores de las barras del barplot es ´col´:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"))
 ``` 
 
 Leyenda
 Ahora añadimos una leyenda utilizando el argumento `legend.text`:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"))
 ``` 
@@ -257,14 +252,14 @@ Ajustando los ejes para dejar sitio a la leyenda
 
 La leyenda que que acabamos de colocar “pisa” una de las barras del gráfico. En la gráfica patrón podemos observar que el eje de ordenadas tiene una amplitud mayor, que va de 0 a 0.8 unidades. Para cambiar los límites del eje de ordenadas utilizamos el argumento `ylim`:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"),ylim=c(0,0.8))
 ``` 
 
 Otra opción es ampliar el eje X, de modo que quede sitio a la izquierda para colocar la leyenda. El problema, en principio, es que como este es un eje de categorías, no muestra valores numéricos, así que ¿como lo ampliamos?. La solución estriba en saber que  barplotdevuelve de modo invisible las coordenadas de las posiciones de la base. La manera de capturar dichas coordenadas es asignar el gráfico a una variable y mostrar los valores de ésta (si además indicamos plot=FALSE nos ahorramos que R nos repita el gráfico, aunque tampoco tiene mayor importancia):
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 xCoords<-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"),ylim=c(0,0.8), plot=FALSE)
 xCoords
@@ -272,7 +267,7 @@ xCoords
 
 Vemos, por tanto, que las barras están en las posiciones 0.7 y 1.9. Probamos a reconstruir el gráfico fijando la extensión del eje X como `xlim=c(0,3.3)` (si no quedamos satisfechos de entrada podemos probar unos cuantos valores):
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"),xlim=c(0,3.3))
 ``` 
@@ -281,7 +276,7 @@ Título
 
 El título se especifica mediante la opción main, escribiendo el texto del título entre comillas:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama")
 ``` 
@@ -290,7 +285,7 @@ Texto en el eje de ordenadas
 
 Mediante el argumento ylab especificamos el texto (también entre comillas) que deseamos como etiqueta del eje Y:
 
-``` {r cache=TRUE, message=FALSE}
+```{r  message=FALSE}
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas")
 ``` 
@@ -299,7 +294,7 @@ Orientación de las etiquetas en los ejes
 
 El párametro las cambia la orientación de las etiquetas del eje de ordenadas (consultar help(par) para ver las distintas opciones)
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=TRUE}
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas",las=1)
 ``` 
@@ -308,7 +303,7 @@ Cambio de la fuente para las letras de las etiquetas
 
 Para cambiar el tipo de fuente que se usa en las letras de las etiquetas del eje de abscisas se utiliza el argumento font.axis (consultar help(par) para ver las distinas fuentes posibles)
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
         legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas",las=1,font.axis=4)
 ``` 
@@ -323,7 +318,7 @@ Un histograma es una representación gráfica de la distribución de frecuencias
 
 Usaremos los pacientes de cancer de mama (BRCA_all_data). En concreto, nos interesa ver el histograma de las edades de las pacientes.
 
-``` {r echo= FALSE, cache=TRUE, message=FALSE}
+```{r echo=FALSE, message=FALSE}
 hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
 
 curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
@@ -338,7 +333,7 @@ Construcción del histograma básico
 
 Consultar la ayuda: `help(hist)`. Para empezar,debemos pasar a la función hist los datos de la variable a representar, en nuestro caso la variable `age_at_initial_pathologic_diagnosis`.
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 hist(BRCA_all_data$age_at_initial_pathologic_diagnosis, main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
 ``` 
 
@@ -346,7 +341,7 @@ Definición del eje de ordenadas en frecuencias relativas y color del histograma
 
 El eje de ordenadas muestra por defecto frecuencias absolutas; el gráfico que queremos construir es con frecuencias relativas en este eje. Para ello utilizamos la opción freq=FALSE; además le damos color al histograma mediante col="lightcyan"
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan", main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
 ``` 
 
@@ -354,7 +349,7 @@ Incremento de la longitud del eje de ordenadas
 
 Para que en la gráfica haya espacio para la leyenda, alargamos el eje de ordenadas mediante la opción ylim:
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
 ``` 
 
@@ -362,7 +357,7 @@ Estimación de la función de densidad de la variable mediante un estimador de n
 
 El estimador de núcleo de la función de densidad del peso eviscerado se calcula mediante `density(BRCA_all_data$age_at_initial_pathologic_diagnosis)`. Para superponer esta función al histograma utilizaremos la función de bajo nivel `lines`; además dibujamos la línea con grosor  `lwd=2` y de color rojo:
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
 lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
 ``` 
@@ -371,7 +366,7 @@ Ajuste de una función de densidad normal con media y desviación estándar esti
 
 Ajustamos también a nuestros datos una función de densidad normal con media igual a la media estimada de la edad y desviación típica también igual a la observada en la muestra.
 
-``` {r cache=TRUE, message=FALSE}
+```{r message=FALSE}
 hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
 lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
 curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
@@ -382,7 +377,7 @@ Leyenda
 
 Por último añadimos una leyenda explicando qué representa cada curva:
 
-``` {r echo= FALSE, cache=TRUE, message=FALSE}
+```{r echo= FALSE, message=FALSE}
 hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
 
 curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
