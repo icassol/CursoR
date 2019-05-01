@@ -2,12 +2,7 @@
 title: 'Reportes con RMarkdown'
 output:
   html_document: 
-    highlight: textmate
-    keep_md: no
     number_sections: yes
-    self_contained: yes
-    toc_float: false
-    theme: flatly
     toc: yes
     toc_depth: 2
 ---

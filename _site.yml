@@ -20,7 +20,6 @@ navbar:
       href: Mod6.html
 output: 
   html_document:
-    keep_md: false
     self_contianed: true
     theme: flatly
     highlight: textmate

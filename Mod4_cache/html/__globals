@@ -1,0 +1,31 @@
+unnamed-chunk-1	is.element	installed.packages	install.packages	library	Lock5Data	data	HappyPlanetIndex	attach	plot	Happiness	LifeExpectancy
+unnamed-chunk-2	data	HappyPlanetIndex	attach	hist	Happiness
+unnamed-chunk-3	data	SalaryGender	attach	Gender	factor	c	library	plotrix	histStack	Salary
+unnamed-chunk-4	barplot	table	Region	rainbow
+unnamed-chunk-5	barp	table	Region
+unnamed-chunk-6	PhD	factor	c	barplot	table	Gender
+unnamed-chunk-7	pie	table	Region
+unnamed-chunk-8	pie3D	table	Region
+unnamed-chunk-9	boxplot	Happiness	Region
+unnamed-chunk-10	persp	nrow	volcano	ncol
+unnamed-chunk-11	data	trees
+unnamed-chunk-12	plot	trees
+unnamed-chunk-13	with	trees	plot	Girth	Height
+unnamed-chunk-14	library	readxl	BRCA_all_data	read_excel	barplot	prop.table	table	vital_status	c
+unnamed-chunk-15	barplot	prop.table	table	BRCA_all_data	vital_status
+unnamed-chunk-16	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-17	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-18	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-19	xCoords	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-20	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-21	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-22	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-23	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-24	barplot	prop.table	table	BRCA_all_data	vital_status	c
+unnamed-chunk-25	hist	BRCA_all_data	age_at_initial_pathologic_diagnosis	c	curve	dnorm	x	mean	sd	lines	density	legend
+unnamed-chunk-26	hist	BRCA_all_data	age_at_initial_pathologic_diagnosis
+unnamed-chunk-27	hist	BRCA_all_data	age_at_initial_pathologic_diagnosis
+unnamed-chunk-28	hist	BRCA_all_data	age_at_initial_pathologic_diagnosis	c
+unnamed-chunk-29	hist	BRCA_all_data	age_at_initial_pathologic_diagnosis	c	lines	density
+unnamed-chunk-30	hist	BRCA_all_data	age_at_initial_pathologic_diagnosis	c	lines	density	curve	dnorm	x	mean	sd
+unnamed-chunk-31	hist	BRCA_all_data	age_at_initial_pathologic_diagnosis	c	curve	dnorm	x	mean	sd	lines	density	legend

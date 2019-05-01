@@ -5,11 +5,7 @@ output:
     fig_caption: yes
     fig_height: 4
     fig_width: 4.5
-    highlight: textmate
-    keep_md: no
     number_sections: yes
-    self_contained: yes
-    theme: flatly
     toc: yes
     toc_depth: 2
 ---
