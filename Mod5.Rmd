@@ -5,7 +5,7 @@ output:
     highlight: textmate
     keep_md: no
     number_sections: yes
-    self_contained: no
+    self_contained: yes
     toc_float: false
     theme: flatly
     toc: yes
@@ -245,10 +245,10 @@ Es posible organizar contenidos en pestañas como el siguiente ejemplo:
 ###Autos {.tabset .unnumbered}
 
 #### Auto Nuevo {- .unnumbered}
-![Un Super Telsa!](./resources/tesla.jpg)
+![Un Super Telsa!](./resources/tesla.jpeg)
 
 #### Auto Viejo {- .unnumbered}
-![Falta pintura...](./resources/broken-car.jpg)
+![Falta pintura...](./resources/old-car.jpeg)
 
 ### {.unnumbered}
 
@@ -260,10 +260,10 @@ Por ejemplo, el codigo correspondiente a los tabs anteriores es:
 ##Autos {.tabset .unnumbered}
 
 ### Auto Nuevo {- .unnumbered}
-![Un Super Telsa!](./resources/tesla.jpg)
+![Un Super Telsa!](./resources/tesla.jpeg)
 
 ### Auto Viejo {- .unnumbered}
-![Falta pintura...](./resources/broken-car.jpg)
+![Falta pintura...](./resources/old-car.jpeg)
 
 ## {.unnumbered}
 ```
@@ -278,10 +278,10 @@ Por ejemplo:
 ## Autos {.tabset .tabset-fade .tabset-pills .unnumbered}
 
 ### Auto Nuevo {- .unnumbered}
-![Un Super Telsa!](./resources/tesla.jpg)
+![Un Super Telsa!](./resources/tesla.jpeg)
 
 ### Auto Viejo {- .unnumbered}
-![Falta pintura...](./resources/broken-car.jpg)
+![Falta pintura...](./resources/old-car.jpeg)
 
 ## {.unnumbered}
 ```
@@ -291,10 +291,10 @@ Y se mostrara:
 ### Autos {.tabset .tabset-fade .tabset-pills .unnumbered}
 
 #### Auto Nuevo {- .unnumbered}
-![Un Super Telsa!](./resources/tesla.jpg)
+![Un Super Telsa!](./resources/tesla.jpeg)
 
 #### Auto Viejo {- .unnumbered}
-![Falta pintura...](./resources/broken-car.jpg)
+![Falta pintura...](./resources/old-car.jpeg)
 
 ### {.unnumbered}
 

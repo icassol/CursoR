@@ -1,8 +1,8 @@
----
 name: 'Curso-R'
-outpur_dir: "."
+output_dir: '.'
 navbar:
   title: "Curso R"
+  type: inverse
   left: 
     - text: "Home"
       href: Index.html
@@ -24,4 +24,3 @@ output:
     self_contianed: true
     theme: flatly
     highlight: textmate
----
