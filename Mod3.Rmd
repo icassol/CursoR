@@ -18,14 +18,14 @@ if (!"BiocStyle" %in% rownames(installed.packages()))
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+knitr::opts_chunk$set( autodep=TRUE)
 ```
 
 # Estadística Descriptiva con R
 
 Vamos a trabajar sobre 10 personas:
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 edad=c(18,19,NA,18,24,17,22,15,22,25)
 sexo=c(0,1,0,0,1,0,0,1,1,0)
 estudios=c(1,2,0,1,3,2,3,1,2,3)
@@ -54,7 +54,7 @@ Con esos datos, nos interesa:
 
 ## Tablas de frecuencias unidimensionales
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 table(edad) #tabla de frecuencias absolutas.
 prop.table(table(edad)) #tabla de frecuencias relativas.
 table(edad,useNA="ifany") #tabla que incluye el conteo de valores perdidos.
@@ -68,7 +68,7 @@ Constuir tablas de frecuencias para las variables sexo y Nivel de estudios.
 
 Las tablas de frecuencias cruzadas se construyen también con las funciones table() y prop.table(table()), especificando ahora las dos variables a cruzar. Para las frecuencias relativas, en prop.table() incluimos un 1 si las queremos por filas, un 2 si por columnas, o nada si queremos las frecuencias relativas globales:
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 table(estudios,sexo)
 prop.table(table(estudios,sexo))
 prop.table(table(estudios,sexo),1)
@@ -79,7 +79,7 @@ prop.table(table(estudios,sexo),2)
 
 Para conocer el rango de edad de nuestras 10 personas, usamos la función: 
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 range(edad, na.rm = TRUE) # na.rm = TRUE indica que ignore los valores perdidos.
 ```
 
@@ -89,7 +89,7 @@ En este caso, para la creación de intervalos, vamos a usar la regla de Sturges,
 
 Si quisieramos agrupar a las personas por intervalos según su edad: 
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 nclass.Sturges(edad)  # Número de intervalos
 seq(15,25,length=nclass.Sturges(edad))  # Límites de los intervalos
 # Construcción de los intervalos mediante la función cut():
@@ -106,7 +106,7 @@ seq.int(from, to, by)
 
 Ejemplo: 
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 seq(1,10,2)
 ```
 
@@ -116,21 +116,21 @@ Calcular media y desviación típica de la variable ‘edad’.
 
 R dispone de una función genérica summary(), que cuando se aplica a una variable presenta un pequeño resumen descriptivo. Si la variable es numérica, dicho resumen incluye el mínimo, máximo, mediana, primer y tercer cuartiles, media y número de valores perdidos. Si la variable es de tipo factor, summary() muestra el número de observaciones en cada nivel del factor:
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 summary(edad)
 summary(estudios)
 ```
 
 Las funciones disponibles en R para calcular estos estadísticos descriptivos son, respectivamente, `mean(nombre_de_variable)` y `sd(nombre_de_variable)`:
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 mean(edad, na.rm=T)
 sd(edad, na.rm=T)
 ```
 
 ### Representaciones gráficas
 
-``` {r eval=FALSE, cache=TRUE, message=FALSE}
+``` {r eval=FALSE,  message=FALSE}
 pie(table(estudios))
 barplot(table(sexo))
 hist(edad)
@@ -191,26 +191,26 @@ Si X≈B(10,0.6) tenemos:
 P(X=8)
 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 dbinom(8,10,0.6)
 ``` 
 
 P(X≤8)
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 pbinom(8,10,0.6)
 ``` 
 
 Podemos representar fácilmente la función de probabilidad de la distribución binomial:
 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 plot(dbinom(0:10,10,0.6),type="h",xlab="k",ylab="P(X=k)",main="Función de Probabilidad B(10,0.6)")
 ``` 
 
 También podemos representar su función de distribución:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 plot(stepfun(0:10,pbinom(0:11,10,0.6)),xlab="k",ylab="F(k)",main="Función de distribución B(10,0.6)")
 ``` 
 
@@ -232,40 +232,40 @@ Supongamos que X≈N(170,12). Entonces:
 
 Calculamos f(178)
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 dnorm(171,170,12)
 ``` 
 
 Podemos calcular fácilmente los valores de la función de densidad sobre una secuencia de valores de x:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 x=seq(165,175,by=0.5)
 dnorm(x,170,12)
 ``` 
 
 La representación gráfica de la función de densidad se obtiene fácilmente como:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 curve(dnorm(x,170,12),xlim=c(130,210),col="blue",lwd=2,
       xlab="x",ylab="f(x)",main="Función de Densidad N(170,12)")
 ``` 
 
 También podemos representar la función de distribución:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 curve(pnorm(x,170,12),xlim=c(130,210),col="blue",lwd=2,
       xlab="x",ylab="F(x)",main="Función de Distribución N(170,12)")
 ``` 
 
 Calculamos la probabilidad P(X≤180)
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 pnorm(180,170,12)
 ``` 
 
 P(X>168)
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 1-pnorm(168,170,12)
 # o
 pnorm(168,170,12, lower.tail=FALSE)
@@ -273,7 +273,7 @@ pnorm(168,170,12, lower.tail=FALSE)
 
 P(150≤X≤168)
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 pnorm(168,170,12)-pnorm(150,170,12)
 # o
 miDensidad=function(x) dnorm(x,170,12)
@@ -283,7 +283,7 @@ integrate(miDensidad,150,168)
 No es demasiado difícil representar el área correspondiente a la probabilidad que se acaba de calcular:
 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 regionX=seq(150,168,0.01)            # Intervalo a sombrear
 xP <- c(150,regionX,168)             # Base de los polígonos que crean el efecto "sombra"
 yP <- c(0,dnorm(regionX,170,12),0)   # Altura de los polígonos sombreados
@@ -295,7 +295,7 @@ box()
 
 Simulamos una muestra grande de la distribución normal y comprobamos que el histograma es muy parecido a la función de densidad:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 X=rnorm(10000, 170, 12)
 hist(X,freq=FALSE,col="lightsalmon",main="Histograma",sub="Datos simulados de una N(170,12)")
 curve(dnorm(x,170,12),xlim=c(110,220),col="blue",lwd=2,add=TRUE)
@@ -303,7 +303,7 @@ curve(dnorm(x,170,12),xlim=c(110,220),col="blue",lwd=2,add=TRUE)
 
 Podemos comprobar también que la distribución acumulativa empírica de esta simulación es muy similar a la función de distribución teórica de la normal:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 plot(ecdf(X))
 curve(pnorm(x,170,12),xlim=c(110,220),col="red",lwd=2,lty=2,add=TRUE)
 legend("topleft",lty=c(1,2),lwd=c(1,2),col=c("black","red"),legend=c("Distribución empírica","Distribución teórica"))
@@ -313,7 +313,7 @@ legend("topleft",lty=c(1,2),lwd=c(1,2),col=c("black","red"),legend=c("Distribuci
 
 R es una herramienta excelente para ayudar a entender el significado de muchos conceptos estadísticos. Un concepto a menudo mal entendido es el de la distribución de un estadístico en el muestreo. Para aclarar este concepto podemos comenzar por realizar un sencillo experimento: tomar una muestra aleatoria simple en una población normal de, por ejemplo, media μ=170 y desviación típica σ=12. Fijamos inicialmente un tamaño de muestra n=25, tomamos la muestra y calculamos su media:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 n=25
 muestra1=rnorm(n,170,12)
 media1=mean(muestra1)
@@ -322,7 +322,7 @@ media1
 
 En esta muestra hemos obtenido un valor medio muestral de 172.2. Si repetimos el proceso obtenemos otra media distinta:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 muestra2=rnorm(n,170,12)
 media2=mean(muestra2)
 media2
@@ -331,7 +331,7 @@ media2
 Y si volvemos a repetir:
 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 muestra3=rnorm(n,170,12)
 media3=mean(muestra3)
 media3
@@ -341,7 +341,7 @@ En este punto el lector habrá observado que cada vez que se toma una muestra se
 
 Para responder a estas preguntas podemos repetir el proceso anterior no tres, sino muchísimas más veces. En R esto es muy sencillo de hacer. Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 mediaMuestral=function(n){
   muestra=rnorm(n,170,12)
   media=mean(muestra)
@@ -352,7 +352,7 @@ mediaMuestral=function(n){
 Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población N(170,12) y calculando su media:
 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 mediaMuestral(25)
 mediaMuestral(25)
 mediaMuestral(25)
@@ -360,7 +360,7 @@ mediaMuestral(25)
 
 Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función  replicate():
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 m=10000
 muchasMedias=replicate(m,mediaMuestral(25))
 ```
@@ -368,20 +368,20 @@ muchasMedias=replicate(m,mediaMuestral(25))
 Las primeras 20 medias obtenidas en esta simulación son:
 
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 muchasMedias[1:20]
 ```
 
 La media y desviación típica de todas estas medias muestrales son:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 mean(muchasMedias)
 sd(muchasMedias)
 ```
 
 Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 hist(muchasMedias,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
      xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
      main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25")
@@ -392,7 +392,7 @@ A estas alturas, para el lector debe de haber quedado claro que la media muestra
 
 ¿Cuál es el efecto de aumentar el tamaño de la muestra? Podemos evaluarlo repitiendo el proceso anterior para n=50, n=100 y n=500 (en todos los casos presentaremos los gráficos en la misma escala para facilitar la comparación):
 
-``` {r cache=TRUE, message=FALSE}
+``` {r  message=FALSE}
 muchasMedias50=replicate(m,mediaMuestral(50))
 muchasMedias100=replicate(m,mediaMuestral(100))
 muchasMedias500=replicate(m,mediaMuestral(500))

@@ -18,7 +18,7 @@ if (!"BiocStyle" %in% rownames(installed.packages()))
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+knitr::opts_chunk$set( autodep=TRUE)
 ```
 
 # Gráficos en R: introducción
@@ -144,13 +144,6 @@ El paquete `plotrix` contiene la función `barp()` que permite dar “volumen”
 
 ```{r message=FALSE}
 barp(table(Region),col="lightblue",cylindrical=TRUE,shadow=TRUE)
-```
-
-Es posible construir diagramas de barras por categorías; podemos, por ejemplo representar la frecuencia de doctores por sexo utilizando los datos del dataframe SalaryGender:
-
-```{r message=TRUE, warning=TRUE}
-PhD<-factor(PhD,levels=c(0,1),labels=c("PhD","non PhD"))
-barplot(table(Gender,PhD),beside=TRUE,legend.text=TRUE,col=c("pink","cyan"))
 ```
 
 ### pie()
