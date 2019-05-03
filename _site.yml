@@ -6,18 +6,20 @@ navbar:
   left: 
     - text: "Home"
       href: index.html
-    - text: "Modulo 1"
+    - text: "Introducción"
       href: Mod1.html
-    - text: "Modulo 2"
+    - text: "Lenguaje R"
       href: Mod2.html
-    - text: "Modulo 3"
+    - text: "Estadística"
       href: Mod3.html
-    - text: "Modulo 4"
+    - text: "Gráficos"
       href: Mod4.html
-    - text: "Modulo 5"
+    - text: "Reportes"
       href: Mod5.html
-    - text: "Modulo 6"
+    - text: "Web"
       href: Mod6.html
+    - text: "Regresión"
+      href: Mod7.html
 output: 
   html_document:
     self_contianed: true
