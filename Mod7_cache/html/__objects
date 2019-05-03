@@ -1,0 +1,26 @@
+cars	Age	BP
+unnamed-chunk-1	model
+unnamed-chunk-2	
+unnamed-chunk-3	model.stdres
+unnamed-chunk-4	xtest
+unnamed-chunk-5	xtest
+unnamed-chunk-6	new
+unnamed-chunk-7	pred.w.clim	pred.w.plim
+unnamed-chunk-8	
+unnamed-chunk-9	
+unnamed-chunk-10	
+unnamed-chunk-11	ff	i	lmi	lm.1	lm.2	lm.3	lm.4
+unnamed-chunk-12	ff	i	op
+unnamed-chunk-13	Bicep	Calf	Chest	Fore	Head	Height	Mass	mydata	Neck	Shoulder	Thigh	Waist
+unnamed-chunk-14	
+unnamed-chunk-15	model_mult
+unnamed-chunk-16	
+unnamed-chunk-17	
+unnamed-chunk-18	
+unnamed-chunk-19	new
+unnamed-chunk-20	
+unnamed-chunk-21	
+unnamed-chunk-22	fit1	fit2
+unnamed-chunk-23	modelAIC1
+unnamed-chunk-24	modelAIC2
+unnamed-chunk-25	fit3	modelAIC3

@@ -1,0 +1,12 @@
+base
+BiocStyle
+plyr
+readr
+stringr
+Lock5Data
+plotrix
+readxl
+kableExtra
+DT
+shiny
+MASS
