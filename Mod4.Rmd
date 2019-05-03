@@ -1,5 +1,5 @@
 ---
-title: 'Introducción al análisis de datos con R'
+title: 'Gráficos'
 output:
   html_document:
     fig_caption: yes
@@ -205,7 +205,7 @@ with(trees,plot(Girth,Height))
 
 ### Diagramas de barras (barplots)
 
-Para ver este gráfico usaremos los pacientes de cancer de mama (BRCA_all_data). En concreto, nos interesa ver el porcentaje de pacientes vivos y muertos.
+Para ver este gráfico usaremos los pacientes de cancer de mama ([BRCA_all_data](./resources/BRCA_all_data.xlsx)). En concreto, nos interesa ver el porcentaje de pacientes vivos y muertos.
 
 Nuestro objetivo en esta sección será construir el siguiente diagrama de barras con la variable `vital_status`. A esta gráfica la denominaremos “gráfica patrón” a lo largo del texto.
 
