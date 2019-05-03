@@ -1,5 +1,5 @@
 ---
-title: 'Estadística descriptiva en R'
+title: 'Estadística descriptiva'
 output:
   html_document:
     fig_caption: yes

@@ -1,6 +1,5 @@
 ---
 title: "Curso R" 
-date: '`r Sys.Date()`'
 ---
 
 #Acerca de este curso
