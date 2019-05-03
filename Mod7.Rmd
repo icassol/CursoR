@@ -1,0 +1,403 @@
+---
+title: 'Regresión lineal simple y múltiple'
+output:
+  html_document:
+    fig_caption: yes
+    fig_height: 4
+    fig_width: 4.5
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+---
+
+<!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
+```{r style, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
+if (!"BiocStyle" %in% rownames(installed.packages()))
+  BiocManager::install("BiocStyle")
+library(BiocStyle)
+BiocStyle::markdown()
+options(width=100)
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+```
+
+# Regresiones lineales 
+
+Teniendo un conjunto de datos, y suponiendo que cada dato es un par ordenado (x,y), una ***regresión lineal simple*** genera una recta cuyos puntos (x`,y`) tienen la mínima distancia posible respecto a (x,y). 
+
+El modelo anterior implica que la regresión lineal simple considera a uno de los ejes de coordenadas como variable dependiente y al otro como variable independiente. 
+
+Veamos un ejemplo para, luego, seguir explicando los conceptos: 
+
+Tenemos una muestra de 20 pacientes. De cada uno de ellos sabemos su presión sanguinea (BP: blood pressure) y su edad (Age). Es decir: 
+  - el conjunto de datos son los 20 pacientes. 
+  - el par ordenado (x,y) es (BP, Age).
+  - el objetivo es generar una recta cuyos puntos (x',y') tengan la menor distancia respecto de (x,y). Al valor y' se le llama **predicción**. 
+
+Los datos del ejemplo son: 
+
+```{r cars, message=FALSE, warning=FALSE}
+Age<-c(67, 40, 68, 64, 47, 71, 54, 59, 46, 52, 57, 63, 45, 55, 48, 51, 48, 77, 38, 61)
+BP<-c(185, 154, 198, 189, 168, 200, 166, 190, 155, 172, 180, 173, 176, 172, 150, 176, 155, 192, 154, 185)
+
+plot(Age,BP, pch =16); # seteamos puntos rellenos
+
+```
+
+El ejemplo está suponiendo que la variable **Age** es la independiente. La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta). 
+
+Contando con los arreglos `BP` y `Age` es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta 
+
+> *¿qué presión tendrá un paciente con una edad determinada?*
+
+la podremos hacer 20 veces (preguntando por cada edad del arreglo `Age`).
+
+La idea de la regresión lineal es poder generalizar la pregunta anterior a cualquier edad. Esa información, precisamente, es la que contiene la recta. De esta manera, contando con la regresión lineal podremos **predecir** qué presión sanguinea tendrá, por ejemplo, una persona de 53 años (53 es una edad que no existe en el arreglo `Age`).
+
+La recta que "pasará cerca" de los 20 puntos tendrá como variable indepediente la edad, y como variable dependiente la presión sanguinea. 
+
+En R es muy simple generar la regresión lineal. La haremos con el siguiente comando: 
+
+```{r}
+model<-lm(BP~Age);
+coef(model);
+```
+
+El formato del parámetro del comando `lm()` es `([columna a predecir] ~ [término/s que se utilizarán para construir el modelo lineal])`
+
+El valor independiente de la recta será el `Intercept` y la pendiente será `Age`. Habitualmente al Intercept se le dice B0 y a la pendiente B1. 
+
+Tarea: ¿qué información aportan los valores B0 y B1? 
+
+Es posible conocer valores estadísticos del modelo: 
+
+```{r}
+summary(model)
+```
+
+Este resumen contiene información muy valiosa acerca de la calidad del modelo. Para este curso, por el momento, destacaremos que:
+
+- B0 y B1 -ambos- son "muy significativos estadísticamente" ya que sus p-values (4.44e-09 y 1.44e-09) son muy pequeños. 
+- El estadístico F también es muy significativo (1.439e-06).
+
+# Residuos
+
+Si (x', y') es un punto de la recta del modelo lineal, y (x, y) es un punto de la población, existe una diferencia entre la observación (y) y la predicción (y') llamada ***resudio***.
+
+***Validación de la regresión***. El análisis de los residuos del modelo lineal indica si el modelo representa correctamente a la muestra. A los efectos prácticos, para que una muestra pueda ser modelada por una regresión lineal, se deben cumplir dos requisitos: 
+
+1. La muestra no debe tener **outliers** (valores atípicos). No debe haber puntos que estén lejanos a la nube de puntos que se asemeja -en conjunto- a una recta. Este requisito lo vamos chequear visualmente: se plotean los datos y se observan los puntos. 
+
+2. Los residuos deben ser independientes y seguir una distribución normal. Este requisito se puede chequear con esta instrucción: 
+
+```{r}
+model.stdres=rstandard(model)
+
+qqnorm(model.stdres,
+  ylab="Standardized Residuals",
+  xlab="Normal Scores")
+
+qqline(model.stdres)
+
+```
+
+Si los residuos siguen una distribución normal, se espera que `qqline` sea recta. En este caso el resultado es bueno.
+
+## Test de Shapiro
+
+Para comprobar si un conjunto de datos siguen una distribución normal, se puede usar el test de Shapiro. Este test, entonces, lo podemos aplicar al conjunto de residuos del modelo lineal de manera que sepamos si, efectivamente, el modelo es válido para representar a la muestra. Por ejemplo, para una distribución normal:
+
+```{r}
+set.seed(5)
+xtest <-  rnorm(100, mean = 5, sd = 2)
+shapiro.test(xtest)
+```
+
+El p-value no es significativo (0.445) y, por lo tanto, aceptamos la hipótesis nula (los datos siguen una distribución normal).
+
+Sin embargo, si los datos no siguen una distribución normal, entonces el test de Shapiro da un p-value pequeño y, por lo tanto, rechazamos la hipótesis nula. Ejemplo: 
+
+```{r}
+set.seed(5)
+xtest <-  rchisq(100, 3) # distribución Chi-Cuadrado
+shapiro.test(xtest)
+```
+
+# Predicciones
+
+Los datos que queremos predecir deben estar en un data.frame. En el siguiente ejemplo, vamos a predecir 8 edades, entre 40 y 75 años: 
+
+```{r}
+new <- data.frame(Age = seq(40, 75, 5)) # = 40, 45, 50, 55, 60, 65, 70, 75 (las 8 edades)
+predict(lm(BP ~ Age), new, se.fit = TRUE)
+```
+
+El resultado tiene dos partes: 
+- las predicciones, o sea, las presiones sanguineas (155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290).
+- los intervalos de confianza (3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257).
+
+La información previa se puede guardar en arreglos de esta manera: 
+
+```{r}
+pred.w.plim <- predict(lm(BP ~ Age), new, interval="prediction", level = 0.95)
+pred.w.clim <- predict(lm(BP ~ Age), new, interval="confidence", level = 0.95)
+```
+
+A modo de resumen, el siguiente gráfico muestra: 
+  - la recta del modelo lineal (linea continua, negra).
+  - el intervalo de confianza de la predicción (linea punteada colorada).
+  - el intervalo de confianza del modelo lineal (linea punteada azul).
+  - los 20 pacientes (puntos).
+  
+```{r}
+matplot(new$Age,cbind(pred.w.clim, pred.w.plim[,-1]),
+        lty=c(1,2,2,3,3),col=c("black","red","red","blue","blue"),type="l", ylab="predicted BP", xlab="Age")
+points(Age,BP)
+```
+
+# Ejemplo del impacto de los outliers
+
+En 1973, el estadístico Francis Anscombe, diseñó un ejemplo con cuatro conjuntos de datos que tienen estadísticas descriptivas simples casi idénticas, pero que parecen muy diferentes cuando se grafican. Cada conjunto de datos consta de once (x, y) puntos. Este ejemplo sirve para mostrar:
+  - la importancia de graficar los datos antes de analizarlos 
+  - el efecto de los valores atípicos (outliers) en las propiedades estadísticas.
+
+```{r}
+anscombe
+apply(anscombe,2,var) # la varianza de cada columna
+apply(anscombe,2,mean) # la media de cada columna
+```
+
+Se ven muy similares. Construyamos una regresión lineal para los 4 conjuntos: 
+
+```{r}
+coef(lm(y1~x1,data=anscombe))
+coef(lm(y2~x2,data=anscombe))
+coef(lm(y3~x3,data=anscombe))
+coef(lm(y4~x4,data=anscombe))
+```
+
+Las cuatro rectas son idénticas. 
+
+Generemos los cuatro modelos de manera más eficiente, guardándolos en una lista: 
+
+```{r}
+summary(anscombe)
+
+##-- now some "magic" to do the 4 regressions in a loop:
+ff <- y ~ x
+for(i in 1:4) {
+ ff[2:3] <- lapply(paste(c("y","x"), i, sep=""), as.name)
+ ## or   ff[[2]] <- as.name(paste("y", i, sep=""))
+ ##      ff[[3]] <- as.name(paste("x", i, sep=""))
+ assign(paste("lm.",i,sep=""), lmi <- lm(ff, data= anscombe))
+ print(summary(lmi))
+}
+```
+
+Ahora hagamos lo que deberíamos haber hecho antes de construir los modelos lineales: grafiquemos!: 
+
+```{r}
+op <- par(mfrow=c(2,2), mar=.1+c(4,4,1,1), oma= c(0,0,2,0))
+for(i in 1:4) {
+ ff[2:3] <- lapply(paste(c("y","x"), i, sep=""), as.name)
+ plot(ff, data =anscombe, col="red", pch=21, bg = "orange", cex = 1.2,
+      xlim=c(3,19), ylim=c(3,13))
+ abline(get(paste("lm.",i,sep="")), col="blue")
+}
+mtext("Los 4 conjuntos de datos de Anscombe", outer = TRUE, cex=1.5)
+par(op)
+```
+
+
+¿En cuál de los 4 conjuntos es válido utilizar un modelo lineal? 
+
+# Regresión lineal múltiple
+
+En el ejemplo anterior predijimos la presión sanguinea (`PB`) utilizando la edad (`Age`): 
+
+$PB = β_0 + β_1·Age + e$
+
+Se trata de una regresión lineal *simple* porque se utiliza una sola variable (`Age`) para predecir la presión sanguinea. 
+
+Ahora veremos un ejemplo en donde vamos a utilizar varias variables para predecir un valor. O sea: 
+
+$X = β_0 + β_1·X_1 + ... + β_n·X_n + ... e$
+
+Trabajaremos 11 variables de 22 pacientes:
+
+```{r}
+# Weight in kg
+Mass<- c(77.0, 85.5, 63.0, 80.5, 79.5, 94.0, 66.0, 69.0, 65.0, 58.0, 69.5, 73.0, 74.0, 68.0, 80.0, 66.0, 54.5, 64.0, 84.0, 73.0, 89.0, 94.0)
+# Maximum circumference of forearm in cm
+Fore<-c(28.5, 29.5, 25.0, 28.5, 28.5, 30.5, 26.5, 27.0, 26.5, 26.5, 28.5, 27.5, 29.5, 25.0, 29.5, 26.5, 24.0, 25.5, 30.0, 28.0, 29.0, 31.0)
+# Maximum circumference of bicep in cm
+Bicep<- c(33.5, 36.5, 31.0, 34.0, 36.5, 38.0, 29.0, 31.0, 29.0, 31.0, 37.0, 33.0, 36.0, 30.0, 36.0, 32.5, 30.0, 28.5, 34.5, 34.5, 35.5, 33.5)
+# Distance around chest directly under the armpits in cm
+Chest<- c(100.0, 107.0, 94.0, 104.0, 107.0, 112.0, 93.0, 95.0, 93.0, 96.0, 109.5, 102.0, 101.0, 98.5, 103.0, 89.0, 92.5, 87.5, 99.0, 97.0, 106.0, 106.0)
+# Distance around neck, approximately halfway up in cm
+Neck<- c(38.5, 39.0, 36.5, 39.0, 39.0, 39.0, 35.0, 37.0, 35.0, 35.0, 39.0, 38.5, 38.5, 37.0, 40.0, 35.0, 35.5, 35.0, 40.5, 37.0, 39.0, 39.0)
+# Distance around shoulders, measured around the peak of the shoulder blades in cm
+Shoulder<- c(114.0, 119.0, 102.0, 114.0, 114.0, 121.0, 105.0, 108.0, 112.0, 103.0, 118.0, 113.0, 115.5, 108.0, 117.0, 104.5, 102.0, 109.0, 119.0, 104.0, 118.0, 120.0)
+# Distance around waist, approximately trouser line in cm
+Waist<- c(85.0,  90.5, 80.5, 91.5, 92.0, 101.0, 76.0, 84.0, 74.0, 76.0, 80.0, 86.0, 82.0, 82.0, 95.5, 81.0, 76.0, 84.0, 88.0, 82.0, 96.0, 99.5)
+# Height from top to toe in cm
+Height<- c(178.0, 187.0, 175.0, 183.0, 174.0, 180.0, 177.5, 182.5, 178.5, 168.5, 170.0, 180.0, 186.5, 188.0, 173.0, 171.0, 169.0, 181.0, 188.0, 173.0, 179.0, 184.0)
+# Maximum circumference of calf in cm
+Calf<- c(37.5, 40.0, 33.0, 38.0, 40.0, 39.5, 38.5, 36.0, 34.0, 35.0, 38.0, 36.0, 38.0, 37.0, 37.0, 38.0, 32.0, 35.5, 39.0, 38.0, 39.5, 42.0)
+# Circumference of thigh, measured halfway between the knee and the top of the leg in cm
+Thigh<- c(53.0, 52.0, 49.0, 50.0, 53.0, 57.5, 50.0, 49.0, 47.0, 46.0, 50.0, 49.0, 49.0, 49.5, 52.5, 48.0, 42.0, 42.0, 50.5, 49.0, 51.0, 55.0)
+# Distance around head in cm
+Head<- c(58.0, 59.0, 57.0, 60.0, 59.0, 59.0, 58.5, 60.0, 55.5, 58.0, 58.5, 59.0, 60.0, 57.0, 58.0, 56.5, 57.0, 58.0, 56.0, 58.0, 58.5, 57.0)
+
+mydata<-cbind(Mass, Fore, Bicep, Chest, Neck, Shoulder, Waist, Height, Calf, Thigh, Head)
+mydata<-as.data.frame(mydata)
+mydata
+```
+
+Nuestro objetivo es construir una regresión lineal múltiple para predecir el peso (`Mass`).
+
+## Gráfico de los datos
+
+Primero, graficamos los datos:
+
+```{r}
+plot(mydata)
+```
+
+## Modelo con todos las variables
+
+Ahora vamos a construir el modelo para predecir el peso (`Mass`) utilizando todas las variables:
+
+```{r}
+model_mult<-lm(Mass~., data=mydata);
+model_mult
+```
+
+Lo único que cambió, respecto del ejemplo de la regresión lineal simple (`PB~Age`), es que utilizamos el operador `.` a la derecha de `~`, lo que significa "todos". Veamos las estadísticas del modelo: 
+
+```{r}
+summary(model_mult)
+```
+
+Algunos comentarios: 
+
+* Los residuos son las diferencias entre los valores observados y predichos.
+* La altura (Height) y la cintura (Waist) son estadísticamente significativas.
+* La desviación estándar de los residuos es de 2.287.
+* El estadístico F es muy significativo.
+* Multiple R-squared = 0.9772 significa que el 97.72% de la variación del peso se explica por todas las variables.
+
+## Modelo con algunas variables
+
+Ahora vamos a probar un modelo en donde utilizaremos el antebrazo (`Fore`), la cintura (`Waist`) y la altura (`Height`). 
+
+```{r}
+summary(lm(Mass~Fore + Waist + Height, data = mydata))
+```
+
+## Datos correlados (opcional)
+
+```{}
+summary(lm(Mass~Fore, data = mydata))
+summary(lm(Mass~Bicep, data = mydata))
+summary(lm(Mass~Fore+Bicep, data = mydata))
+```
+
+> Porqué el bicep tiene significancia estadística si es la única variable, y deja de tenerla cuando está junto al antebrazo?
+
+***Ayuda: probar `cor(mydata[,"Fore"],mydata[,"Bicep"])`***
+
+## Interacciones (opcional)
+
+```{r}
+summary(lm(Mass~Fore + Waist + Height+Fore:Waist, data = mydata))
+```
+
+
+# Predicciones
+
+Vamos a predecir el peso de 3 pacientes:
+
+```{r}
+new<-matrix(c(30.5, 28.5, 28.5, 33.5, 30.0, 31.0, 93.0, 112.0, 89.0, 39.0, 35.0, 38.5, 109.0, 105.0, 121.0, 84.0, 82.0, 96.0, 188.0, 177.5, 178.5, 37.5, 34.0, 40.0, 55.0, 42.0, 49.0, 58.0 , 59.0, 60.0),nrow=3,byrow=F)
+colnames(new)<-colnames(mydata)[2:11];
+new<-as.data.frame(new);
+#Predicción
+predict(model_mult, new, se.fit = TRUE)
+```
+
+Podemos exigir un intervalo de confianza del 95%: 
+
+```{r}
+predict(model_mult, new, interval="confidence", level = 0.95)
+```
+
+```{r}
+predict(model_mult, new, interval="prediction", level = 0.95)
+```
+
+# Selección de variables
+
+Ahora ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (´Mass´) se prediga utilizando el antebrazo (`Fore`), la cintura (`Waist`) y la altura (`Height`). 
+
+En muchos casos, se presenta el problema de tener muchas variables y, por tanto, de no saber cuáles son importantes para el modelo. Vamos a ver un método que permite la selección automática del mejor subconjunto de variables para predecir una determinada variable. 
+
+## Introducción al método Stepwise (paso a paso)
+
+El método Stepwise es un grupo de algoritmos que tienen como objetivo automatizar la selección de variables en un modelo.
+
+Se dividen principalmente en: Selección hacia atrás (backward) y hacia adelante (forward)
+
+* Eliminación hacia atrás (backward)
+
+Este es el más simple de todos los procedimientos de selección de variables. De hecho, se puede implementar fácilmente. Pasos:
+
+1. Construir un modelo con todas las variables.
+2. Eliminar una de las variable (según un criterio determinado). 
+3. Volver a construir el modelo y retorna al paso 2.
+4. Deternerse cuando la solución converja.
+
+* Selección hacia adelante (forward)
+
+Es el método anterior invertido.
+
+1. Comenzar sin variables en el modelo.
+2. Aplicar un criterio específico.
+3. Agrega una variable usando este criterio.
+4. Volver a construir el modelo y retorna al paso 2.
+5. Continuar hasta que no se puedan agregar nuevas variables.
+
+Aplicaremos ambos métodos al ejemplo del peso. Para eso, construiremos dos modelos: 
+
+* fit1: el modelo con todas las variables.
+* fit2: el modelo conteniendo, solamente, el Intercept.
+
+```{r}
+fit1 <- lm(Mass ~ .,data=mydata)
+fit2 <- lm(Mass ~ 1,data=mydata)
+```
+
+***Nota: Los métodos backward y forward no necesariamente convergen el mismo subconjunto de variables.***
+
+### Ejemplo utilizando backward
+
+```{r}
+library(MASS)
+#It is a local optimum.
+modelAIC1<-stepAIC(fit1,direction="backward")
+```
+
+### Ejemplo utilizando forward
+
+```{r}
+#It is a local optimum.
+modelAIC2<-stepAIC(fit2,direction="forward",scope=list(upper=fit1,lower=fit2))
+```
+
+### Ejemplo utilizando both
+
+```{r}
+#It is a local optimum.
+fit3 <- lm(Mass ~ .*.,data=mydata)
+modelAIC3<-stepAIC(fit1,direction="both",scope=list(upper=fit3,lower=fit2))
+```
+
