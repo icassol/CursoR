@@ -509,7 +509,6 @@ output: revealjs::revealjs_presentation
 - Count sheep
 ```
 
----
 
 ## Tutoriales interactivos
 
@@ -522,6 +521,80 @@ Recomendamos que pruebes el paquete `learnr`, que tiene una gran potencialidad y
 + Incluir componentes Shiny. 
 
 [Aquí](https://rstudio.github.io/learnr/#getting_started) puedes encontrar un excelente tutorial de `learnr`. Te sugerimos ver, [este ejemplo](https://jjallaire.shinyapps.io/learnr-tutorial-03a-data-manip-filter/).
+
+---
+
+# Deployment
+
+## Render
+
+RMarkdown facilita el lanzamiente de tu páginas web con: 
+
+```{r eval=FALSE}
+rmarkdown::render_site()
+```
+
+Este comando de consola nativo al paquete RMarkdown construye una página web en base a las especificaciones dentro del archivo _site.yml.
+
+## _site.yml
+
+El archivo `_site.yml` une todos los archivos. Es posible implementar varios estilos de navegacion, headers, y footers.
+
+> `_site.yml` debe estar presente dentro de el work path. `getwd()`
+
+El formato del `_site.yml` es el siguiente:
+
+```{}
+name: 'Curso-R'
+output_dir: '.'
+navbar: # Definir un navigation bar
+  title: "Curso R" 
+  type: inverse 
+  left: # Orientación de las pestañas
+    - text: "Home" # Titulo de pestaña
+      href: index.html # Path al archivo de pestaña
+    - text: "Introducción"
+      href: Mod1.html
+    - text: "Lenguaje R"
+      href: Mod2.html
+    - text: "Estadística"
+      href: Mod3.html
+    - text: "Gráficos"
+      href: Mod4.html
+    - text: "Reportes"
+      href: Mod5.html
+    - text: "Web"
+      href: Mod6.html
+    - text: "Regresión"
+      href: Mod7.html
+output: # Output gobal
+  html_document: # Variables globales
+    self_contianed: true
+    theme: flatly
+    highlight: textmate
+```
+
+## Servir con Github Pages
+
+[Github Pages](https://pages.github.com/) es una platforma que facilita el desarrollo e hosting de [Páginas Web Estáticas](https://es.wikipedia.org/wiki/P%C3%A1gina_web#P%C3%A1ginas_est%C3%A1ticas_versus_p%C3%A1ginas_din%C3%A1micas). 
+
+### Como Utilizar {.unnumbered}
+
+1. Construya su página usando `rmarkdown::render_site()` 
+
+2. Cree la branch **gh-pages** en su repository. A este branch suba: los `.Rmd`, `_site.yml`, y los archivos generado por el render.
+
+3. La página esta para servir. Active Github Pages en las Settings > Options de su Repository.
+
+```
+https://github.com/{Tu-Usuario}/{Nombre-de-Repository}/settings
+```
+
+4. Seleccion la branch **gh-pages** para ser servida. La página puede ser acedida por: 
+
+```
+https://{Tu-Usuario}.github.io/{Nombre-de-Repository}/
+```
 
 ---
 
