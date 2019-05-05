@@ -22,6 +22,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<div class="header">
+  <img src="resources/curso-banner.png" />
+</div>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -1184,24 +1187,24 @@ while(x &lt; 4)
 <pre class="r"><code>A = matrix(runif(50),nrow=10) # Matriz de dimensión 10x10 cuyos elementos son valores
                                # aleatorios con distribución uniforme en (0,1)
 A</code></pre>
-<pre><code>##            [,1]       [,2]       [,3]      [,4]      [,5]
-##  [1,] 0.6598701 0.82373421 0.91333860 0.4022937 0.7874260
-##  [2,] 0.4779322 0.16096038 0.80206267 0.6877393 0.1755630
-##  [3,] 0.5054350 0.87436307 0.92042247 0.4140333 0.7903340
-##  [4,] 0.1557676 0.61054095 0.41303880 0.2326266 0.6170895
-##  [5,] 0.4019070 0.03020679 0.42389063 0.4028299 0.1133260
-##  [6,] 0.3298064 0.28738677 0.86306428 0.9614247 0.9109659
-##  [7,] 0.9604216 0.45014865 0.23635197 0.8621720 0.5243009
-##  [8,] 0.1209062 0.38151584 0.38094291 0.4308600 0.4570937
-##  [9,] 0.5014712 0.86465214 0.08664452 0.6553449 0.4605027
-## [10,] 0.4821377 0.87395674 0.40131744 0.4626015 0.9898103</code></pre>
+<pre><code>##            [,1]       [,2]       [,3]        [,4]      [,5]
+##  [1,] 0.5714052 0.07461750 0.22347405 0.007781320 0.4651807
+##  [2,] 0.7810309 0.03211546 0.46592963 0.975748068 0.9384476
+##  [3,] 0.7959894 0.66468469 0.66824380 0.003898641 0.2278607
+##  [4,] 0.1050652 0.23648252 0.47073740 0.091462547 0.5739143
+##  [5,] 0.7013013 0.72369969 0.34266502 0.221201485 0.6404966
+##  [6,] 0.7153578 0.66115162 0.45941033 0.020661451 0.1221212
+##  [7,] 0.7447725 0.95543985 0.03563459 0.195360257 0.7456459
+##  [8,] 0.3305386 0.91974634 0.42657084 0.320596397 0.2714427
+##  [9,] 0.5310951 0.56777810 0.01540837 0.445475263 0.1820338
+## [10,] 0.5254075 0.33080385 0.91908991 0.588970703 0.3852202</code></pre>
 <pre class="r"><code>sumCuadrados=function(x){sum(x^2)}  # Función que calcula la suma de cuadrados de 
                                     # los términos de un vector x
 apply(A,1,sumCuadrados)  # Devuelve la suma de cuadrados de cada fila de A</code></pre>
-<pre><code>##  [1] 2.7300338 1.4014397 2.6632043 1.0025394 0.5172397 2.6904397 2.1991378 0.6998651 1.6481437
-## [10] 2.3510375</code></pre>
+<pre><code>##  [1] 0.5984659 2.6608992 1.5738903 0.6262994 1.5921500 1.1752565 2.0629746 1.3136150 0.8362559
+## [10] 1.7254916</code></pre>
 <pre class="r"><code>apply(A,2,sumCuadrados)  # Devuelve la suma de cuadrados de cada columna de A</code></pre>
-<pre><code>## [1] 2.634835 3.784833 3.789376 3.519432 4.174604</code></pre>
+<pre><code>## [1] 3.806768 3.655793 2.291848 1.696165 2.714724</code></pre>
 <ul>
 <li><p><code>lapply(L,fun)</code>: aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>. El resultado se devuelve también en una lista.</p></li>
 <li><p><code>sapply(L,fun)</code>: al igual que <code>lapply()</code>, aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>, pero devuelve el resultado en forma de vector o matriz</p></li>

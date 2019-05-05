@@ -22,6 +22,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<div class="header">
+  <img src="resources/curso-banner.png" />
+</div>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -560,8 +563,13 @@ fluidPage(
 
 </div>
 <p>Probemos algunos de ellos usando, como base, el layout del ejemplo anterior:</p>
-<pre class="r"><code>library(shiny)
-fluidPage(
+<pre class="r"><code>library(shiny)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;shiny&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:DT&#39;:
+## 
+##     dataTableOutput, renderDataTable</code></pre>
+<pre class="r"><code>fluidPage(
   titlePanel(&quot;Mi primera Shiny App&quot;),
   sidebarLayout(
     sidebarPanel(
