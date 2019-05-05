@@ -22,6 +22,8 @@ navbar: # Definir un navigation bar
       href: Mod7.html
 output: # Output gobal
   html_document: # Variables globales
+    includes: 
+      in_header: header.html 
     self_contianed: true
     theme: flatly
     highlight: textmate
