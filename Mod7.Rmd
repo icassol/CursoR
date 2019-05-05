@@ -425,7 +425,7 @@ Pasos:
 2. Subirlo a Rstudio: 
 
 ``` {r}
-load("./LogisticRegresion&StepAIC.RData")
+load("./resources/LogisticRegresion&StepAIC.RData")
 ```
 
 3. Puedes ver el contenido de cada columna: 

@@ -534,7 +534,8 @@ RMarkdown facilita el lanzamiente de tu páginas web con:
 rmarkdown::render_site()
 ```
 
-Este comando de consola nativo al paquete RMarkdown construye una página web en base a las especificaciones dentro del archivo _site.yml.
+Este comando de consola nativo al paquete RMarkdown construye una página web en base a las especificaciones en el archivo `_site.yml`.
+
 
 ## _site.yml
 
