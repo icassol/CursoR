@@ -10,6 +10,7 @@ output:
     toc_depth: 2
 ---
 
+
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
 ```{r style, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
 if (!"BiocStyle" %in% rownames(installed.packages()))
@@ -386,6 +387,8 @@ library(MASS)
 modelAIC1<-stepAIC(fit1,direction="backward")
 ```
 
+El método finaliza, mostrando el listado de variables seleccionadas, esto es `Mass ~ Fore + Waist + Height + Calf + Thigh + Head`. 
+
 ### Ejemplo utilizando forward
 
 ```{r}
@@ -393,7 +396,11 @@ modelAIC1<-stepAIC(fit1,direction="backward")
 modelAIC2<-stepAIC(fit2,direction="forward",scope=list(upper=fit1,lower=fit2))
 ```
 
-### Ejemplo utilizando both
+El método finaliza, mostrando el listado de variables seleccionadas. En este caso, el resultado es el mismo que en el método anterior: `Mass ~ Fore + Waist + Height + Calf + Thigh + Head`. 
+
+### Ejemplo utilizando `direction=both`
+
+También es posible indicar que el método avance en ambas direcciones. Es decir: que confluya comenzando desde los dos extremos a un punto intermedio. 
 
 ```{r}
 #It is a local optimum.
@@ -401,3 +408,71 @@ fit3 <- lm(Mass ~ .*.,data=mydata)
 modelAIC3<-stepAIC(fit1,direction="both",scope=list(upper=fit3,lower=fit2))
 ```
 
+# Regresión logística
+
+Las regresiones lineas son muy útiles y eficientes siempre y cuando las predicciones que deseamos seamos continuas. En el ejemplo anterior, el peso (`Mass`) es una variable continuar. De hecho, los valores predichos pertenecen a una recta (función continua).
+
+Las ***regresiones logísticas*** se utilizan cuando necesitamos predicciones categóricas. Por ejemplo: "SI/NO", "SANO/ENFERMO", "TIENE/NO TIENE".
+
+Ejemplo: 
+
+Utilizando un dataset de pacientes de EEUU, vamos a predecir la probabilidad de tener hipertensión utilizando, como variables independientes: edad (age), sexo (sex), tiempo de sueño (sleep) e índice de masa corporal (bmi). 
+
+Pasos: 
+
+1. descargar el archivo `LogisticRegresion&StepAIC.RData` a tu directorio de trabajo. 
+
+2. Subirlo a Rstudio: 
+
+``` {r}
+load("./LogisticRegresion&StepAIC.RData")
+```
+
+3. Puedes ver el contenido de cada columna: 
+
+```{r, echo=FALSE}
+labs <- attributes(NH11)$labels
+knitr::kable(labs)
+```
+
+4. Chequear la estructura de `hypev`
+
+``` {r}
+  str(NH11$hypev) # check stucture of hypev
+```
+
+5. Chequear los niveles de `hypev`
+
+``` {r}
+  levels(NH11$hypev) # check levels of hypev
+```
+
+6.  Construir el modelo logístico. 
+
+``` {r}
+  hyp.out <- glm(hypev~age_p+sex+sleep+bmi,
+                data=NH11, family="binomial")
+  summary(hyp.out)
+  coef(summary(hyp.out))
+```
+
+7. Hacer predicciones.
+
+Por ejemplo, podemos preguntar "¿Cuánto más probable es que una mujer de 63 años tenga hipertensión en comparación con una mujer de 33 años?".
+
+``` {r}
+  # Create a dataset with predictors set at desired levels
+  predDat <- with(NH11,
+                  expand.grid(age_p = c(33, 63),
+                              sex = "2 Female",
+                              bmi = mean(bmi, na.rm = TRUE),
+                              sleep = mean(sleep, na.rm = TRUE)))
+  # predict hypertension at those levels
+
+preds <- predict(hyp.out, type = "response",
+                         se.fit = TRUE, interval="confidence",
+                         newdata = predDat)
+  cbind(predDat, preds)
+```
+
+El resultado indica que una mujer de 33 años tiene un 13% de probabilidad de haber sido diagnosticada con hipertensión, mientras que una mujer de 63 años tiene un 48%. 
