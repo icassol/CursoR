@@ -235,9 +235,9 @@ any(c(a==3, a==4, a==5, a==6))
 all(c(a==2, b==4, 2<3))
 ```
 
-# Arreglos
+# Vectores
 
-Se pueden agrupar varios elementos de la misma clase para formar un arreglo mediante el comando de concatenación `c()`. Así, podemos guardar las edades de 10 personas de una muestra en la variable edad mediante:
+Se pueden agrupar varios elementos de la misma clase para formar un vector mediante el comando de concatenación `c()`. Así, podemos guardar las edades de 10 personas de una muestra en la variable edad mediante:
 
 ``` {r  message=FALSE}
 edad <- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
@@ -250,16 +250,18 @@ class(edad)
 
 ## Longitud
 
-La función `length()` devuelve la longitud (número de elementos) del arreglo:
+La función `length()` devuelve la longitud (número de elementos) del vector:
 
 ``` {r  message=FALSE}
 x <- c(1,4,5,2,4,5,4,3,2,2,3,2,2,4,4,5,5,6,6,7)
 length(x)
 ```
 
+> Importante: La longitud de un vector es fija!
+
 ## Acceso a los componentes
 
-Es posible acceder al valor que ocupa la posición `k` dentro de un arreglo `x` refiriéndonos a él como `x[k]`. Así, por ejemplo, podemos ver el contenido del tercer y quinto valores del arreglo `edad`:
+Es posible acceder al valor que ocupa la posición `k` dentro de un vector `x` refiriéndonos a él como `x[k]`. Así, por ejemplo, podemos ver el contenido del tercer y quinto valores del vector `edad`:
 
 ``` {r  message=FALSE}
 edad <- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
@@ -292,7 +294,7 @@ y <- seq(1,20,length=8)
 y
 ```
 
-Podemos acceder también simultáneamente a varios valores dentro de un arreglo. Por ejemplo, si deseamos ver del segundo al quinto de los valores observados en la variable edad:
+Podemos acceder también simultáneamente a varios valores dentro de un vector. Por ejemplo, si deseamos ver del segundo al quinto de los valores observados en la variable edad:
 
 ``` {r  message=FALSE}
 edad[2:5]
@@ -306,7 +308,7 @@ edad[c(1,3,7)]
 
 ### Operador `%in%
 
-La función %in% permite determinar si uno o varios valores están contenidos en un arreglo:
+La función %in% permite determinar si uno o varios valores están contenidos en un vector:
 
 ``` {r  message=FALSE}
 x <- 1:10
@@ -321,7 +323,7 @@ b %in% x
 
 ## Selección condicionada de valores
 
-La función `which()` nos da las posiciones, dentro de un arreglo, de los valores que cumplen cierta condición. Por ejemplo, si definimos:
+La función `which()` nos da las posiciones, dentro de un vector, de los valores que cumplen cierta condición. Por ejemplo, si definimos:
 
 ``` {r  message=FALSE}
 edad <- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
@@ -333,7 +335,7 @@ La siguiente función nos devuelve las posiciones de los valores de este arreglo
 which(edad>25)
 ```
 
-Esto es: los valores del arreglo `edad` mayores que 25 son los que ocupan las posiciones 2, 3, 5, 6, 7 y 8.
+Esto es: los valores del vector `edad` mayores que 25 son los que ocupan las posiciones 2, 3, 5, 6, 7 y 8.
 
 Podemos asignar estas posiciones a una nueva variable:
 
@@ -355,7 +357,7 @@ edad[edad>25]
 
 La operación `which()` es aplicable también a otras estructuras de datos en R. Es, en efecto, un operador potente para la ciencia de datos. 
 
-Se puede realizar también la selección de valores de un arreglo condicionando por los valores de otro arreglo. Por ejemplo, si las diez edades del ejemplo anterior corresponden a personas cuyo sexo viene dado por:
+Se puede realizar también la selección de valores de un vector condicionando por los valores de otro vector Por ejemplo, si las diez edades del ejemplo anterior corresponden a personas cuyo sexo viene dado por:
 
 ``` {r  message=FALSE}
 sexo <- c("M","H","H","M","M","H","M","M","H","H")
@@ -385,7 +387,7 @@ table(edad)
 
 ## Operaciones con variables numéricas
 
-Si `x` e `y` son dos arreglos de la misma dimensión, las operaciones elementales se realizan término a término (característica que se conoce como aritmética vectorial):
+Si `x` e `y` son dos vectores de la misma dimensión, las operaciones elementales se realizan término a término (característica que se conoce como aritmética vectorial):
 
 ``` {r  message=FALSE}
 x <- seq(2,20,by=2)  # Números pares entre 2 y 20
@@ -404,7 +406,7 @@ x/y
 
 ## Operaciones con arreglos de clase `character`.
 
-En R se pueden declarar arreglos alfanuméricos (o de clase carácter):
+En R se pueden declarar vectores alfanuméricos (o de clase carácter):
 
 ``` {r  message=FALSE}
 letras <- c("a","b","c","d")
@@ -417,7 +419,7 @@ class(letras)
 paste("A","B",sep="-")
 ```
 
-Podemos pegar arreglos (se pegarán término a término: primer valor con primer valor, segundo con segundo, etc.)
+Podemos pegar vectores (se pegarán término a término: primer valor con primer valor, segundo con segundo, etc.)
 
 ``` {r  message=FALSE}
 codigos <- paste(c("A", "B"), 2:3, sep = "")
@@ -427,9 +429,9 @@ codigos <- paste(c("A", "B"), 2:3, sep = ".")
 codigos
 ```
 
-Obsérvese, que con la opción `sep` se obtiene como resultado un arreglo de la misma longitud que los arreglos que se pegan.
+Obsérvese, que con la opción `sep` se obtiene como resultado un vector de la misma longitud que los vectores que se pegan.
 
-Cuando se utiliza `paste()` sobre un único arreglo con la opción `collapse`, se “pegan” todos los términos del arreglo en un único valor:
+Cuando se utiliza `paste()` sobre un único vector con la opción `collapse`, se “pegan” todos los términos del arreglo en un único valor:
 
 ``` {r  message=FALSE}
 paste(c("una", "frase", "simple"), collapse = " ")
@@ -476,7 +478,7 @@ La siguiente tabla contiene algunas funciones de `stringr` para operar sobre car
 
 # Matrices
 
-En R las matrices solamente pueden ser numéricas y hay varias maneras de definirlas. Si es pequeña podemos utilizar la siguiente sintaxis:
+En R las matrices son vectores multidimensionales. Heredan las propiedades de vectores y hay varias maneras de definirlas. Si es pequeña podemos utilizar la siguiente sintaxis:
 
 ``` {r  message=FALSE}
 A <- matrix(nrow=3,ncol=3, c(1,2,3,4,5,6,7,8,9), byrow=TRUE)
