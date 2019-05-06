@@ -10,7 +10,6 @@ output:
     toc_depth: 2
 ---
 
-
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
 ```{r style, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
 if (!"BiocStyle" %in% rownames(installed.packages()))
@@ -21,20 +20,25 @@ options(width=100)
 knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
 ```
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 # Regresiones lineales 
 
-Teniendo un conjunto de datos, y suponiendo que cada dato es un par ordenado (x,y), una ***regresión lineal simple*** genera una recta cuyos puntos (x`,y`) tienen la mínima distancia posible respecto a (x,y). 
+Teniendo un conjunto de datos, y suponiendo que cada dato es un par ordenado (x,y), una ***regresión lineal simple*** genera una recta cuyos puntos (x',y') tienen la mínima distancia posible respecto a (x,y). 
 
 El modelo anterior implica que la regresión lineal simple considera a uno de los ejes de coordenadas como variable dependiente y al otro como variable independiente. 
 
-Veamos un ejemplo para, luego, seguir explicando los conceptos: 
+Veamos un ejemplo y luego seguiremos explicando los conceptos: 
 
-Tenemos una muestra de 20 pacientes. De cada uno de ellos sabemos su presión sanguinea (BP: blood pressure) y su edad (Age). Es decir: 
+Trabajaremos sobre una muestra de 20 pacientes. De cada uno de ellos sabemos su presión sanguinea (BP: blood pressure) y su edad (Age). Es decir: 
+
   - el conjunto de datos son los 20 pacientes. 
   - el par ordenado (x,y) es (BP, Age).
   - el objetivo es generar una recta cuyos puntos (x',y') tengan la menor distancia respecto de (x,y). Al valor y' se le llama **predicción**. 
 
-Los datos del ejemplo son: 
+Carguemos y grafiquemos los datos: 
 
 ```{r cars, message=FALSE, warning=FALSE}
 Age<-c(67, 40, 68, 64, 47, 71, 54, 59, 46, 52, 57, 63, 45, 55, 48, 51, 48, 77, 38, 61)
@@ -44,7 +48,7 @@ plot(Age,BP, pch =16); # seteamos puntos rellenos
 
 ```
 
-El ejemplo está suponiendo que la variable **Age** es la independiente. La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta). 
+La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta). 
 
 Contando con los arreglos `BP` y `Age` es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta 
 
@@ -56,14 +60,14 @@ La idea de la regresión lineal es poder generalizar la pregunta anterior a cual
 
 La recta que "pasará cerca" de los 20 puntos tendrá como variable indepediente la edad, y como variable dependiente la presión sanguinea. 
 
-En R es muy simple generar la regresión lineal. La haremos con el siguiente comando: 
+En R es muy simple generar la regresión lineal: 
 
 ```{r}
 model<-lm(BP~Age);
 coef(model);
 ```
 
-El formato del parámetro del comando `lm()` es `([columna a predecir] ~ [término/s que se utilizarán para construir el modelo lineal])`
+El formato del parámetro del comando `lm()` es `lm([columna a predecir] ~ [término/s que se utilizarán para construir el modelo lineal])`
 
 El valor independiente de la recta será el `Intercept` y la pendiente será `Age`. Habitualmente al Intercept se le dice B0 y a la pendiente B1. 
 
@@ -82,7 +86,7 @@ Este resumen contiene información muy valiosa acerca de la calidad del modelo. 
 
 # Residuos
 
-Si (x', y') es un punto de la recta del modelo lineal, y (x, y) es un punto de la población, existe una diferencia entre la observación (y) y la predicción (y') llamada ***resudio***.
+Si (x', y') es un punto de la recta del modelo lineal, y (x, y) es un punto de la población, existe una diferencia entre la observación (y) y la predicción (y') llamada ***residuo***.
 
 ***Validación de la regresión***. El análisis de los residuos del modelo lineal indica si el modelo representa correctamente a la muestra. A los efectos prácticos, para que una muestra pueda ser modelada por una regresión lineal, se deben cumplir dos requisitos: 
 
@@ -123,39 +127,9 @@ xtest <-  rchisq(100, 3) # distribución Chi-Cuadrado
 shapiro.test(xtest)
 ```
 
-# Predicciones
+## Ejemplo del impacto de los outliers
 
-Los datos que queremos predecir deben estar en un data.frame. En el siguiente ejemplo, vamos a predecir 8 edades, entre 40 y 75 años: 
-
-```{r}
-new <- data.frame(Age = seq(40, 75, 5)) # = 40, 45, 50, 55, 60, 65, 70, 75 (las 8 edades)
-predict(lm(BP ~ Age), new, se.fit = TRUE)
-```
-
-El resultado tiene dos partes: 
-- las predicciones, o sea, las presiones sanguineas (155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290).
-- los intervalos de confianza (3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257).
-
-La información previa se puede guardar en arreglos de esta manera: 
-
-```{r}
-pred.w.plim <- predict(lm(BP ~ Age), new, interval="prediction", level = 0.95)
-pred.w.clim <- predict(lm(BP ~ Age), new, interval="confidence", level = 0.95)
-```
-
-A modo de resumen, el siguiente gráfico muestra: 
-  - la recta del modelo lineal (linea continua, negra).
-  - el intervalo de confianza de la predicción (linea punteada colorada).
-  - el intervalo de confianza del modelo lineal (linea punteada azul).
-  - los 20 pacientes (puntos).
-  
-```{r}
-matplot(new$Age,cbind(pred.w.clim, pred.w.plim[,-1]),
-        lty=c(1,2,2,3,3),col=c("black","red","red","blue","blue"),type="l", ylab="predicted BP", xlab="Age")
-points(Age,BP)
-```
-
-# Ejemplo del impacto de los outliers
+Esta sección apunta a mostrar la importancia de identificar los outliers (valores atípicos)  para utilizar una regresión lineal como modelo de representación de la muestra (el primer requisito indicado en la sección ***Residuos***). 
 
 En 1973, el estadístico Francis Anscombe, diseñó un ejemplo con cuatro conjuntos de datos que tienen estadísticas descriptivas simples casi idénticas, pero que parecen muy diferentes cuando se grafican. Cada conjunto de datos consta de once (x, y) puntos. Este ejemplo sirve para mostrar:
   - la importancia de graficar los datos antes de analizarlos 
@@ -208,8 +182,41 @@ mtext("Los 4 conjuntos de datos de Anscombe", outer = TRUE, cex=1.5)
 par(op)
 ```
 
-
 ¿En cuál de los 4 conjuntos es válido utilizar un modelo lineal? 
+
+## Predicciones
+
+Los datos que queremos predecir deben estar en un data.frame. En el siguiente ejemplo, vamos a predecir 8 edades, entre 40 y 75 años: 
+
+```{r}
+new <- data.frame(Age = seq(40, 75, 5)) # = 40, 45, 50, 55, 60, 65, 70, 75 (las 8 edades)
+predict(lm(BP ~ Age), new, se.fit = TRUE)
+```
+
+El resultado tiene dos partes: 
+- las predicciones, o sea, las presiones sanguineas (155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290).
+- los intervalos de confianza (3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257).
+
+La información previa se puede guardar en arreglos de esta manera: 
+
+```{r}
+pred.w.plim <- predict(lm(BP ~ Age), new, interval="prediction", level = 0.95)
+pred.w.clim <- predict(lm(BP ~ Age), new, interval="confidence", level = 0.95)
+```
+
+A modo de resumen, el siguiente gráfico muestra: 
+  - la recta del modelo lineal (linea continua, negra).
+  - el intervalo de confianza de la predicción (linea punteada colorada).
+  - el intervalo de confianza del modelo lineal (linea punteada azul).
+  - los 20 pacientes (puntos).
+  
+```{r}
+matplot(new$Age,cbind(pred.w.clim, pred.w.plim[,-1]),
+        lty=c(1,2,2,3,3),col=c("black","red","red","blue","blue"),type="l", ylab="predicted BP", xlab="Age")
+points(Age,BP)
+```
+
+---
 
 # Regresión lineal múltiple
 
@@ -336,6 +343,8 @@ predict(model_mult, new, interval="confidence", level = 0.95)
 predict(model_mult, new, interval="prediction", level = 0.95)
 ```
 
+---
+
 # Selección de variables
 
 Ahora ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (´Mass´) se prediga utilizando el antebrazo (`Fore`), la cintura (`Waist`) y la altura (`Height`). 
@@ -408,27 +417,31 @@ fit3 <- lm(Mass ~ .*.,data=mydata)
 modelAIC3<-stepAIC(fit1,direction="both",scope=list(upper=fit3,lower=fit2))
 ```
 
+> RESUMEN: La regresión lineal ordinaria predice el valor esperado de una cantidad desconocida dada (la variable de respuesta, una variable aleatoria) como una combinación lineal de un conjunto de valores observados (predictores). Esto implica que un cambio constante en un predictor conduce a un cambio constante en la variable de respuesta (es decir, un modelo de respuesta lineal). Esto es apropiado cuando la variable de respuesta tiene una distribución normal.
+
+---
+
 # Regresión logística
 
-Las regresiones lineas son muy útiles y eficientes siempre y cuando las predicciones que deseamos seamos continuas. En el ejemplo anterior, el peso (`Mass`) es una variable continuar. De hecho, los valores predichos pertenecen a una recta (función continua).
+Las regresiones lineas son muy útiles y eficientes siempre y cuando las predicciones (los datos de respuesta) que deseamos seamos continuas. En el ejemplo anterior, el peso (`Mass`) es una variable continua. De hecho, los valores predichos pertenecen a una recta (función continua).
 
-Las ***regresiones logísticas*** se utilizan cuando necesitamos predicciones categóricas. Por ejemplo: "SI/NO", "SANO/ENFERMO", "TIENE/NO TIENE".
+Las ***regresiones logísticas*** se utilizan cuando necesitamos predicciones categóricas, binarias. Por ejemplo: "SI/NO", "SANO/ENFERMO", "TIENE/NO TIENE".
 
 Ejemplo: 
 
-Utilizando un dataset de pacientes de EEUU, vamos a predecir la probabilidad de tener hipertensión utilizando, como variables independientes: edad (age), sexo (sex), tiempo de sueño (sleep) e índice de masa corporal (bmi). 
+Utilizando un dataset de pacientes de EEUU (32968 pacientes y 36 variables de cada paciente), vamos a predecir la probabilidad de tener hipertensión utilizando, como variables independientes: edad (age), sexo (sex), tiempo de sueño (sleep) e índice de masa corporal (bmi). 
 
 Pasos: 
 
-1. descargar el archivo `LogisticRegresion&StepAIC.RData` a tu directorio de trabajo. 
+1. Descargar el archivo `LogisticRegresion&StepAIC.RData` a tu directorio de trabajo
 
-2. Subirlo a Rstudio: 
+2. Cargar los datos 
 
 ``` {r}
 load("./resources/LogisticRegresion&StepAIC.RData")
 ```
 
-3. Puedes ver el contenido de cada columna: 
+3. Ver el contenido de cada columna: 
 
 ```{r, echo=FALSE}
 labs <- attributes(NH11)$labels
@@ -437,30 +450,62 @@ knitr::kable(labs)
 
 4. Chequear la estructura de `hypev`
 
-``` {r}
+```{r}
   str(NH11$hypev) # check stucture of hypev
 ```
 
 5. Chequear los niveles de `hypev`
 
-``` {r}
+```{r}
   levels(NH11$hypev) # check levels of hypev
 ```
 
-6.  Construir el modelo logístico. 
+6. Borrar los datos NA
 
-``` {r}
+```{r}
+NH11<-NH11[which(!is.na(NH11$hypev)),]
+```
+
+7.  Construir la regresión logística
+
+```{r}
   hyp.out <- glm(hypev~age_p+sex+sleep+bmi,
                 data=NH11, family="binomial")
   summary(hyp.out)
   coef(summary(hyp.out))
 ```
 
-7. Hacer predicciones.
+8. Validar
+
+Ahora que tenemos el modelo es importante saber si "predice bien". Dos propuestas: 
+
+a. ***Propuesta 1:*** Aplicar el modelo a los 32968 pacientes y ver si la predicción de cada uno coincide con el campo `NH11$hypev`. El porcentaje de coincidencia podría ser un índice de calidad del modelo. 
+
+<span style="color:blue"> Esta propuesta es, en realidad, engañosa ya que estamos probando el predictor en los mismos datos que utilizamos para ***entrenar*** el modelo. *Es hacer un poco de trampa*. De ahí que esta propuesta, en el ámbito de la ciencia de datos, no es muy aceptable. </span>
+
+b. ***Propuesta 2:*** Antes de construir el modelo (o sea, entre el paso 6 y el 7), se divide el dataset en dos: `train` y `test` (se puede hacer un split 70-30, por ejemplo). La construcción del modelo (paso 7) se realiza con los datos de train y la validación se realiza con los datos de `test`.
+
+<span style="color:blue"> Esta propuesta es la que se utiliza de modo habitual.</span>
+
+Para nuestro ejemplo, vamos a aplicar la ***propuesta a.*** (o sea: aplicaremos el modelo a los 32968 pacientes que usamos para el entrenamiento).  Predicción de la hipertensión de todos los pacientes: 
+
+```{r}
+predsAll<-predict(hyp.out, type = "response")
+
+boxplot(predsAll ~ NH11$hypev, col = c("green", "red"),
+        ylab = "Probabilidad",
+        xlab = "Tiene / No tiene hypertensión")
+
+plot(density(predsAll[which(NH11$hypev=="1 Yes")]), col ="dark green", main = "Density functions", ylim=c(0, 5) )
+lines(density(predsAll[which(NH11$hypev=="2 No")]), col ="red", main = "Density functions")
+
+```
+
+9. Hacer predicciones
 
 Por ejemplo, podemos preguntar "¿Cuánto más probable es que una mujer de 63 años tenga hipertensión en comparación con una mujer de 33 años?".
 
-``` {r}
+```{r}
   # Create a dataset with predictors set at desired levels
   predDat <- with(NH11,
                   expand.grid(age_p = c(33, 63),
@@ -476,3 +521,131 @@ preds <- predict(hyp.out, type = "response",
 ```
 
 El resultado indica que una mujer de 33 años tiene un 13% de probabilidad de haber sido diagnosticada con hipertensión, mientras que una mujer de 63 años tiene un 48%. 
+
+
+---
+
+# Modelo lineal generalizado
+
+John Nelder y Robert Wedderburn formularon modelos lineales generalizados como una forma de unificar otros modelos estadísticos, como la regresión lineal, la regresión logística y la regresión de Poisson. 
+
+Los modelos lineales generalizados cubren todas estas situaciones al permitir variables de respuesta que tienen distribuciones arbitrarias (en lugar de simplemente distribuciones normales), y que una función arbitraria de la variable de respuesta (la función de enlace) varíe linealmente con los valores predichos. 
+
+---
+
+# Particionamiento Recursivo
+
+Vamos a realizar una predicción construyendo un modelo de clasificación o regresión, del [paquete rpart](http://127.0.0.1:13413/help/library/rpart/doc/longintro.pdf). El modelo resultante se puede representar como un árbol binario.
+
+Estos árboles de decisión construyen el modelo con técnicas de machine learning. Seleccionan la variable que mejor divide en dos a los datos, y la utiliza como raíz del árbol de decisión. Luego repite esa misma acción en cada una de las ramas hasta un cierto corte. 
+
+En esta primera instancia conviene saber que `rpart` admite dos criterios de división de los datos: a) el índice de Gini y b) el índice de información. A los efectos de este curso, usaremos el índice de Gini. 
+
+Para entender el funcionamiento, veremos un ejemplo. 
+
+Vamos a utilizar los datos un dataset de R (llamado `cu.summary`) que contiene el grado de confiabilidad de 117 autos. 
+
+```{r}
+library(rpart)
+str(cu.summary)
+```
+
+Las variables son: 
+
+|Variable    | Descripción                                                    |
+|:-----------|:---------------------------------------------------------------|
+|Reliability | variable tipo factor (contiene NAs)                               |
+|            | Much worse < worse < average < better < Much Better            |
+|Price       | numérico: precio                                               |
+|Country     |  pais donde fue fabricado                        |
+|Mileage     | tamaño del tanque. Contiene NAs                      |
+|Type        | Tipo: Small, Sporty, Compact, Medium, Large, Van             |
+
+Vamos a predecir la ***confiabilidad*** (Reliability).
+
+1. Veamos cómo son los datos de la variable de salida: 
+
+```{r}
+table(cu.summary$Reliability)
+```
+
+Hay 32 autos que no tienen indicado un nivel de confiabilidad: 
+
+```{r}
+table(is.na(cu.summary$Reliability))
+```
+
+2. Consutrcción del modelo (usando el índice de Gini) 
+
+```{r}
+fit1 <- rpart(Reliability ~ Price + Country + Mileage + Type, data = cu.summary, parms = list(split = 'gini'))
+```
+
+3. Visualización del árbol correspondiente (usando el paquete ´rattle´):
+
+```{r echo=FALSE}
+if (!is.element("rattle", installed.packages()[,1])){
+  install.packages("rattle", repos = "http://mirror.fcaglp.unlp.edu.ar/CRAN/")
+}
+```
+
+```{r}
+library(rattle)
+fancyRpartPlot(fit1)
+```
+
+Cómo leer el arbol? Vamos a interpretar los números del nodo raíz (nodo 1): 
+
+- Hay un 21 % de "Much worse", 14 % de "worse", 31 % de "average", 9 % de "better" y 25 % de "Much Better" de autos, antes de hacer cualquier split. 
+- "average" significa que el arbol eligió votar "en promedio".
+- 100% significa que los porcentajes indicados corresponden a totalidad de la muestra. 
+
+- Luego, si el auto fue fabricado en Brazil o Inglaterra, o Francia o Japón (nodo 3), hay un 11 % que sea "average", 11 % que sea "better" y un 78 % de que sea "Much Better". 
+- El rótulo "Much better" del nodo 3 indica que, los autos que caigan en esta hoja del árbol serán calificados de "Much better".
+
+- Los valores de los rótulos de las hojas indican la votación que el modelo hace de los casos que caigan en esa hoja. 
+
+4. Para mayor conocimiento de los resultados: 
+
+```{r}
+summary(fit1)
+```
+
+5. Ahora que tenemos nuestro modelo, vamos a predecir la confiabilidad de los 32 autos que tienen NA en dicha columna: 
+
+```{r}
+# nos quedamos con los autos sin calificar
+AutosSinCalificar<-cu.summary[is.na(cu.summary$Reliability),]
+
+# realizamos las predicciones
+Predictions <- predict(fit1, AutosSinCalificar, type = "class")
+
+# copiamos las predicciones en la columna del data.frame
+AutosSinCalificar$Reliability<-Predictions
+knitr::kable(AutosSinCalificar)
+```
+
+6. ¿Cómo sabemos si las predicciones son buenas? Vamos a aplicar el predictor a los 85 autos y comparar el valor predicho con el valor indicado en el data.frame:
+
+```{r}
+allcars<-cu.summary
+allcars<-allcars[!is.na(allcars$Reliability),]
+
+predsAll <- predict(fit1, allcars, type = "class")
+
+# Restamos predicho - indicado y lo sumarizamos
+table(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)))
+
+hist(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)), 
+     main = "", xlab = "predsAll-allcars$Reliability", ylab = "cantidad de autos", 
+     col="lightcyan", shadow=TRUE)
+```
+
+De los 85 autos, el arbol de regresión ha predicho:
+
+- correctamente el 63.5 % de los autos (54/85)
+- se ha equivocado por 1 categoría en el 18.82 % de los autos (16/85)
+- se ha equivocado por 2 categorías en el 17.64 % de los autos (15/85)
+
+Tarea: pruebe la performance del predictor cambiando el criterio de split (no utilizar 'gini' y utilizar 'information')
+
