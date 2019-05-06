@@ -50,7 +50,7 @@ plot(Age,BP, pch =16); # seteamos puntos rellenos
 
 La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta). 
 
-Contando con los arreglos `BP` y `Age` es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta 
+Contando con los vectores `BP` y `Age` es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta 
 
 > *¿qué presión tendrá un paciente con una edad determinada?*
 
