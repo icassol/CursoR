@@ -4,13 +4,13 @@ unnamed-chunk-2
 unnamed-chunk-3	model.stdres
 unnamed-chunk-4	xtest
 unnamed-chunk-5	xtest
-unnamed-chunk-6	new
-unnamed-chunk-7	pred.w.clim	pred.w.plim
-unnamed-chunk-8	
-unnamed-chunk-9	
-unnamed-chunk-10	
-unnamed-chunk-11	ff	i	lmi	lm.1	lm.2	lm.3	lm.4
-unnamed-chunk-12	ff	i	op
+unnamed-chunk-6	
+unnamed-chunk-7	
+unnamed-chunk-8	ff	i	lmi	lm.1	lm.2	lm.3	lm.4
+unnamed-chunk-9	ff	i	op
+unnamed-chunk-10	new
+unnamed-chunk-11	pred.w.clim	pred.w.plim
+unnamed-chunk-12	
 unnamed-chunk-13	Bicep	Calf	Chest	Fore	Head	Height	Mass	mydata	Neck	Shoulder	Thigh	Waist
 unnamed-chunk-14	
 unnamed-chunk-15	model_mult
@@ -28,5 +28,17 @@ unnamed-chunk-26	mydata2	NH11
 unnamed-chunk-27	labs
 unnamed-chunk-28	
 unnamed-chunk-29	
-unnamed-chunk-30	hyp.out
-unnamed-chunk-31	predDat	preds
+unnamed-chunk-30	NH11
+unnamed-chunk-31	hyp.out
+setup	
+unnamed-chunk-32	predsAll
+unnamed-chunk-33	predDat	preds
+unnamed-chunk-34	
+unnamed-chunk-35	
+unnamed-chunk-36	
+unnamed-chunk-37	fit1
+unnamed-chunk-38	
+unnamed-chunk-39	
+unnamed-chunk-40	
+unnamed-chunk-41	AutosSinCalificar	Predictions
+unnamed-chunk-42	allcars	predsAll

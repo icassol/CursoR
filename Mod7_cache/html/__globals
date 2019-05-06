@@ -4,13 +4,13 @@ unnamed-chunk-2	summary	model
 unnamed-chunk-3	model.stdres	rstandard	model	qqnorm	qqline
 unnamed-chunk-4	set.seed	xtest	rnorm	shapiro.test
 unnamed-chunk-5	set.seed	xtest	rchisq	shapiro.test
-unnamed-chunk-6	new	data.frame	seq	predict	lm	BP	Age
-unnamed-chunk-7	pred.w.plim	predict	lm	BP	Age	new	pred.w.clim
-unnamed-chunk-8	matplot	new	Age	cbind	pred.w.clim	pred.w.plim	c	points	BP
-unnamed-chunk-9	anscombe	apply	var	mean
-unnamed-chunk-10	coef	lm	y1	x1	anscombe	y2	x2	y3	x3	y4	x4
-unnamed-chunk-11	summary	anscombe	ff	y	x	i	lapply	paste	c	as.name	assign	lmi	lm	print
-unnamed-chunk-12	op	par	c	i	ff	lapply	paste	as.name	plot	anscombe	abline	get	mtext
+unnamed-chunk-6	anscombe	apply	var	mean
+unnamed-chunk-7	coef	lm	y1	x1	anscombe	y2	x2	y3	x3	y4	x4
+unnamed-chunk-8	summary	anscombe	ff	y	x	i	lapply	paste	c	as.name	assign	lmi	lm	print
+unnamed-chunk-9	op	par	c	i	ff	lapply	paste	as.name	plot	anscombe	abline	get	mtext
+unnamed-chunk-10	new	data.frame	seq	predict	lm	BP	Age
+unnamed-chunk-11	pred.w.plim	predict	lm	BP	Age	new	pred.w.clim
+unnamed-chunk-12	matplot	new	Age	cbind	pred.w.clim	pred.w.plim	c	points	BP
 unnamed-chunk-13	Mass	c	Fore	Bicep	Chest	Neck	Shoulder	Waist	Height	Calf	Thigh	Head	mydata	cbind	as.data.frame
 unnamed-chunk-14	plot	mydata
 unnamed-chunk-15	model_mult	lm	Mass	.	mydata
@@ -28,5 +28,17 @@ unnamed-chunk-26	load
 unnamed-chunk-27	labs	attributes	NH11	labels	kable
 unnamed-chunk-28	str	NH11	hypev
 unnamed-chunk-29	levels	NH11	hypev
-unnamed-chunk-30	hyp.out	glm	hypev	age_p	sex	sleep	bmi	NH11	summary	coef
-unnamed-chunk-31	predDat	with	NH11	expand.grid	c	mean	bmi	sleep	preds	predict	hyp.out	cbind
+unnamed-chunk-30	NH11	which	is.na	hypev
+unnamed-chunk-31	hyp.out	glm	hypev	age_p	sex	sleep	bmi	NH11	summary	coef
+setup	opts_chunk	set
+unnamed-chunk-32	predsAll	predict	hyp.out	boxplot	NH11	hypev	c	plot	density	which	lines
+unnamed-chunk-33	predDat	with	NH11	expand.grid	c	mean	bmi	sleep	preds	predict	hyp.out	cbind
+unnamed-chunk-34	library	rpart	str	cu.summary
+unnamed-chunk-35	table	cu.summary	Reliability
+unnamed-chunk-36	table	is.na	cu.summary	Reliability
+unnamed-chunk-37	fit1	rpart	Reliability	Price	Country	Mileage	Type	cu.summary	list
+unnamed-chunk-38	is.element	installed.packages	install.packages
+unnamed-chunk-39	library	rattle	fancyRpartPlot	fit1
+unnamed-chunk-40	summary	fit1
+unnamed-chunk-41	AutosSinCalificar	cu.summary	is.na	Reliability	Predictions	predict	fit1	kable
+unnamed-chunk-42	allcars	cu.summary	is.na	Reliability	predsAll	predict	fit1	table	abs	as.numeric	hist

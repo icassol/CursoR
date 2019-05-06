@@ -331,38 +331,45 @@ $(document).ready(function () {
 <li><a href="#regresiones-lineales"><span class="toc-section-number">1</span> Regresiones lineales</a></li>
 <li><a href="#residuos"><span class="toc-section-number">2</span> Residuos</a><ul>
 <li><a href="#test-de-shapiro"><span class="toc-section-number">2.1</span> Test de Shapiro</a></li>
+<li><a href="#ejemplo-del-impacto-de-los-outliers"><span class="toc-section-number">2.2</span> Ejemplo del impacto de los outliers</a></li>
+<li><a href="#predicciones"><span class="toc-section-number">2.3</span> Predicciones</a></li>
 </ul></li>
-<li><a href="#predicciones"><span class="toc-section-number">3</span> Predicciones</a></li>
-<li><a href="#ejemplo-del-impacto-de-los-outliers"><span class="toc-section-number">4</span> Ejemplo del impacto de los outliers</a></li>
-<li><a href="#regresion-lineal-multiple"><span class="toc-section-number">5</span> Regresión lineal múltiple</a><ul>
-<li><a href="#grafico-de-los-datos"><span class="toc-section-number">5.1</span> Gráfico de los datos</a></li>
-<li><a href="#modelo-con-todos-las-variables"><span class="toc-section-number">5.2</span> Modelo con todos las variables</a></li>
-<li><a href="#modelo-con-algunas-variables"><span class="toc-section-number">5.3</span> Modelo con algunas variables</a></li>
-<li><a href="#datos-correlados-opcional"><span class="toc-section-number">5.4</span> Datos correlados (opcional)</a></li>
-<li><a href="#interacciones-opcional"><span class="toc-section-number">5.5</span> Interacciones (opcional)</a></li>
+<li><a href="#regresion-lineal-multiple"><span class="toc-section-number">3</span> Regresión lineal múltiple</a><ul>
+<li><a href="#grafico-de-los-datos"><span class="toc-section-number">3.1</span> Gráfico de los datos</a></li>
+<li><a href="#modelo-con-todos-las-variables"><span class="toc-section-number">3.2</span> Modelo con todos las variables</a></li>
+<li><a href="#modelo-con-algunas-variables"><span class="toc-section-number">3.3</span> Modelo con algunas variables</a></li>
+<li><a href="#datos-correlados-opcional"><span class="toc-section-number">3.4</span> Datos correlados (opcional)</a></li>
+<li><a href="#interacciones-opcional"><span class="toc-section-number">3.5</span> Interacciones (opcional)</a></li>
 </ul></li>
-<li><a href="#predicciones-1"><span class="toc-section-number">6</span> Predicciones</a></li>
-<li><a href="#seleccion-de-variables"><span class="toc-section-number">7</span> Selección de variables</a><ul>
-<li><a href="#introduccion-al-metodo-stepwise-paso-a-paso"><span class="toc-section-number">7.1</span> Introducción al método Stepwise (paso a paso)</a></li>
+<li><a href="#predicciones-1"><span class="toc-section-number">4</span> Predicciones</a></li>
+<li><a href="#seleccion-de-variables"><span class="toc-section-number">5</span> Selección de variables</a><ul>
+<li><a href="#introduccion-al-metodo-stepwise-paso-a-paso"><span class="toc-section-number">5.1</span> Introducción al método Stepwise (paso a paso)</a></li>
 </ul></li>
-<li><a href="#regresion-logistica"><span class="toc-section-number">8</span> Regresión logística</a></li>
+<li><a href="#regresion-logistica"><span class="toc-section-number">6</span> Regresión logística</a></li>
+<li><a href="#modelo-lineal-generalizado"><span class="toc-section-number">7</span> Modelo lineal generalizado</a></li>
+<li><a href="#particionamiento-recursivo"><span class="toc-section-number">8</span> Particionamiento Recursivo</a></li>
 </ul>
 </div>
 
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
 <div id="regresiones-lineales" class="section level1">
 <h1><span class="header-section-number">1</span> Regresiones lineales</h1>
-<p>Teniendo un conjunto de datos, y suponiendo que cada dato es un par ordenado (x,y), una <strong><em>regresión lineal simple</em></strong> genera una recta cuyos puntos (x<code>,y</code>) tienen la mínima distancia posible respecto a (x,y).</p>
+<p>Teniendo un conjunto de datos, y suponiendo que cada dato es un par ordenado (x,y), una <strong><em>regresión lineal simple</em></strong> genera una recta cuyos puntos (x’,y’) tienen la mínima distancia posible respecto a (x,y).</p>
 <p>El modelo anterior implica que la regresión lineal simple considera a uno de los ejes de coordenadas como variable dependiente y al otro como variable independiente.</p>
-<p>Veamos un ejemplo para, luego, seguir explicando los conceptos:</p>
-<p>Tenemos una muestra de 20 pacientes. De cada uno de ellos sabemos su presión sanguinea (BP: blood pressure) y su edad (Age). Es decir: - el conjunto de datos son los 20 pacientes. - el par ordenado (x,y) es (BP, Age). - el objetivo es generar una recta cuyos puntos (x’,y’) tengan la menor distancia respecto de (x,y). Al valor y’ se le llama <strong>predicción</strong>.</p>
-<p>Los datos del ejemplo son:</p>
+<p>Veamos un ejemplo y luego seguiremos explicando los conceptos:</p>
+<p>Trabajaremos sobre una muestra de 20 pacientes. De cada uno de ellos sabemos su presión sanguinea (BP: blood pressure) y su edad (Age). Es decir:</p>
+<ul>
+<li>el conjunto de datos son los 20 pacientes.</li>
+<li>el par ordenado (x,y) es (BP, Age).</li>
+<li>el objetivo es generar una recta cuyos puntos (x’,y’) tengan la menor distancia respecto de (x,y). Al valor y’ se le llama <strong>predicción</strong>.</li>
+</ul>
+<p>Carguemos y grafiquemos los datos:</p>
 <pre class="r"><code>Age&lt;-c(67, 40, 68, 64, 47, 71, 54, 59, 46, 52, 57, 63, 45, 55, 48, 51, 48, 77, 38, 61)
 BP&lt;-c(185, 154, 198, 189, 168, 200, 166, 190, 155, 172, 180, 173, 176, 172, 150, 176, 155, 192, 154, 185)
 
 plot(Age,BP, pch =16); # seteamos puntos rellenos</code></pre>
 <p><img src="Mod7_files/figure-html/cars-1.png" width="432" /></p>
-<p>El ejemplo está suponiendo que la variable <strong>Age</strong> es la independiente. La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta).</p>
+<p>La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta).</p>
 <p>Contando con los arreglos <code>BP</code> y <code>Age</code> es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta</p>
 <blockquote>
 <p><em>¿qué presión tendrá un paciente con una edad determinada?</em></p>
@@ -370,12 +377,12 @@ plot(Age,BP, pch =16); # seteamos puntos rellenos</code></pre>
 <p>la podremos hacer 20 veces (preguntando por cada edad del arreglo <code>Age</code>).</p>
 <p>La idea de la regresión lineal es poder generalizar la pregunta anterior a cualquier edad. Esa información, precisamente, es la que contiene la recta. De esta manera, contando con la regresión lineal podremos <strong>predecir</strong> qué presión sanguinea tendrá, por ejemplo, una persona de 53 años (53 es una edad que no existe en el arreglo <code>Age</code>).</p>
 <p>La recta que “pasará cerca” de los 20 puntos tendrá como variable indepediente la edad, y como variable dependiente la presión sanguinea.</p>
-<p>En R es muy simple generar la regresión lineal. La haremos con el siguiente comando:</p>
+<p>En R es muy simple generar la regresión lineal:</p>
 <pre class="r"><code>model&lt;-lm(BP~Age);
 coef(model);</code></pre>
 <pre><code>## (Intercept)         Age 
 ##  105.015251    1.250851</code></pre>
-<p>El formato del parámetro del comando <code>lm()</code> es <code>([columna a predecir] ~ [término/s que se utilizarán para construir el modelo lineal])</code></p>
+<p>El formato del parámetro del comando <code>lm()</code> es <code>lm([columna a predecir] ~ [término/s que se utilizarán para construir el modelo lineal])</code></p>
 <p>El valor independiente de la recta será el <code>Intercept</code> y la pendiente será <code>Age</code>. Habitualmente al Intercept se le dice B0 y a la pendiente B1.</p>
 <p>Tarea: ¿qué información aportan los valores B0 y B1?</p>
 <p>Es posible conocer valores estadísticos del modelo:</p>
@@ -406,7 +413,7 @@ coef(model);</code></pre>
 </div>
 <div id="residuos" class="section level1">
 <h1><span class="header-section-number">2</span> Residuos</h1>
-<p>Si (x’, y’) es un punto de la recta del modelo lineal, y (x, y) es un punto de la población, existe una diferencia entre la observación (y) y la predicción (y’) llamada <strong><em>resudio</em></strong>.</p>
+<p>Si (x’, y’) es un punto de la recta del modelo lineal, y (x, y) es un punto de la población, existe una diferencia entre la observación (y) y la predicción (y’) llamada <strong><em>residuo</em></strong>.</p>
 <p><strong><em>Validación de la regresión</em></strong>. El análisis de los residuos del modelo lineal indica si el modelo representa correctamente a la muestra. A los efectos prácticos, para que una muestra pueda ser modelada por una regresión lineal, se deben cumplir dos requisitos:</p>
 <ol style="list-style-type: decimal">
 <li><p>La muestra no debe tener <strong>outliers</strong> (valores atípicos). No debe haber puntos que estén lejanos a la nube de puntos que se asemeja -en conjunto- a una recta. Este requisito lo vamos chequear visualmente: se plotean los datos y se observan los puntos.</p></li>
@@ -443,37 +450,9 @@ shapiro.test(xtest)</code></pre>
 ## data:  xtest
 ## W = 0.82782, p-value = 1.95e-09</code></pre>
 </div>
-</div>
-<div id="predicciones" class="section level1">
-<h1><span class="header-section-number">3</span> Predicciones</h1>
-<p>Los datos que queremos predecir deben estar en un data.frame. En el siguiente ejemplo, vamos a predecir 8 edades, entre 40 y 75 años:</p>
-<pre class="r"><code>new &lt;- data.frame(Age = seq(40, 75, 5)) # = 40, 45, 50, 55, 60, 65, 70, 75 (las 8 edades)
-predict(lm(BP ~ Age), new, se.fit = TRUE)</code></pre>
-<pre><code>## $fit
-##        1        2        3        4        5        6        7        8 
-## 155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290 
-## 
-## $se.fit
-##        1        2        3        4        5        6        7        8 
-## 3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257 
-## 
-## $df
-## [1] 18
-## 
-## $residual.scale
-## [1] 8.201822</code></pre>
-<p>El resultado tiene dos partes: - las predicciones, o sea, las presiones sanguineas (155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290). - los intervalos de confianza (3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257).</p>
-<p>La información previa se puede guardar en arreglos de esta manera:</p>
-<pre class="r"><code>pred.w.plim &lt;- predict(lm(BP ~ Age), new, interval=&quot;prediction&quot;, level = 0.95)
-pred.w.clim &lt;- predict(lm(BP ~ Age), new, interval=&quot;confidence&quot;, level = 0.95)</code></pre>
-<p>A modo de resumen, el siguiente gráfico muestra: - la recta del modelo lineal (linea continua, negra). - el intervalo de confianza de la predicción (linea punteada colorada). - el intervalo de confianza del modelo lineal (linea punteada azul). - los 20 pacientes (puntos).</p>
-<pre class="r"><code>matplot(new$Age,cbind(pred.w.clim, pred.w.plim[,-1]),
-        lty=c(1,2,2,3,3),col=c(&quot;black&quot;,&quot;red&quot;,&quot;red&quot;,&quot;blue&quot;,&quot;blue&quot;),type=&quot;l&quot;, ylab=&quot;predicted BP&quot;, xlab=&quot;Age&quot;)
-points(Age,BP)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-8-1.png" width="432" /></p>
-</div>
-<div id="ejemplo-del-impacto-de-los-outliers" class="section level1">
-<h1><span class="header-section-number">4</span> Ejemplo del impacto de los outliers</h1>
+<div id="ejemplo-del-impacto-de-los-outliers" class="section level2">
+<h2><span class="header-section-number">2.2</span> Ejemplo del impacto de los outliers</h2>
+<p>Esta sección apunta a mostrar la importancia de identificar los outliers (valores atípicos) para utilizar una regresión lineal como modelo de representación de la muestra (el primer requisito indicado en la sección <strong><em>Residuos</em></strong>).</p>
 <p>En 1973, el estadístico Francis Anscombe, diseñó un ejemplo con cuatro conjuntos de datos que tienen estadísticas descriptivas simples casi idénticas, pero que parecen muy diferentes cuando se grafican. Cada conjunto de datos consta de once (x, y) puntos. Este ejemplo sirve para mostrar: - la importancia de graficar los datos antes de analizarlos - el efecto de los valores atípicos (outliers) en las propiedades estadísticas.</p>
 <pre class="r"><code>anscombe</code></pre>
 <pre><code>##    x1 x2 x3 x4    y1   y2    y3    y4
@@ -617,12 +596,42 @@ for(i in 1:4) {
  abline(get(paste(&quot;lm.&quot;,i,sep=&quot;&quot;)), col=&quot;blue&quot;)
 }
 mtext(&quot;Los 4 conjuntos de datos de Anscombe&quot;, outer = TRUE, cex=1.5)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-12-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-9-1.png" width="432" /></p>
 <pre class="r"><code>par(op)</code></pre>
 <p>¿En cuál de los 4 conjuntos es válido utilizar un modelo lineal?</p>
 </div>
+<div id="predicciones" class="section level2">
+<h2><span class="header-section-number">2.3</span> Predicciones</h2>
+<p>Los datos que queremos predecir deben estar en un data.frame. En el siguiente ejemplo, vamos a predecir 8 edades, entre 40 y 75 años:</p>
+<pre class="r"><code>new &lt;- data.frame(Age = seq(40, 75, 5)) # = 40, 45, 50, 55, 60, 65, 70, 75 (las 8 edades)
+predict(lm(BP ~ Age), new, se.fit = TRUE)</code></pre>
+<pre><code>## $fit
+##        1        2        3        4        5        6        7        8 
+## 155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290 
+## 
+## $se.fit
+##        1        2        3        4        5        6        7        8 
+## 3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257 
+## 
+## $df
+## [1] 18
+## 
+## $residual.scale
+## [1] 8.201822</code></pre>
+<p>El resultado tiene dos partes: - las predicciones, o sea, las presiones sanguineas (155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290). - los intervalos de confianza (3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257).</p>
+<p>La información previa se puede guardar en arreglos de esta manera:</p>
+<pre class="r"><code>pred.w.plim &lt;- predict(lm(BP ~ Age), new, interval=&quot;prediction&quot;, level = 0.95)
+pred.w.clim &lt;- predict(lm(BP ~ Age), new, interval=&quot;confidence&quot;, level = 0.95)</code></pre>
+<p>A modo de resumen, el siguiente gráfico muestra: - la recta del modelo lineal (linea continua, negra). - el intervalo de confianza de la predicción (linea punteada colorada). - el intervalo de confianza del modelo lineal (linea punteada azul). - los 20 pacientes (puntos).</p>
+<pre class="r"><code>matplot(new$Age,cbind(pred.w.clim, pred.w.plim[,-1]),
+        lty=c(1,2,2,3,3),col=c(&quot;black&quot;,&quot;red&quot;,&quot;red&quot;,&quot;blue&quot;,&quot;blue&quot;),type=&quot;l&quot;, ylab=&quot;predicted BP&quot;, xlab=&quot;Age&quot;)
+points(Age,BP)</code></pre>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-12-1.png" width="432" /></p>
+<hr />
+</div>
+</div>
 <div id="regresion-lineal-multiple" class="section level1">
-<h1><span class="header-section-number">5</span> Regresión lineal múltiple</h1>
+<h1><span class="header-section-number">3</span> Regresión lineal múltiple</h1>
 <p>En el ejemplo anterior predijimos la presión sanguinea (<code>PB</code>) utilizando la edad (<code>Age</code>):</p>
 <p><span class="math inline">\(PB = β_0 + β_1·Age + e\)</span></p>
 <p>Se trata de una regresión lineal <em>simple</em> porque se utiliza una sola variable (<code>Age</code>) para predecir la presión sanguinea.</p>
@@ -680,13 +689,13 @@ mydata</code></pre>
 ## 22 94.0 31.0  33.5 106.0 39.0    120.0  99.5  184.0 42.0  55.0 57.0</code></pre>
 <p>Nuestro objetivo es construir una regresión lineal múltiple para predecir el peso (<code>Mass</code>).</p>
 <div id="grafico-de-los-datos" class="section level2">
-<h2><span class="header-section-number">5.1</span> Gráfico de los datos</h2>
+<h2><span class="header-section-number">3.1</span> Gráfico de los datos</h2>
 <p>Primero, graficamos los datos:</p>
 <pre class="r"><code>plot(mydata)</code></pre>
 <p><img src="Mod7_files/figure-html/unnamed-chunk-14-1.png" width="432" /></p>
 </div>
 <div id="modelo-con-todos-las-variables" class="section level2">
-<h2><span class="header-section-number">5.2</span> Modelo con todos las variables</h2>
+<h2><span class="header-section-number">3.2</span> Modelo con todos las variables</h2>
 <p>Ahora vamos a construir el modelo para predecir el peso (<code>Mass</code>) utilizando todas las variables:</p>
 <pre class="r"><code>model_mult&lt;-lm(Mass~., data=mydata);
 model_mult</code></pre>
@@ -738,7 +747,7 @@ model_mult</code></pre>
 </ul>
 </div>
 <div id="modelo-con-algunas-variables" class="section level2">
-<h2><span class="header-section-number">5.3</span> Modelo con algunas variables</h2>
+<h2><span class="header-section-number">3.3</span> Modelo con algunas variables</h2>
 <p>Ahora vamos a probar un modelo en donde utilizaremos el antebrazo (<code>Fore</code>), la cintura (<code>Waist</code>) y la altura (<code>Height</code>).</p>
 <pre class="r"><code>summary(lm(Mass~Fore + Waist + Height, data = mydata))</code></pre>
 <pre><code>## 
@@ -763,7 +772,7 @@ model_mult</code></pre>
 ## F-statistic:   129 on 3 and 18 DF,  p-value: 2.33e-12</code></pre>
 </div>
 <div id="datos-correlados-opcional" class="section level2">
-<h2><span class="header-section-number">5.4</span> Datos correlados (opcional)</h2>
+<h2><span class="header-section-number">3.4</span> Datos correlados (opcional)</h2>
 <pre><code>summary(lm(Mass~Fore, data = mydata))
 summary(lm(Mass~Bicep, data = mydata))
 summary(lm(Mass~Fore+Bicep, data = mydata))</code></pre>
@@ -773,7 +782,7 @@ summary(lm(Mass~Fore+Bicep, data = mydata))</code></pre>
 <p><strong><em>Ayuda: probar <code>cor(mydata[,&quot;Fore&quot;],mydata[,&quot;Bicep&quot;])</code></em></strong></p>
 </div>
 <div id="interacciones-opcional" class="section level2">
-<h2><span class="header-section-number">5.5</span> Interacciones (opcional)</h2>
+<h2><span class="header-section-number">3.5</span> Interacciones (opcional)</h2>
 <pre class="r"><code>summary(lm(Mass~Fore + Waist + Height+Fore:Waist, data = mydata))</code></pre>
 <pre><code>## 
 ## Call:
@@ -799,7 +808,7 @@ summary(lm(Mass~Fore+Bicep, data = mydata))</code></pre>
 </div>
 </div>
 <div id="predicciones-1" class="section level1">
-<h1><span class="header-section-number">6</span> Predicciones</h1>
+<h1><span class="header-section-number">4</span> Predicciones</h1>
 <p>Vamos a predecir el peso de 3 pacientes:</p>
 <pre class="r"><code>new&lt;-matrix(c(30.5, 28.5, 28.5, 33.5, 30.0, 31.0, 93.0, 112.0, 89.0, 39.0, 35.0, 38.5, 109.0, 105.0, 121.0, 84.0, 82.0, 96.0, 188.0, 177.5, 178.5, 37.5, 34.0, 40.0, 55.0, 42.0, 49.0, 58.0 , 59.0, 60.0),nrow=3,byrow=F)
 colnames(new)&lt;-colnames(mydata)[2:11];
@@ -830,13 +839,14 @@ predict(model_mult, new, se.fit = TRUE)</code></pre>
 ## 1 80.67589 72.36465 88.98713
 ## 2 71.20340 55.35877 87.04802
 ## 3 78.26723 66.95265 89.58182</code></pre>
+<hr />
 </div>
 <div id="seleccion-de-variables" class="section level1">
-<h1><span class="header-section-number">7</span> Selección de variables</h1>
+<h1><span class="header-section-number">5</span> Selección de variables</h1>
 <p>Ahora ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (´Mass´) se prediga utilizando el antebrazo (<code>Fore</code>), la cintura (<code>Waist</code>) y la altura (<code>Height</code>).</p>
 <p>En muchos casos, se presenta el problema de tener muchas variables y, por tanto, de no saber cuáles son importantes para el modelo. Vamos a ver un método que permite la selección automática del mejor subconjunto de variables para predecir una determinada variable.</p>
 <div id="introduccion-al-metodo-stepwise-paso-a-paso" class="section level2">
-<h2><span class="header-section-number">7.1</span> Introducción al método Stepwise (paso a paso)</h2>
+<h2><span class="header-section-number">5.1</span> Introducción al método Stepwise (paso a paso)</h2>
 <p>El método Stepwise es un grupo de algoritmos que tienen como objetivo automatizar la selección de variables en un modelo.</p>
 <p>Se dividen principalmente en: Selección hacia atrás (backward) y hacia adelante (forward)</p>
 <ul>
@@ -869,7 +879,7 @@ predict(model_mult, new, se.fit = TRUE)</code></pre>
 fit2 &lt;- lm(Mass ~ 1,data=mydata)</code></pre>
 <p><strong><em>Nota: Los métodos backward y forward no necesariamente convergen el mismo subconjunto de variables.</em></strong></p>
 <div id="ejemplo-utilizando-backward" class="section level3">
-<h3><span class="header-section-number">7.1.1</span> Ejemplo utilizando backward</h3>
+<h3><span class="header-section-number">5.1.1</span> Ejemplo utilizando backward</h3>
 <pre class="r"><code>library(MASS)
 #It is a local optimum.
 modelAIC1&lt;-stepAIC(fit1,direction=&quot;backward&quot;)</code></pre>
@@ -948,7 +958,7 @@ modelAIC1&lt;-stepAIC(fit1,direction=&quot;backward&quot;)</code></pre>
 <p>El método finaliza, mostrando el listado de variables seleccionadas, esto es <code>Mass ~ Fore + Waist + Height + Calf + Thigh + Head</code>.</p>
 </div>
 <div id="ejemplo-utilizando-forward" class="section level3">
-<h3><span class="header-section-number">7.1.2</span> Ejemplo utilizando forward</h3>
+<h3><span class="header-section-number">5.1.2</span> Ejemplo utilizando forward</h3>
 <pre class="r"><code>#It is a local optimum.
 modelAIC2&lt;-stepAIC(fit2,direction=&quot;forward&quot;,scope=list(upper=fit1,lower=fit2))</code></pre>
 <pre><code>## Start:  AIC=106.34
@@ -1044,7 +1054,7 @@ modelAIC2&lt;-stepAIC(fit2,direction=&quot;forward&quot;,scope=list(upper=fit1,l
 <p>El método finaliza, mostrando el listado de variables seleccionadas. En este caso, el resultado es el mismo que en el método anterior: <code>Mass ~ Fore + Waist + Height + Calf + Thigh + Head</code>.</p>
 </div>
 <div id="ejemplo-utilizando-directionboth" class="section level3">
-<h3><span class="header-section-number">7.1.3</span> Ejemplo utilizando <code>direction=both</code></h3>
+<h3><span class="header-section-number">5.1.3</span> Ejemplo utilizando <code>direction=both</code></h3>
 <p>También es posible indicar que el método avance en ambas direcciones. Es decir: que confluya comenzando desde los dos extremos a un punto intermedio.</p>
 <pre class="r"><code>#It is a local optimum.
 fit3 &lt;- lm(Mass ~ .*.,data=mydata)
@@ -1329,23 +1339,27 @@ modelAIC3&lt;-stepAIC(fit1,direction=&quot;both&quot;,scope=list(upper=fit3,lowe
 ## - Calf          1    18.030  65.399 37.968
 ## - Height        1    44.324  91.693 45.403
 ## - Fore          1    64.904 112.273 49.858</code></pre>
+<blockquote>
+<p>RESUMEN: La regresión lineal ordinaria predice el valor esperado de una cantidad desconocida dada (la variable de respuesta, una variable aleatoria) como una combinación lineal de un conjunto de valores observados (predictores). Esto implica que un cambio constante en un predictor conduce a un cambio constante en la variable de respuesta (es decir, un modelo de respuesta lineal). Esto es apropiado cuando la variable de respuesta tiene una distribución normal.</p>
+</blockquote>
+<hr />
 </div>
 </div>
 </div>
 <div id="regresion-logistica" class="section level1">
-<h1><span class="header-section-number">8</span> Regresión logística</h1>
-<p>Las regresiones lineas son muy útiles y eficientes siempre y cuando las predicciones que deseamos seamos continuas. En el ejemplo anterior, el peso (<code>Mass</code>) es una variable continuar. De hecho, los valores predichos pertenecen a una recta (función continua).</p>
-<p>Las <strong><em>regresiones logísticas</em></strong> se utilizan cuando necesitamos predicciones categóricas. Por ejemplo: “SI/NO”, “SANO/ENFERMO”, “TIENE/NO TIENE”.</p>
+<h1><span class="header-section-number">6</span> Regresión logística</h1>
+<p>Las regresiones lineas son muy útiles y eficientes siempre y cuando las predicciones (los datos de respuesta) que deseamos seamos continuas. En el ejemplo anterior, el peso (<code>Mass</code>) es una variable continua. De hecho, los valores predichos pertenecen a una recta (función continua).</p>
+<p>Las <strong><em>regresiones logísticas</em></strong> se utilizan cuando necesitamos predicciones categóricas, binarias. Por ejemplo: “SI/NO”, “SANO/ENFERMO”, “TIENE/NO TIENE”.</p>
 <p>Ejemplo:</p>
-<p>Utilizando un dataset de pacientes de EEUU, vamos a predecir la probabilidad de tener hipertensión utilizando, como variables independientes: edad (age), sexo (sex), tiempo de sueño (sleep) e índice de masa corporal (bmi).</p>
+<p>Utilizando un dataset de pacientes de EEUU (32968 pacientes y 36 variables de cada paciente), vamos a predecir la probabilidad de tener hipertensión utilizando, como variables independientes: edad (age), sexo (sex), tiempo de sueño (sleep) e índice de masa corporal (bmi).</p>
 <p>Pasos:</p>
 <ol style="list-style-type: decimal">
-<li><p>descargar el archivo <code>LogisticRegresion&amp;StepAIC.RData</code> a tu directorio de trabajo.</p></li>
-<li><p>Subirlo a Rstudio:</p></li>
+<li><p>Descargar el archivo <code>LogisticRegresion&amp;StepAIC.RData</code> a tu directorio de trabajo</p></li>
+<li><p>Cargar los datos</p></li>
 </ol>
 <pre class="r"><code>load(&quot;./resources/LogisticRegresion&amp;StepAIC.RData&quot;)</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>Puedes ver el contenido de cada columna:</li>
+<li>Ver el contenido de cada columna:</li>
 </ol>
 <table>
 <thead>
@@ -1770,7 +1784,11 @@ Place USUALLY go when sick
 <pre class="r"><code>  levels(NH11$hypev) # check levels of hypev</code></pre>
 <pre><code>## [1] &quot;2 No&quot;  &quot;1 Yes&quot;</code></pre>
 <ol start="6" style="list-style-type: decimal">
-<li>Construir el modelo logístico.</li>
+<li>Borrar los datos NA</li>
+</ol>
+<pre class="r"><code>NH11&lt;-NH11[which(!is.na(NH11$hypev)),]</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Construir la regresión logística</li>
 </ol>
 <pre class="r"><code>  hyp.out &lt;- glm(hypev~age_p+sex+sleep+bmi,
                 data=NH11, family=&quot;binomial&quot;)
@@ -1798,7 +1816,6 @@ Place USUALLY go when sick
 ## 
 ##     Null deviance: 41515  on 32967  degrees of freedom
 ## Residual deviance: 34235  on 32963  degrees of freedom
-##   (46 observations deleted due to missingness)
 ## AIC: 34245
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
@@ -1809,8 +1826,30 @@ Place USUALLY go when sick
 ## sex2 Female -0.144025092 0.0267976605  -5.374540 7.677854e-08
 ## sleep       -0.007035776 0.0016397197  -4.290841 1.779981e-05
 ## bmi          0.018571704 0.0009510828  19.526906 6.485172e-85</code></pre>
-<ol start="7" style="list-style-type: decimal">
-<li>Hacer predicciones.</li>
+<ol start="8" style="list-style-type: decimal">
+<li>Validar</li>
+</ol>
+<p>Ahora que tenemos el modelo es importante saber si “predice bien”. Dos propuestas:</p>
+<ol style="list-style-type: lower-alpha">
+<li><strong><em>Propuesta 1:</em></strong> Aplicar el modelo a los 32968 pacientes y ver si la predicción de cada uno coincide con el campo <code>NH11$hypev</code>. El porcentaje de coincidencia podría ser un índice de calidad del modelo.</li>
+</ol>
+<p><span style="color:blue"> Esta propuesta es, en realidad, engañosa ya que estamos probando el predictor en los mismos datos que utilizamos para <strong><em>entrenar</em></strong> el modelo. <em>Es hacer un poco de trampa</em>. De ahí que esta propuesta, en el ámbito de la ciencia de datos, no es muy aceptable. </span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><strong><em>Propuesta 2:</em></strong> Antes de construir el modelo (o sea, entre el paso 6 y el 7), se divide el dataset en dos: <code>train</code> y <code>test</code> (se puede hacer un split 70-30, por ejemplo). La construcción del modelo (paso 7) se realiza con los datos de train y la validación se realiza con los datos de <code>test</code>.</li>
+</ol>
+<p><span style="color:blue"> Esta propuesta es la que se utiliza de modo habitual.</span></p>
+<p>Para nuestro ejemplo, vamos a aplicar la <strong><em>propuesta a.</em></strong> (o sea: aplicaremos el modelo a los 32968 pacientes que usamos para el entrenamiento). Predicción de la hipertensión de todos los pacientes:</p>
+<pre class="r"><code>predsAll&lt;-predict(hyp.out, type = &quot;response&quot;)
+
+boxplot(predsAll ~ NH11$hypev, col = c(&quot;green&quot;, &quot;red&quot;),
+        ylab = &quot;Probabilidad&quot;,
+        xlab = &quot;Tiene / No tiene hypertensión&quot;)</code></pre>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-32-1.png" width="432" /></p>
+<pre class="r"><code>plot(density(predsAll[which(NH11$hypev==&quot;1 Yes&quot;)]), col =&quot;dark green&quot;, main = &quot;Density functions&quot;, ylim=c(0, 5) )
+lines(density(predsAll[which(NH11$hypev==&quot;2 No&quot;)]), col =&quot;red&quot;, main = &quot;Density functions&quot;)</code></pre>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-32-2.png" width="432" /></p>
+<ol start="9" style="list-style-type: decimal">
+<li>Hacer predicciones</li>
 </ol>
 <p>Por ejemplo, podemos preguntar “¿Cuánto más probable es que una mujer de 63 años tenga hipertensión en comparación con una mujer de 33 años?”.</p>
 <pre class="r"><code>  # Create a dataset with predictors set at desired levels
@@ -1825,10 +1864,904 @@ preds &lt;- predict(hyp.out, type = &quot;response&quot;,
                          se.fit = TRUE, interval=&quot;confidence&quot;,
                          newdata = predDat)
   cbind(predDat, preds)</code></pre>
-<pre><code>##   age_p      sex      bmi   sleep       fit      se.fit residual.scale
-## 1    33 2 Female 29.89565 7.86221 0.1289227 0.002849622              1
-## 2    63 2 Female 29.89565 7.86221 0.4776303 0.004816059              1</code></pre>
+<pre><code>##   age_p      sex      bmi    sleep       fit      se.fit residual.scale
+## 1    33 2 Female 29.87335 7.840876 0.1288930 0.002849181              1
+## 2    63 2 Female 29.87335 7.840876 0.4775644 0.004816491              1</code></pre>
 <p>El resultado indica que una mujer de 33 años tiene un 13% de probabilidad de haber sido diagnosticada con hipertensión, mientras que una mujer de 63 años tiene un 48%.</p>
+<hr />
+</div>
+<div id="modelo-lineal-generalizado" class="section level1">
+<h1><span class="header-section-number">7</span> Modelo lineal generalizado</h1>
+<p>John Nelder y Robert Wedderburn formularon modelos lineales generalizados como una forma de unificar otros modelos estadísticos, como la regresión lineal, la regresión logística y la regresión de Poisson.</p>
+<p>Los modelos lineales generalizados cubren todas estas situaciones al permitir variables de respuesta que tienen distribuciones arbitrarias (en lugar de simplemente distribuciones normales), y que una función arbitraria de la variable de respuesta (la función de enlace) varíe linealmente con los valores predichos.</p>
+<hr />
+</div>
+<div id="particionamiento-recursivo" class="section level1">
+<h1><span class="header-section-number">8</span> Particionamiento Recursivo</h1>
+<p>Vamos a realizar una predicción construyendo un modelo de clasificación o regresión, del <a href="http://127.0.0.1:13413/help/library/rpart/doc/longintro.pdf">paquete rpart</a>. El modelo resultante se puede representar como un árbol binario.</p>
+<p>Estos árboles de decisión construyen el modelo con técnicas de machine learning. Seleccionan la variable que mejor divide en dos a los datos, y la utiliza como raíz del árbol de decisión. Luego repite esa misma acción en cada una de las ramas hasta un cierto corte.</p>
+<p>En esta primera instancia conviene saber que <code>rpart</code> admite dos criterios de división de los datos: a) el índice de Gini y b) el índice de información. A los efectos de este curso, usaremos el índice de Gini.</p>
+<p>Para entender el funcionamiento, veremos un ejemplo.</p>
+<p>Vamos a utilizar los datos un dataset de R (llamado <code>cu.summary</code>) que contiene el grado de confiabilidad de 117 autos.</p>
+<pre class="r"><code>library(rpart)
+str(cu.summary)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    117 obs. of  5 variables:
+##  $ Price      : num  11950 6851 6995 8895 7402 ...
+##  $ Country    : Factor w/ 10 levels &quot;Brazil&quot;,&quot;England&quot;,..: 5 5 10 10 10 7 5 6 6 7 ...
+##  $ Reliability: Ord.factor w/ 5 levels &quot;Much worse&quot;&lt;&quot;worse&quot;&lt;..: 5 NA 1 4 2 4 NA 5 5 2 ...
+##  $ Mileage    : num  NA NA NA 33 33 37 NA NA 32 NA ...
+##  $ Type       : Factor w/ 6 levels &quot;Compact&quot;,&quot;Large&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...</code></pre>
+<p>Las variables son:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Reliability</td>
+<td align="left">variable tipo factor (contiene NAs)</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">Much worse &lt; worse &lt; average &lt; better &lt; Much Better</td>
+</tr>
+<tr class="odd">
+<td align="left">Price</td>
+<td align="left">numérico: precio</td>
+</tr>
+<tr class="even">
+<td align="left">Country</td>
+<td align="left">pais donde fue fabricado</td>
+</tr>
+<tr class="odd">
+<td align="left">Mileage</td>
+<td align="left">tamaño del tanque. Contiene NAs</td>
+</tr>
+<tr class="even">
+<td align="left">Type</td>
+<td align="left">Tipo: Small, Sporty, Compact, Medium, Large, Van</td>
+</tr>
+</tbody>
+</table>
+<p>Vamos a predecir la <strong><em>confiabilidad</em></strong> (Reliability).</p>
+<ol style="list-style-type: decimal">
+<li>Veamos cómo son los datos de la variable de salida:</li>
+</ol>
+<pre class="r"><code>table(cu.summary$Reliability)</code></pre>
+<pre><code>## 
+##  Much worse       worse     average      better Much better 
+##          18          12          26           8          21</code></pre>
+<p>Hay 32 autos que no tienen indicado un nivel de confiabilidad:</p>
+<pre class="r"><code>table(is.na(cu.summary$Reliability))</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##    85    32</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Consutrcción del modelo (usando el índice de Gini)</li>
+</ol>
+<pre class="r"><code>fit1 &lt;- rpart(Reliability ~ Price + Country + Mileage + Type, data = cu.summary, parms = list(split = &#39;gini&#39;))</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Visualización del árbol correspondiente (usando el paquete ´rattle´):</li>
+</ol>
+<pre><code>## 
+## The downloaded binary packages are in
+##  /var/folders/2m/mp3kdlpx29q25xhnfjxcgtv00000gn/T//RtmpJG7zTh/downloaded_packages</code></pre>
+<pre class="r"><code>library(rattle)</code></pre>
+<pre><code>## Rattle: A free graphical interface for data science with R.
+## Version 5.2.0 Copyright (c) 2006-2018 Togaware Pty Ltd.
+## Type &#39;rattle()&#39; to shake, rattle, and roll your data.</code></pre>
+<pre class="r"><code>fancyRpartPlot(fit1)</code></pre>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-39-1.png" width="432" /></p>
+<p>Cómo leer el arbol? Vamos a interpretar los números del nodo raíz (nodo 1):</p>
+<ul>
+<li>Hay un 21 % de “Much worse”, 14 % de “worse”, 31 % de “average”, 9 % de “better” y 25 % de “Much Better” de autos, antes de hacer cualquier split.</li>
+<li>“average” significa que el arbol eligió votar “en promedio”.</li>
+<li><p>100% significa que los porcentajes indicados corresponden a totalidad de la muestra.</p></li>
+<li>Luego, si el auto fue fabricado en Brazil o Inglaterra, o Francia o Japón (nodo 3), hay un 11 % que sea “average”, 11 % que sea “better” y un 78 % de que sea “Much Better”.</li>
+<li><p>El rótulo “Much better” del nodo 3 indica que, los autos que caigan en esta hoja del árbol serán calificados de “Much better”.</p></li>
+<li><p>Los valores de los rótulos de las hojas indican la votación que el modelo hace de los casos que caigan en esa hoja.</p></li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Para mayor conocimiento de los resultados:</li>
+</ol>
+<pre class="r"><code>summary(fit1)</code></pre>
+<pre><code>## Call:
+## rpart(formula = Reliability ~ Price + Country + Mileage + Type, 
+##     data = cu.summary, parms = list(split = &quot;gini&quot;))
+##   n=85 (32 observations deleted due to missingness)
+## 
+##           CP nsplit rel error    xerror       xstd
+## 1 0.30508475      0 1.0000000 1.0000000 0.07200310
+## 2 0.08474576      1 0.6949153 0.6949153 0.07808305
+## 3 0.05084746      2 0.6101695 0.7627119 0.07799644
+## 4 0.03389831      3 0.5593220 0.7288136 0.07812633
+## 5 0.01000000      4 0.5254237 0.7457627 0.07808305
+## 
+## Variable importance
+## Country    Type   Price 
+##      66      22      12 
+## 
+## Node number 1: 85 observations,    complexity param=0.3050847
+##   predicted class=average      expected loss=0.6941176  P(node) =1
+##     class counts:    18    12    26     8    21
+##    probabilities: 0.212 0.141 0.306 0.094 0.247 
+##   left son=2 (58 obs) right son=3 (27 obs)
+##   Primary splits:
+##       Country splits as  ---LRRLLLL,  improve=15.220690, (0 missing)
+##       Type    splits as  RLLRLL,      improve= 4.288063, (0 missing)
+##       Price   &lt; 11972.5 to the right, improve= 3.200000, (0 missing)
+##       Mileage &lt; 24.5    to the left,  improve= 2.476190, (36 missing)
+## 
+## Node number 2: 58 observations,    complexity param=0.08474576
+##   predicted class=average      expected loss=0.6034483  P(node) =0.6823529
+##     class counts:    18    12    23     5     0
+##    probabilities: 0.310 0.207 0.397 0.086 0.000 
+##   left son=4 (9 obs) right son=5 (49 obs)
+##   Primary splits:
+##       Type    splits as  RRRRLR,      improve=3.186567, (0 missing)
+##       Price   &lt; 11232.5 to the left,  improve=2.563521, (0 missing)
+##       Mileage &lt; 24.5    to the left,  improve=1.801587, (30 missing)
+##       Country splits as  ---L--RLRL,  improve=1.329310, (0 missing)
+## 
+## Node number 3: 27 observations
+##   predicted class=Much better  expected loss=0.2222222  P(node) =0.3176471
+##     class counts:     0     0     3     3    21
+##    probabilities: 0.000 0.000 0.111 0.111 0.778 
+## 
+## Node number 4: 9 observations
+##   predicted class=Much worse   expected loss=0.2222222  P(node) =0.1058824
+##     class counts:     7     0     2     0     0
+##    probabilities: 0.778 0.000 0.222 0.000 0.000 
+## 
+## Node number 5: 49 observations,    complexity param=0.05084746
+##   predicted class=average      expected loss=0.5714286  P(node) =0.5764706
+##     class counts:    11    12    21     5     0
+##    probabilities: 0.224 0.245 0.429 0.102 0.000 
+##   left son=10 (27 obs) right son=11 (22 obs)
+##   Primary splits:
+##       Type    splits as  RLLR-L,      improve=2.879612, (0 missing)
+##       Mileage &lt; 24.5    to the left,  improve=2.500000, (25 missing)
+##       Price   &lt; 11470   to the right, improve=2.423544, (0 missing)
+##       Country splits as  ---R--LRLR,  improve=1.026755, (0 missing)
+##   Surrogate splits:
+##       Price   &lt; 11470   to the right, agree=0.898, adj=0.773, (0 split)
+##       Country splits as  ---R--RRRL,  agree=0.755, adj=0.455, (0 split)
+## 
+## Node number 10: 27 observations
+##   predicted class=average      expected loss=0.4074074  P(node) =0.3176471
+##     class counts:     7     4    16     0     0
+##    probabilities: 0.259 0.148 0.593 0.000 0.000 
+## 
+## Node number 11: 22 observations,    complexity param=0.03389831
+##   predicted class=worse        expected loss=0.6363636  P(node) =0.2588235
+##     class counts:     4     8     5     5     0
+##    probabilities: 0.182 0.364 0.227 0.227 0.000 
+##   left son=22 (14 obs) right son=23 (8 obs)
+##   Primary splits:
+##       Country splits as  ---R--LRRL,  improve=1.5194810, (0 missing)
+##       Price   &lt; 8646    to the left,  improve=1.2718610, (0 missing)
+##       Type    splits as  L--R--,      improve=0.1909091, (0 missing)
+##   Surrogate splits:
+##       Price &lt; 13970   to the left,  agree=0.864, adj=0.625, (0 split)
+## 
+## Node number 22: 14 observations
+##   predicted class=worse        expected loss=0.5714286  P(node) =0.1647059
+##     class counts:     4     6     1     3     0
+##    probabilities: 0.286 0.429 0.071 0.214 0.000 
+## 
+## Node number 23: 8 observations
+##   predicted class=average      expected loss=0.5  P(node) =0.09411765
+##     class counts:     0     2     4     2     0
+##    probabilities: 0.000 0.250 0.500 0.250 0.000</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Ahora que tenemos nuestro modelo, vamos a predecir la confiabilidad de los 32 autos que tienen NA en dicha columna:</li>
+</ol>
+<pre class="r"><code># nos quedamos con los autos sin calificar
+AutosSinCalificar&lt;-cu.summary[is.na(cu.summary$Reliability),]
+
+# realizamos las predicciones
+Predictions &lt;- predict(fit1, AutosSinCalificar, type = &quot;class&quot;)
+
+# copiamos las predicciones en la columna del data.frame
+AutosSinCalificar$Reliability&lt;-Predictions
+knitr::kable(AutosSinCalificar)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Price
+</th>
+<th style="text-align:left;">
+Country
+</th>
+<th style="text-align:left;">
+Reliability
+</th>
+<th style="text-align:right;">
+Mileage
+</th>
+<th style="text-align:left;">
+Type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Dodge Colt 4
+</td>
+<td style="text-align:right;">
+6851
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GEO Metro 3
+</td>
+<td style="text-align:right;">
+6695
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Subaru Justy 3
+</td>
+<td style="text-align:right;">
+5866
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:left;">
+Small
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volkswagen Fox 4
+</td>
+<td style="text-align:right;">
+7225
+</td>
+<td style="text-align:left;">
+Brazil
+</td>
+<td style="text-align:left;">
+worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Eagle Talon 4
+</td>
+<td style="text-align:right;">
+12995
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GEO Storm 4
+</td>
+<td style="text-align:right;">
+10390
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mazda MX-5 Miata
+</td>
+<td style="text-align:right;">
+13800
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Nissan 300ZX V6
+</td>
+<td style="text-align:right;">
+27900
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Plymouth Laser
+</td>
+<td style="text-align:right;">
+10855
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Porsche 944
+</td>
+<td style="text-align:right;">
+41990
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Subaru XT 4
+</td>
+<td style="text-align:right;">
+13071
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Toyota Celica GT-S 4
+</td>
+<td style="text-align:right;">
+12268
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volkswagen Corrado 4
+</td>
+<td style="text-align:right;">
+17900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volkswagen GTI 4
+</td>
+<td style="text-align:right;">
+9995
+</td>
+<td style="text-align:left;">
+Mexico
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Audi 80 4
+</td>
+<td style="text-align:right;">
+18900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:left;">
+Compact
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Audi 90 5
+</td>
+<td style="text-align:right;">
+23990
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Compact
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Peugeot 405 4
+</td>
+<td style="text-align:right;">
+15930
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:left;">
+Compact
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Audi 100 5
+</td>
+<td style="text-align:right;">
+26900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMW 535i 6
+</td>
+<td style="text-align:right;">
+33200
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chevrolet Lumina 4
+</td>
+<td style="text-align:right;">
+12140
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hyundai Sonata 4
+</td>
+<td style="text-align:right;">
+9999
+</td>
+<td style="text-align:left;">
+Korea
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Infiniti Q45 V8
+</td>
+<td style="text-align:right;">
+38000
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lexus LS 400 V8
+</td>
+<td style="text-align:right;">
+35000
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Oldsmobile Cutlass Supreme V6
+</td>
+<td style="text-align:right;">
+14495
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Peugeot 505 4
+</td>
+<td style="text-align:right;">
+19945
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Saab 9000S 4
+</td>
+<td style="text-align:right;">
+25995
+</td>
+<td style="text-align:left;">
+Sweden
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sterling 827 V6
+</td>
+<td style="text-align:right;">
+23550
+</td>
+<td style="text-align:left;">
+England
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chevrolet Lumina APV V6
+</td>
+<td style="text-align:right;">
+13995
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mitsubishi Wagon 4
+</td>
+<td style="text-align:right;">
+14929
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Nissan Axxess 4
+</td>
+<td style="text-align:right;">
+13949
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Nissan Van 4
+</td>
+<td style="text-align:right;">
+14799
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volkswagen Vanagon 4
+</td>
+<td style="text-align:right;">
+14080
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+</tbody>
+</table>
+<ol start="6" style="list-style-type: decimal">
+<li>¿Cómo sabemos si las predicciones son buenas? Vamos a aplicar el predictor a los 85 autos y comparar el valor predicho con el valor indicado en el data.frame:</li>
+</ol>
+<pre class="r"><code>allcars&lt;-cu.summary
+allcars&lt;-allcars[!is.na(allcars$Reliability),]
+
+predsAll &lt;- predict(fit1, allcars, type = &quot;class&quot;)
+
+# Restamos predicho - indicado y lo sumarizamos
+table(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)))</code></pre>
+<pre><code>## 
+##  0  1  2 
+## 54 16 15</code></pre>
+<pre class="r"><code>hist(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)), 
+     main = &quot;&quot;, xlab = &quot;predsAll-allcars$Reliability&quot;, ylab = &quot;cantidad de autos&quot;, 
+     col=&quot;lightcyan&quot;, shadow=TRUE)</code></pre>
+<pre><code>## Warning in plot.window(xlim, ylim, &quot;&quot;, ...): &quot;shadow&quot; is not a graphical parameter</code></pre>
+<pre><code>## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...): &quot;shadow&quot; is not a graphical
+## parameter</code></pre>
+<pre><code>## Warning in axis(1, ...): &quot;shadow&quot; is not a graphical parameter</code></pre>
+<pre><code>## Warning in axis(2, ...): &quot;shadow&quot; is not a graphical parameter</code></pre>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-42-1.png" width="432" /></p>
+<p>De los 85 autos, el arbol de regresión ha predicho:</p>
+<ul>
+<li>correctamente el 63.5 % de los autos (54/85)</li>
+<li>se ha equivocado por 1 categoría en el 18.82 % de los autos (16/85)</li>
+<li>se ha equivocado por 2 categorías en el 17.64 % de los autos (15/85)</li>
+</ul>
+<p>Tarea: pruebe la performance del predictor cambiando el criterio de split (no utilizar ‘gini’ y utilizar ‘information’)</p>
 </div>
 
 
