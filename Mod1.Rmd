@@ -110,7 +110,7 @@ Click en [***download R***](https://cran.r-project.org/mirrors.html) y seleccion
 
 ## Instalación de Rstudio
 
-Una vez que tienes el lenguaje R instalado, estas en condiciones de instalar la interfaz gráfica. La versión ***Open Source*** puede descargarse libremente desde [www.rstudio.com](www.rstudio.com). Se recomienda descargar la versión gratuita de "RStudio Desktop". Deberás clickear sobre el "installer" acorde a tu sistema operativo. 
+Una vez que tienes el lenguaje R instalado, estas en condiciones de instalar la interfaz gráfica. La versión ***Open Source*** puede descargarse libremente desde [www.rstudio.com](https://www.rstudio.com). Se recomienda descargar la versión gratuita de "RStudio Desktop". Deberás clickear sobre el "installer" acorde a tu sistema operativo. 
 
 La interfaz de Rstudio permite un acceso más cómodo a la edición de código, los resultados, los gráficos, la descarga de librerías, los objetos en memoria, etc. Además permite generar muy fácilmente informes con los procedimientos y resultados de nuestros análisis en varios formatos (html, pdf y word).
 
