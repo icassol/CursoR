@@ -526,22 +526,21 @@ Recomendamos que pruebes el paquete `learnr`, que tiene una gran potencialidad y
 
 # Deployment
 
+Luego de finalizar la construcción del reporte, en algunos casos, es necesario mostrarlo online desde una dirección URL. La actividad de subir la página a un servidor se denomina `deployment`. En esta sección vamos a ver una manera de hacer pública y disponible el output de un documento rmd. 
+
+Hay varias maneras de realizar el deployment de un .rmd. Señalamos dos: 
+
+1. ***Utilizar el publisher de RStudio***. Es un tutorial interactivo, paso a paso. Una manera de utilizar esta opción: 
+* Click en “Knit”. 
+* En la ventana de preview -> click en “Publish”. Se abrirá una ventana con el paso a paso.
+
+2. ***Utilizar el render de RMarkdown***. Esta opción es más versátil y es la que explicaremos a continuación.  
+
 ## Render
 
-RMarkdown facilita el lanzamiente de tu páginas web con: 
+1. Debe tener una cuenta en GitHub y un repositorio para su reporte. Si no lo tiene, cree (la cuenta y/o el repositorio). 
 
-```{r eval=FALSE}
-rmarkdown::render_site()
-```
-
-Este comando de consola nativo al paquete RMarkdown construye una página web en base a las especificaciones en el archivo `_site.yml`.
-
-
-## _site.yml
-
-El archivo `_site.yml` une todos los archivos. Es posible implementar varios estilos de navegacion, headers, y footers.
-
-> `_site.yml` debe estar presente dentro de el work path. `getwd()`
+2. En el mismo *working directory* de su .rmd (y de su espacio actual de trabajo) debe generar un archivo `_site.yml`. Este archivo contiene especificaciones y definiciones que el Render necesita para construir la web (estática). 
 
 El formato del `_site.yml` es el siguiente:
 
@@ -575,23 +574,25 @@ output: # Output gobal
     highlight: textmate
 ```
 
-## Servir con Github Pages
+3. Ejecutar el comando: 
+
+```
+rmarkdown::render_site()
+```
+
+Luego de este paso, su página web estará lista para el deployment, en su working directory. 
+
+## Subir a GitHub
 
 [Github Pages](https://pages.github.com/) es una platforma que facilita el desarrollo e hosting de [Páginas Web Estáticas](https://es.wikipedia.org/wiki/P%C3%A1gina_web#P%C3%A1ginas_est%C3%A1ticas_versus_p%C3%A1ginas_din%C3%A1micas). 
 
-### Como Utilizar {.unnumbered}
+1. Crear una branch `gh-pages` en su repositorio. A este branch subir: los .Rmd, _site.yml, y los archivos generado por el render (del paso 3).
 
-1. Construya su página usando `rmarkdown::render_site()` 
+2. Activar el servicio `Github Pages`: `Settings` -> `Options`.
 
-2. Cree la branch **gh-pages** en su repository. A este branch suba: los `.Rmd`, `_site.yml`, y los archivos generado por el render.
+3. Seleccionar la branch `gh-pages`.
 
-3. La página esta para servir. Active Github Pages en las Settings > Options de su Repository.
-
-```
-https://github.com/{Tu-Usuario}/{Nombre-de-Repository}/settings
-```
-
-4. Seleccion la branch **gh-pages** para ser servida. La página puede ser acedida por: 
+La página podrá ser accedida por: 
 
 ```
 https://{Tu-Usuario}.github.io/{Nombre-de-Repository}/
