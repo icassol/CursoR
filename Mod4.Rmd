@@ -5,7 +5,11 @@ output:
     fig_caption: yes
     fig_height: 4
     fig_width: 4.5
+    highlight: textmate
+    keep_md: no
     number_sections: yes
+    self_contained: yes
+    theme: flatly
     toc: yes
     toc_depth: 2
 ---
@@ -14,35 +18,33 @@ output:
 ```{r style, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
 if (!"BiocStyle" %in% rownames(installed.packages()))
   BiocManager::install("BiocStyle")
-
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set( autodep=TRUE)
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
 ```
 
-# Gráficos en R: introducción
+# Introducción
 
 R dispone de múltiples funciones diseñadas para la representación gráfica de datos. Estas funciones se dividen en dos grandes grupos: funciones gráficas de alto nivel y de bajo nivel. La diferencia fundamental es que las funciones de alto nivel son las que generan gráficos completos, mientras que las de bajo nivel se limitan a añadir elementos a un gráfico existente (por tanto creado por una función de alto nivel).
 
-Una página de referencia, con múltiples paquetes y ejemplos para hacer gráficos en R está en [este link](https://www.r-graph-gallery.com/).
+Una página de referencia, con múltiples paquetes y ejemplos para hacer gráficos en R está en [este link](https://www.r-graph-gallery.com/). Allí hay gráficos para representar: Distribuciones, Correlaciones, Rankings, Parte de un todo, Evolución, Mapas, Flujos, entre otros. 
 
-El paquete `graphics` (que se carga en memoria cada vez que arrancamos R) contiene un buen número de funciones de alto y bajo nivel para generar gráficos. Numerosos paquetes -`plotrix`, `scatterplot3D`, `rgl`, `maps`, `shapes`, y sobre todo  `ggplot2`- contienen muchísimas más funciones gráficas que mejoran y complementan las que vienen por defecto con R.
+El paquete `graphics` (que se carga en memoria cada vez que se ejecuta R) contiene un buen número de funciones de alto y bajo nivel para generar gráficos. Existe una gran variedad de paquetes -`plotrix`, `scatterplot3D`, `rgl`, `maps`, `shapes`, y sobre todo  `ggplot2`- que contienen muchísimas más funciones gráficas que mejoran y complementan las que vienen por defecto con R.
 
 ## Funciones gráficas de alto nivel
 
-Estas funciones son las que generan gráficos completos. Entre las más utilizadas podemos citar plot() (gráficos de nubes de puntos, entre otros), hist() (histogramas), barplot() (diagramas de barras), boxplot() (diagramas de caja y bigote),  pie() (diagrama de sectores) o pers() (superficies en 3D). Todas estas funciones disponen de multitud de argumentos que permiten controlar las etiquetas de los ejes, sus límites, títulos, tamaño, colores, etc.:
+Estas funciones son las que generan gráficos completos. Entre las más utilizadas podemos citar ´plot()´ (gráficos de nubes de puntos, entre otros), `hist()` (histogramas), `barplot()` (diagramas de barras), `boxplot()` (diagramas de caja y bigote),  `pie()` (diagrama de sectores) o `pers()` (superficies en 3D). Todas estas funciones disponen de multitud de argumentos que permiten controlar las etiquetas de los ejes, sus límites, títulos, tamaño, colores. Listamos los argumentos más relevantes: 
 
-  * `xlim`, `ylim`: controlan, respectivamente, la extensión de los ejes X e Y. Así xlim=c(0,10) indica que el eje X se extiende de 0 a 10; ylim=c(-5,5) indica que el eje Y va de -5 a 5. Si no se incluyen estos valores, R los ajusta por defecto de modo que se incluyan todos los valores disponibles en el dataframe.
+  * `xlim`, `ylim`: controlan, respectivamente, la extensión de los ejes X e Y. Así `xlim=c(0,10)` indica que el eje X se extiende de 0 a 10; `ylim=c(-5,5)` indica que el eje Y va de -5 a 5. Si no se incluyen estos valores, R los ajusta por defecto de modo que se incluyan todos los valores disponibles en el dataframe.
 
-  * `xlab` e `ylab` especifican las etiquetas para los ejes X e Y respectivamente.
+  * `xlab` e `ylab`: especifican las etiquetas para los ejes X e Y respectivamente.
 
-  * `main` indica el título del gráfico.
+  * `main`: indica el título del gráfico.
 
-  * `sub` permite especificar un subtítulo.
+  * `sub`: permite especificar un subtítulo.
 
-Los ejemplos que se muestran más abajo permiten ver como utilizar estas opciones.
-
+Los ejemplos que se muestran más abajo permiten ver cómo utilizar estas opciones.
 
 Dos argumentos importantes que son comunes a la mayoría de gráficos de alto nivel son los siguientes:
 
@@ -55,10 +57,9 @@ Dos argumentos importantes que son comunes a la mayoría de gráficos de alto ni
     * type="b" (both, ambos) representa puntos unidos por líneas.
     * type="n" No dibuja nada.
 
-
 ## Funciones gráficas de bajo nivel:
 
-Permiten añadir líneas, puntos, etiquetas… a un gráfico ya existente. Son de gran utilidad para completar un gráfico. Entre estas funciones cabe destacar:
+Permiten añadir líneas, puntos, etiquetas, etc. a un gráfico ya existente. Son de gran utilidad para completar un gráfico. Entre estas funciones cabe destacar:
 
 * `lines()`: Permite añadir lineas (uniendo puntos concretos) a una gráfica ya existente.
 
@@ -76,7 +77,6 @@ Permiten añadir líneas, puntos, etiquetas… a un gráfico ya existente. Son d
 
 ## Argumentos comunes a las funciones gráficas de alto y bajo nivel
 
-
 Los siguientes argumentos opcionales son comunes a muchas funciones gráficas de alto y bajo nivel. Sus valores por defecto pueden obtenerse ejecutando la función par(). Se puede encontrar el significado y valores posibles de cada uno de estos argumentos (y muchos más) ejecutando help(par).
 
 * `pch`: Indica la forma en que se dibujaran los puntos (círculo, cuadrado, estrella, etc). El listado de valores y formas disponibles puede verse mediante help(points)
@@ -91,32 +91,67 @@ Los siguientes argumentos opcionales son comunes a muchas funciones gráficas de
 
 * `las`: Cambia el estilo de las etiquetas de los ejes (0 paralelo a los ejes, 1 siempre horizontales, 2, perpendiculares a los ejes, 3 siempre verticales)
 
+# Exportación de una gráfica
 
-## Ejemplos de funciones gráficas de alto nivel
+La gráfica se puede observar con más detalle haciendo click en "Zoom", en área de Files. Y, haciendo click en "Export", se puede guardar el gráfico en formato .png. 
 
-Podemos destacar, entre las más utilizadas:
+---
 
-### plot()
+# Algunos ejemplos
 
-Esta función ofrece muchas variantes dependiendo del tipo de objeto al que se aplique. El caso más simple corresponde a la representación de dos variables x e y. En tal caso, plot(x,y) representa un diagrama de dispersión de puntos de y frente a x.
+## plot()
 
-A modo de ejemplo se muestra a continuación un gráfico de la esperanza de vida (***LifeExpectancy***, que será nuestra variable y) frente al índice de felicidad (***Happiness***, que es la x) en una muestra de 143 países. Los datos se encuentran en el dataframe(`HappyPlanetIndex`) del paquete (`Lock5Data`) (consultar `help(HappyPlanetIndex)` para ver las variables en este dataframe, y http://www.happyplanetindex.org/about/ para más información sobre este estudio):
+Esta función ofrece muchas variantes dependiendo del tipo de objeto al que se aplique. El caso más simple corresponde a la representación de dos variables x e y. En tal caso, plot(x,y) representa un diagrama de dispersión de puntos de y frente a x. Veamos ejemplos muy simples: 
 
-```{r message=FALSE}
+```{r}
+a<-rep(1:10) # = (1,2,3,4,5,6,7,8,9,10)
+b<-rep(1,10) # = (1,1,1,1,1,1,1,1,1,1)
+par(mfrow=c(1,3)) # creamos una matriz de gráficos de 1x2
+plot(a,b, pch=1) # asignamos este gráfico al 1er panel de la matriz
+plot(a,a, pch=2) # asignamos este gráfico al 2do panel de la matriz
+plot(b,a, pch=3) # asignamos este gráfico al 3do panel de la matriz
+```
+
+A modo de ejemplo se muestra a continuación un gráfico de la esperanza de vida (***LifeExpectancy***, la variable dependiente y) frente al índice de felicidad (***Happiness***, la variable independiente x) en una muestra de 143 países. Los datos se encuentran en el dataframe `HappyPlanetIndex` del paquete `Lock5Data`. Para ver las variables de este dataframe: `help(HappyPlanetIndex)` y para conocer más datos sobre este estudio, [ir a este link](http://www.happyplanetindex.org/about/). Cargamos los datos y los graficamos con `plot()`:
+
+```{r cache=TRUE, message=FALSE}
 if (!is.element("Lock5Data", installed.packages()[,1])){
-  install.packages("Lock5Data", repos = "http://mirror.fcaglp.unlp.edu.ar/CRAN/")
+  install.packages("Lock5Data")
 }
 library(Lock5Data)
-data(HappyPlanetIndex)
-attach(HappyPlanetIndex)
+data(HappyPlanetIndex) # indicamos que cargue en memoria, específicamente, el dataset HappyPlanetIndex 
+attach(HappyPlanetIndex) # para entender esta función, buscar ?attach
 plot(Happiness,LifeExpectancy,pch=19,col="red")
 ```
 
-### hist()
+### Ejemplo de `plot()`
 
-Esta función permite dibujar histogramas de frecuencias para variables continuas. Por ejemplo, el histograma de los niveles de felicidad en los distintos países de la muestra se obtiene fácilmente como:
+Para ver un ejemplo utilizaremos el dataframe `trees`, disponible en el paquete  `datasets`. Este dataframe contiene datos de tres variables medidas en una muestra de 31 cerezos: Girth (diámetro del tronco en pulgadas), Height (altura del árbol en pies) y Volume (volumen de madera en el árbol). Mostramos los datos a continuación:
 
-```{r message=FALSE}
+```{r cache=TRUE, message=FALSE}
+data(trees)
+head(trees)
+```
+
+El comando `plot()` ejecutado directamente sobre el dataframe muestra las nubes de puntos correspondientes a todas las posibles parejas de variables:
+
+```{r cache=TRUE, message=FALSE}
+plot(trees)
+```
+
+Si sólo deseamos representar la altura del árbol frente al diámetro del tronco, especificamos simplemente estas dos variables:
+
+```{r cache=TRUE, message=FALSE}
+with(trees,plot(Girth,Height))
+```
+
+## hist()
+
+Un histograma es una representación gráfica de la distribución de frecuencias de una variable continua. Consiste en una sucesión de rectángulos levantados sobre un eje que representa los valores de la variable. Cada rectángulo tiene un área proporcional a la frecuencia de valores observada en el intervalo sobre el que se levanta. En esta sección aprenderemos a construir un histograma con R.
+
+Con `hist()` dibujamos un histograma. Por ejemplo, el histograma de los niveles de felicidad en los distintos países se puede obtiene de esta manera:
+
+```{r cache=TRUE, message=FALSE}
 data(HappyPlanetIndex)
 attach(HappyPlanetIndex)
 hist(Happiness,col="darkolivegreen1")
@@ -124,47 +159,352 @@ hist(Happiness,col="darkolivegreen1")
 
 En el mismo paquete `Lock5Data` podemos encontrar el dataframe `SalaryGender` que contiene una muestra de 100 profesores universitarios de EEUU, 50 hombres y 50 mujeres; para cada uno se tiene el salario anual (en miles de dólares), la edad y la variable PhD que vale 1 si el profesor es doctor y 0 si no lo es. Podemos ver la distribución de salarios entre hombres y mujeres mediante un histograma combinado utilizando la función `histStack()` del paquete `plotrix`:
 
-```{r message=FALSE}
+```{r cache=TRUE, message=FALSE}
 data(SalaryGender)
 attach(SalaryGender)
-Gender=factor(Gender,levels=c(0,1),labels=c("Female","Male"))
+Salary<-SalaryGender[,1]
+Gender<-factor(SalaryGender[,2],levels=c(0,1),labels=c("Female","Male"))
 library(plotrix)
 histStack(Salary,Gender,legend.pos="topright")
 ```
 
-### barplot()
+### Ejemplo de histograma
+
+Vamos a ver un ejemplo de histograma al que le vamos a superponer una distribución de probabilidad teórica y otra estimada no paramétricamente, a insertar títulos, etiquetas, etc.
+
+Usaremos los pacientes de cancer de mama (BRCA_all_data). En concreto, nos interesa ver el histograma de las edades de las pacientes.
+
+``` {r echo= FALSE, cache=TRUE, message=FALSE}
+library(readxl)
+BRCA_all_data <- read_excel("./resources/BRCA_all_data.xlsx")
+hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
+curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
+      add=TRUE, col="blue", lwd=2)
+lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
+legend("topleft",col=c("blue","red"),legend =c("Densidad normal estimada","Estimador de núcleo de la densidad"),lwd=2, bty = "n")
+``` 
+
+1. Construcción del histograma básico
+
+Consultar la ayuda: `help(hist)`. Para empezar,debemos pasar a la función hist los datos de la variable a representar, en nuestro caso la variable `age_at_initial_pathologic_diagnosis`.
+
+``` {r cache=TRUE, message=FALSE}
+hist(BRCA_all_data$age_at_initial_pathologic_diagnosis, main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
+``` 
+
+2. Definición del eje de ordenadas en frecuencias relativas y color del histograma
+
+El eje de ordenadas muestra por defecto frecuencias absolutas; el gráfico que queremos construir es con frecuencias relativas en este eje. Para ello utilizamos la opción freq=FALSE; además le damos color al histograma mediante col="lightcyan"
+
+``` {r cache=TRUE, message=FALSE}
+hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan", main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
+``` 
+
+3. Incremento de la longitud del eje de ordenadas
+
+Para que en la gráfica haya espacio para la leyenda, alargamos el eje de ordenadas mediante la opción ylim:
+
+``` {r cache=TRUE, message=FALSE}
+hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
+``` 
+
+4. Estimación de la función de densidad de la variable mediante un estimador de nucleo
+
+El estimador de núcleo de la función de densidad del peso eviscerado se calcula mediante `density(BRCA_all_data$age_at_initial_pathologic_diagnosis)`. Para superponer esta función al histograma utilizaremos la función de bajo nivel `lines`; además dibujamos la línea con grosor  `lwd=2` y de color rojo:
+
+``` {r cache=TRUE, message=FALSE}
+hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
+lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
+``` 
+
+5. Ajuste de una función de densidad normal con media y desviación estándar estimadas a partir de los datos
+
+Ajustamos también a nuestros datos una función de densidad normal con media igual a la media estimada de la edad y desviación típica también igual a la observada en la muestra.
+
+``` {r cache=TRUE, message=FALSE}
+hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
+lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
+curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
+      add=TRUE, col="blue", lwd=2)
+``` 
+
+6. Leyenda
+
+Por último añadimos una leyenda explicando qué representa cada curva:
+
+``` {r echo= FALSE, cache=TRUE, message=FALSE}
+hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
+curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
+      add=TRUE, col="blue", lwd=2)
+lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
+legend("topleft",col=c("blue","red"),legend =c("Densidad normal estimada","Estimador de núcleo de la densidad"),lwd=2, bty = "n")
+``` 
+
+## barplot()
 
 Se utiliza para dibujar diagramas de barras. El siguiente ejemplo muestra el número de países en cada una de las 7 regiones en que se dividió el planeta para el estudio de los niveles de felicidad:
 
 ```{r message=FALSE}
+library(Lock5Data)
+data(HappyPlanetIndex)
+attach(HappyPlanetIndex)
 barplot(table(Region),xlab="Region",main="Happiness level by region", col=rainbow(10))
 ```
 
-El paquete `plotrix` contiene la función `barp()` que permite dar “volumen” a la barras:
+El paquete `plotrix` contiene la función `barp()` que permite dar "volumen" a la barras:
 
-```{r message=FALSE}
-barp(table(Region),col="lightblue",cylindrical=TRUE,shadow=TRUE)
+```{r cache=TRUE, message=FALSE, warning=FALSE}
+library(Lock5Data)
+data(HappyPlanetIndex)
+attach(HappyPlanetIndex)
+barp(table(Region), col="lightblue", cylindrical=TRUE, shadow=TRUE)
 ```
 
-### pie()
+Es posible construir diagramas de barras por categorías. Podemos, por ejemplo representar la frecuencia de doctores por sexo utilizando los datos del dataframe `SalaryGender`:
 
-Aporta la misma información que el diagrama de barras, pero en forma de diagrama de sectores:
-
-```{r  message=FALSE}
-pie(table(Region))
+```{r cache=TRUE, message=FALSE}
+data(SalaryGender)
+attach(SalaryGender)
+PhD<-factor(PhD,levels=c(0,1),labels=c("PhD","non PhD"))
+barplot(table(Gender,PhD),beside=TRUE,legend.text=TRUE,col=c("pink","cyan"))
 ```
 
-El paquete `plotrix` permite elaborar diagramas de sectores en 3D mediante la función `pie3D`:
+### Ejemplo de `barplot()`
 
-```{r  message=FALSE}
+Para ver este gráfico usaremos los pacientes de cancer de mama (BRCA_all_data). En concreto, nos interesa ver el porcentaje de pacientes vivos y muertos.
+
+Nuestro objetivo en esta sección será construir el siguiente diagrama de barras con la variable `vital_status`. A esta gráfica la denominaremos “gráfica patrón” a lo largo del texto.
+
+```{r cache=TRUE, echo=FALSE, message=FALSE}
+library(readxl)
+BRCA_all_data <- read_excel("./resources/BRCA_all_data.xlsx")
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"),main="Mujeres con cancer de mama",ylim=c(0,0.8),
+        ylab ="Frecuencias Relativas",las=1,font.axis=4)
+```     
+
+1. Primer Paso
+
+Para empezar, debemos pasar como argumento a dicha función los datos de la variable que queremos representar. En concreto, debemos especificar las frecuencias relativas de las categorías presentes en la variable especie. El cálculo de las frecuencias relativas se realiza a través de las funciones `table()` y `prop.table()`.
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)))
+``` 
+
+2. Color
+
+En la gráfica anterior ya tenemos representado el mismo contenido que en la gráfica patrón. Vamos ahora a darle color. El argumento que controla los colores de las barras del barplot es ´col´:
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"))
+``` 
+
+3. Leyenda
+
+Ahora añadimos una leyenda utilizando el argumento `legend.text`:
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"))
+``` 
+
+3. Ajustando los ejes para dejar sitio a la leyenda
+
+La leyenda que que acabamos de colocar “pisa” una de las barras del gráfico. En la gráfica patrón podemos observar que el eje de ordenadas tiene una amplitud mayor, que va de 0 a 0.8 unidades. Para cambiar los límites del eje de ordenadas utilizamos el argumento `ylim`:
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8))
+``` 
+
+Otra opción es ampliar el eje X, de modo que quede sitio a la izquierda para colocar la leyenda. El problema, en principio, es que como este es un eje de categorías, no muestra valores numéricos, así que ¿como lo ampliamos?. La solución estriba en saber que  barplotdevuelve de modo invisible las coordenadas de las posiciones de la base. La manera de capturar dichas coordenadas es asignar el gráfico a una variable y mostrar los valores de ésta (si además indicamos plot=FALSE nos ahorramos que R nos repita el gráfico, aunque tampoco tiene mayor importancia):
+
+``` {r cache=TRUE, message=FALSE}
+xCoords<-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8), plot=FALSE)
+xCoords
+``` 
+
+Vemos, por tanto, que las barras están en las posiciones 0.7 y 1.9. Probamos a reconstruir el gráfico fijando la extensión del eje X como `xlim=c(0,3.3)` (si no quedamos satisfechos de entrada podemos probar unos cuantos valores):
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"),xlim=c(0,3.3))
+``` 
+
+4. Título
+
+El título se especifica mediante la opción main, escribiendo el texto del título entre comillas:
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama")
+``` 
+    
+5. Texto en el eje de ordenadas
+
+Mediante el argumento ylab especificamos el texto (también entre comillas) que deseamos como etiqueta del eje Y:
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas")
+``` 
+
+6. Orientación de las etiquetas en los ejes
+
+El párametro cambia la orientación de las etiquetas del eje de ordenadas (consultar help(par) para ver las distintas opciones)
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas",las=1)
+``` 
+
+7. Cambio de la fuente para las letras de las etiquetas
+
+Para cambiar el tipo de fuente que se usa en las letras de las etiquetas del eje de abscisas se utiliza el argumento font.axis (consultar help(par) para ver las distinas fuentes posibles)
+
+``` {r cache=TRUE, message=FALSE}
+barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
+        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas",las=1,font.axis=4)
+``` 
+
+## pie()
+
+Aporta la misma información que el diagrama de barras, pero en forma de diagrama de torta:
+
+```{r cache=TRUE, message=FALSE}
+library(Lock5Data)
+data(HappyPlanetIndex)
+attach(HappyPlanetIndex)
+RegionLabels<-c("South America", "North America", "North Africa", "South Africa", "India", "Asia", "East Europe")
+pie(table(Region), RegionLabels, col = rainbow(length(table(Region))))
+legend("topright", RegionLabels, cex = 0.8, fill = rainbow(length(table(Region))))
+```
+
+El paquete `plotrix` permite elaborar diagramas de torta en 3D mediante la función `pie3D`:
+
+```{r cache=TRUE, message=FALSE}
 pie3D(table(Region))
 ```
 
-### boxplot()
+```{r}
+pie3D(table(Region), explode = 0.1, main="Cantidad de paises incluidos en el estudio", labels = RegionLabels, labelcex = 0.9)
+```
 
-Lleva a cabo la representación de gráficos de “caja y bigote”. El siguiente ejemplo muestra el reparto de los niveles de felicidad entre las distintas regiones del globo:
+## comparación de funciones de densidad
 
-```{r  message=FALSE}
+En ocasiones es necesario visualizar el comportamiento de dos distribuciones normales. En concreto, puede resultar interesantes saber ***cuán diferentes son***. Vamos a mostrar esto con un ejemplo. 
+
+Vamos a generar un data.frame con 400 pacientes con 2 columnas:
+  
+  - 200 mujeres y 200 hombres.
+  - la 1er columna contiene el género.
+  - la 2da columna contiene la edad. 
+  - las mujeres tendrán una media de edad de 55 años. 
+  - los hombres tendrán una media de edad de 65 años. 
+
+```{r}
+set.seed(1234)
+df <- data.frame(
+  sex=factor(rep(c("F", "M"), each=200)),
+  weight=round(c(rnorm(200, mean=55, sd=5),
+                 rnorm(200, mean=65, sd=5)))
+  )
+```
+
+
+1. Vamos a graficar la función de densidad de toda la muestra: 
+
+```{r}
+library(ggplot2)
+
+p <- ggplot(df, aes(x=weight)) + 
+  geom_density()
+p
+# Agregamos una línea para la media y 
+# una regla (rug) en el eje x que indica dónde caen los datos.
+p+ geom_vline(aes(xintercept=mean(weight)),
+            color="blue", linetype="dashed", size=1) + geom_rug()
+# la regla es muy útiles cuando hay muchos datos para saber ver cómo es la densidad/cercanía de los datos.
+```
+
+En la gráfica se ve cómo las dos funciones de densidad están solapadas. 
+
+```{r}
+library(plyr)
+
+# Vamos a calcular la media de cada grupo: 
+mu <- ddply(df, "sex", summarise, grp.mean=mean(weight))
+
+ggplot(df, aes(x=weight, fill=sex)) +
+  geom_density()
+
+# Indicamos un relleno semi-transparente:
+p<-ggplot(df, aes(x=weight, fill=sex)) +
+  geom_density(alpha=0.4)
+p
+# Agregamos una línea para las medias de cada grupo:
+p+geom_vline(data=mu, aes(xintercept=grp.mean, color=sex),
+             linetype="dashed")
+```
+
+## Violin plot
+
+Los datos del ejemplo anterior también se pueden ver con los gráficos `violin`, que visualizan la cantidad de datos en el ancho de la gráfica: 
+
+```{r}
+ggplot(df, aes(sex, weight)) + 
+  geom_violin(aes(fill = weight))
+```
+
+## boxplot()
+
+### mi primer bloxplot
+
+Lleva a cabo la representación de diagramas de caja, también conocido como gráficos de “caja y bigote”. El objetivo de un `boxplot` es mostrar cómo se distribuyen los datos en una muestra. Un boxplot mostrará: 
+
+  - la media.
+  - los cuartiles de la muestra. 
+  - los puntos atípicos (outliers), si los hay.
+  
+Veamos un ejemplo simple: 
+
+```{r}
+x <- seq(5, 15, length=1000) # generamos 1000 números entre 5 y 15
+y <- rnorm(x, mean=10, sd=3) # generamos 1000 números al azar.
+# generamos 1000 datos al azar, con media 4 y desvío 2
+# veamos los datos: 
+summary(y)
+```
+
+`Boxplot()` muestra la información de `summary()` de manera gráfica: 
+
+  - el rectángulo muestra el rango de números que está entre el 1er y el 3er cuartil. O sea, grafica el conjunto del 75 % de los datos. 
+  - la media (Mean) es la línea que divide el rectángulo en dos.
+  - el mínimo y el máximo son los extremos del eje Y. 
+  - los outliers están indicados con un punto.
+  
+```{r}
+boxplot(y)
+```
+
+La misma información se puede ver en una función de densidad: 
+
+```{r}
+plot(density(y)) # función de densidad "empírica"
+curve(dnorm(x, mean=10, sd=3), add=TRUE, col=3) # la función de distribución de x
+```
+
+Si se "acuesta" el boxplot y se lo solapa sobre la función de distribución, debe coincidir la línea de la media (del boxplot) con el máximo de la función de densidad. 
+
+### boxplot de los niveles de felicidad
+
+El siguiente ejemplo muestra el reparto de los niveles de felicidad entre las distintas regiones del globo:
+
+```{r cache=TRUE, message=FALSE}
+library(Lock5Data)
+data(HappyPlanetIndex)
+attach(HappyPlanetIndex)
 boxplot(Happiness~Region,col="gold",xlab="Region",ylab="Happiness level",
         main="Average happiness level by region")
 ```
@@ -173,210 +513,190 @@ boxplot(Happiness~Region,col="gold",xlab="Region",ylab="Happiness level",
 
 Esta función realiza representaciones tridimensionales (superficies). El dataframe `volcano` que se distribuye junto con la instalación básica de R (ver `help(volcano)`) contiene información topográfica del volcán Maunga Whau en Auckland, Nueva Zelanda, definida sobre una malla de 870×610 metros, con un nodo cada 10 metros. Podemos trazar el perfil topográfico de este volcán mediante:
 
-```{r  message=FALSE}
+```{r cache=TRUE, message=FALSE}
 persp(x = 10*(1:nrow(volcano)), y=10*(1:ncol(volcano)), z=3*volcano, 
       theta = 135, phi = 30, col = "green3", scale = FALSE,
       ltheta = -120, shade = 0.75, border = NA, box = FALSE, main="Volcán Maunga Whau, Auckland, NZ")
 ```
 
+# Mapas de calor
 
-### la función plot
+```{r}
+library(lattice)
+library(gplots)
 
-Representación de nubes de puntos
+# generamos 4 matrices de 5x10, cada una: 
+y <- lapply(1:4, function(x) matrix(rnorm(50), 10, 5))
 
-La función `plot` es una función genérica para la representación gráfica de objetos en R. Los gráficos más sencillos que permite generar esta función son nubes de puntos (x,y). Para ver un ejemplo utilizaremos el dataframe `trees`, disponible en el paquete  `datasets`. Este dataframe contiene datos de tres variables medidas en una muestra de 31 cerezos: Girth (diámetro del tronco en pulgadas), Height (altura del árbol en pies) y Volume (volumen de madera en el árbol). Mostramos los datos a continuación:
-
-```{r  message=FALSE}
-data(trees)
-trees
+## Generaremos 4 variantes de mapas de calor:  
+x1 <- levelplot(y[[1]], col.regions=colorpanel(40, "darkblue", "yellow", "white"), main="colorpanel")
+x2 <- levelplot(y[[2]], col.regions=heat.colors(75), main="heat.colors")
+x3 <- levelplot(y[[3]], col.regions=rainbow(75), main="rainbow")
+x4 <- levelplot(y[[4]], col.regions=redgreen(75), main="redgreen")
+print(x1, split=c(1,1,2,2))
+print(x2, split=c(2,1,2,2), newpage=FALSE)
+print(x3, split=c(1,2,2,2), newpage=FALSE)
+print(x4, split=c(2,2,2,2), newpage=FALSE) 
 ```
 
-El comando plot() ejecutado directamente sobre el dataframe muestra las nubes de puntos correspondientes a todas las posibles parejas de variables:
+## Mapas de calor con agrupamiento:
 
-```{r  message=FALSE}
-plot(trees)
+```{r}
+heatmap(y[[1]], scale = "column")
 ```
 
-Si sólo deseamos representar la altura del árbol frente al diámetro del tronco, especificamos simplemente estas dos variables:
+# Dendogramas
 
-```{r  message=FALSE}
-with(trees,plot(Girth,Height))
+En algunas circunstancias es necesario agrupar los datos y encontrar posibles similitudes entre ellos. El ***Análisis de Agrupación Jerárquico*** (hierarchical cluster analysis (HCA)) es una técnica que agrupa los datos en función de similitud. Para conocer más sobre HCA, sugerimos consultar [este material online](https://www.datanovia.com/en/courses/hierarchical-clustering-in-r-the-essentials/). 
+
+Para profundizar en paquetes, otras herramientas y parámetros no incluidos en este tutorial, recomendar [este hands-on](http://www.sthda.com/english/wiki/beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning).  
+
+Usaremos un dataset incluido en la versión stantard de R. `USArrests` contiene 4 ratios de criminalidad de 50 estados de EEUU, del año 1973. Los ratios están expresados por cada 100.000 habitantes. También se incluye el porcentaje de la población que vive en áreas urbanas.
+
+1. Carga de los datos
+
+```{r}
+data(USArrests)
 ```
 
-### Diagramas de barras (barplots)
+2. Cálculo de las distancias
 
-Para ver este gráfico usaremos los pacientes de cancer de mama ([BRCA_all_data](./resources/BRCA_all_data.xlsx)). En concreto, nos interesa ver el porcentaje de pacientes vivos y muertos.
+```{r}
+dd <- dist(scale(USArrests), method = "euclidean") # cómputo de las distancias entre datos
+```
 
-Nuestro objetivo en esta sección será construir el siguiente diagrama de barras con la variable `vital_status`. A esta gráfica la denominaremos “gráfica patrón” a lo largo del texto.
+Se recomienda leer la ayuda de esta función: `?dist`. En este caso, optamos por utilizar la distancia euclidea aunque podríamos haber utilizado otra. Se puede ver la matriz resultante (NxN) con la instrucción `View(as.matrix(dd))`. Es lógico que la matriz diagonal (`diag(as.matrix(dd))`) sea 0 ya que no hay distancia entre un objeto y él mismo.
 
-```{r  echo=FALSE, message=FALSE}
-library(readxl)
-BRCA_all_data <- read_excel("./resources/BRCA_all_data.xlsx")
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"),main="Mujeres con cancer de mama",ylim=c(0,0.8),
-        ylab ="Frecuencias Relativas",las=1,font.axis=4)
-```     
+3. Construcción del agrupamiento jerárquico
 
-Primer Paso
+```{r}
+hc <- hclust(dd, method = "ward.D2") #
+```
 
-En primer lugar ejecutamos `help(barplot)` para leer la información que proporciona la ayuda de R sobre la función `barplot`. Para empezar, debemos pasar como argumento a dicha función los datos de la variable que queremos representar. En concreto, debemos especificar las frecuencias relativas de las categorías presentes en la variable especie. El cálculo de las frecuencias relativas se realiza a través de las funciones `table()` y `prop.table()`.
+4. Visualización
 
-```{r  message=FALSE}
-barplot(prop.table(table(BRCA_all_data$vital_status)))
-``` 
+```{r}
+plot(hc, hang = -1, cex = 0.6)
+```
 
-Color
+Con `hang = -1` se indica que las hojas se muestren en el mismo nivel. 
 
-En la gráfica anterior ya tenemos representado el mismo contenido que en la gráfica patrón. Vamos ahora a darle color. El argumento que controla los colores de las barras del barplot es ´col´:
 
-```{r  message=FALSE}
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"))
-``` 
+5. Ver el dendograma como árbol filogenético
 
-Leyenda
-Ahora añadimos una leyenda utilizando el argumento `legend.text`:
+```{r}
+library("ape")
+plot(as.phylo(hc), type = "unrooted", cex = 0.6,
+     no.margin = TRUE)
+```
 
-```{r  message=FALSE}
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"))
-``` 
+6. Otro formato de visualizacion de árbol filogenético
 
-Ajustando los ejes para dejar sitio a la leyenda
+```{r}
+plot(as.phylo(hc), type = "fan")
+```
 
-La leyenda que que acabamos de colocar “pisa” una de las barras del gráfico. En la gráfica patrón podemos observar que el eje de ordenadas tiene una amplitud mayor, que va de 0 a 0.8 unidades. Para cambiar los límites del eje de ordenadas utilizamos el argumento `ylim`:
+## Particionamiento del dendograma
 
-```{r  message=FALSE}
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8))
-``` 
+Es posible establecer grupos y manejarlos de manera independiente. Por ejemplo:
 
-Otra opción es ampliar el eje X, de modo que quede sitio a la izquierda para colocar la leyenda. El problema, en principio, es que como este es un eje de categorías, no muestra valores numéricos, así que ¿como lo ampliamos?. La solución estriba en saber que  barplotdevuelve de modo invisible las coordenadas de las posiciones de la base. La manera de capturar dichas coordenadas es asignar el gráfico a una variable y mostrar los valores de ésta (si además indicamos plot=FALSE nos ahorramos que R nos repita el gráfico, aunque tampoco tiene mayor importancia):
+```{r}
+clus4 = cutree(hc, 4) # establecemos 4 clusters
+which(clus4==1) # nos quedamos con los estados del 1º cluster
+```
 
-```{r  message=FALSE}
-xCoords<-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8), plot=FALSE)
-xCoords
-``` 
+Se puede visualizar el corte en el dendograma con una línea: 
 
-Vemos, por tanto, que las barras están en las posiciones 0.7 y 1.9. Probamos a reconstruir el gráfico fijando la extensión del eje X como `xlim=c(0,3.3)` (si no quedamos satisfechos de entrada podemos probar unos cuantos valores):
+```{r}
+plot(hc, hang = -1, cex = 0.6)
+abline(h = 4, lty = 2) # dibujar la línea en la altura 4. 
+```
 
-```{r  message=FALSE}
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"),xlim=c(0,3.3))
-``` 
+# Importancia de los colores
 
-Título
+La correcta selección de colores es fundamental para conseguir visualizaciones elegantes y atractivas. En esta sección veremos el paquete `colortools`: una herramienta simple y potente que facilita paletas de colores. 
 
-El título se especifica mediante la opción main, escribiendo el texto del título entre comillas:
+## Un poco de teoría
 
-```{r  message=FALSE}
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama")
-``` 
-    
-Texto en el eje de ordenadas
+La armonía entre colores está representada en la siguiente rueda de colores: 
 
-Mediante el argumento ylab especificamos el texto (también entre comillas) que deseamos como etiqueta del eje Y:
+![](http://www.sthda.com/sthda/RDoc/images/color-wheel.png)
 
-```{r  message=FALSE}
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas")
-``` 
+Definiciones básicas:
 
-Orientación de las etiquetas en los ejes
+1. ***Monocromático***: variaciones del mismo color.
 
-El párametro las cambia la orientación de las etiquetas del eje de ordenadas (consultar help(par) para ver las distintas opciones)
+2. ***Análogo***: los colores que se tocan en la rueda crean una combinación de colores armoniosa.
 
-```{r message=TRUE}
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas",las=1)
-``` 
+3. ***Complementario***: los colores de los extremos opuestos de la rueda proporcionan el mayor contraste.
 
-Cambio de la fuente para las letras de las etiquetas
+![](http://www.sthda.com/sthda/RDoc/images/color-wheel-basics.png)
 
-Para cambiar el tipo de fuente que se usa en las letras de las etiquetas del eje de abscisas se utiliza el argumento font.axis (consultar help(par) para ver las distinas fuentes posibles)
+4. ***División complementaria***: una variación del esquema complementario que usa dos colores en cada lado de un color directamente complementario. Estos colores tienen un alto contraste visual pero con menos tensión visual que los colores puramente complementarios.
 
-```{r message=FALSE}
-barplot(prop.table(table(BRCA_all_data$vital_status)),col=c("orange","blue"),
-        legend.text=c("Vivos","Muertos"),ylim=c(0,0.8),main="Mujeres con cancer de mama",   ylab ="Frecuencias Relativas",las=1,font.axis=4)
-``` 
+5. ***Triádico***: tres colores igualmente espaciados alrededor de la rueda de colores crean un interés visual intenso.
 
-Exportación de una gráfica
+6. ***Tetrádico***: Dos pares de colores complementarios. Este esquema es popular porque ofrece un fuerte contraste visual al tiempo que conserva la armonía.
 
-La gráfica se puede observar con más detalle haciendo click en "Zoom", en área de Files. Y, haciendo click en "Export", se puede guardar el gráfico en formato .png. 
+![](http://www.sthda.com/sthda/RDoc/images/color-wheel-basics-2.png)
 
-### Histogramas
+## El paquete `colortools`
 
-Un histograma es una representación gráfica de la distribución de frecuencias de una variable continua. Consiste en una sucesión de rectángulos levantados sobre un eje que representa los valores de la variable. Cada rectángulo tiene un área proporcional a la frecuencia de valores observada en el intervalo sobre el que se levanta. En esta sección aprenderemos a construir un histograma con R, a superponerle una distribución de probabilidad teórica y otra estimada no paramétricamente, a insertar títulos, etiquetas, etc.
+```{r}
+library(colortools)
+```
 
-Usaremos los pacientes de cancer de mama (BRCA_all_data). En concreto, nos interesa ver el histograma de las edades de las pacientes.
+1. Generar una rueda de colores sobre la base de un color
 
-```{r echo=FALSE, message=FALSE}
-hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
+```{r}
+wheel("darkblue", num = 12)
+```
 
-curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
-      add=TRUE, col="blue", lwd=2)
+En el ejemplo anterior utilizamos el color `darkblue` y pedimos 12 variantes. 
 
-lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
+2. Generar colores adyacentes y análogos
 
-legend("topleft",col=c("blue","red"),legend =c("Densidad normal estimada","Estimador de núcleo de la densidad"),lwd=2, bty = "n")
-``` 
+```{r}
+adjacent("darkblue")
+```
 
-Construcción del histograma básico
+3. Generar colores complementarios
 
-Consultar la ayuda: `help(hist)`. Para empezar,debemos pasar a la función hist los datos de la variable a representar, en nuestro caso la variable `age_at_initial_pathologic_diagnosis`.
+```{r}
+complementary("steelblue")
+```
 
-```{r message=FALSE}
-hist(BRCA_all_data$age_at_initial_pathologic_diagnosis, main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
-``` 
+4. Generar dos complementarios 
 
-Definición del eje de ordenadas en frecuencias relativas y color del histograma
+```{r}
+splitComp("steelblue")
+```
 
-El eje de ordenadas muestra por defecto frecuencias absolutas; el gráfico que queremos construir es con frecuencias relativas en este eje. Para ello utilizamos la opción freq=FALSE; además le damos color al histograma mediante col="lightcyan"
+5. Generar el tetrádico
 
-```{r message=FALSE}
-hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan", main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
-``` 
+```{r}
+tetradic("steelblue")
+```
 
-Incremento de la longitud del eje de ordenadas
+6. Generar los colores cuadrados
 
-Para que en la gráfica haya espacio para la leyenda, alargamos el eje de ordenadas mediante la opción ylim:
+```{r}
+square("steelblue")
+```
 
-```{r message=FALSE}
-hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
-``` 
+7. Generar una gama de colores
 
-Estimación de la función de densidad de la variable mediante un estimador de nucleo
+```{r}
+sequential("steelblue")
+```
 
-El estimador de núcleo de la función de densidad del peso eviscerado se calcula mediante `density(BRCA_all_data$age_at_initial_pathologic_diagnosis)`. Para superponer esta función al histograma utilizaremos la función de bajo nivel `lines`; además dibujamos la línea con grosor  `lwd=2` y de color rojo:
+8. Herramienta online
 
-```{r message=FALSE}
-hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
-lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
-``` 
+Si quieres generar una paleta de colores con una herramienta online, puede utilizar [Color Scheme Designer](http://colorschemedesigner.com/csd-3.5/).
 
-Ajuste de una función de densidad normal con media y desviación estándar estimadas a partir de los datos
 
-Ajustamos también a nuestros datos una función de densidad normal con media igual a la media estimada de la edad y desviación típica también igual a la observada en la muestra.
 
-```{r message=FALSE}
-hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
-lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
-curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
-      add=TRUE, col="blue", lwd=2)
-``` 
 
-Leyenda
 
-Por último añadimos una leyenda explicando qué representa cada curva:
 
-```{r echo= FALSE, message=FALSE}
-hist(BRCA_all_data$age_at_initial_pathologic_diagnosis,freq=FALSE, col="lightcyan",ylim=c(0,0.05), main="Histograma de la edad de las pacientes",xlab="",ylab="Densidad")
 
-curve(dnorm(x,mean=mean(BRCA_all_data$age_at_initial_pathologic_diagnosis),sd=sd(BRCA_all_data$age_at_initial_pathologic_diagnosis)), 
-      add=TRUE, col="blue", lwd=2)
-
-lines(density(BRCA_all_data$age_at_initial_pathologic_diagnosis),col="red",lwd=2)
-
-legend("topleft",col=c("blue","red"),legend =c("Densidad normal estimada","Estimador de núcleo de la densidad"),lwd=2, bty = "n")
-``` 
