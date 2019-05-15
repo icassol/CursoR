@@ -18,7 +18,7 @@ if (!"BiocStyle" %in% rownames(installed.packages()))
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set( autodep=TRUE)
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
 ```
 
 # Estadística Descriptiva con R
