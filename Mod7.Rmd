@@ -1,11 +1,15 @@
 ---
-title: 'Regresión lineal simple y múltiple'
+title: 'Regresión'
 output:
   html_document:
     fig_caption: yes
     fig_height: 4
     fig_width: 4.5
+    highlight: textmate
+    keep_md: no
     number_sections: yes
+    self_contained: yes
+    theme: flatly
     toc: yes
     toc_depth: 2
 ---
@@ -17,7 +21,11 @@ if (!"BiocStyle" %in% rownames(installed.packages()))
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set(cache=TRUE, autodep=TRUE, echo=TRUE)
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Regresiones lineales 
@@ -46,7 +54,7 @@ plot(Age,BP, pch =16); # seteamos puntos rellenos
 
 La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta). 
 
-Contando con los vectores `BP` y `Age` es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta 
+Contando con los arreglos `BP` y `Age` es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta 
 
 > *¿qué presión tendrá un paciente con una edad determinada?*
 
@@ -343,9 +351,11 @@ predict(model_mult, new, interval="prediction", level = 0.95)
 
 # Selección de variables
 
-Ahora ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (´Mass´) se prediga utilizando el antebrazo (`Fore`), la cintura (`Waist`) y la altura (`Height`). 
+Hasta ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (´Mass´) se prediga utilizando el antebrazo (`Fore`), la cintura (`Waist`) y la altura (`Height`). 
 
 En muchos casos, se presenta el problema de tener muchas variables y, por tanto, de no saber cuáles son importantes para el modelo. Vamos a ver un método que permite la selección automática del mejor subconjunto de variables para predecir una determinada variable. 
+
+Recomendamos leer [este artículo](https://www.analyticsvidhya.com/blog/2016/12/introduction-to-feature-selection-methods-with-an-example-or-how-to-select-the-right-variables/) sobre la importancia de la selección de variables. 
 
 ## Introducción al método Stepwise (paso a paso)
 
@@ -434,7 +444,7 @@ Pasos:
 2. Cargar los datos 
 
 ``` {r}
-load("./resources/LogisticRegresion&StepAIC.RData")
+load("./LogisticRegresion&StepAIC.RData")
 ```
 
 3. Ver el contenido de cada columna: 
@@ -579,12 +589,6 @@ fit1 <- rpart(Reliability ~ Price + Country + Mileage + Type, data = cu.summary,
 
 3. Visualización del árbol correspondiente (usando el paquete ´rattle´):
 
-```{r echo=FALSE}
-if (!is.element("rattle", installed.packages()[,1])){
-  install.packages("rattle", repos = "http://mirror.fcaglp.unlp.edu.ar/CRAN/")
-}
-```
-
 ```{r}
 library(rattle)
 fancyRpartPlot(fit1)
@@ -644,4 +648,276 @@ De los 85 autos, el arbol de regresión ha predicho:
 - se ha equivocado por 2 categorías en el 17.64 % de los autos (15/85)
 
 Tarea: pruebe la performance del predictor cambiando el criterio de split (no utilizar 'gini' y utilizar 'information')
+
+# Machine learning con el paquete `CARET`
+
+Uno de los mayores retos del aprendizaje automático es acertar en los algoritmos adecuados y configurar los parámetros de manera adecuada. 
+
+El paquete `caret` (Classification And Regression Training) es posiblemente uno de los proyectos de R más grandes de *machine learning*. Este paquete contiene todo lo que necesitas saber para resolver casi cualquier problema de aprendizaje automático supervisado. Proporciona una interfaz uniforme para varios algoritmos de aprendizaje automático y estandariza otras tareas como la división de datos, el preprocesamiento, la selección de características, la estimación de importancia de variables, etc. Es esencialmente un *wrapper* que contiene más de 200 algoritmos de machine learning. 
+
+Vamos a recorrer algunas funcionalidades de `caret` utilizando el dataset [The Loan Prediction problem-III](https://datahack.analyticsvidhya.com/contest/practice-problem-loan-prediction-iii/).
+
+1. Descargar el paquete
+
+```{}
+
+> install.packages("caret", dependencies = c("Depends", "Suggests"))
+```
+
+2. Cargar el paquete y los datos
+
+```{r}
+library(caret)
+
+# Subir los datos del Loan prediction problem III:
+train<-read.csv("train_u6lujuX_CVtuZ9i.csv",stringsAsFactors = T)
+
+# Ver la estructura de los datos:
+str(train)
+```
+
+En nuestro caso, vamos a predecir el status de préstamo (`Loan_Status`) basándonos en los datos de la persona. 
+
+3. Pre-procesado de los datos
+
+CARET necesita que: 
+- no haya valores nulos. 
+- la variable dependiente debe ser numérica. 
+- que las variables independientes sean categóricas (factores).
+- que los valores de las categorías sean numéricos.
+
+En los próximos pasos, trabajaremos los datos para cumplir con esos requisitos. 
+
+3.1 Reemplazar valores nulos:
+
+```{r}
+sum(is.na(train))
+```
+
+Vamos a completar los valores nulos usando el [algoritmo KNN](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm). Dado un valor  x, KNN busca  entre los "vecinos cercanos" de x, cuál es la clasificación (o un determinado valor) más frecuente. 
+
+En nuestro caso, le vamos a pedir a KNN que "centre" y "escale" los valores nalus respecto de sus vecinos. 
+
+```{r}
+preProcValues <- preProcess(train, method = c("knnImpute","center","scale"))
+
+library('RANN')
+train_processed <- predict(preProcValues, train)
+sum(is.na(train_processed))
+```
+
+3.2 Convertir la variable dependiente (`Loan_Status`) a numérica.
+
+```{r}
+train_processed$Loan_Status<-ifelse(train_processed$Loan_Status=='N',0,1)
+
+id<-train_processed$Loan_ID
+train_processed$Loan_ID<-NULL
+
+# Chequear la estructura del data.frame preprocesado
+str(train_processed)
+```
+
+3.3 Convertir cada variable categórica a numérica usando variables ficticias (dummy)
+
+```{r}
+dmy <- dummyVars(" ~ .", data = train_processed,fullRank = T)
+train_transformed <- data.frame(predict(dmy, newdata = train_processed))
+
+# Chequear la estructura del data.frame transformado
+str(train_transformed)
+```
+
+Aquí, `fullrank = T` creará solo (n-1) columnas para una columna categórica con n niveles diferentes. Esto funciona especialmente bien para los predictores categóricas como sexo, si está casado, etc. donde solo tenemos dos niveles: masculino/femenino, sí/no, etc. porque 0 se puede usar para representar una clase mientras que 1 representa la otra clase en la misma columna.
+
+3.4 Volver a convertir las variables a categóricas
+
+```{r}
+train_transformed$Loan_Status<-as.factor(train_transformed$Loan_Status)
+```
+
+4. Dividir los datos entre train y test
+
+Vamos a dividir los datos entre 75 % y 25 %: 
+
+```{r}
+index <- createDataPartition(train_transformed$Loan_Status, p=0.75, list=FALSE)
+trainSet <- train_transformed[ index,]
+testSet <- train_transformed[-index,]
+```
+
+5. Seleccionar de variables (feature selection)
+
+Vamos a realizar una selección automática de variables con la técnica RFE (recursive feature).
+
+```{r}
+control <- rfeControl(functions = rfFuncs,
+                   method = "repeatedcv",
+                   repeats = 3,
+                   verbose = FALSE)
+
+outcomeName<-'Loan_Status'
+
+predictors<-names(trainSet)[!names(trainSet) %in% outcomeName]
+
+Loan_Pred_Profile <- rfe(trainSet[,predictors], trainSet[,outcomeName],
+                      rfeControl = control)
+
+Loan_Pred_Profile
+```
+
+El selector sugiere utilizar 5 variables: "Credit_History", "LoanAmount", "Loan_Amount_Term", "ApplicantIncome", "CoapplicantIncome" que guardaremos en: 
+
+```{r}
+predictors<-c("Credit_History", "LoanAmount", "Loan_Amount_Term", "ApplicantIncome", "CoapplicantIncome")
+```
+
+6. Generar el modelo
+
+Caret tiene +200 modelo estadístico de predicción. Puedes verlos con:
+
+```{r}
+names(getModelInfo())
+```
+
+Para conocer el funcionamiento, uso y parámetros de cada modelo, puedes visitar [esta página](http://topepo.github.io/caret/available-models.html). 
+
+Nosotros vamos a generar 4 modelos: 
+
+```{r}
+# modelo Random Forest
+model_rf<-train(trainSet[,predictors],trainSet[,outcomeName],method='rf')
+
+# modelo con una red neuronal
+model_nnet<-train(trainSet[,predictors],trainSet[,outcomeName],method='nnet')
+
+# modelo lineal generalizado
+model_glm<-train(trainSet[,predictors],trainSet[,outcomeName],method='glm')
+
+# modelo de incremento estocástico del gradiente
+model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm')
+```
+
+
+7. Configuración de parámetros (Parameter tuning)
+
+Como hemos comentado, Caret contiene más de 200 modelos. Cada uno de ellos contiene sus propio set de parámetros y, por tanto, es necesario setearlos correctamente. A continuación incluimos el tradicional pseudo-código que se utiliza en Caret para el seteo de parámetros: 
+
+![](https://www.analyticsvidhya.com/wp-content/uploads/2016/12/caret-6.png)
+
+> **Resampling**: método estadístico que se utiliza para medir la performance del modelo seleccionado. Existen varios métodos de resampling. Caret utiliza [`bootstrap`](https://es.wikipedia.org/wiki/Bootstrapping_(estadística)) por default.  
+
+En nuestro ejemplo, vamos a utilizar validación cruzada (`cross-validation`) para el resampling. Vamos a repetir 5 veces, una validación cruzada con 5 participanes (*5-Fold cross-validation repeated 5 times*): 
+
+```{r}
+fitControl <- trainControl(
+  method = "repeatedcv",
+  number = 5,
+  repeats = 5)
+```
+
+6.1 Conocer los parámetros de un modelo
+
+Para ver los parámetros que requiere un modelo, se utiliza la función `modelLookup()`. Por ejemplo, para conocer los parámetro del modelo de incremento estocástico del gradiente (gbm);
+
+```{r}
+modelLookup(model='gbm')
+```
+
+6.2 Grilla de valores para los parámetros
+
+Vamos a generar una grilla con posibles valores de manera que Caret nos sugiera con cuáles quedarnos: 
+
+```{r}
+#Generación de una grilla
+grid <- expand.grid(n.trees=c(10,20,50,100,500,1000),shrinkage=c(0.01,0.05,0.1,0.5),n.minobsinnode = c(3,5,10),interaction.depth=c(1,5,10))
+```
+
+6.3 Generación de escenarios a partir de la grilla
+
+```{r}
+# training the model
+model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneGrid=grid)
+
+print(model_gbm)
+```
+
+En nuestro caso, utilizado el criterio de Precisión (Accuracy) para seleccionar el mejor set de valores. Los valores más conveniente que resultan del análisis son: 
+
+- n.trees = 10,
+- interaction.depth = 1, 
+- shrinkage = 0.05 y (contracción)
+- n.minobsinnode = 3
+
+6.4 Veamos las gráficas de cada escenario
+
+```{r}
+plot(model_gbm)
+```
+
+6.5 `tuneLength` en lugar de definir una grilla de valores
+
+En lugar de especificar los valores exactos de cada parámetro para realizar el *tuning* de los parámetros, podemos utilizar el parámetro `tuneLength` que busca cualquier número de posibles valores por cada *tuning* de parámetro. Vamos a probar utilizando `tuneLength=10`: 
+
+```{r}
+model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneLength=10)
+print(model_gbm)
+```
+
+Interpretación: 
+
+- El parámetro `shrinkage` se mantuvo en 0.1, 
+- El parámetro `n.minobsinnode´ se mantuvo constante en 10,
+- La precisión (Accuracy) se utilizó como criterio para seleccionar el modelo óptimo.
+
+Los valores finales sugeridos son: 
+
+- n.trees = 50, 
+- interaction.depth = 2, 
+- shrinkage = 0.1 y 
+n.minobsinnode = 10.
+
+6.5.1 Gráfica de la propuesta: 
+
+```{r}
+plot(model_gbm)
+```
+
+7. Estimación de la importancia de las variables
+
+Una vez que se han seleccionado las variables, puede ser conveniente indicar cuán importante es cada variable en el modelo. En `caret` se puede hacer del siguiente modo: 
+
+```{r}
+library(gbm)
+varImp(object=model_gbm)
+plot(varImp(object=model_gbm),main="GBM - Variable Importance")
+```
+
+Sugerimos realizar la estimación de importancia para los otros tres modelos: ¿el ranking de importancia de variables es la misma para los 4 modelos?
+
+8. Predicciones
+
+Las predicciones las podemos realizar con la función `predict.train()`. Se deberá indicar el modelo y los datos de test. Cuando se trata de modelos de clasificación, Caret permite setear un el parámetro type con dos posibles valores: 
+
+- `type="raw"`: la salida será la predicción "cruda". El valor (sin más).
+- `type="prob"`: la salida proporcionará las probabilidades de ocurrencia de cada observación en varias clases de variable de salida.  
+
+```{r}
+predictions<-predict.train(object=model_gbm,testSet[,predictors],type="raw")
+table(predictions)
+```
+
+9. Exactitud del modelo
+
+En inteligencia artificial, una ***matriz de confusión*** indica el desempeño de un algoritmo en un proceso de aprendizaje supervisado. Las columnas son datos reales y las filas son datos predichos. En el siguiente ejemplo, de 8 gatos reales, el modelo predice correctamente a 5 y a los otros tres los confunde con un perro: 
+
+![](https://github.com/icassol/platform-samples/blob/master/Confusion.jpg?raw=true)
+
+Sobre la base de la matriz de confusión, es simple medir la exactitud de un modelo: 
+
+```{r}
+confusionMatrix(predictions,testSet[,outcomeName])
+```
+
+
 
