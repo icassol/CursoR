@@ -308,7 +308,7 @@ $(document).ready(function () {
   <a href="Mod6.html">Web</a>
 </li>
 <li>
-  <a href="Mod7.html">Regresión</a>
+  <a href="Mod7.html">Predicción</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -802,10 +802,10 @@ plot(as.phylo(hc), type = &quot;unrooted&quot;, cex = 0.6,
 <p>Es posible establecer grupos y manejarlos de manera independiente. Por ejemplo:</p>
 <pre class="r"><code>clus4 = cutree(hc, 4) # establecemos 4 clusters
 which(clus4==1) # nos quedamos con los estados del 1º cluster</code></pre>
-<pre><code>##        Alabama        Georgia      Louisiana    Mississippi North Carolina South Carolina 
-##              1             10             18             24             33             40 
-##      Tennessee 
-##             42</code></pre>
+<pre><code>##        Alabama        Georgia      Louisiana    Mississippi North Carolina 
+##              1             10             18             24             33 
+## South Carolina      Tennessee 
+##             40             42</code></pre>
 <p>Se puede visualizar el corte en el dendograma con una línea:</p>
 <pre class="r"><code>plot(hc, hang = -1, cex = 0.6)
 abline(h = 4, lty = 2) # dibujar la línea en la altura 4. </code></pre>
@@ -850,8 +850,8 @@ abline(h = 4, lty = 2) # dibujar la línea en la altura 4. </code></pre>
 </ol>
 <pre class="r"><code>wheel(&quot;darkblue&quot;, num = 12)</code></pre>
 <p><img src="Mod4_files/figure-html/unnamed-chunk-52-1.png" width="432" /></p>
-<pre><code>##  [1] &quot;#00008B&quot; &quot;#46008B&quot; &quot;#8B008B&quot; &quot;#8B0046&quot; &quot;#8B0000&quot; &quot;#8B4500&quot; &quot;#8B8B00&quot; &quot;#468B00&quot; &quot;#008B00&quot;
-## [10] &quot;#008B45&quot; &quot;#008B8B&quot; &quot;#00468B&quot;</code></pre>
+<pre><code>##  [1] &quot;#00008B&quot; &quot;#46008B&quot; &quot;#8B008B&quot; &quot;#8B0046&quot; &quot;#8B0000&quot; &quot;#8B4500&quot; &quot;#8B8B00&quot;
+##  [8] &quot;#468B00&quot; &quot;#008B00&quot; &quot;#008B45&quot; &quot;#008B8B&quot; &quot;#00468B&quot;</code></pre>
 <p>En el ejemplo anterior utilizamos el color <code>darkblue</code> y pedimos 12 variantes.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Generar colores adyacentes y análogos</li>
@@ -888,9 +888,11 @@ abline(h = 4, lty = 2) # dibujar la línea en la altura 4. </code></pre>
 </ol>
 <pre class="r"><code>sequential(&quot;steelblue&quot;)</code></pre>
 <p><img src="Mod4_files/figure-html/unnamed-chunk-58-1.png" width="432" /></p>
-<pre><code>##  [1] &quot;#B4B4B4FF&quot; &quot;#ABB0B4FF&quot; &quot;#A2ACB4FF&quot; &quot;#99A8B4FF&quot; &quot;#90A4B4FF&quot; &quot;#87A0B4FF&quot; &quot;#7E9BB4FF&quot; &quot;#7597B4FF&quot;
-##  [9] &quot;#6C93B4FF&quot; &quot;#638FB4FF&quot; &quot;#5A8BB4FF&quot; &quot;#5187B4FF&quot; &quot;#4883B4FF&quot; &quot;#3F7FB4FF&quot; &quot;#367BB4FF&quot; &quot;#2D77B4FF&quot;
-## [17] &quot;#2473B4FF&quot; &quot;#1B6EB4FF&quot; &quot;#126AB4FF&quot; &quot;#0966B4FF&quot; &quot;#0062B4FF&quot;</code></pre>
+<pre><code>##  [1] &quot;#B4B4B4FF&quot; &quot;#ABB0B4FF&quot; &quot;#A2ACB4FF&quot; &quot;#99A8B4FF&quot; &quot;#90A4B4FF&quot;
+##  [6] &quot;#87A0B4FF&quot; &quot;#7E9BB4FF&quot; &quot;#7597B4FF&quot; &quot;#6C93B4FF&quot; &quot;#638FB4FF&quot;
+## [11] &quot;#5A8BB4FF&quot; &quot;#5187B4FF&quot; &quot;#4883B4FF&quot; &quot;#3F7FB4FF&quot; &quot;#367BB4FF&quot;
+## [16] &quot;#2D77B4FF&quot; &quot;#2473B4FF&quot; &quot;#1B6EB4FF&quot; &quot;#126AB4FF&quot; &quot;#0966B4FF&quot;
+## [21] &quot;#0062B4FF&quot;</code></pre>
 <ol start="8" style="list-style-type: decimal">
 <li>Herramienta online</li>
 </ol>

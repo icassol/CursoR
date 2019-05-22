@@ -11,7 +11,7 @@
 
 
 
-<title>Regresión</title>
+<title>Predicción</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -308,7 +308,7 @@ $(document).ready(function () {
   <a href="Mod6.html">Web</a>
 </li>
 <li>
-  <a href="Mod7.html">Regresión</a>
+  <a href="Mod7.html">Predicción</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -322,7 +322,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Regresión</h1>
+<h1 class="title toc-ignore">Predicción</h1>
 
 </div>
 
@@ -469,8 +469,10 @@ shapiro.test(xtest)</code></pre>
 ## 10  7  7  7  8  4.82 7.26  6.42  7.91
 ## 11  5  5  5  8  5.68 4.74  5.73  6.89</code></pre>
 <pre class="r"><code>apply(anscombe,2,var) # la varianza de cada columna</code></pre>
-<pre><code>##        x1        x2        x3        x4        y1        y2        y3        y4 
-## 11.000000 11.000000 11.000000 11.000000  4.127269  4.127629  4.122620  4.123249</code></pre>
+<pre><code>##        x1        x2        x3        x4        y1        y2        y3 
+## 11.000000 11.000000 11.000000 11.000000  4.127269  4.127629  4.122620 
+##        y4 
+##  4.123249</code></pre>
 <pre class="r"><code>apply(anscombe,2,mean) # la media de cada columna</code></pre>
 <pre><code>##       x1       x2       x3       x4       y1       y2       y3       y4 
 ## 9.000000 9.000000 9.000000 9.000000 7.500909 7.500909 7.500000 7.500909</code></pre>
@@ -490,20 +492,20 @@ shapiro.test(xtest)</code></pre>
 <p>Las cuatro rectas son idénticas.</p>
 <p>Generemos los cuatro modelos de manera más eficiente, guardándolos en una lista:</p>
 <pre class="r"><code>summary(anscombe)</code></pre>
-<pre><code>##        x1             x2             x3             x4           y1               y2       
-##  Min.   : 4.0   Min.   : 4.0   Min.   : 4.0   Min.   : 8   Min.   : 4.260   Min.   :3.100  
-##  1st Qu.: 6.5   1st Qu.: 6.5   1st Qu.: 6.5   1st Qu.: 8   1st Qu.: 6.315   1st Qu.:6.695  
-##  Median : 9.0   Median : 9.0   Median : 9.0   Median : 8   Median : 7.580   Median :8.140  
-##  Mean   : 9.0   Mean   : 9.0   Mean   : 9.0   Mean   : 9   Mean   : 7.501   Mean   :7.501  
-##  3rd Qu.:11.5   3rd Qu.:11.5   3rd Qu.:11.5   3rd Qu.: 8   3rd Qu.: 8.570   3rd Qu.:8.950  
-##  Max.   :14.0   Max.   :14.0   Max.   :14.0   Max.   :19   Max.   :10.840   Max.   :9.260  
-##        y3              y4        
-##  Min.   : 5.39   Min.   : 5.250  
-##  1st Qu.: 6.25   1st Qu.: 6.170  
-##  Median : 7.11   Median : 7.040  
-##  Mean   : 7.50   Mean   : 7.501  
-##  3rd Qu.: 7.98   3rd Qu.: 8.190  
-##  Max.   :12.74   Max.   :12.500</code></pre>
+<pre><code>##        x1             x2             x3             x4    
+##  Min.   : 4.0   Min.   : 4.0   Min.   : 4.0   Min.   : 8  
+##  1st Qu.: 6.5   1st Qu.: 6.5   1st Qu.: 6.5   1st Qu.: 8  
+##  Median : 9.0   Median : 9.0   Median : 9.0   Median : 8  
+##  Mean   : 9.0   Mean   : 9.0   Mean   : 9.0   Mean   : 9  
+##  3rd Qu.:11.5   3rd Qu.:11.5   3rd Qu.:11.5   3rd Qu.: 8  
+##  Max.   :14.0   Max.   :14.0   Max.   :14.0   Max.   :19  
+##        y1               y2              y3              y4        
+##  Min.   : 4.260   Min.   :3.100   Min.   : 5.39   Min.   : 5.250  
+##  1st Qu.: 6.315   1st Qu.:6.695   1st Qu.: 6.25   1st Qu.: 6.170  
+##  Median : 7.580   Median :8.140   Median : 7.11   Median : 7.040  
+##  Mean   : 7.501   Mean   :7.501   Mean   : 7.50   Mean   : 7.501  
+##  3rd Qu.: 8.570   3rd Qu.:8.950   3rd Qu.: 7.98   3rd Qu.: 8.190  
+##  Max.   :10.840   Max.   :9.260   Max.   :12.74   Max.   :12.500</code></pre>
 <pre class="r"><code>##-- now some &quot;magic&quot; to do the 4 regressions in a loop:
 ff &lt;- y ~ x
 for(i in 1:4) {
@@ -705,10 +707,12 @@ model_mult</code></pre>
 ## lm(formula = Mass ~ ., data = mydata)
 ## 
 ## Coefficients:
-## (Intercept)         Fore        Bicep        Chest         Neck     Shoulder        Waist  
-##   -69.51714      1.78182      0.15509      0.18914     -0.48184     -0.02931      0.66144  
-##      Height         Calf        Thigh         Head  
-##     0.31785      0.44589      0.29721     -0.91956</code></pre>
+## (Intercept)         Fore        Bicep        Chest         Neck  
+##   -69.51714      1.78182      0.15509      0.18914     -0.48184  
+##    Shoulder        Waist       Height         Calf        Thigh  
+##    -0.02931      0.66144      0.31785      0.44589      0.29721  
+##        Head  
+##    -0.91956</code></pre>
 <p>Lo único que cambió, respecto del ejemplo de la regresión lineal simple (<code>PB~Age</code>), es que utilizamos el operador <code>.</code> a la derecha de <code>~</code>, lo que significa “todos”. Veamos las estadísticas del modelo:</p>
 <pre class="r"><code>summary(model_mult)</code></pre>
 <pre><code>## 
@@ -2745,9 +2749,10 @@ table(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)))</code></pre>
 <pre class="r"><code>hist(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)), 
      main = &quot;&quot;, xlab = &quot;predsAll-allcars$Reliability&quot;, ylab = &quot;cantidad de autos&quot;, 
      col=&quot;lightcyan&quot;, shadow=TRUE)</code></pre>
-<pre><code>## Warning in plot.window(xlim, ylim, &quot;&quot;, ...): &quot;shadow&quot; is not a graphical parameter</code></pre>
-<pre><code>## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...): &quot;shadow&quot; is not a graphical
+<pre><code>## Warning in plot.window(xlim, ylim, &quot;&quot;, ...): &quot;shadow&quot; is not a graphical
 ## parameter</code></pre>
+<pre><code>## Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+## &quot;shadow&quot; is not a graphical parameter</code></pre>
 <pre><code>## Warning in axis(1, ...): &quot;shadow&quot; is not a graphical parameter</code></pre>
 <pre><code>## Warning in axis(2, ...): &quot;shadow&quot; is not a graphical parameter</code></pre>
 <p><img src="Mod7_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
@@ -2906,66 +2911,86 @@ Loan_Pred_Profile</code></pre>
 </ol>
 <p>Caret tiene +200 modelo estadístico de predicción. Puedes verlos con:</p>
 <pre class="r"><code>names(getModelInfo())</code></pre>
-<pre><code>##   [1] &quot;ada&quot;                 &quot;AdaBag&quot;              &quot;AdaBoost.M1&quot;         &quot;adaboost&quot;           
-##   [5] &quot;amdai&quot;               &quot;ANFIS&quot;               &quot;avNNet&quot;              &quot;awnb&quot;               
-##   [9] &quot;awtan&quot;               &quot;bag&quot;                 &quot;bagEarth&quot;            &quot;bagEarthGCV&quot;        
-##  [13] &quot;bagFDA&quot;              &quot;bagFDAGCV&quot;           &quot;bam&quot;                 &quot;bartMachine&quot;        
-##  [17] &quot;bayesglm&quot;            &quot;binda&quot;               &quot;blackboost&quot;          &quot;blasso&quot;             
-##  [21] &quot;blassoAveraged&quot;      &quot;bridge&quot;              &quot;brnn&quot;                &quot;BstLm&quot;              
-##  [25] &quot;bstSm&quot;               &quot;bstTree&quot;             &quot;C5.0&quot;                &quot;C5.0Cost&quot;           
-##  [29] &quot;C5.0Rules&quot;           &quot;C5.0Tree&quot;            &quot;cforest&quot;             &quot;chaid&quot;              
-##  [33] &quot;CSimca&quot;              &quot;ctree&quot;               &quot;ctree2&quot;              &quot;cubist&quot;             
-##  [37] &quot;dda&quot;                 &quot;deepboost&quot;           &quot;DENFIS&quot;              &quot;dnn&quot;                
-##  [41] &quot;dwdLinear&quot;           &quot;dwdPoly&quot;             &quot;dwdRadial&quot;           &quot;earth&quot;              
-##  [45] &quot;elm&quot;                 &quot;enet&quot;                &quot;evtree&quot;              &quot;extraTrees&quot;         
-##  [49] &quot;fda&quot;                 &quot;FH.GBML&quot;             &quot;FIR.DM&quot;              &quot;foba&quot;               
-##  [53] &quot;FRBCS.CHI&quot;           &quot;FRBCS.W&quot;             &quot;FS.HGD&quot;              &quot;gam&quot;                
-##  [57] &quot;gamboost&quot;            &quot;gamLoess&quot;            &quot;gamSpline&quot;           &quot;gaussprLinear&quot;      
-##  [61] &quot;gaussprPoly&quot;         &quot;gaussprRadial&quot;       &quot;gbm_h2o&quot;             &quot;gbm&quot;                
-##  [65] &quot;gcvEarth&quot;            &quot;GFS.FR.MOGUL&quot;        &quot;GFS.LT.RS&quot;           &quot;GFS.THRIFT&quot;         
-##  [69] &quot;glm.nb&quot;              &quot;glm&quot;                 &quot;glmboost&quot;            &quot;glmnet_h2o&quot;         
-##  [73] &quot;glmnet&quot;              &quot;glmStepAIC&quot;          &quot;gpls&quot;                &quot;hda&quot;                
-##  [77] &quot;hdda&quot;                &quot;hdrda&quot;               &quot;HYFIS&quot;               &quot;icr&quot;                
-##  [81] &quot;J48&quot;                 &quot;JRip&quot;                &quot;kernelpls&quot;           &quot;kknn&quot;               
-##  [85] &quot;knn&quot;                 &quot;krlsPoly&quot;            &quot;krlsRadial&quot;          &quot;lars&quot;               
-##  [89] &quot;lars2&quot;               &quot;lasso&quot;               &quot;lda&quot;                 &quot;lda2&quot;               
-##  [93] &quot;leapBackward&quot;        &quot;leapForward&quot;         &quot;leapSeq&quot;             &quot;Linda&quot;              
-##  [97] &quot;lm&quot;                  &quot;lmStepAIC&quot;           &quot;LMT&quot;                 &quot;loclda&quot;             
-## [101] &quot;logicBag&quot;            &quot;LogitBoost&quot;          &quot;logreg&quot;              &quot;lssvmLinear&quot;        
-## [105] &quot;lssvmPoly&quot;           &quot;lssvmRadial&quot;         &quot;lvq&quot;                 &quot;M5&quot;                 
-## [109] &quot;M5Rules&quot;             &quot;manb&quot;                &quot;mda&quot;                 &quot;Mlda&quot;               
-## [113] &quot;mlp&quot;                 &quot;mlpKerasDecay&quot;       &quot;mlpKerasDecayCost&quot;   &quot;mlpKerasDropout&quot;    
-## [117] &quot;mlpKerasDropoutCost&quot; &quot;mlpML&quot;               &quot;mlpSGD&quot;              &quot;mlpWeightDecay&quot;     
-## [121] &quot;mlpWeightDecayML&quot;    &quot;monmlp&quot;              &quot;msaenet&quot;             &quot;multinom&quot;           
-## [125] &quot;mxnet&quot;               &quot;mxnetAdam&quot;           &quot;naive_bayes&quot;         &quot;nb&quot;                 
-## [129] &quot;nbDiscrete&quot;          &quot;nbSearch&quot;            &quot;neuralnet&quot;           &quot;nnet&quot;               
-## [133] &quot;nnls&quot;                &quot;nodeHarvest&quot;         &quot;null&quot;                &quot;OneR&quot;               
-## [137] &quot;ordinalNet&quot;          &quot;ordinalRF&quot;           &quot;ORFlog&quot;              &quot;ORFpls&quot;             
-## [141] &quot;ORFridge&quot;            &quot;ORFsvm&quot;              &quot;ownn&quot;                &quot;pam&quot;                
-## [145] &quot;parRF&quot;               &quot;PART&quot;                &quot;partDSA&quot;             &quot;pcaNNet&quot;            
-## [149] &quot;pcr&quot;                 &quot;pda&quot;                 &quot;pda2&quot;                &quot;penalized&quot;          
-## [153] &quot;PenalizedLDA&quot;        &quot;plr&quot;                 &quot;pls&quot;                 &quot;plsRglm&quot;            
-## [157] &quot;polr&quot;                &quot;ppr&quot;                 &quot;PRIM&quot;                &quot;protoclass&quot;         
-## [161] &quot;qda&quot;                 &quot;QdaCov&quot;              &quot;qrf&quot;                 &quot;qrnn&quot;               
-## [165] &quot;randomGLM&quot;           &quot;ranger&quot;              &quot;rbf&quot;                 &quot;rbfDDA&quot;             
-## [169] &quot;Rborist&quot;             &quot;rda&quot;                 &quot;regLogistic&quot;         &quot;relaxo&quot;             
-## [173] &quot;rf&quot;                  &quot;rFerns&quot;              &quot;RFlda&quot;               &quot;rfRules&quot;            
-## [177] &quot;ridge&quot;               &quot;rlda&quot;                &quot;rlm&quot;                 &quot;rmda&quot;               
-## [181] &quot;rocc&quot;                &quot;rotationForest&quot;      &quot;rotationForestCp&quot;    &quot;rpart&quot;              
-## [185] &quot;rpart1SE&quot;            &quot;rpart2&quot;              &quot;rpartCost&quot;           &quot;rpartScore&quot;         
-## [189] &quot;rqlasso&quot;             &quot;rqnc&quot;                &quot;RRF&quot;                 &quot;RRFglobal&quot;          
-## [193] &quot;rrlda&quot;               &quot;RSimca&quot;              &quot;rvmLinear&quot;           &quot;rvmPoly&quot;            
-## [197] &quot;rvmRadial&quot;           &quot;SBC&quot;                 &quot;sda&quot;                 &quot;sdwd&quot;               
-## [201] &quot;simpls&quot;              &quot;SLAVE&quot;               &quot;slda&quot;                &quot;smda&quot;               
-## [205] &quot;snn&quot;                 &quot;sparseLDA&quot;           &quot;spikeslab&quot;           &quot;spls&quot;               
-## [209] &quot;stepLDA&quot;             &quot;stepQDA&quot;             &quot;superpc&quot;             &quot;svmBoundrangeString&quot;
-## [213] &quot;svmExpoString&quot;       &quot;svmLinear&quot;           &quot;svmLinear2&quot;          &quot;svmLinear3&quot;         
-## [217] &quot;svmLinearWeights&quot;    &quot;svmLinearWeights2&quot;   &quot;svmPoly&quot;             &quot;svmRadial&quot;          
-## [221] &quot;svmRadialCost&quot;       &quot;svmRadialSigma&quot;      &quot;svmRadialWeights&quot;    &quot;svmSpectrumString&quot;  
-## [225] &quot;tan&quot;                 &quot;tanSearch&quot;           &quot;treebag&quot;             &quot;vbmpRadial&quot;         
-## [229] &quot;vglmAdjCat&quot;          &quot;vglmContRatio&quot;       &quot;vglmCumulative&quot;      &quot;widekernelpls&quot;      
-## [233] &quot;WM&quot;                  &quot;wsrf&quot;                &quot;xgbDART&quot;             &quot;xgbLinear&quot;          
-## [237] &quot;xgbTree&quot;             &quot;xyf&quot;</code></pre>
+<pre><code>##   [1] &quot;ada&quot;                 &quot;AdaBag&quot;              &quot;AdaBoost.M1&quot;        
+##   [4] &quot;adaboost&quot;            &quot;amdai&quot;               &quot;ANFIS&quot;              
+##   [7] &quot;avNNet&quot;              &quot;awnb&quot;                &quot;awtan&quot;              
+##  [10] &quot;bag&quot;                 &quot;bagEarth&quot;            &quot;bagEarthGCV&quot;        
+##  [13] &quot;bagFDA&quot;              &quot;bagFDAGCV&quot;           &quot;bam&quot;                
+##  [16] &quot;bartMachine&quot;         &quot;bayesglm&quot;            &quot;binda&quot;              
+##  [19] &quot;blackboost&quot;          &quot;blasso&quot;              &quot;blassoAveraged&quot;     
+##  [22] &quot;bridge&quot;              &quot;brnn&quot;                &quot;BstLm&quot;              
+##  [25] &quot;bstSm&quot;               &quot;bstTree&quot;             &quot;C5.0&quot;               
+##  [28] &quot;C5.0Cost&quot;            &quot;C5.0Rules&quot;           &quot;C5.0Tree&quot;           
+##  [31] &quot;cforest&quot;             &quot;chaid&quot;               &quot;CSimca&quot;             
+##  [34] &quot;ctree&quot;               &quot;ctree2&quot;              &quot;cubist&quot;             
+##  [37] &quot;dda&quot;                 &quot;deepboost&quot;           &quot;DENFIS&quot;             
+##  [40] &quot;dnn&quot;                 &quot;dwdLinear&quot;           &quot;dwdPoly&quot;            
+##  [43] &quot;dwdRadial&quot;           &quot;earth&quot;               &quot;elm&quot;                
+##  [46] &quot;enet&quot;                &quot;evtree&quot;              &quot;extraTrees&quot;         
+##  [49] &quot;fda&quot;                 &quot;FH.GBML&quot;             &quot;FIR.DM&quot;             
+##  [52] &quot;foba&quot;                &quot;FRBCS.CHI&quot;           &quot;FRBCS.W&quot;            
+##  [55] &quot;FS.HGD&quot;              &quot;gam&quot;                 &quot;gamboost&quot;           
+##  [58] &quot;gamLoess&quot;            &quot;gamSpline&quot;           &quot;gaussprLinear&quot;      
+##  [61] &quot;gaussprPoly&quot;         &quot;gaussprRadial&quot;       &quot;gbm_h2o&quot;            
+##  [64] &quot;gbm&quot;                 &quot;gcvEarth&quot;            &quot;GFS.FR.MOGUL&quot;       
+##  [67] &quot;GFS.LT.RS&quot;           &quot;GFS.THRIFT&quot;          &quot;glm.nb&quot;             
+##  [70] &quot;glm&quot;                 &quot;glmboost&quot;            &quot;glmnet_h2o&quot;         
+##  [73] &quot;glmnet&quot;              &quot;glmStepAIC&quot;          &quot;gpls&quot;               
+##  [76] &quot;hda&quot;                 &quot;hdda&quot;                &quot;hdrda&quot;              
+##  [79] &quot;HYFIS&quot;               &quot;icr&quot;                 &quot;J48&quot;                
+##  [82] &quot;JRip&quot;                &quot;kernelpls&quot;           &quot;kknn&quot;               
+##  [85] &quot;knn&quot;                 &quot;krlsPoly&quot;            &quot;krlsRadial&quot;         
+##  [88] &quot;lars&quot;                &quot;lars2&quot;               &quot;lasso&quot;              
+##  [91] &quot;lda&quot;                 &quot;lda2&quot;                &quot;leapBackward&quot;       
+##  [94] &quot;leapForward&quot;         &quot;leapSeq&quot;             &quot;Linda&quot;              
+##  [97] &quot;lm&quot;                  &quot;lmStepAIC&quot;           &quot;LMT&quot;                
+## [100] &quot;loclda&quot;              &quot;logicBag&quot;            &quot;LogitBoost&quot;         
+## [103] &quot;logreg&quot;              &quot;lssvmLinear&quot;         &quot;lssvmPoly&quot;          
+## [106] &quot;lssvmRadial&quot;         &quot;lvq&quot;                 &quot;M5&quot;                 
+## [109] &quot;M5Rules&quot;             &quot;manb&quot;                &quot;mda&quot;                
+## [112] &quot;Mlda&quot;                &quot;mlp&quot;                 &quot;mlpKerasDecay&quot;      
+## [115] &quot;mlpKerasDecayCost&quot;   &quot;mlpKerasDropout&quot;     &quot;mlpKerasDropoutCost&quot;
+## [118] &quot;mlpML&quot;               &quot;mlpSGD&quot;              &quot;mlpWeightDecay&quot;     
+## [121] &quot;mlpWeightDecayML&quot;    &quot;monmlp&quot;              &quot;msaenet&quot;            
+## [124] &quot;multinom&quot;            &quot;mxnet&quot;               &quot;mxnetAdam&quot;          
+## [127] &quot;naive_bayes&quot;         &quot;nb&quot;                  &quot;nbDiscrete&quot;         
+## [130] &quot;nbSearch&quot;            &quot;neuralnet&quot;           &quot;nnet&quot;               
+## [133] &quot;nnls&quot;                &quot;nodeHarvest&quot;         &quot;null&quot;               
+## [136] &quot;OneR&quot;                &quot;ordinalNet&quot;          &quot;ordinalRF&quot;          
+## [139] &quot;ORFlog&quot;              &quot;ORFpls&quot;              &quot;ORFridge&quot;           
+## [142] &quot;ORFsvm&quot;              &quot;ownn&quot;                &quot;pam&quot;                
+## [145] &quot;parRF&quot;               &quot;PART&quot;                &quot;partDSA&quot;            
+## [148] &quot;pcaNNet&quot;             &quot;pcr&quot;                 &quot;pda&quot;                
+## [151] &quot;pda2&quot;                &quot;penalized&quot;           &quot;PenalizedLDA&quot;       
+## [154] &quot;plr&quot;                 &quot;pls&quot;                 &quot;plsRglm&quot;            
+## [157] &quot;polr&quot;                &quot;ppr&quot;                 &quot;PRIM&quot;               
+## [160] &quot;protoclass&quot;          &quot;qda&quot;                 &quot;QdaCov&quot;             
+## [163] &quot;qrf&quot;                 &quot;qrnn&quot;                &quot;randomGLM&quot;          
+## [166] &quot;ranger&quot;              &quot;rbf&quot;                 &quot;rbfDDA&quot;             
+## [169] &quot;Rborist&quot;             &quot;rda&quot;                 &quot;regLogistic&quot;        
+## [172] &quot;relaxo&quot;              &quot;rf&quot;                  &quot;rFerns&quot;             
+## [175] &quot;RFlda&quot;               &quot;rfRules&quot;             &quot;ridge&quot;              
+## [178] &quot;rlda&quot;                &quot;rlm&quot;                 &quot;rmda&quot;               
+## [181] &quot;rocc&quot;                &quot;rotationForest&quot;      &quot;rotationForestCp&quot;   
+## [184] &quot;rpart&quot;               &quot;rpart1SE&quot;            &quot;rpart2&quot;             
+## [187] &quot;rpartCost&quot;           &quot;rpartScore&quot;          &quot;rqlasso&quot;            
+## [190] &quot;rqnc&quot;                &quot;RRF&quot;                 &quot;RRFglobal&quot;          
+## [193] &quot;rrlda&quot;               &quot;RSimca&quot;              &quot;rvmLinear&quot;          
+## [196] &quot;rvmPoly&quot;             &quot;rvmRadial&quot;           &quot;SBC&quot;                
+## [199] &quot;sda&quot;                 &quot;sdwd&quot;                &quot;simpls&quot;             
+## [202] &quot;SLAVE&quot;               &quot;slda&quot;                &quot;smda&quot;               
+## [205] &quot;snn&quot;                 &quot;sparseLDA&quot;           &quot;spikeslab&quot;          
+## [208] &quot;spls&quot;                &quot;stepLDA&quot;             &quot;stepQDA&quot;            
+## [211] &quot;superpc&quot;             &quot;svmBoundrangeString&quot; &quot;svmExpoString&quot;      
+## [214] &quot;svmLinear&quot;           &quot;svmLinear2&quot;          &quot;svmLinear3&quot;         
+## [217] &quot;svmLinearWeights&quot;    &quot;svmLinearWeights2&quot;   &quot;svmPoly&quot;            
+## [220] &quot;svmRadial&quot;           &quot;svmRadialCost&quot;       &quot;svmRadialSigma&quot;     
+## [223] &quot;svmRadialWeights&quot;    &quot;svmSpectrumString&quot;   &quot;tan&quot;                
+## [226] &quot;tanSearch&quot;           &quot;treebag&quot;             &quot;vbmpRadial&quot;         
+## [229] &quot;vglmAdjCat&quot;          &quot;vglmContRatio&quot;       &quot;vglmCumulative&quot;     
+## [232] &quot;widekernelpls&quot;       &quot;WM&quot;                  &quot;wsrf&quot;               
+## [235] &quot;xgbDART&quot;             &quot;xgbLinear&quot;           &quot;xgbTree&quot;            
+## [238] &quot;xyf&quot;</code></pre>
 <p>Para conocer el funcionamiento, uso y parámetros de cada modelo, puedes visitar <a href="http://topepo.github.io/caret/available-models.html">esta página</a>.</p>
 <p>Nosotros vamos a generar 4 modelos:</p>
 <pre class="r"><code># modelo Random Forest
@@ -2998,11 +3023,16 @@ model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm
 <p>6.1 Conocer los parámetros de un modelo</p>
 <p>Para ver los parámetros que requiere un modelo, se utiliza la función <code>modelLookup()</code>. Por ejemplo, para conocer los parámetro del modelo de incremento estocástico del gradiente (gbm);</p>
 <pre class="r"><code>modelLookup(model=&#39;gbm&#39;)</code></pre>
-<pre><code>##   model         parameter                   label forReg forClass probModel
-## 1   gbm           n.trees   # Boosting Iterations   TRUE     TRUE      TRUE
-## 2   gbm interaction.depth          Max Tree Depth   TRUE     TRUE      TRUE
-## 3   gbm         shrinkage               Shrinkage   TRUE     TRUE      TRUE
-## 4   gbm    n.minobsinnode Min. Terminal Node Size   TRUE     TRUE      TRUE</code></pre>
+<pre><code>##   model         parameter                   label forReg forClass
+## 1   gbm           n.trees   # Boosting Iterations   TRUE     TRUE
+## 2   gbm interaction.depth          Max Tree Depth   TRUE     TRUE
+## 3   gbm         shrinkage               Shrinkage   TRUE     TRUE
+## 4   gbm    n.minobsinnode Min. Terminal Node Size   TRUE     TRUE
+##   probModel
+## 1      TRUE
+## 2      TRUE
+## 3      TRUE
+## 4      TRUE</code></pre>
 <p>6.2 Grilla de valores para los parámetros</p>
 <p>Vamos a generar una grilla con posibles valores de manera que Caret nos sugiera con cuáles quedarnos:</p>
 <pre class="r"><code>#Generación de una grilla

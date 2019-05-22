@@ -1,5 +1,5 @@
 ---
-title: 'Regresión'
+title: 'Predicción'
 output:
   html_document:
     number_sections: yes
@@ -777,7 +777,7 @@ Para conocer el funcionamiento, uso y parámetros de cada modelo, puedes visitar
 
 Nosotros vamos a generar 4 modelos: 
 
-```{r echo=T, results='hide'}
+```{r echo=T, results='hide', cache=T}
 # modelo Random Forest
 model_rf<-train(trainSet[,predictors],trainSet[,outcomeName],method='rf')
 
@@ -828,7 +828,7 @@ grid <- expand.grid(n.trees=c(10,20,50,100,500,1000),shrinkage=c(0.01,0.05,0.1,0
 
 6.3 Generación de escenarios a partir de la grilla
 
-```{r echo=T, results='hide'}
+```{r echo=T, results='hide', cache=T}
 # training the model
 model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneGrid=grid)
 
@@ -852,7 +852,7 @@ plot(model_gbm)
 
 En lugar de especificar los valores exactos de cada parámetro para realizar el *tuning* de los parámetros, podemos utilizar el parámetro `tuneLength` que busca cualquier número de posibles valores por cada *tuning* de parámetro. Vamos a probar utilizando `tuneLength=10`: 
 
-```{r echo=T, results='hide'}
+```{r echo=T, results='hide', cache=T}
 model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneLength=10)
 print(model_gbm)
 ```
@@ -895,7 +895,7 @@ Las predicciones las podemos realizar con la función `predict.train()`. Se debe
 - `type="raw"`: la salida será la predicción "cruda". El valor (sin más).
 - `type="prob"`: la salida proporcionará las probabilidades de ocurrencia de cada observación en varias clases de variable de salida.  
 
-```{r echo=T, results='hide'}
+```{r echo=T, results='hide', cache=T}
 predictions<-predict.train(object=model_gbm,testSet[,predictors],type="raw")
 table(predictions)
 ```

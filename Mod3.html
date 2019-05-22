@@ -308,7 +308,7 @@ $(document).ready(function () {
   <a href="Mod6.html">Web</a>
 </li>
 <li>
-  <a href="Mod7.html">Regresión</a>
+  <a href="Mod7.html">Predicción</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -556,9 +556,10 @@ qa = min{x:P(X≤x)≥a} = qbinom(a,n,p)
 <p>Podemos calcular fácilmente los valores de la función de densidad sobre una secuencia de valores de x:</p>
 <pre class="r"><code>x=seq(165,175,by=0.5)
 dnorm(x,170,12)</code></pre>
-<pre><code>##  [1] 0.03048103 0.03098792 0.03144860 0.03186077 0.03222234 0.03253150 0.03278664 0.03298647
-##  [9] 0.03312996 0.03321634 0.03324519 0.03321634 0.03312996 0.03298647 0.03278664 0.03253150
-## [17] 0.03222234 0.03186077 0.03144860 0.03098792 0.03048103</code></pre>
+<pre><code>##  [1] 0.03048103 0.03098792 0.03144860 0.03186077 0.03222234 0.03253150
+##  [7] 0.03278664 0.03298647 0.03312996 0.03321634 0.03324519 0.03321634
+## [13] 0.03312996 0.03298647 0.03278664 0.03253150 0.03222234 0.03186077
+## [19] 0.03144860 0.03098792 0.03048103</code></pre>
 <p>La representación gráfica de la función de densidad se obtiene fácilmente como:</p>
 <pre class="r"><code>curve(dnorm(x,170,12),xlim=c(130,210),col=&quot;blue&quot;,lwd=2,
       xlab=&quot;x&quot;,ylab=&quot;f(x)&quot;,main=&quot;Función de Densidad N(170,12)&quot;)</code></pre>
@@ -640,8 +641,9 @@ media3</code></pre>
 muchasMedias=replicate(m,mediaMuestral(25))</code></pre>
 <p>Las primeras 20 medias obtenidas en esta simulación son:</p>
 <pre class="r"><code>muchasMedias[1:20]</code></pre>
-<pre><code>##  [1] 170.9297 166.3720 169.3865 173.4524 169.0862 174.3382 169.4193 168.7782 170.6495 169.6072
-## [11] 169.3254 168.3766 168.2248 173.4749 167.0115 168.0300 168.7875 171.9147 167.2948 173.1527</code></pre>
+<pre><code>##  [1] 170.9297 166.3720 169.3865 173.4524 169.0862 174.3382 169.4193
+##  [8] 168.7782 170.6495 169.6072 169.3254 168.3766 168.2248 173.4749
+## [15] 167.0115 168.0300 168.7875 171.9147 167.2948 173.1527</code></pre>
 <p>La media y desviación típica de todas estas medias muestrales son:</p>
 <pre class="r"><code>mean(muchasMedias)</code></pre>
 <pre><code>## [1] 170.0607</code></pre>

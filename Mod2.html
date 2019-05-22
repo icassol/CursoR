@@ -308,7 +308,7 @@ $(document).ready(function () {
   <a href="Mod6.html">Web</a>
 </li>
 <li>
-  <a href="Mod7.html">Regresión</a>
+  <a href="Mod7.html">Predicción</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -576,7 +576,8 @@ x</code></pre>
 <p>Sucesión de 8 valores equiespaciados entre 1 y 20:</p>
 <pre class="r"><code>y &lt;- seq(1,20,length=8)
 y</code></pre>
-<pre><code>## [1]  1.000000  3.714286  6.428571  9.142857 11.857143 14.571429 17.285714 20.000000</code></pre>
+<pre><code>## [1]  1.000000  3.714286  6.428571  9.142857 11.857143 14.571429 17.285714
+## [8] 20.000000</code></pre>
 <p>Podemos acceder también simultáneamente a varios valores dentro de un vector. Por ejemplo, si deseamos ver del segundo al quinto de los valores observados en la variable edad:</p>
 <pre class="r"><code>edad[2:5]</code></pre>
 <pre><code>## [1] 34 29 25 30</code></pre>
@@ -649,7 +650,8 @@ y</code></pre>
 <pre class="r"><code>x*y</code></pre>
 <pre><code>##  [1]   2  12  30  56  90 132 182 240 306 380</code></pre>
 <pre class="r"><code>x/y</code></pre>
-<pre><code>##  [1] 2.000000 1.333333 1.200000 1.142857 1.111111 1.090909 1.076923 1.066667 1.058824 1.052632</code></pre>
+<pre><code>##  [1] 2.000000 1.333333 1.200000 1.142857 1.111111 1.090909 1.076923
+##  [8] 1.066667 1.058824 1.052632</code></pre>
 </div>
 <div id="operaciones-con-arreglos-de-clase-character." class="section level2">
 <h2><span class="header-section-number">4.7</span> Operaciones con arreglos de clase <code>character</code>.</h2>
@@ -1204,8 +1206,8 @@ A</code></pre>
 <pre class="r"><code>sumCuadrados=function(x){sum(x^2)}  # Función que calcula la suma de cuadrados de 
                                     # los términos de un vector x
 apply(A,1,sumCuadrados)  # Devuelve la suma de cuadrados de cada fila de A</code></pre>
-<pre><code>##  [1] 1.0196911 1.8816681 2.7352242 1.9429597 2.0305568 0.8373292 1.3581020 1.1014676 0.9796956
-## [10] 0.9794853</code></pre>
+<pre><code>##  [1] 1.0196911 1.8816681 2.7352242 1.9429597 2.0305568 0.8373292 1.3581020
+##  [8] 1.1014676 0.9796956 0.9794853</code></pre>
 <pre class="r"><code>apply(A,2,sumCuadrados)  # Devuelve la suma de cuadrados de cada columna de A</code></pre>
 <pre><code>## [1] 2.003104 2.639154 3.233937 3.352387 3.637598</code></pre>
 <ul>
