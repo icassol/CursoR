@@ -11,7 +11,7 @@
 
 
 
-<title>Regresión lineal simple y múltiple</title>
+<title>Regresión</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -322,7 +322,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Regresión lineal simple y múltiple</h1>
+<h1 class="title toc-ignore">Regresión</h1>
 
 </div>
 
@@ -348,6 +348,7 @@ $(document).ready(function () {
 <li><a href="#regresion-logistica"><span class="toc-section-number">6</span> Regresión logística</a></li>
 <li><a href="#modelo-lineal-generalizado"><span class="toc-section-number">7</span> Modelo lineal generalizado</a></li>
 <li><a href="#particionamiento-recursivo"><span class="toc-section-number">8</span> Particionamiento Recursivo</a></li>
+<li><a href="#machine-learning-con-el-paquete-caret"><span class="toc-section-number">9</span> Machine learning con el paquete <code>CARET</code></a></li>
 </ul>
 </div>
 
@@ -368,9 +369,9 @@ $(document).ready(function () {
 BP&lt;-c(185, 154, 198, 189, 168, 200, 166, 190, 155, 172, 180, 173, 176, 172, 150, 176, 155, 192, 154, 185)
 
 plot(Age,BP, pch =16); # seteamos puntos rellenos</code></pre>
-<p><img src="Mod7_files/figure-html/cars-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/cars-1.png" width="672" /></p>
 <p>La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta).</p>
-<p>Contando con los vectores <code>BP</code> y <code>Age</code> es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta</p>
+<p>Contando con los arreglos <code>BP</code> y <code>Age</code> es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta</p>
 <blockquote>
 <p><em>¿qué presión tendrá un paciente con una edad determinada?</em></p>
 </blockquote>
@@ -426,7 +427,7 @@ qqnorm(model.stdres,
   xlab=&quot;Normal Scores&quot;)
 
 qqline(model.stdres)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-3-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Si los residuos siguen una distribución normal, se espera que <code>qqline</code> sea recta. En este caso el resultado es bueno.</p>
 <div id="test-de-shapiro" class="section level2">
 <h2><span class="header-section-number">2.1</span> Test de Shapiro</h2>
@@ -596,7 +597,7 @@ for(i in 1:4) {
  abline(get(paste(&quot;lm.&quot;,i,sep=&quot;&quot;)), col=&quot;blue&quot;)
 }
 mtext(&quot;Los 4 conjuntos de datos de Anscombe&quot;, outer = TRUE, cex=1.5)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-9-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <pre class="r"><code>par(op)</code></pre>
 <p>¿En cuál de los 4 conjuntos es válido utilizar un modelo lineal?</p>
 </div>
@@ -626,7 +627,7 @@ pred.w.clim &lt;- predict(lm(BP ~ Age), new, interval=&quot;confidence&quot;, le
 <pre class="r"><code>matplot(new$Age,cbind(pred.w.clim, pred.w.plim[,-1]),
         lty=c(1,2,2,3,3),col=c(&quot;black&quot;,&quot;red&quot;,&quot;red&quot;,&quot;blue&quot;,&quot;blue&quot;),type=&quot;l&quot;, ylab=&quot;predicted BP&quot;, xlab=&quot;Age&quot;)
 points(Age,BP)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-12-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <hr />
 </div>
 </div>
@@ -692,7 +693,7 @@ mydata</code></pre>
 <h2><span class="header-section-number">3.1</span> Gráfico de los datos</h2>
 <p>Primero, graficamos los datos:</p>
 <pre class="r"><code>plot(mydata)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-14-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="modelo-con-todos-las-variables" class="section level2">
 <h2><span class="header-section-number">3.2</span> Modelo con todos las variables</h2>
@@ -843,8 +844,9 @@ predict(model_mult, new, se.fit = TRUE)</code></pre>
 </div>
 <div id="seleccion-de-variables" class="section level1">
 <h1><span class="header-section-number">5</span> Selección de variables</h1>
-<p>Ahora ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (´Mass´) se prediga utilizando el antebrazo (<code>Fore</code>), la cintura (<code>Waist</code>) y la altura (<code>Height</code>).</p>
+<p>Hasta ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (´Mass´) se prediga utilizando el antebrazo (<code>Fore</code>), la cintura (<code>Waist</code>) y la altura (<code>Height</code>).</p>
 <p>En muchos casos, se presenta el problema de tener muchas variables y, por tanto, de no saber cuáles son importantes para el modelo. Vamos a ver un método que permite la selección automática del mejor subconjunto de variables para predecir una determinada variable.</p>
+<p>Recomendamos leer <a href="https://www.analyticsvidhya.com/blog/2016/12/introduction-to-feature-selection-methods-with-an-example-or-how-to-select-the-right-variables/">este artículo</a> sobre la importancia de la selección de variables.</p>
 <div id="introduccion-al-metodo-stepwise-paso-a-paso" class="section level2">
 <h2><span class="header-section-number">5.1</span> Introducción al método Stepwise (paso a paso)</h2>
 <p>El método Stepwise es un grupo de algoritmos que tienen como objetivo automatizar la selección de variables en un modelo.</p>
@@ -1361,7 +1363,418 @@ modelAIC3&lt;-stepAIC(fit1,direction=&quot;both&quot;,scope=list(upper=fit3,lowe
 <ol start="3" style="list-style-type: decimal">
 <li>Ver el contenido de cada columna:</li>
 </ol>
-
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+label
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+fmx
+</td>
+<td style="text-align:left;">
+Family Number
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+fpx
+</td>
+<td style="text-align:left;">
+Person Number (Within family)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+wtia_sa
+</td>
+<td style="text-align:left;">
+Weight - Interim Annual
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+wtfa_sa
+</td>
+<td style="text-align:left;">
+Weight - Final Annual
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+region
+</td>
+<td style="text-align:left;">
+Region
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+strat_p
+</td>
+<td style="text-align:left;">
+Pseudo-stratum for public use file variance estimation
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+psu_p
+</td>
+<td style="text-align:left;">
+Pseudo-PSU for public use file variance estimation
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:left;">
+Sex
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+hispan_i
+</td>
+<td style="text-align:left;">
+Hispanic subgroup detail
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+mracrpi2
+</td>
+<td style="text-align:left;">
+Race coded to single/multiple race group
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+age_p
+</td>
+<td style="text-align:left;">
+Age
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+r_maritl
+</td>
+<td style="text-align:left;">
+Marital Status
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+everwrk
+</td>
+<td style="text-align:left;">
+Ever worked
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+41
+</td>
+<td style="text-align:left;">
+hypev
+</td>
+<td style="text-align:left;">
+Ever been told you have hypertension
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+49
+</td>
+<td style="text-align:left;">
+aasmev
+</td>
+<td style="text-align:left;">
+Ever been told you had asthma
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+51
+</td>
+<td style="text-align:left;">
+aasmyr
+</td>
+<td style="text-align:left;">
+Had an asthma episode/attack past 12 m
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+117
+</td>
+<td style="text-align:left;">
+dibev
+</td>
+<td style="text-align:left;">
+Ever been told that you have diabetes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+119
+</td>
+<td style="text-align:left;">
+dibage
+</td>
+<td style="text-align:left;">
+Age first diagnosed w/diabetes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+120
+</td>
+<td style="text-align:left;">
+difage2
+</td>
+<td style="text-align:left;">
+Years since first diagnosed w/diabetes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+121
+</td>
+<td style="text-align:left;">
+insln
+</td>
+<td style="text-align:left;">
+NOW taking insulin
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+122
+</td>
+<td style="text-align:left;">
+dibpill
+</td>
+<td style="text-align:left;">
+NOW taking diabetic pills
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+148
+</td>
+<td style="text-align:left;">
+arth1
+</td>
+<td style="text-align:left;">
+Ever been told you had arthritis
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+149
+</td>
+<td style="text-align:left;">
+arthlmt
+</td>
+<td style="text-align:left;">
+Limited due to arthritis or joint symptoms
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+171
+</td>
+<td style="text-align:left;">
+wkdayr
+</td>
+<td style="text-align:left;">
+Number of work loss days, past 12 months
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+172
+</td>
+<td style="text-align:left;">
+beddayr
+</td>
+<td style="text-align:left;">
+Number of bed days, past 12 months
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+205
+</td>
+<td style="text-align:left;">
+aflhca18
+</td>
+<td style="text-align:left;">
+Weight problem causes difficulty with activity
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+271
+</td>
+<td style="text-align:left;">
+aldura10
+</td>
+<td style="text-align:left;">
+Duration (in years) of diabetes, recode 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+306
+</td>
+<td style="text-align:left;">
+aldura17
+</td>
+<td style="text-align:left;">
+Duration (in years) of depression/anxiety/emotional problem, rec ode 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+311
+</td>
+<td style="text-align:left;">
+aldura18
+</td>
+<td style="text-align:left;">
+Duration (in years) of weight problem, recode 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+406
+</td>
+<td style="text-align:left;">
+smkev
+</td>
+<td style="text-align:left;">
+Ever smoked 100 cigarettes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+416
+</td>
+<td style="text-align:left;">
+cigsday
+</td>
+<td style="text-align:left;">
+Number of cigarettes a day (all current smokers)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+423
+</td>
+<td style="text-align:left;">
+vigmin
+</td>
+<td style="text-align:left;">
+Duration vigorous activity (in minutes)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+429
+</td>
+<td style="text-align:left;">
+modmin
+</td>
+<td style="text-align:left;">
+Duration light/moderate activity (in minutes)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+453
+</td>
+<td style="text-align:left;">
+bmi
+</td>
+<td style="text-align:left;">
+Body Mass Index (BMI)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+454
+</td>
+<td style="text-align:left;">
+sleep
+</td>
+<td style="text-align:left;">
+Hours of sleep
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+455
+</td>
+<td style="text-align:left;">
+ausualpl
+</td>
+<td style="text-align:left;">
+Place USUALLY go when sick
+</td>
+</tr>
+</tbody>
+</table>
 <ol start="4" style="list-style-type: decimal">
 <li>Chequear la estructura de <code>hypev</code></li>
 </ol>
@@ -1433,10 +1846,10 @@ modelAIC3&lt;-stepAIC(fit1,direction=&quot;both&quot;,scope=list(upper=fit3,lowe
 boxplot(predsAll ~ NH11$hypev, col = c(&quot;green&quot;, &quot;red&quot;),
         ylab = &quot;Probabilidad&quot;,
         xlab = &quot;Tiene / No tiene hypertensión&quot;)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-32-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <pre class="r"><code>plot(density(predsAll[which(NH11$hypev==&quot;1 Yes&quot;)]), col =&quot;dark green&quot;, main = &quot;Density functions&quot;, ylim=c(0, 5) )
 lines(density(predsAll[which(NH11$hypev==&quot;2 No&quot;)]), col =&quot;red&quot;, main = &quot;Density functions&quot;)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-32-2.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-32-2.png" width="672" /></p>
 <ol start="9" style="list-style-type: decimal">
 <li>Hacer predicciones</li>
 </ol>
@@ -1537,7 +1950,7 @@ str(cu.summary)</code></pre>
 </ol>
 <pre class="r"><code>library(rattle)
 fancyRpartPlot(fit1)</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-39-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 <p>Cómo leer el arbol? Vamos a interpretar los números del nodo raíz (nodo 1):</p>
 <ul>
 <li>Hay un 21 % de “Much worse”, 14 % de “worse”, 31 % de “average”, 9 % de “better” y 25 % de “Much Better” de autos, antes de hacer cualquier split.</li>
@@ -1651,7 +2064,671 @@ Predictions &lt;- predict(fit1, AutosSinCalificar, type = &quot;class&quot;)
 # copiamos las predicciones en la columna del data.frame
 AutosSinCalificar$Reliability&lt;-Predictions
 knitr::kable(AutosSinCalificar)</code></pre>
-
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Price
+</th>
+<th style="text-align:left;">
+Country
+</th>
+<th style="text-align:left;">
+Reliability
+</th>
+<th style="text-align:right;">
+Mileage
+</th>
+<th style="text-align:left;">
+Type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Dodge Colt 4
+</td>
+<td style="text-align:right;">
+6851
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GEO Metro 3
+</td>
+<td style="text-align:right;">
+6695
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Subaru Justy 3
+</td>
+<td style="text-align:right;">
+5866
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:left;">
+Small
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volkswagen Fox 4
+</td>
+<td style="text-align:right;">
+7225
+</td>
+<td style="text-align:left;">
+Brazil
+</td>
+<td style="text-align:left;">
+worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Eagle Talon 4
+</td>
+<td style="text-align:right;">
+12995
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GEO Storm 4
+</td>
+<td style="text-align:right;">
+10390
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mazda MX-5 Miata
+</td>
+<td style="text-align:right;">
+13800
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Nissan 300ZX V6
+</td>
+<td style="text-align:right;">
+27900
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Plymouth Laser
+</td>
+<td style="text-align:right;">
+10855
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Porsche 944
+</td>
+<td style="text-align:right;">
+41990
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Subaru XT 4
+</td>
+<td style="text-align:right;">
+13071
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Toyota Celica GT-S 4
+</td>
+<td style="text-align:right;">
+12268
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volkswagen Corrado 4
+</td>
+<td style="text-align:right;">
+17900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volkswagen GTI 4
+</td>
+<td style="text-align:right;">
+9995
+</td>
+<td style="text-align:left;">
+Mexico
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Audi 80 4
+</td>
+<td style="text-align:right;">
+18900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:left;">
+Compact
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Audi 90 5
+</td>
+<td style="text-align:right;">
+23990
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Compact
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Peugeot 405 4
+</td>
+<td style="text-align:right;">
+15930
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:left;">
+Compact
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Audi 100 5
+</td>
+<td style="text-align:right;">
+26900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMW 535i 6
+</td>
+<td style="text-align:right;">
+33200
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chevrolet Lumina 4
+</td>
+<td style="text-align:right;">
+12140
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hyundai Sonata 4
+</td>
+<td style="text-align:right;">
+9999
+</td>
+<td style="text-align:left;">
+Korea
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Infiniti Q45 V8
+</td>
+<td style="text-align:right;">
+38000
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lexus LS 400 V8
+</td>
+<td style="text-align:right;">
+35000
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Oldsmobile Cutlass Supreme V6
+</td>
+<td style="text-align:right;">
+14495
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Peugeot 505 4
+</td>
+<td style="text-align:right;">
+19945
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Saab 9000S 4
+</td>
+<td style="text-align:right;">
+25995
+</td>
+<td style="text-align:left;">
+Sweden
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sterling 827 V6
+</td>
+<td style="text-align:right;">
+23550
+</td>
+<td style="text-align:left;">
+England
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chevrolet Lumina APV V6
+</td>
+<td style="text-align:right;">
+13995
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mitsubishi Wagon 4
+</td>
+<td style="text-align:right;">
+14929
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Nissan Axxess 4
+</td>
+<td style="text-align:right;">
+13949
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Nissan Van 4
+</td>
+<td style="text-align:right;">
+14799
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Volkswagen Vanagon 4
+</td>
+<td style="text-align:right;">
+14080
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Van
+</td>
+</tr>
+</tbody>
+</table>
 <ol start="6" style="list-style-type: decimal">
 <li>¿Cómo sabemos si las predicciones son buenas? Vamos a aplicar el predictor a los 85 autos y comparar el valor predicho con el valor indicado en el data.frame:</li>
 </ol>
@@ -1673,7 +2750,7 @@ table(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)))</code></pre>
 ## parameter</code></pre>
 <pre><code>## Warning in axis(1, ...): &quot;shadow&quot; is not a graphical parameter</code></pre>
 <pre><code>## Warning in axis(2, ...): &quot;shadow&quot; is not a graphical parameter</code></pre>
-<p><img src="Mod7_files/figure-html/unnamed-chunk-42-1.png" width="432" /></p>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 <p>De los 85 autos, el arbol de regresión ha predicho:</p>
 <ul>
 <li>correctamente el 63.5 % de los autos (54/85)</li>
@@ -1681,6 +2758,353 @@ table(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)))</code></pre>
 <li>se ha equivocado por 2 categorías en el 17.64 % de los autos (15/85)</li>
 </ul>
 <p>Tarea: pruebe la performance del predictor cambiando el criterio de split (no utilizar ‘gini’ y utilizar ‘information’)</p>
+</div>
+<div id="machine-learning-con-el-paquete-caret" class="section level1">
+<h1><span class="header-section-number">9</span> Machine learning con el paquete <code>CARET</code></h1>
+<p>Uno de los mayores retos del aprendizaje automático es acertar en los algoritmos adecuados y configurar los parámetros de manera adecuada.</p>
+<p>El paquete <code>caret</code> (Classification And Regression Training) es posiblemente uno de los proyectos de R más grandes de <em>machine learning</em>. Este paquete contiene todo lo que necesitas saber para resolver casi cualquier problema de aprendizaje automático supervisado. Proporciona una interfaz uniforme para varios algoritmos de aprendizaje automático y estandariza otras tareas como la división de datos, el preprocesamiento, la selección de características, la estimación de importancia de variables, etc. Es esencialmente un <em>wrapper</em> que contiene más de 200 algoritmos de machine learning.</p>
+<p>Vamos a recorrer algunas funcionalidades de <code>caret</code> utilizando el dataset <a href="https://datahack.analyticsvidhya.com/contest/practice-problem-loan-prediction-iii/">The Loan Prediction problem-III</a>.</p>
+<ol style="list-style-type: decimal">
+<li>Descargar el paquete</li>
+</ol>
+<pre><code>
+&gt; install.packages(&quot;caret&quot;, dependencies = c(&quot;Depends&quot;, &quot;Suggests&quot;))</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Cargar el paquete y los datos</li>
+</ol>
+<pre class="r"><code>library(caret)
+
+# Subir los datos del Loan prediction problem III:
+train&lt;-read.csv(&quot;./resources/train_u6lujuX_CVtuZ9i.csv&quot;,stringsAsFactors = T)
+
+# Ver la estructura de los datos:
+str(train)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    614 obs. of  13 variables:
+##  $ Loan_ID          : Factor w/ 614 levels &quot;LP001002&quot;,&quot;LP001003&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ Gender           : Factor w/ 3 levels &quot;&quot;,&quot;Female&quot;,&quot;Male&quot;: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ Married          : Factor w/ 3 levels &quot;&quot;,&quot;No&quot;,&quot;Yes&quot;: 2 3 3 3 2 3 3 3 3 3 ...
+##  $ Dependents       : Factor w/ 5 levels &quot;&quot;,&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,..: 2 3 2 2 2 4 2 5 4 3 ...
+##  $ Education        : Factor w/ 2 levels &quot;Graduate&quot;,&quot;Not Graduate&quot;: 1 1 1 2 1 1 2 1 1 1 ...
+##  $ Self_Employed    : Factor w/ 3 levels &quot;&quot;,&quot;No&quot;,&quot;Yes&quot;: 2 2 3 2 2 3 2 2 2 2 ...
+##  $ ApplicantIncome  : int  5849 4583 3000 2583 6000 5417 2333 3036 4006 12841 ...
+##  $ CoapplicantIncome: num  0 1508 0 2358 0 ...
+##  $ LoanAmount       : int  NA 128 66 120 141 267 95 158 168 349 ...
+##  $ Loan_Amount_Term : int  360 360 360 360 360 360 360 360 360 360 ...
+##  $ Credit_History   : int  1 1 1 1 1 1 1 0 1 1 ...
+##  $ Property_Area    : Factor w/ 3 levels &quot;Rural&quot;,&quot;Semiurban&quot;,..: 3 1 3 3 3 3 3 2 3 2 ...
+##  $ Loan_Status      : Factor w/ 2 levels &quot;N&quot;,&quot;Y&quot;: 2 1 2 2 2 2 2 1 2 1 ...</code></pre>
+<p>En nuestro caso, vamos a predecir el status de préstamo (<code>Loan_Status</code>) basándonos en los datos de la persona.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Pre-procesado de los datos</li>
+</ol>
+<p>CARET necesita que: - no haya valores nulos. - la variable dependiente debe ser numérica. - que las variables independientes sean categóricas (factores). - que los valores de las categorías sean numéricos.</p>
+<p>En los próximos pasos, trabajaremos los datos para cumplir con esos requisitos.</p>
+<p>3.1 Reemplazar valores nulos:</p>
+<pre class="r"><code>sum(is.na(train))</code></pre>
+<pre><code>## [1] 86</code></pre>
+<p>Vamos a completar los valores nulos usando el <a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm">algoritmo KNN</a>. Dado un valor x, KNN busca entre los “vecinos cercanos” de x, cuál es la clasificación (o un determinado valor) más frecuente.</p>
+<p>En nuestro caso, le vamos a pedir a KNN que “centre” y “escale” los valores nalus respecto de sus vecinos.</p>
+<pre class="r"><code>preProcValues &lt;- preProcess(train, method = c(&quot;knnImpute&quot;,&quot;center&quot;,&quot;scale&quot;))
+
+library(RANN)
+train_processed &lt;- predict(preProcValues, train)
+sum(is.na(train_processed))</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>3.2 Convertir la variable dependiente (<code>Loan_Status</code>) a numérica.</p>
+<pre class="r"><code>train_processed$Loan_Status&lt;-ifelse(train_processed$Loan_Status==&#39;N&#39;,0,1)
+
+id&lt;-train_processed$Loan_ID
+train_processed$Loan_ID&lt;-NULL
+
+# Chequear la estructura del data.frame preprocesado
+str(train_processed)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    614 obs. of  12 variables:
+##  $ Gender           : Factor w/ 3 levels &quot;&quot;,&quot;Female&quot;,&quot;Male&quot;: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ Married          : Factor w/ 3 levels &quot;&quot;,&quot;No&quot;,&quot;Yes&quot;: 2 3 3 3 2 3 3 3 3 3 ...
+##  $ Dependents       : Factor w/ 5 levels &quot;&quot;,&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,..: 2 3 2 2 2 4 2 5 4 3 ...
+##  $ Education        : Factor w/ 2 levels &quot;Graduate&quot;,&quot;Not Graduate&quot;: 1 1 1 2 1 1 2 1 1 1 ...
+##  $ Self_Employed    : Factor w/ 3 levels &quot;&quot;,&quot;No&quot;,&quot;Yes&quot;: 2 2 3 2 2 3 2 2 2 2 ...
+##  $ ApplicantIncome  : num  0.0729 -0.1343 -0.3934 -0.4617 0.0976 ...
+##  $ CoapplicantIncome: num  -0.554 -0.0387 -0.554 0.2518 -0.554 ...
+##  $ LoanAmount       : num  0.0162 -0.2151 -0.9395 -0.3086 -0.0632 ...
+##  $ Loan_Amount_Term : num  0.276 0.276 0.276 0.276 0.276 ...
+##  $ Credit_History   : num  0.432 0.432 0.432 0.432 0.432 ...
+##  $ Property_Area    : Factor w/ 3 levels &quot;Rural&quot;,&quot;Semiurban&quot;,..: 3 1 3 3 3 3 3 2 3 2 ...
+##  $ Loan_Status      : num  1 0 1 1 1 1 1 0 1 0 ...</code></pre>
+<p>3.3 Convertir cada variable categórica a numérica usando variables ficticias (dummy)</p>
+<pre class="r"><code>dmy &lt;- dummyVars(&quot; ~ .&quot;, data = train_processed,fullRank = T)
+train_transformed &lt;- data.frame(predict(dmy, newdata = train_processed))
+
+# Chequear la estructura del data.frame transformado
+str(train_transformed)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    614 obs. of  19 variables:
+##  $ Gender.Female          : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Gender.Male            : num  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Married.No             : num  1 0 0 0 1 0 0 0 0 0 ...
+##  $ Married.Yes            : num  0 1 1 1 0 1 1 1 1 1 ...
+##  $ Dependents.0           : num  1 0 1 1 1 0 1 0 0 0 ...
+##  $ Dependents.1           : num  0 1 0 0 0 0 0 0 0 1 ...
+##  $ Dependents.2           : num  0 0 0 0 0 1 0 0 1 0 ...
+##  $ Dependents.3.          : num  0 0 0 0 0 0 0 1 0 0 ...
+##  $ Education.Not.Graduate : num  0 0 0 1 0 0 1 0 0 0 ...
+##  $ Self_Employed.No       : num  1 1 0 1 1 0 1 1 1 1 ...
+##  $ Self_Employed.Yes      : num  0 0 1 0 0 1 0 0 0 0 ...
+##  $ ApplicantIncome        : num  0.0729 -0.1343 -0.3934 -0.4617 0.0976 ...
+##  $ CoapplicantIncome      : num  -0.554 -0.0387 -0.554 0.2518 -0.554 ...
+##  $ LoanAmount             : num  0.0162 -0.2151 -0.9395 -0.3086 -0.0632 ...
+##  $ Loan_Amount_Term       : num  0.276 0.276 0.276 0.276 0.276 ...
+##  $ Credit_History         : num  0.432 0.432 0.432 0.432 0.432 ...
+##  $ Property_Area.Semiurban: num  0 0 0 0 0 0 0 1 0 1 ...
+##  $ Property_Area.Urban    : num  1 0 1 1 1 1 1 0 1 0 ...
+##  $ Loan_Status            : num  1 0 1 1 1 1 1 0 1 0 ...</code></pre>
+<p>Aquí, <code>fullrank = T</code> creará solo (n-1) columnas para una columna categórica con n niveles diferentes. Esto funciona especialmente bien para los predictores categóricas como sexo, si está casado, etc. donde solo tenemos dos niveles: masculino/femenino, sí/no, etc. porque 0 se puede usar para representar una clase mientras que 1 representa la otra clase en la misma columna.</p>
+<p>3.4 Volver a convertir las variables a categóricas</p>
+<pre class="r"><code>train_transformed$Loan_Status&lt;-as.factor(train_transformed$Loan_Status)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Dividir los datos entre train y test</li>
+</ol>
+<p>Vamos a dividir los datos entre 75 % y 25 %:</p>
+<pre class="r"><code>index &lt;- createDataPartition(train_transformed$Loan_Status, p=0.75, list=FALSE)
+trainSet &lt;- train_transformed[ index,]
+testSet &lt;- train_transformed[-index,]</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Seleccionar de variables (feature selection)</li>
+</ol>
+<p>Vamos a realizar una selección automática de variables con la técnica RFE (recursive feature).</p>
+<pre class="r"><code>control &lt;- rfeControl(functions = rfFuncs,
+                   method = &quot;repeatedcv&quot;,
+                   repeats = 3,
+                   verbose = FALSE)
+
+outcomeName&lt;-&#39;Loan_Status&#39;
+
+predictors&lt;-names(trainSet)[!names(trainSet) %in% outcomeName]
+
+Loan_Pred_Profile &lt;- rfe(trainSet[,predictors], trainSet[,outcomeName],
+                      rfeControl = control)
+
+Loan_Pred_Profile</code></pre>
+<pre><code>## 
+## Recursive feature selection
+## 
+## Outer resampling method: Cross-Validated (10 fold, repeated 3 times) 
+## 
+## Resampling performance over subset size:
+## 
+##  Variables Accuracy  Kappa AccuracySD KappaSD Selected
+##          4   0.7925 0.4566    0.04943  0.1383         
+##          8   0.7896 0.4429    0.04530  0.1324         
+##         16   0.7947 0.4628    0.04807  0.1348         
+##         18   0.8035 0.4829    0.04495  0.1293        *
+## 
+## The top 5 variables (out of 18):
+##    Credit_History, ApplicantIncome, Property_Area.Semiurban, LoanAmount, CoapplicantIncome</code></pre>
+<p>El selector sugiere utilizar 5 variables: “Credit_History”, “LoanAmount”, “Loan_Amount_Term”, “ApplicantIncome”, “CoapplicantIncome” que guardaremos en:</p>
+<pre class="r"><code>predictors&lt;-c(&quot;Credit_History&quot;, &quot;LoanAmount&quot;, &quot;Loan_Amount_Term&quot;, &quot;ApplicantIncome&quot;, &quot;CoapplicantIncome&quot;)</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Generar el modelo</li>
+</ol>
+<p>Caret tiene +200 modelo estadístico de predicción. Puedes verlos con:</p>
+<pre class="r"><code>names(getModelInfo())</code></pre>
+<pre><code>##   [1] &quot;ada&quot;                 &quot;AdaBag&quot;              &quot;AdaBoost.M1&quot;         &quot;adaboost&quot;           
+##   [5] &quot;amdai&quot;               &quot;ANFIS&quot;               &quot;avNNet&quot;              &quot;awnb&quot;               
+##   [9] &quot;awtan&quot;               &quot;bag&quot;                 &quot;bagEarth&quot;            &quot;bagEarthGCV&quot;        
+##  [13] &quot;bagFDA&quot;              &quot;bagFDAGCV&quot;           &quot;bam&quot;                 &quot;bartMachine&quot;        
+##  [17] &quot;bayesglm&quot;            &quot;binda&quot;               &quot;blackboost&quot;          &quot;blasso&quot;             
+##  [21] &quot;blassoAveraged&quot;      &quot;bridge&quot;              &quot;brnn&quot;                &quot;BstLm&quot;              
+##  [25] &quot;bstSm&quot;               &quot;bstTree&quot;             &quot;C5.0&quot;                &quot;C5.0Cost&quot;           
+##  [29] &quot;C5.0Rules&quot;           &quot;C5.0Tree&quot;            &quot;cforest&quot;             &quot;chaid&quot;              
+##  [33] &quot;CSimca&quot;              &quot;ctree&quot;               &quot;ctree2&quot;              &quot;cubist&quot;             
+##  [37] &quot;dda&quot;                 &quot;deepboost&quot;           &quot;DENFIS&quot;              &quot;dnn&quot;                
+##  [41] &quot;dwdLinear&quot;           &quot;dwdPoly&quot;             &quot;dwdRadial&quot;           &quot;earth&quot;              
+##  [45] &quot;elm&quot;                 &quot;enet&quot;                &quot;evtree&quot;              &quot;extraTrees&quot;         
+##  [49] &quot;fda&quot;                 &quot;FH.GBML&quot;             &quot;FIR.DM&quot;              &quot;foba&quot;               
+##  [53] &quot;FRBCS.CHI&quot;           &quot;FRBCS.W&quot;             &quot;FS.HGD&quot;              &quot;gam&quot;                
+##  [57] &quot;gamboost&quot;            &quot;gamLoess&quot;            &quot;gamSpline&quot;           &quot;gaussprLinear&quot;      
+##  [61] &quot;gaussprPoly&quot;         &quot;gaussprRadial&quot;       &quot;gbm_h2o&quot;             &quot;gbm&quot;                
+##  [65] &quot;gcvEarth&quot;            &quot;GFS.FR.MOGUL&quot;        &quot;GFS.LT.RS&quot;           &quot;GFS.THRIFT&quot;         
+##  [69] &quot;glm.nb&quot;              &quot;glm&quot;                 &quot;glmboost&quot;            &quot;glmnet_h2o&quot;         
+##  [73] &quot;glmnet&quot;              &quot;glmStepAIC&quot;          &quot;gpls&quot;                &quot;hda&quot;                
+##  [77] &quot;hdda&quot;                &quot;hdrda&quot;               &quot;HYFIS&quot;               &quot;icr&quot;                
+##  [81] &quot;J48&quot;                 &quot;JRip&quot;                &quot;kernelpls&quot;           &quot;kknn&quot;               
+##  [85] &quot;knn&quot;                 &quot;krlsPoly&quot;            &quot;krlsRadial&quot;          &quot;lars&quot;               
+##  [89] &quot;lars2&quot;               &quot;lasso&quot;               &quot;lda&quot;                 &quot;lda2&quot;               
+##  [93] &quot;leapBackward&quot;        &quot;leapForward&quot;         &quot;leapSeq&quot;             &quot;Linda&quot;              
+##  [97] &quot;lm&quot;                  &quot;lmStepAIC&quot;           &quot;LMT&quot;                 &quot;loclda&quot;             
+## [101] &quot;logicBag&quot;            &quot;LogitBoost&quot;          &quot;logreg&quot;              &quot;lssvmLinear&quot;        
+## [105] &quot;lssvmPoly&quot;           &quot;lssvmRadial&quot;         &quot;lvq&quot;                 &quot;M5&quot;                 
+## [109] &quot;M5Rules&quot;             &quot;manb&quot;                &quot;mda&quot;                 &quot;Mlda&quot;               
+## [113] &quot;mlp&quot;                 &quot;mlpKerasDecay&quot;       &quot;mlpKerasDecayCost&quot;   &quot;mlpKerasDropout&quot;    
+## [117] &quot;mlpKerasDropoutCost&quot; &quot;mlpML&quot;               &quot;mlpSGD&quot;              &quot;mlpWeightDecay&quot;     
+## [121] &quot;mlpWeightDecayML&quot;    &quot;monmlp&quot;              &quot;msaenet&quot;             &quot;multinom&quot;           
+## [125] &quot;mxnet&quot;               &quot;mxnetAdam&quot;           &quot;naive_bayes&quot;         &quot;nb&quot;                 
+## [129] &quot;nbDiscrete&quot;          &quot;nbSearch&quot;            &quot;neuralnet&quot;           &quot;nnet&quot;               
+## [133] &quot;nnls&quot;                &quot;nodeHarvest&quot;         &quot;null&quot;                &quot;OneR&quot;               
+## [137] &quot;ordinalNet&quot;          &quot;ordinalRF&quot;           &quot;ORFlog&quot;              &quot;ORFpls&quot;             
+## [141] &quot;ORFridge&quot;            &quot;ORFsvm&quot;              &quot;ownn&quot;                &quot;pam&quot;                
+## [145] &quot;parRF&quot;               &quot;PART&quot;                &quot;partDSA&quot;             &quot;pcaNNet&quot;            
+## [149] &quot;pcr&quot;                 &quot;pda&quot;                 &quot;pda2&quot;                &quot;penalized&quot;          
+## [153] &quot;PenalizedLDA&quot;        &quot;plr&quot;                 &quot;pls&quot;                 &quot;plsRglm&quot;            
+## [157] &quot;polr&quot;                &quot;ppr&quot;                 &quot;PRIM&quot;                &quot;protoclass&quot;         
+## [161] &quot;qda&quot;                 &quot;QdaCov&quot;              &quot;qrf&quot;                 &quot;qrnn&quot;               
+## [165] &quot;randomGLM&quot;           &quot;ranger&quot;              &quot;rbf&quot;                 &quot;rbfDDA&quot;             
+## [169] &quot;Rborist&quot;             &quot;rda&quot;                 &quot;regLogistic&quot;         &quot;relaxo&quot;             
+## [173] &quot;rf&quot;                  &quot;rFerns&quot;              &quot;RFlda&quot;               &quot;rfRules&quot;            
+## [177] &quot;ridge&quot;               &quot;rlda&quot;                &quot;rlm&quot;                 &quot;rmda&quot;               
+## [181] &quot;rocc&quot;                &quot;rotationForest&quot;      &quot;rotationForestCp&quot;    &quot;rpart&quot;              
+## [185] &quot;rpart1SE&quot;            &quot;rpart2&quot;              &quot;rpartCost&quot;           &quot;rpartScore&quot;         
+## [189] &quot;rqlasso&quot;             &quot;rqnc&quot;                &quot;RRF&quot;                 &quot;RRFglobal&quot;          
+## [193] &quot;rrlda&quot;               &quot;RSimca&quot;              &quot;rvmLinear&quot;           &quot;rvmPoly&quot;            
+## [197] &quot;rvmRadial&quot;           &quot;SBC&quot;                 &quot;sda&quot;                 &quot;sdwd&quot;               
+## [201] &quot;simpls&quot;              &quot;SLAVE&quot;               &quot;slda&quot;                &quot;smda&quot;               
+## [205] &quot;snn&quot;                 &quot;sparseLDA&quot;           &quot;spikeslab&quot;           &quot;spls&quot;               
+## [209] &quot;stepLDA&quot;             &quot;stepQDA&quot;             &quot;superpc&quot;             &quot;svmBoundrangeString&quot;
+## [213] &quot;svmExpoString&quot;       &quot;svmLinear&quot;           &quot;svmLinear2&quot;          &quot;svmLinear3&quot;         
+## [217] &quot;svmLinearWeights&quot;    &quot;svmLinearWeights2&quot;   &quot;svmPoly&quot;             &quot;svmRadial&quot;          
+## [221] &quot;svmRadialCost&quot;       &quot;svmRadialSigma&quot;      &quot;svmRadialWeights&quot;    &quot;svmSpectrumString&quot;  
+## [225] &quot;tan&quot;                 &quot;tanSearch&quot;           &quot;treebag&quot;             &quot;vbmpRadial&quot;         
+## [229] &quot;vglmAdjCat&quot;          &quot;vglmContRatio&quot;       &quot;vglmCumulative&quot;      &quot;widekernelpls&quot;      
+## [233] &quot;WM&quot;                  &quot;wsrf&quot;                &quot;xgbDART&quot;             &quot;xgbLinear&quot;          
+## [237] &quot;xgbTree&quot;             &quot;xyf&quot;</code></pre>
+<p>Para conocer el funcionamiento, uso y parámetros de cada modelo, puedes visitar <a href="http://topepo.github.io/caret/available-models.html">esta página</a>.</p>
+<p>Nosotros vamos a generar 4 modelos:</p>
+<pre class="r"><code># modelo Random Forest
+model_rf&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;rf&#39;)
+
+# modelo con una red neuronal
+model_nnet&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;nnet&#39;)
+
+# modelo lineal generalizado
+model_glm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;glm&#39;)
+
+# modelo de incremento estocástico del gradiente
+model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm&#39;)</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Configuración de parámetros (Parameter tuning)</li>
+</ol>
+<p>Como hemos comentado, Caret contiene más de 200 modelos. Cada uno de ellos contiene sus propio set de parámetros y, por tanto, es necesario setearlos correctamente. A continuación incluimos el tradicional pseudo-código que se utiliza en Caret para el seteo de parámetros:</p>
+<div class="figure">
+<img src="https://www.analyticsvidhya.com/wp-content/uploads/2016/12/caret-6.png" />
+
+</div>
+<blockquote>
+<p><strong>Resampling</strong>: método estadístico que se utiliza para medir la performance del modelo seleccionado. Existen varios métodos de resampling. Caret utiliza <a href="https://es.wikipedia.org/wiki/Bootstrapping_(estadística)"><code>bootstrap</code></a> por default.</p>
+</blockquote>
+<p>En nuestro ejemplo, vamos a utilizar validación cruzada (<code>cross-validation</code>) para el resampling. Vamos a repetir 5 veces, una validación cruzada con 5 participanes (<em>5-Fold cross-validation repeated 5 times</em>):</p>
+<pre class="r"><code>fitControl &lt;- trainControl(
+  method = &quot;repeatedcv&quot;,
+  number = 5,
+  repeats = 5)</code></pre>
+<p>6.1 Conocer los parámetros de un modelo</p>
+<p>Para ver los parámetros que requiere un modelo, se utiliza la función <code>modelLookup()</code>. Por ejemplo, para conocer los parámetro del modelo de incremento estocástico del gradiente (gbm);</p>
+<pre class="r"><code>modelLookup(model=&#39;gbm&#39;)</code></pre>
+<pre><code>##   model         parameter                   label forReg forClass probModel
+## 1   gbm           n.trees   # Boosting Iterations   TRUE     TRUE      TRUE
+## 2   gbm interaction.depth          Max Tree Depth   TRUE     TRUE      TRUE
+## 3   gbm         shrinkage               Shrinkage   TRUE     TRUE      TRUE
+## 4   gbm    n.minobsinnode Min. Terminal Node Size   TRUE     TRUE      TRUE</code></pre>
+<p>6.2 Grilla de valores para los parámetros</p>
+<p>Vamos a generar una grilla con posibles valores de manera que Caret nos sugiera con cuáles quedarnos:</p>
+<pre class="r"><code>#Generación de una grilla
+grid &lt;- expand.grid(n.trees=c(10,20,50,100,500,1000),shrinkage=c(0.01,0.05,0.1,0.5),n.minobsinnode = c(3,5,10),interaction.depth=c(1,5,10))</code></pre>
+<p>6.3 Generación de escenarios a partir de la grilla</p>
+<pre class="r"><code># training the model
+model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm&#39;,trControl=fitControl,tuneGrid=grid)
+
+print(model_gbm)</code></pre>
+<p>En nuestro caso, utilizado el criterio de Precisión (Accuracy) para seleccionar el mejor set de valores. Los valores más conveniente que resultan del análisis son:</p>
+<ul>
+<li>n.trees = 10,</li>
+<li>interaction.depth = 1,</li>
+<li>shrinkage = 0.05 y (contracción)</li>
+<li>n.minobsinnode = 3</li>
+</ul>
+<p>6.4 Veamos las gráficas de cada escenario</p>
+<pre class="r"><code>plot(model_gbm)</code></pre>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p>6.5 <code>tuneLength</code> en lugar de definir una grilla de valores</p>
+<p>En lugar de especificar los valores exactos de cada parámetro para realizar el <em>tuning</em> de los parámetros, podemos utilizar el parámetro <code>tuneLength</code> que busca cualquier número de posibles valores por cada <em>tuning</em> de parámetro. Vamos a probar utilizando <code>tuneLength=10</code>:</p>
+<pre class="r"><code>model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm&#39;,trControl=fitControl,tuneLength=10)
+print(model_gbm)</code></pre>
+<p>Interpretación:</p>
+<ul>
+<li>El parámetro <code>shrinkage</code> se mantuvo en 0.1,</li>
+<li>El parámetro `n.minobsinnode´ se mantuvo constante en 10,</li>
+<li>La precisión (Accuracy) se utilizó como criterio para seleccionar el modelo óptimo.</li>
+</ul>
+<p>Los valores finales sugeridos son:</p>
+<ul>
+<li>n.trees = 50,</li>
+<li>interaction.depth = 2,</li>
+<li>shrinkage = 0.1 y n.minobsinnode = 10.</li>
+</ul>
+<p>6.5.1 Gráfica de la propuesta:</p>
+<pre class="r"><code>plot(model_gbm)</code></pre>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<ol start="7" style="list-style-type: decimal">
+<li>Estimación de la importancia de las variables</li>
+</ol>
+<p>Una vez que se han seleccionado las variables, puede ser conveniente indicar cuán importante es cada variable en el modelo. En <code>caret</code> se puede hacer del siguiente modo:</p>
+<pre class="r"><code>library(gbm)
+varImp(object=model_gbm)</code></pre>
+<pre><code>## gbm variable importance
+## 
+##                   Overall
+## Credit_History    100.000
+## LoanAmount         15.305
+## ApplicantIncome     8.837
+## CoapplicantIncome   6.105
+## Loan_Amount_Term    0.000</code></pre>
+<pre class="r"><code>plot(varImp(object=model_gbm),main=&quot;GBM - Variable Importance&quot;)</code></pre>
+<p><img src="Mod7_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p>Sugerimos realizar la estimación de importancia para los otros tres modelos: ¿el ranking de importancia de variables es la misma para los 4 modelos?</p>
+<ol start="8" style="list-style-type: decimal">
+<li>Predicciones</li>
+</ol>
+<p>Las predicciones las podemos realizar con la función <code>predict.train()</code>. Se deberá indicar el modelo y los datos de test. Cuando se trata de modelos de clasificación, Caret permite setear un el parámetro type con dos posibles valores:</p>
+<ul>
+<li><code>type=&quot;raw&quot;</code>: la salida será la predicción “cruda”. El valor (sin más).</li>
+<li><code>type=&quot;prob&quot;</code>: la salida proporcionará las probabilidades de ocurrencia de cada observación en varias clases de variable de salida.</li>
+</ul>
+<pre class="r"><code>predictions&lt;-predict.train(object=model_gbm,testSet[,predictors],type=&quot;raw&quot;)
+table(predictions)</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Exactitud del modelo</li>
+</ol>
+<p>En inteligencia artificial, una <strong><em>matriz de confusión</em></strong> indica el desempeño de un algoritmo en un proceso de aprendizaje supervisado. Las columnas son datos reales y las filas son datos predichos. En el siguiente ejemplo, de 8 gatos reales, el modelo predice correctamente a 5 y a los otros tres los confunde con un perro:</p>
+<div class="figure">
+<img src="https://github.com/icassol/platform-samples/blob/master/Confusion.jpg?raw=true" />
+
+</div>
+<p>Sobre la base de la matriz de confusión, es simple medir la exactitud de un modelo:</p>
+<pre class="r"><code>confusionMatrix(predictions,testSet[,outcomeName])</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction   0   1
+##          0  19   1
+##          1  29 104
+##                                           
+##                Accuracy : 0.8039          
+##                  95% CI : (0.7321, 0.8636)
+##     No Information Rate : 0.6863          
+##     P-Value [Acc &gt; NIR] : 0.0007737       
+##                                           
+##                   Kappa : 0.459           
+##                                           
+##  Mcnemar&#39;s Test P-Value : 8.244e-07       
+##                                           
+##             Sensitivity : 0.3958          
+##             Specificity : 0.9905          
+##          Pos Pred Value : 0.9500          
+##          Neg Pred Value : 0.7820          
+##              Prevalence : 0.3137          
+##          Detection Rate : 0.1242          
+##    Detection Prevalence : 0.1307          
+##       Balanced Accuracy : 0.6932          
+##                                           
+##        &#39;Positive&#39; Class : 0               
+## </code></pre>
 </div>
 
 

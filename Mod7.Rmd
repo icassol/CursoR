@@ -2,14 +2,7 @@
 title: 'Regresión'
 output:
   html_document:
-    fig_caption: yes
-    fig_height: 4
-    fig_width: 4.5
-    highlight: textmate
-    keep_md: no
     number_sections: yes
-    self_contained: yes
-    theme: flatly
     toc: yes
     toc_depth: 2
 ---
@@ -21,7 +14,7 @@ if (!"BiocStyle" %in% rownames(installed.packages()))
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+knitr::opts_chunk$set(cache=T, autodep=TRUE)
 ```
 
 ```{r setup, include=FALSE}
@@ -444,7 +437,7 @@ Pasos:
 2. Cargar los datos 
 
 ``` {r}
-load("./LogisticRegresion&StepAIC.RData")
+load("./resources/LogisticRegresion&StepAIC.RData")
 ```
 
 3. Ver el contenido de cada columna: 
@@ -670,7 +663,7 @@ Vamos a recorrer algunas funcionalidades de `caret` utilizando el dataset [The L
 library(caret)
 
 # Subir los datos del Loan prediction problem III:
-train<-read.csv("train_u6lujuX_CVtuZ9i.csv",stringsAsFactors = T)
+train<-read.csv("./resources/train_u6lujuX_CVtuZ9i.csv",stringsAsFactors = T)
 
 # Ver la estructura de los datos:
 str(train)
@@ -701,7 +694,7 @@ En nuestro caso, le vamos a pedir a KNN que "centre" y "escale" los valores nalu
 ```{r}
 preProcValues <- preProcess(train, method = c("knnImpute","center","scale"))
 
-library('RANN')
+library(RANN)
 train_processed <- predict(preProcValues, train)
 sum(is.na(train_processed))
 ```
@@ -784,7 +777,7 @@ Para conocer el funcionamiento, uso y parámetros de cada modelo, puedes visitar
 
 Nosotros vamos a generar 4 modelos: 
 
-```{r}
+```{r echo=T, results='hide'}
 # modelo Random Forest
 model_rf<-train(trainSet[,predictors],trainSet[,outcomeName],method='rf')
 
@@ -835,7 +828,7 @@ grid <- expand.grid(n.trees=c(10,20,50,100,500,1000),shrinkage=c(0.01,0.05,0.1,0
 
 6.3 Generación de escenarios a partir de la grilla
 
-```{r}
+```{r echo=T, results='hide'}
 # training the model
 model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneGrid=grid)
 
@@ -859,7 +852,7 @@ plot(model_gbm)
 
 En lugar de especificar los valores exactos de cada parámetro para realizar el *tuning* de los parámetros, podemos utilizar el parámetro `tuneLength` que busca cualquier número de posibles valores por cada *tuning* de parámetro. Vamos a probar utilizando `tuneLength=10`: 
 
-```{r}
+```{r echo=T, results='hide'}
 model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneLength=10)
 print(model_gbm)
 ```
@@ -902,7 +895,7 @@ Las predicciones las podemos realizar con la función `predict.train()`. Se debe
 - `type="raw"`: la salida será la predicción "cruda". El valor (sin más).
 - `type="prob"`: la salida proporcionará las probabilidades de ocurrencia de cada observación en varias clases de variable de salida.  
 
-```{r}
+```{r echo=T, results='hide'}
 predictions<-predict.train(object=model_gbm,testSet[,predictors],type="raw")
 table(predictions)
 ```
