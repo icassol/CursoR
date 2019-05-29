@@ -2,30 +2,33 @@
 title: 'Predicción'
 output:
   html_document:
+    fig_caption: yes
     number_sections: yes
     toc: yes
     toc_depth: 2
 ---
 
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
-```{r style, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
+```{r style, echo = FALSE, results='hide', message=FALSE, warning=FALSE, cache=TRUE}
 if (!"BiocStyle" %in% rownames(installed.packages()))
   BiocManager::install("BiocStyle")
 library(BiocStyle)
 BiocStyle::markdown()
 options(width=100)
-knitr::opts_chunk$set(cache=T, autodep=TRUE)
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
 ```
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, cache=TRUE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Regresiones lineales 
+# Regresión lineal
 
 Teniendo un conjunto de datos, y suponiendo que cada dato es un par ordenado (x,y), una ***regresión lineal simple*** genera una recta cuyos puntos (x',y') tienen la mínima distancia posible respecto a (x,y). 
 
 El modelo anterior implica que la regresión lineal simple considera a uno de los ejes de coordenadas como variable dependiente y al otro como variable independiente. 
+
+Para aprender los conceptos básicos de una regresión lineal sugerimos [este pdf](http://ocw.uv.es/ciencias-de-la-salud/pruebas-1/1-3/t_09nuevo.pdf). 
 
 Veamos un ejemplo y luego seguiremos explicando los conceptos: 
 
@@ -37,7 +40,7 @@ Trabajaremos sobre una muestra de 20 pacientes. De cada uno de ellos sabemos su 
 
 Carguemos y grafiquemos los datos: 
 
-```{r cars, message=FALSE, warning=FALSE}
+```{r cars, message=FALSE, warning=FALSE, cache=TRUE}
 Age<-c(67, 40, 68, 64, 47, 71, 54, 59, 46, 52, 57, 63, 45, 55, 48, 51, 48, 77, 38, 61)
 BP<-c(185, 154, 198, 189, 168, 200, 166, 190, 155, 172, 180, 173, 176, 172, 150, 176, 155, 192, 154, 185)
 
@@ -47,28 +50,24 @@ plot(Age,BP, pch =16); # seteamos puntos rellenos
 
 La nube de puntos sigue una forma lineal (es un comportamiento similar a una recta). 
 
-Contando con los arreglos `BP` y `Age` es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta 
+Contando con los arreglos `BP` y `Age` es posible saber, por ejemplo, que un paciente de 67 años, tiene una presión sanguínea de 185. O sea, la pregunta ***¿qué presión tendrá un paciente con una edad determinada?*** la podremos hacer 20 veces (preguntando por cada edad del arreglo `Age`).
 
-> *¿qué presión tendrá un paciente con una edad determinada?*
+La idea de la regresión lineal es poder generalizar la pregunta anterior a cualquier edad. Esa información, precisamente, es la que buscamos obtener generando una recta que "represente" la tendencia de comportamiento que vemos en la nube de puntos. De esta manera, contando con la regresión lineal (es decir: la recta) podremos **predecir** qué presión sanguinea tendrá, por ejemplo, una persona de 53 años (53 es una edad que no existe en el arreglo `Age`).
 
-la podremos hacer 20 veces (preguntando por cada edad del arreglo `Age`).
-
-La idea de la regresión lineal es poder generalizar la pregunta anterior a cualquier edad. Esa información, precisamente, es la que contiene la recta. De esta manera, contando con la regresión lineal podremos **predecir** qué presión sanguinea tendrá, por ejemplo, una persona de 53 años (53 es una edad que no existe en el arreglo `Age`).
-
-La recta que "pasará cerca" de los 20 puntos tendrá como variable indepediente la edad, y como variable dependiente la presión sanguinea. 
+La recta que "pasará cerca" de los 20 puntos tendrá como variable indepediente la edad, y como variable dependiente la presión sanguinea.  
 
 En R es muy simple generar la regresión lineal: 
 
-```{r}
+```{r, cache=TRUE}
 model<-lm(BP~Age);
 coef(model);
 ```
 
 El formato del parámetro del comando `lm()` es `lm([columna a predecir] ~ [término/s que se utilizarán para construir el modelo lineal])`
 
-El valor independiente de la recta será el `Intercept` y la pendiente será `Age`. Habitualmente al Intercept se le dice B0 y a la pendiente B1. 
+La ordenada al origen de la recta será el `Intercept` y la pendiente será `Age`. Habitualmente al `Intercept se le dice $β_0$ y a la pendiente $β_1$. 
 
-Tarea: ¿qué información aportan los valores B0 y B1? 
+Tarea: ¿qué información aportan los valores $β_0$ y $β_1$? 
 
 Es posible conocer valores estadísticos del modelo: 
 
@@ -78,20 +77,61 @@ summary(model)
 
 Este resumen contiene información muy valiosa acerca de la calidad del modelo. Para este curso, por el momento, destacaremos que:
 
-- B0 y B1 -ambos- son "muy significativos estadísticamente" ya que sus p-values (4.44e-09 y 1.44e-09) son muy pequeños. 
-- El estadístico F también es muy significativo (1.439e-06).
+- $β_0$ y $β_1$ -ambos- son "muy significativos estadísticamente" ya que sus `p-values` (4.44e-09 y 1.44e-09) son muy pequeños. 
+- El estadístico `F` también es muy significativo (1.439e-06).
+
+### Predicciones
+
+Los datos que queremos predecir deben estar en un data.frame. En el siguiente ejemplo, vamos a predecir 8 edades, entre 40 y 75 años: 
+
+```{r, cache=TRUE}
+new <- data.frame(Age = seq(40, 75, 5)) # = 40, 45, 50, 55, 60, 65, 70, 75 (las 8 edades)
+# indicamos que generaremos un modelo lineal (lm()), y que vamos a predecir BP en función de Age. 
+modelo = lm(BP ~ Age)
+predict(modelo, new, se.fit = TRUE)
+```
+
+El resultado tiene dos partes: 
+
+- las predicciones, o sea, las presiones sanguineas (155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290).
+
+- los intervalos de confianza (3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257).
+
+La información previa se puede guardar en arreglos de esta manera: 
+
+```{r, cache=TRUE}
+pred.w.plim <- predict(lm(BP ~ Age), new, interval="prediction", level = 0.95)
+pred.w.clim <- predict(lm(BP ~ Age), new, interval="confidence", level = 0.95)
+```
+
+A modo de resumen, el siguiente gráfico muestra: 
+
+  - la recta del modelo lineal (linea continua, negra).
+  - el intervalo de confianza de la predicción (linea punteada colorada).
+  - el intervalo de confianza del modelo lineal (linea punteada azul).
+  - los 20 pacientes (puntos).
+  
+```{r, cache=TRUE}
+matplot(new$Age,cbind(pred.w.clim, pred.w.plim[,-1]),
+        lty=c(1,2,2,3,3),col=c("black","red","red","blue","blue"),type="l", ylab="predicted BP", xlab="Age")
+points(Age,BP)
+```
+
+---
 
 # Residuos
 
 Si (x', y') es un punto de la recta del modelo lineal, y (x, y) es un punto de la población, existe una diferencia entre la observación (y) y la predicción (y') llamada ***residuo***.
 
-***Validación de la regresión***. El análisis de los residuos del modelo lineal indica si el modelo representa correctamente a la muestra. A los efectos prácticos, para que una muestra pueda ser modelada por una regresión lineal, se deben cumplir dos requisitos: 
+Para aprender los conceptos básicos relacionados a los residuos, y cómo se obtienen los valores de beta, sugerimos [este pdf](http://www.dm.uba.ar/materias/estadistica_Q/2011/1/clase%20regresion%20simple.pdf). 
+
+***Validación de la regresión lineal***. El análisis de los residuos del modelo lineal indica si el modelo representa correctamente a la muestra. A los efectos prácticos, para que una muestra pueda ser modelada por una regresión lineal, se deben cumplir dos requisitos: 
 
 1. La muestra no debe tener **outliers** (valores atípicos). No debe haber puntos que estén lejanos a la nube de puntos que se asemeja -en conjunto- a una recta. Este requisito lo vamos chequear visualmente: se plotean los datos y se observan los puntos. 
 
 2. Los residuos deben ser independientes y seguir una distribución normal. Este requisito se puede chequear con esta instrucción: 
 
-```{r}
+```{r, cache=TRUE}
 model.stdres=rstandard(model)
 
 qqnorm(model.stdres,
@@ -106,9 +146,9 @@ Si los residuos siguen una distribución normal, se espera que `qqline` sea rect
 
 ## Test de Shapiro
 
-Para comprobar si un conjunto de datos siguen una distribución normal, se puede usar el test de Shapiro. Este test, entonces, lo podemos aplicar al conjunto de residuos del modelo lineal de manera que sepamos si, efectivamente, el modelo es válido para representar a la muestra. Por ejemplo, para una distribución normal:
+Para comprobar si un conjunto de datos sigue una distribución normal, se puede usar el `test de Shapiro`. Este test, entonces, lo podemos aplicar al conjunto de residuos del modelo lineal de manera que sepamos si, efectivamente, el modelo es válido para representar a la muestra. Por ejemplo, para una distribución normal:
 
-```{r}
+```{r, cache=TRUE}
 set.seed(5)
 xtest <-  rnorm(100, mean = 5, sd = 2)
 shapiro.test(xtest)
@@ -118,21 +158,22 @@ El p-value no es significativo (0.445) y, por lo tanto, aceptamos la hipótesis 
 
 Sin embargo, si los datos no siguen una distribución normal, entonces el test de Shapiro da un p-value pequeño y, por lo tanto, rechazamos la hipótesis nula. Ejemplo: 
 
-```{r}
+```{r, cache=TRUE}
 set.seed(5)
 xtest <-  rchisq(100, 3) # distribución Chi-Cuadrado
 shapiro.test(xtest)
 ```
 
-## Ejemplo del impacto de los outliers
+## Ejemplo del impacto de los outliers (opcional)
 
 Esta sección apunta a mostrar la importancia de identificar los outliers (valores atípicos)  para utilizar una regresión lineal como modelo de representación de la muestra (el primer requisito indicado en la sección ***Residuos***). 
 
 En 1973, el estadístico Francis Anscombe, diseñó un ejemplo con cuatro conjuntos de datos que tienen estadísticas descriptivas simples casi idénticas, pero que parecen muy diferentes cuando se grafican. Cada conjunto de datos consta de once (x, y) puntos. Este ejemplo sirve para mostrar:
+
   - la importancia de graficar los datos antes de analizarlos 
   - el efecto de los valores atípicos (outliers) en las propiedades estadísticas.
 
-```{r}
+```{r, cache=TRUE}
 anscombe
 apply(anscombe,2,var) # la varianza de cada columna
 apply(anscombe,2,mean) # la media de cada columna
@@ -151,14 +192,12 @@ Las cuatro rectas son idénticas.
 
 Generemos los cuatro modelos de manera más eficiente, guardándolos en una lista: 
 
-```{r}
-summary(anscombe)
-
-##-- now some "magic" to do the 4 regressions in a loop:
+```{r, cache=TRUE}
+##-- haremos las 4 regresiones en un loop
 ff <- y ~ x
 for(i in 1:4) {
  ff[2:3] <- lapply(paste(c("y","x"), i, sep=""), as.name)
- ## or   ff[[2]] <- as.name(paste("y", i, sep=""))
+ ## o    ff[[2]] <- as.name(paste("y", i, sep=""))
  ##      ff[[3]] <- as.name(paste("x", i, sep=""))
  assign(paste("lm.",i,sep=""), lmi <- lm(ff, data= anscombe))
  print(summary(lmi))
@@ -167,7 +206,7 @@ for(i in 1:4) {
 
 Ahora hagamos lo que deberíamos haber hecho antes de construir los modelos lineales: grafiquemos!: 
 
-```{r}
+```{r, cache=TRUE}
 op <- par(mfrow=c(2,2), mar=.1+c(4,4,1,1), oma= c(0,0,2,0))
 for(i in 1:4) {
  ff[2:3] <- lapply(paste(c("y","x"), i, sep=""), as.name)
@@ -176,42 +215,9 @@ for(i in 1:4) {
  abline(get(paste("lm.",i,sep="")), col="blue")
 }
 mtext("Los 4 conjuntos de datos de Anscombe", outer = TRUE, cex=1.5)
-par(op)
 ```
 
 ¿En cuál de los 4 conjuntos es válido utilizar un modelo lineal? 
-
-## Predicciones
-
-Los datos que queremos predecir deben estar en un data.frame. En el siguiente ejemplo, vamos a predecir 8 edades, entre 40 y 75 años: 
-
-```{r}
-new <- data.frame(Age = seq(40, 75, 5)) # = 40, 45, 50, 55, 60, 65, 70, 75 (las 8 edades)
-predict(lm(BP ~ Age), new, se.fit = TRUE)
-```
-
-El resultado tiene dos partes: 
-- las predicciones, o sea, las presiones sanguineas (155.0493 161.3035 167.5578 173.8120 180.0663 186.3205 192.5748 198.8290).
-- los intervalos de confianza (3.316130 2.622421 2.082275 1.836585 1.997153 2.486483 3.155151 3.912257).
-
-La información previa se puede guardar en arreglos de esta manera: 
-
-```{r}
-pred.w.plim <- predict(lm(BP ~ Age), new, interval="prediction", level = 0.95)
-pred.w.clim <- predict(lm(BP ~ Age), new, interval="confidence", level = 0.95)
-```
-
-A modo de resumen, el siguiente gráfico muestra: 
-  - la recta del modelo lineal (linea continua, negra).
-  - el intervalo de confianza de la predicción (linea punteada colorada).
-  - el intervalo de confianza del modelo lineal (linea punteada azul).
-  - los 20 pacientes (puntos).
-  
-```{r}
-matplot(new$Age,cbind(pred.w.clim, pred.w.plim[,-1]),
-        lty=c(1,2,2,3,3),col=c("black","red","red","blue","blue"),type="l", ylab="predicted BP", xlab="Age")
-points(Age,BP)
-```
 
 ---
 
@@ -223,34 +229,34 @@ $PB = β_0 + β_1·Age + e$
 
 Se trata de una regresión lineal *simple* porque se utiliza una sola variable (`Age`) para predecir la presión sanguinea. 
 
-Ahora veremos un ejemplo en donde vamos a utilizar varias variables para predecir un valor. O sea: 
+Ahora veremos un ejemplo en donde vamos a utilizar varias variables para predecir un valor. Esto es: vamos a hacer una regresión lineal múltiple. O sea: 
 
 $X = β_0 + β_1·X_1 + ... + β_n·X_n + ... e$
 
-Trabajaremos 11 variables de 22 pacientes:
+Trabajaremos con un dataset que contiene 11 variables de 22 pacientes:
 
-```{r}
-# Weight in kg
+```{r, cache=TRUE}
+# Peso en  kg
 Mass<- c(77.0, 85.5, 63.0, 80.5, 79.5, 94.0, 66.0, 69.0, 65.0, 58.0, 69.5, 73.0, 74.0, 68.0, 80.0, 66.0, 54.5, 64.0, 84.0, 73.0, 89.0, 94.0)
-# Maximum circumference of forearm in cm
+# Circunferencia maxima del antebrazo en cm
 Fore<-c(28.5, 29.5, 25.0, 28.5, 28.5, 30.5, 26.5, 27.0, 26.5, 26.5, 28.5, 27.5, 29.5, 25.0, 29.5, 26.5, 24.0, 25.5, 30.0, 28.0, 29.0, 31.0)
-# Maximum circumference of bicep in cm
+# Circunferencia maxima del bicep en cm
 Bicep<- c(33.5, 36.5, 31.0, 34.0, 36.5, 38.0, 29.0, 31.0, 29.0, 31.0, 37.0, 33.0, 36.0, 30.0, 36.0, 32.5, 30.0, 28.5, 34.5, 34.5, 35.5, 33.5)
-# Distance around chest directly under the armpits in cm
+# Distancia alrededor del pecho directamente debajo de las axilas en cm
 Chest<- c(100.0, 107.0, 94.0, 104.0, 107.0, 112.0, 93.0, 95.0, 93.0, 96.0, 109.5, 102.0, 101.0, 98.5, 103.0, 89.0, 92.5, 87.5, 99.0, 97.0, 106.0, 106.0)
-# Distance around neck, approximately halfway up in cm
+# Distancia alrededor del cuello en cm
 Neck<- c(38.5, 39.0, 36.5, 39.0, 39.0, 39.0, 35.0, 37.0, 35.0, 35.0, 39.0, 38.5, 38.5, 37.0, 40.0, 35.0, 35.5, 35.0, 40.5, 37.0, 39.0, 39.0)
-# Distance around shoulders, measured around the peak of the shoulder blades in cm
+# Distancia alrededor de los hombros en cm
 Shoulder<- c(114.0, 119.0, 102.0, 114.0, 114.0, 121.0, 105.0, 108.0, 112.0, 103.0, 118.0, 113.0, 115.5, 108.0, 117.0, 104.5, 102.0, 109.0, 119.0, 104.0, 118.0, 120.0)
-# Distance around waist, approximately trouser line in cm
+# Distancia alrededor de la cintura en cm.
 Waist<- c(85.0,  90.5, 80.5, 91.5, 92.0, 101.0, 76.0, 84.0, 74.0, 76.0, 80.0, 86.0, 82.0, 82.0, 95.5, 81.0, 76.0, 84.0, 88.0, 82.0, 96.0, 99.5)
-# Height from top to toe in cm
+# Altura desde la parte superior a los pies en cm.
 Height<- c(178.0, 187.0, 175.0, 183.0, 174.0, 180.0, 177.5, 182.5, 178.5, 168.5, 170.0, 180.0, 186.5, 188.0, 173.0, 171.0, 169.0, 181.0, 188.0, 173.0, 179.0, 184.0)
-# Maximum circumference of calf in cm
+# Circunferencia máxima de la pantorrilla en cm.
 Calf<- c(37.5, 40.0, 33.0, 38.0, 40.0, 39.5, 38.5, 36.0, 34.0, 35.0, 38.0, 36.0, 38.0, 37.0, 37.0, 38.0, 32.0, 35.5, 39.0, 38.0, 39.5, 42.0)
-# Circumference of thigh, measured halfway between the knee and the top of the leg in cm
+# Circunferencia del muslo en cm.
 Thigh<- c(53.0, 52.0, 49.0, 50.0, 53.0, 57.5, 50.0, 49.0, 47.0, 46.0, 50.0, 49.0, 49.0, 49.5, 52.5, 48.0, 42.0, 42.0, 50.5, 49.0, 51.0, 55.0)
-# Distance around head in cm
+# Circunferencia de la cabeza en cm.
 Head<- c(58.0, 59.0, 57.0, 60.0, 59.0, 59.0, 58.5, 60.0, 55.5, 58.0, 58.5, 59.0, 60.0, 57.0, 58.0, 56.5, 57.0, 58.0, 56.0, 58.0, 58.5, 57.0)
 
 mydata<-cbind(Mass, Fore, Bicep, Chest, Neck, Shoulder, Waist, Height, Calf, Thigh, Head)
@@ -264,22 +270,26 @@ Nuestro objetivo es construir una regresión lineal múltiple para predecir el p
 
 Primero, graficamos los datos:
 
-```{r}
-plot(mydata)
+```{r, cache=TRUE, message=F}
+library(corrplot)
+corrplot(cor(mydata), method= 'color')
 ```
 
-## Modelo con todos las variables
+
+El gráfico anterior muestras las *correlaciones* entre las variables. Se dice que una variable esta correlacionada con otra si ambas varian de manera lineal, si una es combinación lineal de la otra. Si dos variables están correlacionadas, estamos hablando casi de una misma variable. Cuando el resultado de una correlación es 1, entonces ambas variables están exactamente correladas, -1 están exactamente "anti-correladas" (son ortogonales) y 0 es cuando no hay correlación.
+
+## Modelo con todas las variables
 
 Ahora vamos a construir el modelo para predecir el peso (`Mass`) utilizando todas las variables:
 
-```{r}
+```{r, cache=TRUE}
 model_mult<-lm(Mass~., data=mydata);
 model_mult
 ```
 
 Lo único que cambió, respecto del ejemplo de la regresión lineal simple (`PB~Age`), es que utilizamos el operador `.` a la derecha de `~`, lo que significa "todos". Veamos las estadísticas del modelo: 
 
-```{r}
+```{r, cache=TRUE}
 summary(model_mult)
 ```
 
@@ -295,7 +305,7 @@ Algunos comentarios:
 
 Ahora vamos a probar un modelo en donde utilizaremos el antebrazo (`Fore`), la cintura (`Waist`) y la altura (`Height`). 
 
-```{r}
+```{r, cache=TRUE}
 summary(lm(Mass~Fore + Waist + Height, data = mydata))
 ```
 
@@ -307,7 +317,7 @@ summary(lm(Mass~Bicep, data = mydata))
 summary(lm(Mass~Fore+Bicep, data = mydata))
 ```
 
-> Porqué el bicep tiene significancia estadística si es la única variable, y deja de tenerla cuando está junto al antebrazo?
+> ¿Porqué el bicep tiene significancia estadística si es la única variable, y deja de tenerla cuando está junto al antebrazo?
 
 ***Ayuda: probar `cor(mydata[,"Fore"],mydata[,"Bicep"])`***
 
@@ -317,46 +327,43 @@ summary(lm(Mass~Fore+Bicep, data = mydata))
 summary(lm(Mass~Fore + Waist + Height+Fore:Waist, data = mydata))
 ```
 
-
-# Predicciones
+## Predicciones
 
 Vamos a predecir el peso de 3 pacientes:
 
-```{r}
+```{r, cache=TRUE}
 new<-matrix(c(30.5, 28.5, 28.5, 33.5, 30.0, 31.0, 93.0, 112.0, 89.0, 39.0, 35.0, 38.5, 109.0, 105.0, 121.0, 84.0, 82.0, 96.0, 188.0, 177.5, 178.5, 37.5, 34.0, 40.0, 55.0, 42.0, 49.0, 58.0 , 59.0, 60.0),nrow=3,byrow=F)
 colnames(new)<-colnames(mydata)[2:11];
 new<-as.data.frame(new);
+
 #Predicción
 predict(model_mult, new, se.fit = TRUE)
 ```
 
 Podemos exigir un intervalo de confianza del 95%: 
 
-```{r}
+```{r, cache=TRUE}
 predict(model_mult, new, interval="confidence", level = 0.95)
 ```
 
-```{r}
-predict(model_mult, new, interval="prediction", level = 0.95)
-```
 
 ---
 
 # Selección de variables
 
-Hasta ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (´Mass´) se prediga utilizando el antebrazo (`Fore`), la cintura (`Waist`) y la altura (`Height`). 
+Hasta ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (`Mass`) se prediga utilizando el antebrazo (`Fore`), la cintura (`Waist`) y la altura (`Height`). 
 
 En muchos casos, se presenta el problema de tener muchas variables y, por tanto, de no saber cuáles son importantes para el modelo. Vamos a ver un método que permite la selección automática del mejor subconjunto de variables para predecir una determinada variable. 
 
 Recomendamos leer [este artículo](https://www.analyticsvidhya.com/blog/2016/12/introduction-to-feature-selection-methods-with-an-example-or-how-to-select-the-right-variables/) sobre la importancia de la selección de variables. 
 
-## Introducción al método Stepwise (paso a paso)
+## Método `Stepwise` (paso a paso)
 
-El método Stepwise es un grupo de algoritmos que tienen como objetivo automatizar la selección de variables en un modelo.
+El método `Stepwise` es un grupo de algoritmos que tienen como objetivo automatizar la selección de variables en un modelo.
 
-Se dividen principalmente en: Selección hacia atrás (backward) y hacia adelante (forward)
+Se dividen principalmente en: Selección hacia atrás (`backward`) y hacia adelante (`forward`).
 
-* Eliminación hacia atrás (backward)
+***Eliminación hacia atrás (*backward*)***
 
 Este es el más simple de todos los procedimientos de selección de variables. De hecho, se puede implementar fácilmente. Pasos:
 
@@ -365,9 +372,9 @@ Este es el más simple de todos los procedimientos de selección de variables. D
 3. Volver a construir el modelo y retorna al paso 2.
 4. Deternerse cuando la solución converja.
 
-* Selección hacia adelante (forward)
+***Eliminación hacia adelante (*forward*)***
 
-Es el método anterior invertido.
+Es el método anterior invertido:
 
 1. Comenzar sin variables en el modelo.
 2. Aplicar un criterio específico.
@@ -375,32 +382,34 @@ Es el método anterior invertido.
 4. Volver a construir el modelo y retorna al paso 2.
 5. Continuar hasta que no se puedan agregar nuevas variables.
 
-Aplicaremos ambos métodos al ejemplo del peso. Para eso, construiremos dos modelos: 
+Aplicaremos ambos métodos al ejemplo del peso. Para eso, construiremos tres modelos: 
 
 * fit1: el modelo con todas las variables.
 * fit2: el modelo conteniendo, solamente, el Intercept.
+* fit3: el modelo integrando todas las variables. 
 
-```{r}
+```{r, cache=TRUE}
 fit1 <- lm(Mass ~ .,data=mydata)
 fit2 <- lm(Mass ~ 1,data=mydata)
+fit3 <- lm(Mass ~ .*.,data=mydata)
 ```
 
-***Nota: Los métodos backward y forward no necesariamente convergen el mismo subconjunto de variables.***
+***Nota: Los métodos backward y forward no necesariamente convergen el mismo subconjunto de variables. Es importante saber que estos algoritmos encuentran un óptimo local (no global). ***
 
-### Ejemplo utilizando backward
+### Ejemplo utilizando `backward`
 
-```{r}
+```{r, cache=TRUE, warning=FALSE}
 library(MASS)
-#It is a local optimum.
+# warning: este método encuentra un óptimo local
 modelAIC1<-stepAIC(fit1,direction="backward")
 ```
 
 El método finaliza, mostrando el listado de variables seleccionadas, esto es `Mass ~ Fore + Waist + Height + Calf + Thigh + Head`. 
 
-### Ejemplo utilizando forward
+### Ejemplo utilizando `forward`
 
-```{r}
-#It is a local optimum.
+```{r, cache=TRUE}
+# warning: este método encuentra un óptimo local
 modelAIC2<-stepAIC(fit2,direction="forward",scope=list(upper=fit1,lower=fit2))
 ```
 
@@ -410,64 +419,65 @@ El método finaliza, mostrando el listado de variables seleccionadas. En este ca
 
 También es posible indicar que el método avance en ambas direcciones. Es decir: que confluya comenzando desde los dos extremos a un punto intermedio. 
 
-```{r}
-#It is a local optimum.
-fit3 <- lm(Mass ~ .*.,data=mydata)
+```{r, cache=TRUE}
+#warning: es un óptimo local
 modelAIC3<-stepAIC(fit1,direction="both",scope=list(upper=fit3,lower=fit2))
 ```
 
-> RESUMEN: La regresión lineal ordinaria predice el valor esperado de una cantidad desconocida dada (la variable de respuesta, una variable aleatoria) como una combinación lineal de un conjunto de valores observados (predictores). Esto implica que un cambio constante en un predictor conduce a un cambio constante en la variable de respuesta (es decir, un modelo de respuesta lineal). Esto es apropiado cuando la variable de respuesta tiene una distribución normal.
+> RESUMEN: La regresión lineal ordinaria predice el valor esperado de una variable  (variable de respuesta o variable dependiente) como una combinación lineal de un conjunto de valores observados (predictores o variables independientes). Esto implica que un cambio constante en un predictor genera un cambio lineal en la variable de respuesta (es decir, un modelo de respuesta lineal). Esto es apropiado cuando la variable de respuesta tiene una distribución normal.
 
 ---
 
 # Regresión logística
 
-Las regresiones lineas son muy útiles y eficientes siempre y cuando las predicciones (los datos de respuesta) que deseamos seamos continuas. En el ejemplo anterior, el peso (`Mass`) es una variable continua. De hecho, los valores predichos pertenecen a una recta (función continua).
+Las regresiones lineas son muy útiles y eficientes siempre y cuando las predicciones (los datos de respuesta) sean continuas. En el ejemplo anterior, el peso (`Mass`) es una variable continua. De hecho, los valores predichos pertenecen a una recta (función continua).
 
-Las ***regresiones logísticas*** se utilizan cuando necesitamos predicciones categóricas, binarias. Por ejemplo: "SI/NO", "SANO/ENFERMO", "TIENE/NO TIENE".
+Las ***regresiones logísticas*** se utilizan cuando necesitamos predicciones categóricas. Por ejemplo: "SI/NO", "SANO/ENFERMO", "TIENE/NO TIENE".
+
+Sugerimos [este video](https://www.youtube.com/watch?v=xugjARegisk) para entender el concepto de una regresión logística (especialmente hasta el minuto 4:04). 
 
 Ejemplo: 
 
-Utilizando un dataset de pacientes de EEUU (32968 pacientes y 36 variables de cada paciente), vamos a predecir la probabilidad de tener hipertensión utilizando, como variables independientes: edad (age), sexo (sex), tiempo de sueño (sleep) e índice de masa corporal (bmi). 
+Utilizando un dataset de pacientes de EEUU (32968 pacientes y 36 variables de cada paciente), vamos a predecir la probabilidad de tener hipertensión utilizando, como variables independientes: edad (`age`), sexo (`sex`), tiempo de sueño (`sleep`) e índice de masa corporal (`bmi`). 
 
 Pasos: 
 
-1. Descargar el archivo `LogisticRegresion&StepAIC.RData` a tu directorio de trabajo
+1. Descargar el archivo [`LogisticRegresion&StepAIC.RData`](./resources/LogisticRegresion&StepAIC.RData) a tu directorio de trabajo
 
 2. Cargar los datos 
 
-``` {r}
+```{r, cache=TRUE}
 load("./resources/LogisticRegresion&StepAIC.RData")
 ```
 
-3. Ver el contenido de cada columna: 
+3. Ver el contenido de cada columna
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, cache=TRUE}
 labs <- attributes(NH11)$labels
 knitr::kable(labs)
 ```
 
 4. Chequear la estructura de `hypev`
 
-```{r}
-  str(NH11$hypev) # check stucture of hypev
+```{r, cache=TRUE}
+  str(NH11$hypev) 
 ```
 
 5. Chequear los niveles de `hypev`
 
-```{r}
-  levels(NH11$hypev) # check levels of hypev
+```{r, cache=TRUE}
+  levels(NH11$hypev) 
 ```
 
-6. Borrar los datos NA
+6. Borrar los datos `NA`
 
-```{r}
+```{r, cache=TRUE}
 NH11<-NH11[which(!is.na(NH11$hypev)),]
 ```
 
 7.  Construir la regresión logística
 
-```{r}
+```{r, cache=TRUE}
   hyp.out <- glm(hypev~age_p+sex+sleep+bmi,
                 data=NH11, family="binomial")
   summary(hyp.out)
@@ -478,25 +488,25 @@ NH11<-NH11[which(!is.na(NH11$hypev)),]
 
 Ahora que tenemos el modelo es importante saber si "predice bien". Dos propuestas: 
 
-a. ***Propuesta 1:*** Aplicar el modelo a los 32968 pacientes y ver si la predicción de cada uno coincide con el campo `NH11$hypev`. El porcentaje de coincidencia podría ser un índice de calidad del modelo. 
+a. ***Propuesta 1:*** Predecir la hipertensión de los 32968 pacientes (es decir: aplicar el modelo a todos los pacientes) y ver si la predicción de cada uno coincide con el campo `NH11$hypev`. El porcentaje de coincidencia podría ser un índice de calidad del modelo. 
 
 <span style="color:blue"> Esta propuesta es, en realidad, engañosa ya que estamos probando el predictor en los mismos datos que utilizamos para ***entrenar*** el modelo. *Es hacer un poco de trampa*. De ahí que esta propuesta, en el ámbito de la ciencia de datos, no es muy aceptable. </span>
 
-b. ***Propuesta 2:*** Antes de construir el modelo (o sea, entre el paso 6 y el 7), se divide el dataset en dos: `train` y `test` (se puede hacer un split 70-30, por ejemplo). La construcción del modelo (paso 7) se realiza con los datos de train y la validación se realiza con los datos de `test`.
+b. ***Propuesta 2:*** Antes de construir el modelo (o sea, entre el paso 6 y el 7), se divide el dataset en dos: `train` y `test` (se puede hacer un split 70-30, por ejemplo). La construcción del modelo (paso 7) se realiza con los datos de `train` y la validación se realiza con los datos de `test`. Este modo de trabajar los datos se llama ***cross-validation***.
 
 <span style="color:blue"> Esta propuesta es la que se utiliza de modo habitual.</span>
 
 Para nuestro ejemplo, vamos a aplicar la ***propuesta a.*** (o sea: aplicaremos el modelo a los 32968 pacientes que usamos para el entrenamiento).  Predicción de la hipertensión de todos los pacientes: 
 
-```{r}
+```{r, cache=TRUE}
 predsAll<-predict(hyp.out, type = "response")
 
 boxplot(predsAll ~ NH11$hypev, col = c("green", "red"),
         ylab = "Probabilidad",
         xlab = "Tiene / No tiene hypertensión")
 
-plot(density(predsAll[which(NH11$hypev=="1 Yes")]), col ="dark green", main = "Density functions", ylim=c(0, 5) )
-lines(density(predsAll[which(NH11$hypev=="2 No")]), col ="red", main = "Density functions")
+plot(density(predsAll[which(NH11$hypev=="1 Yes")]), col ="dark green", main = "Funciones de densidad", ylim=c(0, 5) )
+lines(density(predsAll[which(NH11$hypev=="2 No")]), col ="red", main = "Funciones de densidad")
 
 ```
 
@@ -504,14 +514,14 @@ lines(density(predsAll[which(NH11$hypev=="2 No")]), col ="red", main = "Density 
 
 Por ejemplo, podemos preguntar "¿Cuánto más probable es que una mujer de 63 años tenga hipertensión en comparación con una mujer de 33 años?".
 
-```{r}
-  # Create a dataset with predictors set at desired levels
+```{r, cache=TRUE}
+  # Crear un dataset con predictores
   predDat <- with(NH11,
                   expand.grid(age_p = c(33, 63),
                               sex = "2 Female",
                               bmi = mean(bmi, na.rm = TRUE),
                               sleep = mean(sleep, na.rm = TRUE)))
-  # predict hypertension at those levels
+  # predecir
 
 preds <- predict(hyp.out, type = "response",
                          se.fit = TRUE, interval="confidence",
@@ -521,22 +531,15 @@ preds <- predict(hyp.out, type = "response",
 
 El resultado indica que una mujer de 33 años tiene un 13% de probabilidad de haber sido diagnosticada con hipertensión, mientras que una mujer de 63 años tiene un 48%. 
 
-
 ---
 
-# Modelo lineal generalizado
+# Árboles de decisión
 
-John Nelder y Robert Wedderburn formularon modelos lineales generalizados como una forma de unificar otros modelos estadísticos, como la regresión lineal, la regresión logística y la regresión de Poisson. 
+Vamos a realizar una predicción con otro método. Utilizaremos un modelo de clasificación del [paquete rpart](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf). El modelo resultante se puede representar como un árbol binario. 
 
-Los modelos lineales generalizados cubren todas estas situaciones al permitir variables de respuesta que tienen distribuciones arbitrarias (en lugar de simplemente distribuciones normales), y que una función arbitraria de la variable de respuesta (la función de enlace) varíe linealmente con los valores predichos. 
+Estos árboles de decisión construyen el modelo con técnicas de *machine learning*. Seleccionan la variable que mejor divide en dos a los datos, y la utiliza como raíz del árbol de decisión. Luego repite esa misma acción en cada una de las ramas hasta un cierto corte. 
 
----
-
-# Particionamiento Recursivo
-
-Vamos a realizar una predicción construyendo un modelo de clasificación o regresión, del [paquete rpart](http://127.0.0.1:13413/help/library/rpart/doc/longintro.pdf). El modelo resultante se puede representar como un árbol binario.
-
-Estos árboles de decisión construyen el modelo con técnicas de machine learning. Seleccionan la variable que mejor divide en dos a los datos, y la utiliza como raíz del árbol de decisión. Luego repite esa misma acción en cada una de las ramas hasta un cierto corte. 
+En los árboles de decisión (en realidad, en el aprendizaje automático, en general) existe el peligro del "sobreajuste" (***overfitting***). El efecto de sobreentrenar un algoritmo de aprendizaje con unos ciertos datos para los que se conoce el resultado deseado. En un árbol de decisión el sobreajuste puede ser generar demasiada subdivisiones y demasiadas hojas. En ese caso el modelo sería muy exacto para representar los datos existente pero que prediga mal (que generalice mal). En general, hay un trade-off entre exactitud y generalización. 
 
 En esta primera instancia conviene saber que `rpart` admite dos criterios de división de los datos: a) el índice de Gini y b) el índice de información. A los efectos de este curso, usaremos el índice de Gini. 
 
@@ -544,7 +547,7 @@ Para entender el funcionamiento, veremos un ejemplo.
 
 Vamos a utilizar los datos un dataset de R (llamado `cu.summary`) que contiene el grado de confiabilidad de 117 autos. 
 
-```{r}
+```{r, cache=TRUE}
 library(rpart)
 str(cu.summary)
 ```
@@ -564,25 +567,25 @@ Vamos a predecir la ***confiabilidad*** (Reliability).
 
 1. Veamos cómo son los datos de la variable de salida: 
 
-```{r}
+```{r, cache=TRUE}
 table(cu.summary$Reliability)
 ```
 
 Hay 32 autos que no tienen indicado un nivel de confiabilidad: 
 
-```{r}
+```{r, cache=TRUE}
 table(is.na(cu.summary$Reliability))
 ```
 
-2. Consutrcción del modelo (usando el índice de Gini) 
+2. Construcción del modelo (usando el índice de Gini) 
 
-```{r}
+```{r, cache=TRUE}
 fit1 <- rpart(Reliability ~ Price + Country + Mileage + Type, data = cu.summary, parms = list(split = 'gini'))
 ```
 
-3. Visualización del árbol correspondiente (usando el paquete ´rattle´):
+3. Visualización del árbol correspondiente (usando el paquete [´rattle´](https://cran.r-project.org/web/packages/rattle/index.html)):
 
-```{r}
+```{r warning=FALSE, cache=TRUE}
 library(rattle)
 fancyRpartPlot(fit1)
 ```
@@ -600,14 +603,15 @@ Cómo leer el arbol? Vamos a interpretar los números del nodo raíz (nodo 1):
 
 4. Para mayor conocimiento de los resultados: 
 
-```{r}
+```{r, cache=TRUE}
 summary(fit1)
 ```
 
-5. Ahora que tenemos nuestro modelo, vamos a predecir la confiabilidad de los 32 autos que tienen NA en dicha columna: 
+5. Ahora que tenemos nuestro modelo, vamos a predecir la confiabilidad de los 32 autos que tienen `NA` en dicha columna: 
 
-```{r}
+```{r, cache=TRUE}
 # nos quedamos con los autos sin calificar
+allcars<-cu.summary
 AutosSinCalificar<-cu.summary[is.na(cu.summary$Reliability),]
 
 # realizamos las predicciones
@@ -618,16 +622,31 @@ AutosSinCalificar$Reliability<-Predictions
 knitr::kable(AutosSinCalificar)
 ```
 
-6. ¿Cómo sabemos si las predicciones son buenas? Vamos a aplicar el predictor a los 85 autos y comparar el valor predicho con el valor indicado en el data.frame:
+6. ¿Cómo saber si las predicciones son buenas? Para poder responder a esa pregunta, habitualmente se trabaja de la siguiente manera: 
 
-```{r}
-allcars<-cu.summary
+* paso 1: se ***dividen*** los datos entre `train` y `test`. Puede ser, por ejemplo, 70 % - 30 %. 
+* paso 2: se ***construye*** el modelo solo con los datos de `train`.
+* paso 3: se ***aplica*** el modelo a los datos de `test`. Esto es: predecir cada dato de `test`.
+* paso 4: se ***comparan*** las predicciones del `paso 3` con los datos de `test`. 
+
+Nosotros, en nuestro ejemplo de `Reliability`, no hemos dividido los datos entre `train` y `test`. Vamos a realizar una validación que es *tramposa*: aplicaremos el predictor a los 85 autos y compararemos el valor predicho con el valor el indicado en el `allcars$Reliability`:
+
+```{r warning=FALSE}
 allcars<-allcars[!is.na(allcars$Reliability),]
 
 predsAll <- predict(fit1, allcars, type = "class")
 
 # Restamos predicho - indicado y lo sumarizamos
 table(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)))
+
+# Si la tabla anterior resulta complicada de entender, puede servir visualizar esta tabla: 
+# View(cbind(as.numeric(predsAll),as.numeric(allcars$Reliability)))
+# la 1er columna contiene las predicciones, la 2da el dato de test.
+
+# el siguiente histograma muestra:
+# - cuántos autos fueron correctamente predichos (0)
+# - en cuántos autos la predicción falló por 1 (1)
+# - en cuántos autos la predicción falló por 2 (2)
 
 hist(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)), 
      main = "", xlab = "predsAll-allcars$Reliability", ylab = "cantidad de autos", 
@@ -640,24 +659,23 @@ De los 85 autos, el arbol de regresión ha predicho:
 - se ha equivocado por 1 categoría en el 18.82 % de los autos (16/85)
 - se ha equivocado por 2 categorías en el 17.64 % de los autos (15/85)
 
-Tarea: pruebe la performance del predictor cambiando el criterio de split (no utilizar 'gini' y utilizar 'information')
+¿Porque esta validación es `tramposa`? Porque estamos probando nuestro modelo con datos que utilizamos para entrenarlo. 
 
 # Machine learning con el paquete `CARET`
 
 Uno de los mayores retos del aprendizaje automático es acertar en los algoritmos adecuados y configurar los parámetros de manera adecuada. 
 
-El paquete `caret` (Classification And Regression Training) es posiblemente uno de los proyectos de R más grandes de *machine learning*. Este paquete contiene todo lo que necesitas saber para resolver casi cualquier problema de aprendizaje automático supervisado. Proporciona una interfaz uniforme para varios algoritmos de aprendizaje automático y estandariza otras tareas como la división de datos, el preprocesamiento, la selección de características, la estimación de importancia de variables, etc. Es esencialmente un *wrapper* que contiene más de 200 algoritmos de machine learning. 
+El paquete [`caret`](http://topepo.github.io/caret/index.html) (Classification And Regression Training) es posiblemente uno de los proyectos de R más grandes de *machine learning*. Este paquete contiene todo lo que necesitas saber para resolver casi cualquier problema de aprendizaje automático supervisado. Proporciona una interfaz uniforme para varios algoritmos de aprendizaje automático y estandariza otras tareas como la división de datos, el preprocesamiento, la selección de características, la estimación de importancia de variables, etc. Es esencialmente un *wrapper* que contiene más de 200 algoritmos de machine learning. 
 
-Vamos a recorrer algunas funcionalidades de `caret` utilizando el dataset [The Loan Prediction problem-III](https://datahack.analyticsvidhya.com/contest/practice-problem-loan-prediction-iii/).
+Vamos a recorrer algunas funcionalidades de `caret` utilizando el [`dataset`](./resources/train_u6lujuX_CVtuZ9i.csv) de [The Loan Prediction problem-III](https://datahack.analyticsvidhya.com/contest/practice-problem-loan-prediction-iii/). 
 
-1. Descargar el paquete
+## Descargar el paquete
 
 ```{}
-
-> install.packages("caret", dependencies = c("Depends", "Suggests"))
+install.packages("caret", dependencies = c("Depends", "Suggests"))
 ```
 
-2. Cargar el paquete y los datos
+## Cargar el paquete y los datos
 
 ```{r}
 library(caret)
@@ -671,9 +689,10 @@ str(train)
 
 En nuestro caso, vamos a predecir el status de préstamo (`Loan_Status`) basándonos en los datos de la persona. 
 
-3. Pre-procesado de los datos
+## Pre-procesado de los datos
 
 CARET necesita que: 
+
 - no haya valores nulos. 
 - la variable dependiente debe ser numérica. 
 - que las variables independientes sean categóricas (factores).
@@ -681,7 +700,7 @@ CARET necesita que:
 
 En los próximos pasos, trabajaremos los datos para cumplir con esos requisitos. 
 
-3.1 Reemplazar valores nulos:
+### Reemplazar valores nulos:
 
 ```{r}
 sum(is.na(train))
@@ -691,15 +710,15 @@ Vamos a completar los valores nulos usando el [algoritmo KNN](https://en.wikiped
 
 En nuestro caso, le vamos a pedir a KNN que "centre" y "escale" los valores nalus respecto de sus vecinos. 
 
-```{r}
+```{r warning=FALSE}
 preProcValues <- preProcess(train, method = c("knnImpute","center","scale"))
 
-library(RANN)
+library('RANN')
 train_processed <- predict(preProcValues, train)
 sum(is.na(train_processed))
 ```
 
-3.2 Convertir la variable dependiente (`Loan_Status`) a numérica.
+### Convertir la variable dependiente (`Loan_Status`) a numérica.
 
 ```{r}
 train_processed$Loan_Status<-ifelse(train_processed$Loan_Status=='N',0,1)
@@ -711,9 +730,9 @@ train_processed$Loan_ID<-NULL
 str(train_processed)
 ```
 
-3.3 Convertir cada variable categórica a numérica usando variables ficticias (dummy)
+### Convertir cada variable categórica a numérica usando variables ficticias (dummy)
 
-```{r}
+```{r, cache=TRUE}
 dmy <- dummyVars(" ~ .", data = train_processed,fullRank = T)
 train_transformed <- data.frame(predict(dmy, newdata = train_processed))
 
@@ -723,27 +742,27 @@ str(train_transformed)
 
 Aquí, `fullrank = T` creará solo (n-1) columnas para una columna categórica con n niveles diferentes. Esto funciona especialmente bien para los predictores categóricas como sexo, si está casado, etc. donde solo tenemos dos niveles: masculino/femenino, sí/no, etc. porque 0 se puede usar para representar una clase mientras que 1 representa la otra clase en la misma columna.
 
-3.4 Volver a convertir las variables a categóricas
+### Volver a convertir las variables a categóricas
 
-```{r}
+```{r, cache=TRUE}
 train_transformed$Loan_Status<-as.factor(train_transformed$Loan_Status)
 ```
 
-4. Dividir los datos entre train y test
+## Dividir los datos entre *train* y *test*
 
 Vamos a dividir los datos entre 75 % y 25 %: 
 
-```{r}
+```{r, cache=TRUE}
 index <- createDataPartition(train_transformed$Loan_Status, p=0.75, list=FALSE)
 trainSet <- train_transformed[ index,]
 testSet <- train_transformed[-index,]
 ```
 
-5. Seleccionar de variables (feature selection)
+## Seleccionar de variables (*feature selection*)
 
 Vamos a realizar una selección automática de variables con la técnica RFE (recursive feature).
 
-```{r}
+```{r, cache=TRUE}
 control <- rfeControl(functions = rfFuncs,
                    method = "repeatedcv",
                    repeats = 3,
@@ -761,13 +780,13 @@ Loan_Pred_Profile
 
 El selector sugiere utilizar 5 variables: "Credit_History", "LoanAmount", "Loan_Amount_Term", "ApplicantIncome", "CoapplicantIncome" que guardaremos en: 
 
-```{r}
+```{r, cache=TRUE}
 predictors<-c("Credit_History", "LoanAmount", "Loan_Amount_Term", "ApplicantIncome", "CoapplicantIncome")
 ```
 
-6. Generar el modelo
+## Generar el modelo
 
-Caret tiene +200 modelo estadístico de predicción. Puedes verlos con:
+Caret tiene +200 modelos estadísticos de predicción. Puedes verlos con:
 
 ```{r}
 names(getModelInfo())
@@ -777,7 +796,7 @@ Para conocer el funcionamiento, uso y parámetros de cada modelo, puedes visitar
 
 Nosotros vamos a generar 4 modelos: 
 
-```{r echo=T, results='hide', cache=T}
+```{r results='hide', cache=TRUE}
 # modelo Random Forest
 model_rf<-train(trainSet[,predictors],trainSet[,outcomeName],method='rf')
 
@@ -792,7 +811,7 @@ model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm')
 ```
 
 
-7. Configuración de parámetros (Parameter tuning)
+## Configuración de parámetros (*Parameter tuning*)
 
 Como hemos comentado, Caret contiene más de 200 modelos. Cada uno de ellos contiene sus propio set de parámetros y, por tanto, es necesario setearlos correctamente. A continuación incluimos el tradicional pseudo-código que se utiliza en Caret para el seteo de parámetros: 
 
@@ -802,36 +821,40 @@ Como hemos comentado, Caret contiene más de 200 modelos. Cada uno de ellos cont
 
 En nuestro ejemplo, vamos a utilizar validación cruzada (`cross-validation`) para el resampling. Vamos a repetir 5 veces, una validación cruzada con 5 participanes (*5-Fold cross-validation repeated 5 times*): 
 
-```{r}
+```{r, cache=TRUE}
 fitControl <- trainControl(
   method = "repeatedcv",
   number = 5,
   repeats = 5)
 ```
 
-6.1 Conocer los parámetros de un modelo
+### Parámetros 
 
-Para ver los parámetros que requiere un modelo, se utiliza la función `modelLookup()`. Por ejemplo, para conocer los parámetro del modelo de incremento estocástico del gradiente (gbm);
+Para ver los parámetros que requiere un modelo, se utiliza la función `modelLookup()`. Por ejemplo, para conocer los parámetro del modelo de incremento estocástico del gradiente (gbm):
 
-```{r}
+```{r, cache=TRUE}
 modelLookup(model='gbm')
 ```
 
-6.2 Grilla de valores para los parámetros
+### Grilla de valores
 
-Vamos a generar una grilla con posibles valores de manera que Caret nos sugiera con cuáles quedarnos: 
+Vamos a generar una grilla con posibles valores para los parámetros del modelo de manera que Caret nos sugiera con cuáles (valores) quedarnos: 
 
-```{r}
+```{r, cache=TRUE}
 #Generación de una grilla
 grid <- expand.grid(n.trees=c(10,20,50,100,500,1000),shrinkage=c(0.01,0.05,0.1,0.5),n.minobsinnode = c(3,5,10),interaction.depth=c(1,5,10))
 ```
 
-6.3 Generación de escenarios a partir de la grilla
+### Escenarios a partir de la grilla
 
-```{r echo=T, results='hide', cache=T}
-# training the model
+```{r results='hide', cache=TRUE}
+# entrenando el modelo
 model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneGrid=grid)
+```
 
+Para ver el modelo: 
+
+```{}
 print(model_gbm)
 ```
 
@@ -842,18 +865,23 @@ En nuestro caso, utilizado el criterio de Precisión (Accuracy) para seleccionar
 - shrinkage = 0.05 y (contracción)
 - n.minobsinnode = 3
 
-6.4 Veamos las gráficas de cada escenario
+### Gráficas de los resultados
 
-```{r}
+```{r, cache=TRUE}
 plot(model_gbm)
 ```
 
-6.5 `tuneLength` en lugar de definir una grilla de valores
+### Alternativa a la grilla (`tuneLength`) 
 
 En lugar de especificar los valores exactos de cada parámetro para realizar el *tuning* de los parámetros, podemos utilizar el parámetro `tuneLength` que busca cualquier número de posibles valores por cada *tuning* de parámetro. Vamos a probar utilizando `tuneLength=10`: 
 
-```{r echo=T, results='hide', cache=T}
+```{r, cache=TRUE, results='hide'}
 model_gbm<-train(trainSet[,predictors],trainSet[,outcomeName],method='gbm',trControl=fitControl,tuneLength=10)
+```
+
+Para ver el modelo
+
+```{}
 print(model_gbm)
 ```
 
@@ -870,13 +898,13 @@ Los valores finales sugeridos son:
 - shrinkage = 0.1 y 
 n.minobsinnode = 10.
 
-6.5.1 Gráfica de la propuesta: 
+### Gráfica de la propuesta 
 
-```{r}
+```{r, cache=TRUE}
 plot(model_gbm)
 ```
 
-7. Estimación de la importancia de las variables
+## Importancia de las variables
 
 Una vez que se han seleccionado las variables, puede ser conveniente indicar cuán importante es cada variable en el modelo. En `caret` se puede hacer del siguiente modo: 
 
@@ -888,29 +916,206 @@ plot(varImp(object=model_gbm),main="GBM - Variable Importance")
 
 Sugerimos realizar la estimación de importancia para los otros tres modelos: ¿el ranking de importancia de variables es la misma para los 4 modelos?
 
-8. Predicciones
+## Predicciones
 
 Las predicciones las podemos realizar con la función `predict.train()`. Se deberá indicar el modelo y los datos de test. Cuando se trata de modelos de clasificación, Caret permite setear un el parámetro type con dos posibles valores: 
 
 - `type="raw"`: la salida será la predicción "cruda". El valor (sin más).
 - `type="prob"`: la salida proporcionará las probabilidades de ocurrencia de cada observación en varias clases de variable de salida.  
 
-```{r echo=T, results='hide', cache=T}
+```{r}
 predictions<-predict.train(object=model_gbm,testSet[,predictors],type="raw")
 table(predictions)
 ```
 
-9. Exactitud del modelo
+---
 
-En inteligencia artificial, una ***matriz de confusión*** indica el desempeño de un algoritmo en un proceso de aprendizaje supervisado. Las columnas son datos reales y las filas son datos predichos. En el siguiente ejemplo, de 8 gatos reales, el modelo predice correctamente a 5 y a los otros tres los confunde con un perro: 
+# Calidad del modelo
+
+En nuestro ejemplo de la predicción de confiabilidad de marcas de autos (`Reliability`) vimos la importancia de conocer la eficiencia/precisión/calidad del modelo generado. Veremos, a continuación dos maneras -que están relacionadas- de evaluar un modelo predictivo.  
+
+## Matriz de confusión
+
+En inteligencia artificial, una ***matriz de confusión*** indica el desempeño de un algoritmo en un proceso de aprendizaje supervisado. De manera habitual, las columnas son datos reales y las filas son datos predichos. En el siguiente ejemplo, de 8 gatos reales, el modelo predice correctamente a 5 y a los otros tres los confunde con un perro: 
 
 ![](https://github.com/icassol/platform-samples/blob/master/Confusion.jpg?raw=true)
 
-Sobre la base de la matriz de confusión, es simple medir la exactitud de un modelo: 
+Volvamos al ejemplo del predictor de préstamos (`Loan_status). Sobre la base de la matriz de confusión, es simple medir la exactitud del modelo: 
 
 ```{r}
 confusionMatrix(predictions,testSet[,outcomeName])
 ```
 
+Interpretación de la matriz anterior: 
+
+- Recordemos que el dataset de test contiene 153 personas (`dim(testSet)`).
+- De las 48 personas (19+29) a las que se la ha negado el préstamo, 19 han sido predichas correctamente. 
+- De las 105 personas (1+104) que están en condiciones de tomar préstamos, 104 han sido predichas correctamente. 
+- De las 153 personas del dataset, 123 (19+104) han sido predichas correctamente. Es decir: 123/153 = 0,8039 (ver en el output `Accuracy`).
+
+Los cuadrantes de la tablas de confusión con predicciones booleanas (SI/NO, TIENE/NO TIENE) tienen un nombre propio: 
+
+```{r echo = FALSE, warning=FALSE}
+library(data.table)
+library(knitr)
+library(kableExtra)
+library(magrittr)
+confus<-rbind(c("Verdadero Positivo", "Falso Negativo"), c("Falso positivo", "Verdadero negativo"))
+rownames(confus)<-c("Valor real 0", "Valor real 1")
+colnames(confus)<-c("Valor predicho 0", "Valor predicho 1")
+
+confus %>% knitr::kable("html") %>% 
+  kable_styling(c("striped", "bordered")) 
+```
+
+Es decir: 
+
+- Un dato "Verdadero positivo" es aquel que tiene realmente una condición (o valor) y que es clasificado con ese mismo valor. Por ejemplo: un enfermo de sida, al que se le diagnostica el sida, es un "verdadero positivo".
+- Un dato "Falso positivo" es aquel que no tiene realmente la condición (o valor) y que es clasificado incorrectamente. Por ejemplo: una persona sana al que se le diagnostica el sida, es un "falso positivo". 
+
+Así podríamos continuar con los otros dos cuadrantes. 
+
+*¿Alguno de los cuadrantes es más importante que otro?*: depende. Depende, por ejemplo, de la naturaleza del problema: no es lo mismo diagnosticar sida, que predecir granizo. Puede suceder que, para el caso del sida no nos permitamos ni un "Falso negativo": no nos podemos permitir que un enfermo de sida, sea clasificado como sano. 
+
+Para el ejemplo `Loan_status`, la matriz de confusión sería: 
+
+```{r echo = FALSE, cache=TRUE, warning=FALSE}
+confus<-rbind(c("Verdadero Positivo (19)", "Falso Negativo (29)"), c("Falso positivo (1)", "Verdadero negativo (104)"))
+rownames(confus)<-c("Personas con el pedido rechazado", "Personas con el pedido aceptado")
+colnames(confus)<-c("Personas predichas con el pedido rechazado", "Personas predichas con el pedido aceptado")
+
+confus %>% knitr::kable("html") %>% 
+  kable_styling(c("striped", "bordered")) 
+```
+
+> Aclaración: la función `confusionMatrix()` muestra la matriz *transpuesta* de confusión. 
+
+***Conclusión***: el modelo de predicción de `Loan_status` tiene una buena precisión (80,39 %) pero produce muchos falsos negativos (60 % = 29/48). O sea: el clasificador está otorgando el préstamo a muchas personas a las que debería negárselo. 
+
+---
+
+## Curva AUROC
+
+La curva AUROC (*Area Under the Receiver Operating Characteristic curve*) se utiliza para medir la eficiencia o la precisión del modelo utilizando la matriz de confusión. Es una curva que sólo se puede calcular para predicciones booleanas (SI/NO, TIENE/NO TIENE, etc). O sea, en donde la matriz de confusión es 2x2.
+
+### Ratios
+
+***Ratio de Verdaderos positivos (TPR):***
+
+De manera intuitiva, esta métrica corresponde a la proporción de datos positivos que se consideran correctamente positivos con respecto a todos los datos positivos. En otras palabras, cuanto mayor sea el TPR, menos datos positivos perderemos.
+
+$$
+TPR(True\:positive\:rate) = \frac{TP}{TP+FN}
+$$
+
+*Nota: A este ratio también se le llama `Sensitivy` o `recall`*
+
+Ejemplo: 
+
+$$
+TPR(True\:positive\:rate) = \frac{4}{4+0} = 1
+$$
+
+Esta fórmula indica que los 4 elementos fueron correctamente clasificados. 
 
 
+***Ratio de Falsos positivos (FPR):***
+
+Intuitivamente, esta métrica corresponde a la proporción de datos negativos que se consideran erróneamente positivos con respecto a todos los datos negativos. En otras palabras, cuanto mayor sea el FPR, más datos negativos se clasificarán por error.
+
+$$
+FPR(False\:positive\:rate) = \frac{FP}{FP+TN}
+$$
+
+Ejemplo: 
+
+$$
+TPR(True\:positive\:rate) = \frac{4}{4+0} = 1
+$$
+
+Esta fórmula indica que los 4 elementos fueron incorrectamente clasificados. 
+
+### El algoritmo 
+
+La curva AUROC combina el TPR (eje y) y el FPR (eje x). Para entender cómo se grafica la curva es necesario recordar que el dataset de las predicciones es un dataset de probabilidades. Para agrupar esas probabilidades en SI/NO (o TIENE/NO TIENE), es necesario definir una línea de corte (`threshold`). 
+
+En [este video](https://www.youtube.com/watch?v=xugjARegisk) (que recomendamos para entender la regresión logística) puedes encontrar una buena explicación que integra los conceptos de: regresión logística<->matriz de confusión<->curva AUROC. Lo recomendamos, especialmente a partir del minuto 4:04.
+
+Procedimiento: 
+
+* paso 1: El algoritmo comienza con un threshold=0.
+* paso 2: Se divide las probabilidades en dos grupos y se genera un valor de TPR y un valor de FPR. Eso es un punto de la gráfica. 
+* paso 3: Se incrementa el valor del *threshold*. Puede ser, por ejemplo, +0.01.
+* paso 4: se vuelve al paso 2 mientras que el threshold<1. 
+
+Por ejemplo, el punto (1,1) de la curva AUROC nos dice que ***"Aunque nuestro modelo clasifica correctamente todos los TP (verdados positivos), clasifica incorrectamente todos los FP (falsos positivos)"***.
+
+La gráfica final tendrá el siguiente aspecto: 
+
+![](https://i.stack.imgur.com/9NpXJ.png)
+
+La línea punteada es el valor AUROC de un predictor random (es decir un mal resultado). Esta línea se utiliza como base de calidad. Esta línea punteada está diciendo *"para cualquier línea de corte, TPR=FPR. Esto es: la proporción de elementos TP correctamente clasificados es igual a la proporción de elementos FP incorrectamente clasificados"*.
+
+El ***mejor threshold*** será el que produzca el punto de la curva AUROC que esté más alto y más hacia la izquierda de la gráfica. 
+
+El punto (1,1) de la curva AUROC corresponde al threshold~0 y el punto (0,0) corresponde threshold~1.
+
+Para seleccionar el mejor modelo de predicción, es habitual generar una curva AUROC por cada modelo y elegir el modelo que genera el valor AUROC más alto. 
+
+Para profundizar e interpretar el concepto de `threshold` recomendamos [esta página](https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5), especialmente a partir de la sección "How to speculate the...". 
+
+### Curva AUROC del ejemplo `Loan_status`
+
+Grafiquemos la curva AUROC para el modelo de `Loan_status`: 
+
+```{r warning=FALSE}
+library(ROCR)
+
+# función para graficar la curva AUROC
+plotROC <- function(pred){
+  perf<- performance(pred,"tpr","fpr")
+  plot(perf)
+  AUC<-performance(pred,"auc")@y.values[[1]]
+  grid()
+  text(.6,.2,sprintf("AUC=%0.3f", AUC))
+  abline(0,1,col="red", lty = 2)
+}
+
+predaux<-prediction(as.numeric(predictions),testSet[,outcomeName])
+
+perf <- performance(predaux, "auc")
+perf@y.values[[1]]
+
+plotROC(predaux)
+```
+
+[Aquí](http://apuntes-r.blogspot.com/2015/02/curva-roc-con-package-rocr.html) puedes ver un ejemplo de simple en donde se genera un modelo, se valida con los datos de test y se genera la curva AUROC. 
+
+[Aquí](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve) tienes una explicación completa y clara de la curva AUROC. Muy recomendable. 
+
+---
+
+# Pasos para generar una predicción (*resumen*)
+
+1. Seleccionar el valor a predecir (variable dependiente).
+2. Seleccionar las variables independientes.
+3. Seleccionar el modelo (regresión lineal, logística, árbol de decisión, random forest, etc.).
+4. Dividir los datos entre train y test.
+5. Generar el modelo (con los datos de train).
+6. Probar el modelo (en los datos de test). 
+7. Hallar el valor AUROC del modelo. 
+8. Indicar la importancia que tiene cada variable independiente (opcional/informativo).
+
+*(Pasos opcionales)*
+
+9. Generar otro/s modelo/s.
+10. Probarlos en los datos de test.
+11. Hallar los respectivos valores de AUROC. 
+12. Comparar todos los AUROC para identificar el modelo que mejor predice. 
+
+Los pasos 1-7 son necesarios. Probablemente sean suficientes si el valor del AUROC es alto.
+
+*¿Cómo intentar mejorar  el valor del AUROC?*
+
+- probando con otros modelos. 
+- cambiando la selección de variables independientes. 
