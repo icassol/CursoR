@@ -3,4 +3,4 @@
 .RData
 .Ruserdata
 /learning-data/**
-/Mod*_cache/
+/*_cache/
