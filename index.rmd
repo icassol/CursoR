@@ -15,6 +15,8 @@ El Dr. Cassol es ingeniero en informática, Master en Software engineering por e
 
 ### Bautista Baiocchi-lora
 
-Bautista Baiocchi-lora es estudiante de Ingenieria Informatica.
+Bautista Baiocchi-lora es un estudiante autodidacta de la informática. Comenzo a los trece años, hábil en una variedad de lenguajes, especializándose en las áreas de Reverse Engineering, la ciencia de datos, y Full Stack Development. Actualmente se encuentra como desarrollador Full Stack y estudiante de Ingeniería Informática en la Universidad Austral.
 
 * bautista.baiocchi@ing.austral.edu.ar
+* [Github](https://github.com/Bautista-Baiocchi-lora)
+* [Linkedin](https://www.linkedin.com/in/bautista-baiocchi-lora/)

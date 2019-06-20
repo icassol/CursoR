@@ -14,12 +14,14 @@ navbar: # Definir un navigation bar
       href: Mod3.html
     - text: "Gráficos"
       href: Mod4.html
+    - text: "Predicción"
+      href: Mod7.html
+    - text: "Clustering"
+      href: Mod8.html
     - text: "Reportes"
       href: Mod5.html
     - text: "Web"
       href: Mod6.html
-    - text: "Predicción"
-      href: Mod7.html
 output: # Output gobal
   html_document: # Variables globales
     includes: 
