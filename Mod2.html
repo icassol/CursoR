@@ -298,8 +298,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod3.html">Estadística</a>
 </li>
-<li>
-  <a href="Mod4.html">Gráficos</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Gráficos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod4.html">Introducción</a>
+    </li>
+    <li>
+      <a href="Mod4_Adv.html">Avanzado</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="Mod7.html">Predicción</a>
@@ -1193,24 +1205,24 @@ while(x &lt; 4)
 <pre class="r"><code>A = matrix(runif(50),nrow=10) # Matriz de dimensión 10x10 cuyos elementos son valores
                                # aleatorios con distribución uniforme en (0,1)
 A</code></pre>
-<pre><code>##             [,1]      [,2]      [,3]       [,4]       [,5]
-##  [1,] 0.37009305 0.6304611 0.2067528 0.02738504 0.10359628
-##  [2,] 0.63890113 0.4604373 0.1715108 0.47260571 0.96439787
-##  [3,] 0.97304984 0.4110631 0.1418955 0.61152365 0.02616857
-##  [4,] 0.26758552 0.4240601 0.8816764 0.39292508 0.17334071
-##  [5,] 0.87220496 0.6430333 0.4379957 0.69572998 0.02015922
-##  [6,] 0.47193594 0.9295464 0.3257880 0.38998020 0.39401418
-##  [7,] 0.21616599 0.4930604 0.3005786 0.55037475 0.07213489
-##  [8,] 0.78104775 0.5259341 0.1491242 0.98659440 0.37070616
-##  [9,] 0.19746620 0.3826889 0.9648480 0.34886913 0.03128030
-## [10,] 0.09647797 0.8083014 0.7245388 0.73217984 0.21358924</code></pre>
+<pre><code>##            [,1]      [,2]        [,3]       [,4]       [,5]
+##  [1,] 0.2572167 0.9257080 0.871043414 0.75859317 0.29774178
+##  [2,] 0.2217879 0.8819776 0.006300784 0.13710608 0.10072158
+##  [3,] 0.5930457 0.6741868 0.072057124 0.39658459 0.07190410
+##  [4,] 0.2675214 0.9501670 0.164211225 0.22498533 0.88044057
+##  [5,] 0.5310704 0.5164449 0.770334074 0.05795856 0.75424740
+##  [6,] 0.7852917 0.5765190 0.735184306 0.39589269 0.81660589
+##  [7,] 0.1680608 0.3363312 0.971875636 0.06492830 0.98214037
+##  [8,] 0.4043992 0.3473246 0.466472377 0.22588643 0.10359964
+##  [9,] 0.4715763 0.0200243 0.074384513 0.05462911 0.09904183
+## [10,] 0.8681068 0.5028130 0.648818124 0.67028204 0.79883161</code></pre>
 <pre class="r"><code>sumCuadrados=function(x){sum(x^2)}  # Función que calcula la suma de cuadrados de 
                                     # los términos de un vector x
 apply(A,1,sumCuadrados)  # Devuelve la suma de cuadrados de cada fila de A</code></pre>
-<pre><code>##  [1] 0.5886789 1.8030325 1.5105792 1.2132194 1.8505201 1.5002496 0.6882996 2.0196719 1.2390635
-## [10] 1.7693232</code></pre>
+<pre><code>##  [1] 2.3459261 0.8560569 0.9738728 1.8271443 1.7144140 2.3131294 2.0547208 0.5635271 0.2411118
+## [10] 2.5148053</code></pre>
 <pre class="r"><code>apply(A,2,sumCuadrados)  # Devuelve la suma de cuadrados de cada columna de A</code></pre>
-<pre><code>## [1] 3.252121 3.555349 2.736102 3.322660 1.316406</code></pre>
+<pre><code>## [1] 2.605117 4.078229 3.513461 1.469752 3.738149</code></pre>
 <ul>
 <li><p><code>lapply(L,fun)</code>: aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>. El resultado se devuelve también en una lista.</p></li>
 <li><p><code>sapply(L,fun)</code>: al igual que <code>lapply()</code>, aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>, pero devuelve el resultado en forma de vector o matriz</p></li>

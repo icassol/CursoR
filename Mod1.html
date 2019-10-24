@@ -298,8 +298,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod3.html">Estadística</a>
 </li>
-<li>
-  <a href="Mod4.html">Gráficos</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Gráficos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod4.html">Introducción</a>
+    </li>
+    <li>
+      <a href="Mod4_Adv.html">Avanzado</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="Mod7.html">Predicción</a>
@@ -494,7 +506,7 @@ fecha&lt;-date()
 repeticiones&lt;-5
 
 print(fecha)</code></pre>
-<pre><code>## [1] &quot;Mon Sep 30 13:54:33 2019&quot;</code></pre>
+<pre><code>## [1] &quot;Thu Oct 24 18:39:57 2019&quot;</code></pre>
 <pre class="r"><code>for (i in 1:repeticiones){
   print(mensaje)
 }</code></pre>
