@@ -298,8 +298,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod3.html">Estadística</a>
 </li>
-<li>
-  <a href="Mod4.html">Gráficos</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Gráficos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod4.html">Introducción</a>
+    </li>
+    <li>
+      <a href="Mod4_Adv.html">Avanzado</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="Mod7.html">Predicción</a>
@@ -613,17 +625,17 @@ legend(&quot;topleft&quot;,lty=c(1,2),lwd=c(1,2),col=c(&quot;black&quot;,&quot;r
 muestra1=rnorm(n,170,12)
 media1=mean(muestra1)
 media1</code></pre>
-<pre><code>## [1] 170.4245</code></pre>
+<pre><code>## [1] 173.4173</code></pre>
 <p>En esta muestra hemos obtenido un valor medio muestral de 172.2. Si repetimos el proceso obtenemos otra media distinta:</p>
 <pre class="r"><code>muestra2=rnorm(n,170,12)
 media2=mean(muestra2)
 media2</code></pre>
-<pre><code>## [1] 165.0269</code></pre>
+<pre><code>## [1] 168.3656</code></pre>
 <p>Y si volvemos a repetir:</p>
 <pre class="r"><code>muestra3=rnorm(n,170,12)
 media3=mean(muestra3)
 media3</code></pre>
-<pre><code>## [1] 167.1087</code></pre>
+<pre><code>## [1] 175.1746</code></pre>
 <p>En este punto el lector habrá observado que cada vez que se toma una muestra se obtiene una media diferente. Como a priori es imposible predecir en cada muestreo cuál será el valor medio resultante, la media muestral es una variable aleatoria. El lector habrá observado también que las medias muestrales se parecen a la media de la población, μ=170. Cabe preguntarse entonces: ¿tenderá la media muestral a comportarse de esta manera en todas las muestras? ¿Cuánto llega a apartarse de la media de la población?</p>
 <p>Para responder a estas preguntas podemos repetir el proceso anterior no tres, sino muchísimas más veces. En R esto es muy sencillo de hacer. Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:</p>
 <pre class="r"><code>mediaMuestral=function(n){
@@ -633,23 +645,23 @@ media3</code></pre>
 }</code></pre>
 <p>Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población N(170,12) y calculando su media:</p>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 171.9051</code></pre>
+<pre><code>## [1] 171.0579</code></pre>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 169.6308</code></pre>
+<pre><code>## [1] 174.1744</code></pre>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 169.5614</code></pre>
+<pre><code>## [1] 169.5267</code></pre>
 <p>Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función replicate():</p>
 <pre class="r"><code>m=10000
 muchasMedias=replicate(m,mediaMuestral(25))</code></pre>
 <p>Las primeras 20 medias obtenidas en esta simulación son:</p>
 <pre class="r"><code>muchasMedias[1:20]</code></pre>
-<pre><code>##  [1] 174.7176 165.4824 169.0576 168.7617 174.8070 167.9374 171.8937 169.0114 170.6949 167.2688
-## [11] 169.5974 168.4567 169.6136 169.3314 173.5179 173.6490 169.9708 168.6129 170.1437 170.6309</code></pre>
+<pre><code>##  [1] 170.7074 168.2779 173.6107 168.4732 172.4682 170.7582 169.8703 167.3168 171.6523 170.3815
+## [11] 172.0437 172.7081 170.0686 168.1353 168.4408 169.6045 170.5168 168.5636 170.5906 169.8624</code></pre>
 <p>La media y desviación típica de todas estas medias muestrales son:</p>
 <pre class="r"><code>mean(muchasMedias)</code></pre>
-<pre><code>## [1] 169.9823</code></pre>
+<pre><code>## [1] 170.0272</code></pre>
 <pre class="r"><code>sd(muchasMedias)</code></pre>
-<pre><code>## [1] 2.380551</code></pre>
+<pre><code>## [1] 2.366674</code></pre>
 <p>Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:</p>
 <pre class="r"><code>hist(muchasMedias,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
@@ -662,14 +674,14 @@ curve(dnorm(x,170,sd(muchasMedias)),xlim=c(160,180),col=&quot;blue&quot;,lwd=2,a
 muchasMedias100=replicate(m,mediaMuestral(100))
 muchasMedias500=replicate(m,mediaMuestral(500))
 mean(muchasMedias50); sd(muchasMedias50)</code></pre>
-<pre><code>## [1] 170.0206</code></pre>
-<pre><code>## [1] 1.69387</code></pre>
+<pre><code>## [1] 169.9838</code></pre>
+<pre><code>## [1] 1.690207</code></pre>
 <pre class="r"><code>mean(muchasMedias100); sd(muchasMedias100)</code></pre>
-<pre><code>## [1] 169.9963</code></pre>
-<pre><code>## [1] 1.201994</code></pre>
+<pre><code>## [1] 169.9767</code></pre>
+<pre><code>## [1] 1.202434</code></pre>
 <pre class="r"><code>mean(muchasMedias500); sd(muchasMedias500)</code></pre>
-<pre><code>## [1] 170.0012</code></pre>
-<pre><code>## [1] 0.5355847</code></pre>
+<pre><code>## [1] 169.9958</code></pre>
+<pre><code>## [1] 0.5345043</code></pre>
 <pre class="r"><code>hist(muchasMedias50,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
      main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 50&quot;)

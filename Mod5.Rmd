@@ -1,7 +1,7 @@
 ---
 title: 'Reportes con RMarkdown'
 output:
-  html_document: 
+  html_document:
     number_sections: yes
     toc: yes
     toc_depth: 2
