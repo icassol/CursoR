@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Estadística descriptiva</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<div class="header">
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
+</div>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Curso R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Mod1.html">Introducción</a>
+</li>
+<li>
+  <a href="Mod2.html">Lenguaje R</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Gráficos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod4.html">Introducción</a>
+    </li>
+    <li>
+      <a href="Mod4_Adv.html">Avanzado</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Mod7.html">Predicción</a>
+</li>
+<li>
+  <a href="Mod8.html">Clustering</a>
+</li>
+<li>
+  <a href="Mod5.html">Reportes</a>
+</li>
+<li>
+  <a href="Mod6.html">Web</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Estadística descriptiva</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#estadística-descriptiva-con-r"><span class="toc-section-number">1</span> Estadística Descriptiva con R</a><ul>
+<li><a href="#tablas-de-frecuencias-unidimensionales"><span class="toc-section-number">1.1</span> Tablas de frecuencias unidimensionales</a></li>
+<li><a href="#tablas-de-frecuencias-cruzadas"><span class="toc-section-number">1.2</span> Tablas de frecuencias cruzadas</a></li>
+<li><a href="#tabla-de-frecuencias-de-una-variable-continua-agrupada-en-intervalos"><span class="toc-section-number">1.3</span> Tabla de frecuencias de una variable continua agrupada en intervalos</a></li>
+<li><a href="#creación-de-intervalos"><span class="toc-section-number">1.4</span> Creación de intervalos</a></li>
+</ul></li>
+<li><a href="#distribuciones-de-probabilidad-en-r"><span class="toc-section-number">2</span> Distribuciones de probabilidad en R</a><ul>
+<li><a href="#distribuciones-de-probabilidad-en-r-1"><span class="toc-section-number">2.1</span> Distribuciones de probabilidad en R</a></li>
+<li><a href="#distribución-de-la-media-en-el-muestreo.-teorema-central-del-límite."><span class="toc-section-number">2.2</span> Distribución de la media en el muestreo. Teorema central del límite.</a></li>
+</ul></li>
+</ul>
+</div>
+
+<!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
+<div id="estadística-descriptiva-con-r" class="section level1">
+<h1><span class="header-section-number">1</span> Estadística Descriptiva con R</h1>
+<p>Vamos a trabajar sobre 10 personas:</p>
+<pre class="r"><code>edad=c(18,19,NA,18,24,17,22,15,22,25)
+sexo=c(0,1,0,0,1,0,0,1,1,0)
+estudios=c(1,2,0,1,3,2,3,1,2,3)
+
+sexo=factor(sexo, levels=c(0,1),
+                  labels=c(&quot;Hombre&quot;,&quot;Mujer&quot;))
+estudios=factor(estudios, levels=c(0,1,2,3),
+                      labels=c(&quot;Sin estudios&quot;,&quot;Estudios Primarios&quot;,
+                               &quot;Estudios Secundarios&quot;,&quot;Estudios Superiores&quot;))</code></pre>
+<p>Con esos datos, nos interesa:</p>
+<ol style="list-style-type: decimal">
+<li><p>Construir tablas de frecuencias unidimensionales para las tres variables.</p></li>
+<li><p>Construir una tabla de frecuencias cruzadas con las variables ‘sexo’ y ‘nivel de estudios’.</p></li>
+<li><p>Construir una tabla de frecuencias de la variable edad agrupada en intervalos.</p></li>
+<li><p>Calcular media y desviación típica de la variable ‘edad’.</p></li>
+<li><p>Calcular media y desviación típica de la variable ‘edad’ según sexo.</p></li>
+<li><p>Representar gráficamente: el nivel de estudios en un diagrama de sectores, el sexo en un diagrama de barras y la edad en un histograma. Construir también un boxplot de la edad en función del sexo.</p></li>
+</ol>
+<div id="tablas-de-frecuencias-unidimensionales" class="section level2">
+<h2><span class="header-section-number">1.1</span> Tablas de frecuencias unidimensionales</h2>
+<pre class="r"><code>table(edad) #tabla de frecuencias absolutas.
+prop.table(table(edad)) #tabla de frecuencias relativas.
+table(edad,useNA=&quot;ifany&quot;) #tabla que incluye el conteo de valores perdidos.</code></pre>
+<p>Tarea:</p>
+<p>Constuir tablas de frecuencias para las variables sexo y Nivel de estudios.</p>
+</div>
+<div id="tablas-de-frecuencias-cruzadas" class="section level2">
+<h2><span class="header-section-number">1.2</span> Tablas de frecuencias cruzadas</h2>
+<p>Las tablas de frecuencias cruzadas se construyen también con las funciones table() y prop.table(table()), especificando ahora las dos variables a cruzar. Para las frecuencias relativas, en prop.table() incluimos un 1 si las queremos por filas, un 2 si por columnas, o nada si queremos las frecuencias relativas globales:</p>
+<pre class="r"><code>table(estudios,sexo)
+prop.table(table(estudios,sexo))
+prop.table(table(estudios,sexo),1)
+prop.table(table(estudios,sexo),2)</code></pre>
+</div>
+<div id="tabla-de-frecuencias-de-una-variable-continua-agrupada-en-intervalos" class="section level2">
+<h2><span class="header-section-number">1.3</span> Tabla de frecuencias de una variable continua agrupada en intervalos</h2>
+<p>Para conocer el rango de edad de nuestras 10 personas, usamos la función:</p>
+<pre class="r"><code>range(edad, na.rm = TRUE) # na.rm = TRUE indica que ignore los valores perdidos.</code></pre>
+</div>
+<div id="creación-de-intervalos" class="section level2">
+<h2><span class="header-section-number">1.4</span> Creación de intervalos</h2>
+<p>En este caso, para la creación de intervalos, vamos a usar la regla de Sturges, que nos proporciona un número adecuado de intervalos en función del rango de los datos (ver help(nclass.Sturges).</p>
+<p>Si quisieramos agrupar a las personas por intervalos según su edad:</p>
+<pre class="r"><code>nclass.Sturges(edad)  # Número de intervalos
+seq(15,25,length=nclass.Sturges(edad))  # Límites de los intervalos
+# Construcción de los intervalos mediante la función cut():
+intervalosEdad=cut(edad,breaks=seq(15,25,length=nclass.Sturges(edad)),include.lowest=TRUE)
+intervalosEdad # Se muestran los intervalos de edad, uno correspondiente a cada edad observada
+table(intervalosEdad)</code></pre>
+<p>La función <code>seq()</code> se utiliza para generar un listado de números con el formato:</p>
+<pre><code>seq.int(from, to, by)</code></pre>
+<p>Ejemplo:</p>
+<pre class="r"><code>seq(1,10,2)</code></pre>
+<div id="estadísticos-descriptivos" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Estadísticos descriptivos</h3>
+<p>Calcular media y desviación típica de la variable ‘edad’.</p>
+<p>R dispone de una función genérica summary(), que cuando se aplica a una variable presenta un pequeño resumen descriptivo. Si la variable es numérica, dicho resumen incluye el mínimo, máximo, mediana, primer y tercer cuartiles, media y número de valores perdidos. Si la variable es de tipo factor, summary() muestra el número de observaciones en cada nivel del factor:</p>
+<pre class="r"><code>summary(edad)
+summary(estudios)</code></pre>
+<p>Las funciones disponibles en R para calcular estos estadísticos descriptivos son, respectivamente, <code>mean(nombre_de_variable)</code> y <code>sd(nombre_de_variable)</code>:</p>
+<pre class="r"><code>mean(edad, na.rm=T)
+sd(edad, na.rm=T)</code></pre>
+</div>
+<div id="representaciones-gráficas" class="section level3">
+<h3><span class="header-section-number">1.4.2</span> Representaciones gráficas</h3>
+<pre class="r"><code>pie(table(estudios))
+barplot(table(sexo))
+hist(edad)
+boxplot(edad~sexo)</code></pre>
+<p>Tarea:</p>
+<ul>
+<li>Ejecuta <code>help(pie)</code> y busca cómo agregar un título al gráfico.</li>
+<li>Colorea los sectores de modo diferente: utiliza la opción col=c(“red”,“blue”,“green”,“yellow”)</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="distribuciones-de-probabilidad-en-r" class="section level1">
+<h1><span class="header-section-number">2</span> Distribuciones de probabilidad en R</h1>
+<div id="distribuciones-de-probabilidad-en-r-1" class="section level2">
+<h2><span class="header-section-number">2.1</span> Distribuciones de probabilidad en R</h2>
+<p>El paquete <code>stats</code> de R (que se instala por defecto al instalar R, y se carga en memoria siempre que iniciamos sesión) implementa numerosas funciones para la realización de cálculos asociados a distintas distribuciones de probabilidad. Entre las utilizadas más comunmente podemos citar:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Distribuciones Discretas</th>
+<th></th>
+<th>Distribuciones Continuas</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Distribución</td>
+<td>Nombre en R</td>
+<td></td>
+<td>Distribución</td>
+<td>Nombre en R</td>
+</tr>
+<tr class="even">
+<td>——————-</td>
+<td>————-</td>
+<td>—</td>
+<td>—————</td>
+<td>————-</td>
+</tr>
+<tr class="odd">
+<td>Binomial</td>
+<td>binom</td>
+<td></td>
+<td>Uniforme</td>
+<td>unif</td>
+</tr>
+<tr class="even">
+<td>Poisson</td>
+<td>pois</td>
+<td></td>
+<td>Normal</td>
+<td>norm</td>
+</tr>
+<tr class="odd">
+<td>Geométrica</td>
+<td>geom</td>
+<td></td>
+<td>t Student</td>
+<td>t</td>
+</tr>
+<tr class="even">
+<td>Hipergeométrica</td>
+<td>hyper</td>
+<td></td>
+<td>F Fisher</td>
+<td>F</td>
+</tr>
+<tr class="odd">
+<td>Binomial Negativa</td>
+<td>nbinom</td>
+<td></td>
+<td>Chi-Cuadrado</td>
+<td>chisq</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td>Exponencial</td>
+<td>exp</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td>Gamma</td>
+<td>gamma</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td>Weibull</td>
+<td>weibull</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td>W de Wilcoxon</td>
+<td>wilcox</td>
+</tr>
+</tbody>
+</table>
+<p>Para cada distribución, R dispone de cuatro funciones. Se puede acceder a cada una de ellas simplemente precediendo el nombre de la distribución que figura en la tabla anterior por la letra que se indica a continuación:</p>
+<p>d: función de densidad o de probabilidad. p: función de distribución q: función para el cálculo de cuantiles. r: función para simular datos con dicha distribución.</p>
+<p>Así, por ejemplo, para la distribución normal, la función de densidad se obtiene como <code>dnorm()</code>, la función de distribución como <code>pnorm()</code>, los cuantiles se calculan mediante <code>qnorm()</code> y se pueden generar valores aleatorios con distribución normal mediante <code>rnorm()</code>. Puede consultarse la ayuda, <code>help(dnorm)</code> para conocer la sintaxis específica de estas funciones.</p>
+<p>Ejemplo 1: distribución binomial</p>
+<p>Si X sigue una distribución binomial B(n,p), entonces:</p>
+<pre><code>P(X=k) = dbinom(k,n,p)
+
+P(X≤k) = pbinom(k,n,p)
+
+qa = min{x:P(X≤x)≥a} = qbinom(a,n,p)
+
+`rbinom(m,n,p)` genera m valores aleatorios con esta distribución</code></pre>
+<p>Si X≈B(10,0.6) tenemos:</p>
+<p>P(X=8)</p>
+<pre class="r"><code>dbinom(8,10,0.6)</code></pre>
+<pre><code>## [1] 0.1209324</code></pre>
+<p>P(X≤8)</p>
+<pre class="r"><code>pbinom(8,10,0.6)</code></pre>
+<pre><code>## [1] 0.9536426</code></pre>
+<p>Podemos representar fácilmente la función de probabilidad de la distribución binomial:</p>
+<pre class="r"><code>plot(dbinom(0:10,10,0.6),type=&quot;h&quot;,xlab=&quot;k&quot;,ylab=&quot;P(X=k)&quot;,main=&quot;Función de Probabilidad B(10,0.6)&quot;)</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-12-1.png" width="432" /></p>
+<p>También podemos representar su función de distribución:</p>
+<pre class="r"><code>plot(stepfun(0:10,pbinom(0:11,10,0.6)),xlab=&quot;k&quot;,ylab=&quot;F(k)&quot;,main=&quot;Función de distribución B(10,0.6)&quot;)</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-13-1.png" width="432" /></p>
+<p>Ejemplo2: Distribución normal.</p>
+<p>Si X sigue una distribución normal N(μ,σ), entonces:</p>
+<ul>
+<li><p>f(x) =dnorm(x,mu,sigma)</p></li>
+<li><p>P(X≤k) =pnorm(x,mu,sigma)</p></li>
+<li><p>qa=min{x:P(X≤x)≥a} =qnorm(a,mu,sigma)</p></li>
+<li><p><code>rnorm(n,mu,sigma)</code> genera n valores aleatorios N(μ,σ)</p></li>
+</ul>
+<p>Supongamos que X≈N(170,12). Entonces:</p>
+<p>Calculamos f(178)</p>
+<pre class="r"><code>dnorm(171,170,12)</code></pre>
+<pre><code>## [1] 0.03312996</code></pre>
+<p>Podemos calcular fácilmente los valores de la función de densidad sobre una secuencia de valores de x:</p>
+<pre class="r"><code>x=seq(165,175,by=0.5)
+dnorm(x,170,12)</code></pre>
+<pre><code>##  [1] 0.03048103 0.03098792 0.03144860 0.03186077 0.03222234 0.03253150 0.03278664 0.03298647
+##  [9] 0.03312996 0.03321634 0.03324519 0.03321634 0.03312996 0.03298647 0.03278664 0.03253150
+## [17] 0.03222234 0.03186077 0.03144860 0.03098792 0.03048103</code></pre>
+<p>La representación gráfica de la función de densidad se obtiene fácilmente como:</p>
+<pre class="r"><code>curve(dnorm(x,170,12),xlim=c(130,210),col=&quot;blue&quot;,lwd=2,
+      xlab=&quot;x&quot;,ylab=&quot;f(x)&quot;,main=&quot;Función de Densidad N(170,12)&quot;)</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-16-1.png" width="432" /></p>
+<p>También podemos representar la función de distribución:</p>
+<pre class="r"><code>curve(pnorm(x,170,12),xlim=c(130,210),col=&quot;blue&quot;,lwd=2,
+      xlab=&quot;x&quot;,ylab=&quot;F(x)&quot;,main=&quot;Función de Distribución N(170,12)&quot;)</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-17-1.png" width="432" /></p>
+<p>Calculamos la probabilidad P(X≤180)</p>
+<pre class="r"><code>pnorm(180,170,12)</code></pre>
+<pre><code>## [1] 0.7976716</code></pre>
+<p>P(X&gt;168)</p>
+<pre class="r"><code>1-pnorm(168,170,12)</code></pre>
+<pre><code>## [1] 0.5661838</code></pre>
+<pre class="r"><code># o
+pnorm(168,170,12, lower.tail=FALSE)</code></pre>
+<pre><code>## [1] 0.5661838</code></pre>
+<p>P(150≤X≤168)</p>
+<pre class="r"><code>pnorm(168,170,12)-pnorm(150,170,12)</code></pre>
+<pre><code>## [1] 0.3860258</code></pre>
+<pre class="r"><code># o
+miDensidad=function(x) dnorm(x,170,12)
+integrate(miDensidad,150,168)</code></pre>
+<pre><code>## 0.3860258 with absolute error &lt; 4.3e-15</code></pre>
+<p>No es demasiado difícil representar el área correspondiente a la probabilidad que se acaba de calcular:</p>
+<pre class="r"><code>regionX=seq(150,168,0.01)            # Intervalo a sombrear
+xP &lt;- c(150,regionX,168)             # Base de los polígonos que crean el efecto &quot;sombra&quot;
+yP &lt;- c(0,dnorm(regionX,170,12),0)   # Altura de los polígonos sombreados
+curve(dnorm(x,170,12),xlim=c(130,210),yaxs=&quot;i&quot;,ylim=c(0,0.035),ylab=&quot;f(x)&quot;,
+      main=&#39;Densidad N(170,12)&#39;) 
+polygon(xP,yP,col=&quot;orange1&quot;)
+box()</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-21-1.png" width="432" /></p>
+<p>Simulamos una muestra grande de la distribución normal y comprobamos que el histograma es muy parecido a la función de densidad:</p>
+<pre class="r"><code>X=rnorm(10000, 170, 12)
+hist(X,freq=FALSE,col=&quot;lightsalmon&quot;,main=&quot;Histograma&quot;,sub=&quot;Datos simulados de una N(170,12)&quot;)
+curve(dnorm(x,170,12),xlim=c(110,220),col=&quot;blue&quot;,lwd=2,add=TRUE)</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-22-1.png" width="432" /></p>
+<p>Podemos comprobar también que la distribución acumulativa empírica de esta simulación es muy similar a la función de distribución teórica de la normal:</p>
+<pre class="r"><code>plot(ecdf(X))
+curve(pnorm(x,170,12),xlim=c(110,220),col=&quot;red&quot;,lwd=2,lty=2,add=TRUE)
+legend(&quot;topleft&quot;,lty=c(1,2),lwd=c(1,2),col=c(&quot;black&quot;,&quot;red&quot;),legend=c(&quot;Distribución empírica&quot;,&quot;Distribución teórica&quot;))</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-23-1.png" width="432" /></p>
+</div>
+<div id="distribución-de-la-media-en-el-muestreo.-teorema-central-del-límite." class="section level2">
+<h2><span class="header-section-number">2.2</span> Distribución de la media en el muestreo. Teorema central del límite.</h2>
+<p>R es una herramienta excelente para ayudar a entender el significado de muchos conceptos estadísticos. Un concepto a menudo mal entendido es el de la distribución de un estadístico en el muestreo. Para aclarar este concepto podemos comenzar por realizar un sencillo experimento: tomar una muestra aleatoria simple en una población normal de, por ejemplo, media μ=170 y desviación típica σ=12. Fijamos inicialmente un tamaño de muestra n=25, tomamos la muestra y calculamos su media:</p>
+<pre class="r"><code>n=25
+muestra1=rnorm(n,170,12)
+media1=mean(muestra1)
+media1</code></pre>
+<pre><code>## [1] 168.5402</code></pre>
+<p>En esta muestra hemos obtenido un valor medio muestral de 172.2. Si repetimos el proceso obtenemos otra media distinta:</p>
+<pre class="r"><code>muestra2=rnorm(n,170,12)
+media2=mean(muestra2)
+media2</code></pre>
+<pre><code>## [1] 168.692</code></pre>
+<p>Y si volvemos a repetir:</p>
+<pre class="r"><code>muestra3=rnorm(n,170,12)
+media3=mean(muestra3)
+media3</code></pre>
+<pre><code>## [1] 171.3057</code></pre>
+<p>En este punto el lector habrá observado que cada vez que se toma una muestra se obtiene una media diferente. Como a priori es imposible predecir en cada muestreo cuál será el valor medio resultante, la media muestral es una variable aleatoria. El lector habrá observado también que las medias muestrales se parecen a la media de la población, μ=170. Cabe preguntarse entonces: ¿tenderá la media muestral a comportarse de esta manera en todas las muestras? ¿Cuánto llega a apartarse de la media de la población?</p>
+<p>Para responder a estas preguntas podemos repetir el proceso anterior no tres, sino muchísimas más veces. En R esto es muy sencillo de hacer. Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:</p>
+<pre class="r"><code>mediaMuestral=function(n){
+  muestra=rnorm(n,170,12)
+  media=mean(muestra)
+  return(media)
+}</code></pre>
+<p>Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población N(170,12) y calculando su media:</p>
+<pre class="r"><code>mediaMuestral(25)</code></pre>
+<pre><code>## [1] 167.6885</code></pre>
+<pre class="r"><code>mediaMuestral(25)</code></pre>
+<pre><code>## [1] 166.2632</code></pre>
+<pre class="r"><code>mediaMuestral(25)</code></pre>
+<pre><code>## [1] 170.1238</code></pre>
+<p>Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función replicate():</p>
+<pre class="r"><code>m=10000
+muchasMedias=replicate(m,mediaMuestral(25))</code></pre>
+<p>Las primeras 20 medias obtenidas en esta simulación son:</p>
+<pre class="r"><code>muchasMedias[1:20]</code></pre>
+<pre><code>##  [1] 169.7767 171.4768 166.9548 172.6759 168.7196 170.0131 170.8340 172.9246 172.3060 174.2094
+## [11] 169.0553 172.6550 168.9457 171.0403 170.1796 172.3933 169.6691 170.6034 166.8750 169.8325</code></pre>
+<p>La media y desviación típica de todas estas medias muestrales son:</p>
+<pre class="r"><code>mean(muchasMedias)</code></pre>
+<pre><code>## [1] 170.0124</code></pre>
+<pre class="r"><code>sd(muchasMedias)</code></pre>
+<pre><code>## [1] 2.392533</code></pre>
+<p>Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:</p>
+<pre class="r"><code>hist(muchasMedias,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
+     xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
+     main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25&quot;)
+curve(dnorm(x,170,sd(muchasMedias)),xlim=c(160,180),col=&quot;blue&quot;,lwd=2,add=TRUE)      </code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-32-1.png" width="432" /></p>
+<p>A estas alturas, para el lector debe de haber quedado claro que la media muestral es una variable aleatoria, y que su distribución de probabilidad es muy parecida a la normal; además la media de todas las medias muestrales es casi idéntica a la media de la población.</p>
+<p>¿Cuál es el efecto de aumentar el tamaño de la muestra? Podemos evaluarlo repitiendo el proceso anterior para n=50, n=100 y n=500 (en todos los casos presentaremos los gráficos en la misma escala para facilitar la comparación):</p>
+<pre class="r"><code>muchasMedias50=replicate(m,mediaMuestral(50))
+muchasMedias100=replicate(m,mediaMuestral(100))
+muchasMedias500=replicate(m,mediaMuestral(500))
+mean(muchasMedias50); sd(muchasMedias50)</code></pre>
+<pre><code>## [1] 169.9867</code></pre>
+<pre><code>## [1] 1.692297</code></pre>
+<pre class="r"><code>mean(muchasMedias100); sd(muchasMedias100)</code></pre>
+<pre><code>## [1] 169.991</code></pre>
+<pre><code>## [1] 1.206421</code></pre>
+<pre class="r"><code>mean(muchasMedias500); sd(muchasMedias500)</code></pre>
+<pre><code>## [1] 170.0034</code></pre>
+<pre><code>## [1] 0.5366542</code></pre>
+<pre class="r"><code>hist(muchasMedias50,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
+     xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
+     main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 50&quot;)
+curve(dnorm(x,170,sd(muchasMedias50)),xlim=c(160,180),col=&quot;blue&quot;,lwd=2,add=TRUE)</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-33-1.png" width="432" /></p>
+<pre class="r"><code>hist(muchasMedias100,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
+     xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
+     main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 100&quot;)
+curve(dnorm(x,170,sd(muchasMedias100)),xlim=c(160,180),col=&quot;blue&quot;,lwd=2,add=TRUE)</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-33-2.png" width="432" /></p>
+<pre class="r"><code>hist(muchasMedias500,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
+     xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
+     main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 500&quot;)
+curve(dnorm(x,170,sd(muchasMedias500)),xlim=c(160,180),col=&quot;blue&quot;,lwd=2,add=TRUE,n=200)</code></pre>
+<p><img src="Mod3_files/figure-html/unnamed-chunk-33-3.png" width="432" /></p>
+<p>Resulta evidente en las gráficas, que el incremento del tamaño de la muestra tiene como consecuencia que las posibles medias muestrales se concentran más en torno a su media; en otras palabras, cuanto más grande sea la muestra, más probable es que la media de la muestra esté muy cerca de la media de la población. Puede comprobarse además que la desviación típica de las medias muestrales es en todos los casos un valor muy parecido a σ/√n=12/√n:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Tamaño de muestra (n)</th>
+<th>Desviación típica de las medias muestrales</th>
+<th>σ/√n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>25</td>
+<td>2.40882</td>
+<td>2.4</td>
+</tr>
+<tr class="even">
+<td>50</td>
+<td>1.69587</td>
+<td>1.69706</td>
+</tr>
+<tr class="odd">
+<td>100</td>
+<td>1.18425</td>
+<td>1.2</td>
+</tr>
+<tr class="even">
+<td>1000</td>
+<td>0.53569</td>
+<td>0.53666</td>
+</tr>
+</tbody>
+</table>
+<p>Tras esta serie de simulaciones, el lector debe haber quedado bastante convencido de que la media muestral de variables N(μ,σ) es una variable aleatoria también normal de media μ y desviación típica σ/√n.</p>
+<p>Bien, hemos visto la media de variables normales es también normal. ¿Ocurrirá lo mismo si las variables que se promedian no son normales? Podemos aquí plantear el siguiente ejercicio, para que el lector “descubra” el teorema central del límite.</p>
+<ol style="list-style-type: decimal">
+<li>Repetir el proceso anterior cuando la variable aleatoria original es de Poisson de parámetro λ=1.3</li>
+<li>Idem cuando es exponencial de parámetro μ=1.5</li>
+<li>Idem cuando es uniforme en el intervalo [5,10,]</li>
+<li>Idem cuando es de Weibull de parámetros 1.2 y 0.5.</li>
+</ol>
+<div id="más-información-sobre-distribución-de-probabilidad-en-r" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Más información sobre distribución de probabilidad en R</h3>
+<ul>
+<li><p>G. Jay Kerns (Youngstown State University, Ohio) ha creado dos paquetes de R, prob, IPSUR que corresponden a dos libros de probabilidad y estadística de este autor (los libros pueden descargarse libremente <a href="http://prob.r-forge.r-project.org/doc/prob.pdf">aquí</a> y <a href="http://cran.r-project.org/web/packages/IPSUR/vignettes/IPSUR.pdf">aquí</a>), y los paquetes se pueden descargar directamente de CRAN. Ambos libros se pueden utilizar para un curso de probabilidad y estadística de primero de carrera. Los paquetes citados, además de incluir versiones pdf de ambos libros, incluyen datos, funciones y ejemplos de utilización de R para el aprendizaje del cálculo de probabilidades y la estadística.</p></li>
+<li><p><a href="http://www.ats.ucla.edu/stat/r/modules/prob_dist.htm" class="uri">http://www.ats.ucla.edu/stat/r/modules/prob_dist.htm</a></p></li>
+<li><p><a href="http://www.r-tutor.com/elementary-statistics/probability-distributions" class="uri">http://www.r-tutor.com/elementary-statistics/probability-distributions</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
