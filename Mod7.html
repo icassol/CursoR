@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -24,7 +24,7 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <div class="header">
-  <img style="width: 100%;" class="center-fit" src="./resources/curso-banner.png"/>
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
 </div>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -87,7 +87,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -236,6 +235,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -247,18 +247,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -296,8 +284,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod2.html">Lenguaje R</a>
 </li>
-<li>
-  <a href="Mod3.html">Estadística</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -344,24 +344,24 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#regresion-lineal"><span class="toc-section-number">1</span> Regresión lineal</a></li>
+<li><a href="#regresión-lineal"><span class="toc-section-number">1</span> Regresión lineal</a></li>
 <li><a href="#residuos"><span class="toc-section-number">2</span> Residuos</a><ul>
 <li><a href="#test-de-shapiro"><span class="toc-section-number">2.1</span> Test de Shapiro</a></li>
 <li><a href="#ejemplo-del-impacto-de-los-outliers-opcional"><span class="toc-section-number">2.2</span> Ejemplo del impacto de los outliers (opcional)</a></li>
 </ul></li>
-<li><a href="#regresion-lineal-multiple"><span class="toc-section-number">3</span> Regresión lineal múltiple</a><ul>
-<li><a href="#grafico-de-los-datos"><span class="toc-section-number">3.1</span> Gráfico de los datos</a></li>
+<li><a href="#regresión-lineal-múltiple"><span class="toc-section-number">3</span> Regresión lineal múltiple</a><ul>
+<li><a href="#gráfico-de-los-datos"><span class="toc-section-number">3.1</span> Gráfico de los datos</a></li>
 <li><a href="#modelo-con-todas-las-variables"><span class="toc-section-number">3.2</span> Modelo con todas las variables</a></li>
 <li><a href="#modelo-con-algunas-variables"><span class="toc-section-number">3.3</span> Modelo con algunas variables</a></li>
 <li><a href="#datos-correlados-opcional"><span class="toc-section-number">3.4</span> Datos correlados (opcional)</a></li>
 <li><a href="#interacciones-opcional"><span class="toc-section-number">3.5</span> Interacciones (opcional)</a></li>
 <li><a href="#predicciones-1"><span class="toc-section-number">3.6</span> Predicciones</a></li>
 </ul></li>
-<li><a href="#seleccion-de-variables"><span class="toc-section-number">4</span> Selección de variables</a><ul>
-<li><a href="#metodo-stepwise-paso-a-paso"><span class="toc-section-number">4.1</span> Método <code>Stepwise</code> (paso a paso)</a></li>
+<li><a href="#selección-de-variables"><span class="toc-section-number">4</span> Selección de variables</a><ul>
+<li><a href="#método-stepwise-paso-a-paso"><span class="toc-section-number">4.1</span> Método <code>Stepwise</code> (paso a paso)</a></li>
 </ul></li>
-<li><a href="#regresion-logistica"><span class="toc-section-number">5</span> Regresión logística</a></li>
-<li><a href="#arboles-de-decision"><span class="toc-section-number">6</span> Árboles de decisión</a></li>
+<li><a href="#regresión-logística"><span class="toc-section-number">5</span> Regresión logística</a></li>
+<li><a href="#árboles-de-decisión"><span class="toc-section-number">6</span> Árboles de decisión</a></li>
 <li><a href="#machine-learning-con-el-paquete-caret"><span class="toc-section-number">7</span> Machine learning con el paquete <code>CARET</code></a><ul>
 <li><a href="#descargar-el-paquete"><span class="toc-section-number">7.1</span> Descargar el paquete</a></li>
 <li><a href="#cargar-el-paquete-y-los-datos"><span class="toc-section-number">7.2</span> Cargar el paquete y los datos</a></li>
@@ -369,20 +369,20 @@ $(document).ready(function () {
 <li><a href="#dividir-los-datos-entre-train-y-test"><span class="toc-section-number">7.4</span> Dividir los datos entre <em>train</em> y <em>test</em></a></li>
 <li><a href="#seleccionar-de-variables-feature-selection"><span class="toc-section-number">7.5</span> Seleccionar de variables (<em>feature selection</em>)</a></li>
 <li><a href="#generar-el-modelo"><span class="toc-section-number">7.6</span> Generar el modelo</a></li>
-<li><a href="#configuracion-de-parametros-parameter-tuning"><span class="toc-section-number">7.7</span> Configuración de parámetros (<em>Parameter tuning</em>)</a></li>
+<li><a href="#configuración-de-parámetros-parameter-tuning"><span class="toc-section-number">7.7</span> Configuración de parámetros (<em>Parameter tuning</em>)</a></li>
 <li><a href="#importancia-de-las-variables"><span class="toc-section-number">7.8</span> Importancia de las variables</a></li>
 <li><a href="#predicciones-2"><span class="toc-section-number">7.9</span> Predicciones</a></li>
 </ul></li>
 <li><a href="#calidad-del-modelo"><span class="toc-section-number">8</span> Calidad del modelo</a><ul>
-<li><a href="#matriz-de-confusion"><span class="toc-section-number">8.1</span> Matriz de confusión</a></li>
+<li><a href="#matriz-de-confusión"><span class="toc-section-number">8.1</span> Matriz de confusión</a></li>
 <li><a href="#curva-auroc"><span class="toc-section-number">8.2</span> Curva AUROC</a></li>
 </ul></li>
-<li><a href="#pasos-para-generar-una-prediccion-resumen"><span class="toc-section-number">9</span> Pasos para generar una predicción (<em>resumen</em>)</a></li>
+<li><a href="#pasos-para-generar-una-predicción-resumen"><span class="toc-section-number">9</span> Pasos para generar una predicción (<em>resumen</em>)</a></li>
 </ul>
 </div>
 
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
-<div id="regresion-lineal" class="section level1">
+<div id="regresión-lineal" class="section level1">
 <h1><span class="header-section-number">1</span> Regresión lineal</h1>
 <p>Teniendo un conjunto de datos, y suponiendo que cada dato es un par ordenado (x,y), una <strong><em>regresión lineal simple</em></strong> genera una recta cuyos puntos (x’,y’) tienen la mínima distancia posible respecto a (x,y).</p>
 <p>El modelo anterior implica que la regresión lineal simple considera a uno de los ejes de coordenadas como variable dependiente y al otro como variable independiente.</p>
@@ -659,7 +659,7 @@ mtext(&quot;Los 4 conjuntos de datos de Anscombe&quot;, outer = TRUE, cex=1.5)</
 <hr />
 </div>
 </div>
-<div id="regresion-lineal-multiple" class="section level1">
+<div id="regresión-lineal-múltiple" class="section level1">
 <h1><span class="header-section-number">3</span> Regresión lineal múltiple</h1>
 <p>En el ejemplo anterior predijimos la presión sanguinea (<code>PB</code>) utilizando la edad (<code>Age</code>):</p>
 <p><span class="math inline">\(PB = β_0 + β_1·Age + e\)</span></p>
@@ -717,7 +717,7 @@ mydata</code></pre>
 ## 21 89.0 29.0  35.5 106.0 39.0    118.0  96.0  179.0 39.5  51.0 58.5
 ## 22 94.0 31.0  33.5 106.0 39.0    120.0  99.5  184.0 42.0  55.0 57.0</code></pre>
 <p>Nuestro objetivo es construir una regresión lineal múltiple para predecir el peso (<code>Mass</code>).</p>
-<div id="grafico-de-los-datos" class="section level2">
+<div id="gráfico-de-los-datos" class="section level2">
 <h2><span class="header-section-number">3.1</span> Gráfico de los datos</h2>
 <p>Primero, graficamos los datos:</p>
 <pre class="r"><code>library(corrplot)
@@ -868,12 +868,12 @@ predict(model_mult, new, se.fit = TRUE)</code></pre>
 <hr />
 </div>
 </div>
-<div id="seleccion-de-variables" class="section level1">
+<div id="selección-de-variables" class="section level1">
 <h1><span class="header-section-number">4</span> Selección de variables</h1>
 <p>Hasta ahora, la selección de las variables que conformarán el modelo ha sido manual. Nosotros indicamos, por ejemplo, que el peso de paciente (<code>Mass</code>) se prediga utilizando el antebrazo (<code>Fore</code>), la cintura (<code>Waist</code>) y la altura (<code>Height</code>).</p>
 <p>En muchos casos, se presenta el problema de tener muchas variables y, por tanto, de no saber cuáles son importantes para el modelo. Vamos a ver un método que permite la selección automática del mejor subconjunto de variables para predecir una determinada variable.</p>
 <p>Recomendamos leer <a href="https://www.analyticsvidhya.com/blog/2016/12/introduction-to-feature-selection-methods-with-an-example-or-how-to-select-the-right-variables/">este artículo</a> sobre la importancia de la selección de variables.</p>
-<div id="metodo-stepwise-paso-a-paso" class="section level2">
+<div id="método-stepwise-paso-a-paso" class="section level2">
 <h2><span class="header-section-number">4.1</span> Método <code>Stepwise</code> (paso a paso)</h2>
 <p>El método <code>Stepwise</code> es un grupo de algoritmos que tienen como objetivo automatizar la selección de variables en un modelo.</p>
 <p>Se dividen principalmente en: Selección hacia atrás (<code>backward</code>) y hacia adelante (<code>forward</code>).</p>
@@ -1371,7 +1371,7 @@ modelAIC3&lt;-stepAIC(fit1,direction=&quot;both&quot;,scope=list(upper=fit3,lowe
 </div>
 </div>
 </div>
-<div id="regresion-logistica" class="section level1">
+<div id="regresión-logística" class="section level1">
 <h1><span class="header-section-number">5</span> Regresión logística</h1>
 <p>Las regresiones lineas son muy útiles y eficientes siempre y cuando las predicciones (los datos de respuesta) sean continuas. En el ejemplo anterior, el peso (<code>Mass</code>) es una variable continua. De hecho, los valores predichos pertenecen a una recta (función continua).</p>
 <p>Las <strong><em>regresiones logísticas</em></strong> se utilizan cuando necesitamos predicciones categóricas. Por ejemplo: “SI/NO”, “SANO/ENFERMO”, “TIENE/NO TIENE”.</p>
@@ -1896,7 +1896,7 @@ preds &lt;- predict(hyp.out, type = &quot;response&quot;,
 <p>El resultado indica que una mujer de 33 años tiene un 13% de probabilidad de haber sido diagnosticada con hipertensión, mientras que una mujer de 63 años tiene un 48%.</p>
 <hr />
 </div>
-<div id="arboles-de-decision" class="section level1">
+<div id="árboles-de-decisión" class="section level1">
 <h1><span class="header-section-number">6</span> Árboles de decisión</h1>
 <p>Vamos a realizar una predicción con otro método. Utilizaremos un modelo de clasificación del <a href="https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf">paquete rpart</a>. El modelo resultante se puede representar como un árbol binario.</p>
 <p>Estos árboles de decisión construyen el modelo con técnicas de <em>machine learning</em>. Seleccionan la variable que mejor divide en dos a los datos, y la utiliza como raíz del árbol de decisión. Luego repite esa misma acción en cada una de las ramas hasta un cierto corte.</p>
@@ -2846,7 +2846,7 @@ train_processed &lt;- predict(preProcValues, train)
 sum(is.na(train_processed))</code></pre>
 <pre><code>## [1] 0</code></pre>
 </div>
-<div id="convertir-la-variable-dependiente-loan_status-a-numerica." class="section level3">
+<div id="convertir-la-variable-dependiente-loan_status-a-numérica." class="section level3">
 <h3><span class="header-section-number">7.3.2</span> Convertir la variable dependiente (<code>Loan_Status</code>) a numérica.</h3>
 <pre class="r"><code>train_processed$Loan_Status&lt;-ifelse(train_processed$Loan_Status==&#39;N&#39;,0,1)
 
@@ -2869,7 +2869,7 @@ str(train_processed)</code></pre>
 ##  $ Property_Area    : Factor w/ 3 levels &quot;Rural&quot;,&quot;Semiurban&quot;,..: 3 1 3 3 3 3 3 2 3 2 ...
 ##  $ Loan_Status      : num  1 0 1 1 1 1 1 0 1 0 ...</code></pre>
 </div>
-<div id="convertir-cada-variable-categorica-a-numerica-usando-variables-ficticias-dummy" class="section level3">
+<div id="convertir-cada-variable-categórica-a-numérica-usando-variables-ficticias-dummy" class="section level3">
 <h3><span class="header-section-number">7.3.3</span> Convertir cada variable categórica a numérica usando variables ficticias (dummy)</h3>
 <pre class="r"><code>dmy &lt;- dummyVars(&quot; ~ .&quot;, data = train_processed,fullRank = T)
 train_transformed &lt;- data.frame(predict(dmy, newdata = train_processed))
@@ -2898,7 +2898,7 @@ str(train_transformed)</code></pre>
 ##  $ Loan_Status            : num  1 0 1 1 1 1 1 0 1 0 ...</code></pre>
 <p>Aquí, <code>fullrank = T</code> creará solo (n-1) columnas para una columna categórica con n niveles diferentes. Esto funciona especialmente bien para los predictores categóricas como sexo, si está casado, etc. donde solo tenemos dos niveles: masculino/femenino, sí/no, etc. porque 0 se puede usar para representar una clase mientras que 1 representa la otra clase en la misma columna.</p>
 </div>
-<div id="volver-a-convertir-las-variables-a-categoricas" class="section level3">
+<div id="volver-a-convertir-las-variables-a-categóricas" class="section level3">
 <h3><span class="header-section-number">7.3.4</span> Volver a convertir las variables a categóricas</h3>
 <pre class="r"><code>train_transformed$Loan_Status&lt;-as.factor(train_transformed$Loan_Status)</code></pre>
 </div>
@@ -3022,13 +3022,10 @@ model_glm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;glm
 # modelo de incremento estocástico del gradiente
 model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm&#39;)</code></pre>
 </div>
-<div id="configuracion-de-parametros-parameter-tuning" class="section level2">
+<div id="configuración-de-parámetros-parameter-tuning" class="section level2">
 <h2><span class="header-section-number">7.7</span> Configuración de parámetros (<em>Parameter tuning</em>)</h2>
 <p>Como hemos comentado, Caret contiene más de 200 modelos. Cada uno de ellos contiene sus propio set de parámetros y, por tanto, es necesario setearlos correctamente. A continuación incluimos el tradicional pseudo-código que se utiliza en Caret para el seteo de parámetros:</p>
-<div class="figure">
-<img src="https://www.analyticsvidhya.com/wp-content/uploads/2016/12/caret-6.png" />
-
-</div>
+<p><img src="https://www.analyticsvidhya.com/wp-content/uploads/2016/12/caret-6.png" /></p>
 <blockquote>
 <p><strong>Resampling</strong>: método estadístico que se utiliza para medir la performance del modelo seleccionado. Existen varios métodos de resampling. Caret utiliza <a href="https://es.wikipedia.org/wiki/Bootstrapping_(estadística)"><code>bootstrap</code></a> por default.</p>
 </blockquote>
@@ -3037,7 +3034,7 @@ model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm
   method = &quot;repeatedcv&quot;,
   number = 5,
   repeats = 5)</code></pre>
-<div id="parametros" class="section level3">
+<div id="parámetros" class="section level3">
 <h3><span class="header-section-number">7.7.1</span> Parámetros</h3>
 <p>Para ver los parámetros que requiere un modelo, se utiliza la función <code>modelLookup()</code>. Por ejemplo, para conocer los parámetro del modelo de incremento estocástico del gradiente (gbm):</p>
 <pre class="r"><code>modelLookup(model=&#39;gbm&#39;)</code></pre>
@@ -3067,7 +3064,7 @@ model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm
 <li>n.minobsinnode = 3</li>
 </ul>
 </div>
-<div id="graficas-de-los-resultados" class="section level3">
+<div id="gráficas-de-los-resultados" class="section level3">
 <h3><span class="header-section-number">7.7.4</span> Gráficas de los resultados</h3>
 <pre class="r"><code>plot(model_gbm)</code></pre>
 <p><img src="Mod7_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
@@ -3091,7 +3088,7 @@ model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm
 <li>shrinkage = 0.1 y n.minobsinnode = 10.</li>
 </ul>
 </div>
-<div id="grafica-de-la-propuesta" class="section level3">
+<div id="gráfica-de-la-propuesta" class="section level3">
 <h3><span class="header-section-number">7.7.6</span> Gráfica de la propuesta</h3>
 <pre class="r"><code>plot(model_gbm)</code></pre>
 <p><img src="Mod7_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
@@ -3100,8 +3097,9 @@ model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm
 <div id="importancia-de-las-variables" class="section level2">
 <h2><span class="header-section-number">7.8</span> Importancia de las variables</h2>
 <p>Una vez que se han seleccionado las variables, puede ser conveniente indicar cuán importante es cada variable en el modelo. En <code>caret</code> se puede hacer del siguiente modo:</p>
-<pre class="r"><code>library(gbm)
-varImp(object=model_gbm)</code></pre>
+<pre class="r"><code>library(gbm)</code></pre>
+<pre><code>## Loaded gbm 2.1.5</code></pre>
+<pre class="r"><code>varImp(object=model_gbm)</code></pre>
 <pre><code>## gbm variable importance
 ## 
 ##                   Overall
@@ -3132,13 +3130,10 @@ table(predictions)</code></pre>
 <div id="calidad-del-modelo" class="section level1">
 <h1><span class="header-section-number">8</span> Calidad del modelo</h1>
 <p>En nuestro ejemplo de la predicción de confiabilidad de marcas de autos (<code>Reliability</code>) vimos la importancia de conocer la eficiencia/precisión/calidad del modelo generado. Veremos, a continuación dos maneras -que están relacionadas- de evaluar un modelo predictivo.</p>
-<div id="matriz-de-confusion" class="section level2">
+<div id="matriz-de-confusión" class="section level2">
 <h2><span class="header-section-number">8.1</span> Matriz de confusión</h2>
 <p>En inteligencia artificial, una <strong><em>matriz de confusión</em></strong> indica el desempeño de un algoritmo en un proceso de aprendizaje supervisado. De manera habitual, las columnas son datos reales y las filas son datos predichos. En el siguiente ejemplo, de 8 gatos reales, el modelo predice correctamente a 5 y a los otros tres los confunde con un perro:</p>
-<div class="figure">
-<img src="https://github.com/icassol/platform-samples/blob/master/Confusion.jpg?raw=true" />
-
-</div>
+<p><img src="https://github.com/icassol/platform-samples/blob/master/Confusion.jpg?raw=true" /></p>
 <p>Volvamos al ejemplo del predictor de préstamos (`Loan_status). Sobre la base de la matriz de confusión, es simple medir la exactitud del modelo:</p>
 <pre class="r"><code>confusionMatrix(predictions,testSet[,outcomeName])</code></pre>
 <pre><code>## Confusion Matrix and Statistics
@@ -3176,6 +3171,15 @@ table(predictions)</code></pre>
 <li>De las 153 personas del dataset, 123 (19+104) han sido predichas correctamente. Es decir: 123/153 = 0,8039 (ver en el output <code>Accuracy</code>).</li>
 </ul>
 <p>Los cuadrantes de la tablas de confusión con predicciones booleanas (SI/NO, TIENE/NO TIENE) tienen un nombre propio:</p>
+<pre><code>## data.table 1.12.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com</code></pre>
+<pre><code>## **********
+## This installation of data.table has not detected OpenMP support. It should still work but in single-threaded mode. If this is a Mac, please ensure you are using R&gt;=3.4.0 and have followed our Mac instructions here: https://github.com/Rdatatable/data.table/wiki/Installation. This warning message should not occur on Windows or Linux. If it does, please file a GitHub issue.
+## **********</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3306,10 +3310,7 @@ TPR(True\:positive\:rate) = \frac{4}{4+0} = 1
 </ul>
 <p>Por ejemplo, el punto (1,1) de la curva AUROC nos dice que <strong><em>“Aunque nuestro modelo clasifica correctamente todos los TP (verdados positivos), clasifica incorrectamente todos los FP (falsos positivos)”</em></strong>.</p>
 <p>La gráfica final tendrá el siguiente aspecto:</p>
-<div class="figure">
-<img src="https://i.stack.imgur.com/9NpXJ.png" />
-
-</div>
+<p><img src="https://i.stack.imgur.com/9NpXJ.png" /></p>
 <p>La línea punteada es el valor AUROC de un predictor random (es decir un mal resultado). Esta línea se utiliza como base de calidad. Esta línea punteada está diciendo <em>“para cualquier línea de corte, TPR=FPR. Esto es: la proporción de elementos TP correctamente clasificados es igual a la proporción de elementos FP incorrectamente clasificados”</em>.</p>
 <p>El <strong><em>mejor threshold</em></strong> será el que produzca el punto de la curva AUROC que esté más alto y más hacia la izquierda de la gráfica.</p>
 <p>El punto (1,1) de la curva AUROC corresponde al threshold~0 y el punto (0,0) corresponde threshold~1.</p>
@@ -3344,7 +3345,7 @@ perf@y.values[[1]]</code></pre>
 </div>
 </div>
 </div>
-<div id="pasos-para-generar-una-prediccion-resumen" class="section level1">
+<div id="pasos-para-generar-una-predicción-resumen" class="section level1">
 <h1><span class="header-section-number">9</span> Pasos para generar una predicción (<em>resumen</em>)</h1>
 <ol style="list-style-type: decimal">
 <li>Seleccionar el valor a predecir (variable dependiente).</li>
@@ -3388,6 +3389,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

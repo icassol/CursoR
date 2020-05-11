@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -23,7 +23,7 @@
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <div class="header">
-  <img style="width: 100%;" class="center-fit" src="./resources/curso-banner.png"/>
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
 </div>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -86,7 +86,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -235,6 +234,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -246,18 +246,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -295,8 +283,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod2.html">Lenguaje R</a>
 </li>
-<li>
-  <a href="Mod3.html">Estadística</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -345,17 +345,17 @@ $(document).ready(function () {
 <ul>
 <li><a href="#objetos"><span class="toc-section-number">1</span> Objetos</a></li>
 <li><a href="#paquetes"><span class="toc-section-number">2</span> Paquetes</a></li>
-<li><a href="#tipos-basicos-de-datos"><span class="toc-section-number">3</span> Tipos básicos de datos</a><ul>
+<li><a href="#tipos-básicos-de-datos"><span class="toc-section-number">3</span> Tipos básicos de datos</a><ul>
 <li><a href="#factores"><span class="toc-section-number">3.1</span> Factores</a></li>
-<li><a href="#variables-logicas"><span class="toc-section-number">3.2</span> Variables lógicas</a></li>
+<li><a href="#variables-lógicas"><span class="toc-section-number">3.2</span> Variables lógicas</a></li>
 </ul></li>
 <li><a href="#vectores"><span class="toc-section-number">4</span> Vectores</a><ul>
 <li><a href="#longitud"><span class="toc-section-number">4.1</span> Longitud</a></li>
 <li><a href="#acceso-a-los-componentes"><span class="toc-section-number">4.2</span> Acceso a los componentes</a></li>
-<li><a href="#seleccion-condicionada-de-valores"><span class="toc-section-number">4.3</span> Selección condicionada de valores</a></li>
-<li><a href="#funcion-unique"><span class="toc-section-number">4.4</span> Función <code>unique()</code></a></li>
-<li><a href="#funcion-table"><span class="toc-section-number">4.5</span> Función <code>table()</code></a></li>
-<li><a href="#operaciones-con-variables-numericas"><span class="toc-section-number">4.6</span> Operaciones con variables numéricas</a></li>
+<li><a href="#selección-condicionada-de-valores"><span class="toc-section-number">4.3</span> Selección condicionada de valores</a></li>
+<li><a href="#función-unique"><span class="toc-section-number">4.4</span> Función <code>unique()</code></a></li>
+<li><a href="#función-table"><span class="toc-section-number">4.5</span> Función <code>table()</code></a></li>
+<li><a href="#operaciones-con-variables-numéricas"><span class="toc-section-number">4.6</span> Operaciones con variables numéricas</a></li>
 <li><a href="#operaciones-con-arreglos-de-clase-character."><span class="toc-section-number">4.7</span> Operaciones con arreglos de clase <code>character</code>.</a></li>
 <li><a href="#el-paquete-stringr"><span class="toc-section-number">4.8</span> El paquete <code>stringr</code></a></li>
 </ul></li>
@@ -363,20 +363,20 @@ $(document).ready(function () {
 <li><a href="#operaciones"><span class="toc-section-number">5.1</span> Operaciones</a></li>
 </ul></li>
 <li><a href="#data.frames"><span class="toc-section-number">6</span> Data.frames</a><ul>
-<li><a href="#creacion"><span class="toc-section-number">6.1</span> Creación</a></li>
+<li><a href="#creación"><span class="toc-section-number">6.1</span> Creación</a></li>
 <li><a href="#convertir-una-matriz-en-data.frame"><span class="toc-section-number">6.2</span> Convertir una matriz en data.frame</a></li>
 <li><a href="#acceso-a-variables"><span class="toc-section-number">6.3</span> Acceso a variables</a></li>
 <li><a href="#eliminar-repetidos.-merge"><span class="toc-section-number">6.4</span> Eliminar repetidos. <code>merge()</code></a></li>
 <li><a href="#ordenamiento"><span class="toc-section-number">6.5</span> Ordenamiento</a></li>
-<li><a href="#funcion-table-1"><span class="toc-section-number">6.6</span> función <code>table()</code></a></li>
+<li><a href="#función-table-1"><span class="toc-section-number">6.6</span> función <code>table()</code></a></li>
 </ul></li>
 <li><a href="#listas"><span class="toc-section-number">7</span> Listas</a></li>
-<li><a href="#coercion"><span class="toc-section-number">8</span> Coerción</a></li>
-<li><a href="#algunas-operaciones-basicas"><span class="toc-section-number">9</span> Algunas operaciones básicas</a><ul>
-<li><a href="#funciones-matematicas"><span class="toc-section-number">9.1</span> Funciones matemáticas</a></li>
+<li><a href="#coerción"><span class="toc-section-number">8</span> Coerción</a></li>
+<li><a href="#algunas-operaciones-básicas"><span class="toc-section-number">9</span> Algunas operaciones básicas</a><ul>
+<li><a href="#funciones-matemáticas"><span class="toc-section-number">9.1</span> Funciones matemáticas</a></li>
 <li><a href="#algunas-funciones"><span class="toc-section-number">9.2</span> Algunas funciones</a></li>
 </ul></li>
-<li><a href="#algunos-conceptos-algoritmicos-en-r"><span class="toc-section-number">10</span> Algunos conceptos algorítmicos en R</a><ul>
+<li><a href="#algunos-conceptos-algorítmicos-en-r"><span class="toc-section-number">10</span> Algunos conceptos algorítmicos en R</a><ul>
 <li><a href="#flujos-de-control"><span class="toc-section-number">10.1</span> Flujos de control</a></li>
 <li><a href="#funciones"><span class="toc-section-number">10.2</span> Funciones</a></li>
 </ul></li>
@@ -449,7 +449,7 @@ library(&quot;readr&quot;)</code></pre>
 <p>En <a href="https://cran.r-project.org/web/packages/index.html">este link</a> puedes ver un listado completo de paquetes disponibles.</p>
 <hr />
 </div>
-<div id="tipos-basicos-de-datos" class="section level1">
+<div id="tipos-básicos-de-datos" class="section level1">
 <h1><span class="header-section-number">3</span> Tipos básicos de datos</h1>
 <p>R distingue los siguientes tipos de variables:</p>
 <ul>
@@ -515,7 +515,7 @@ cbind(maquina,dia,produccion)</code></pre>
 maquina</code></pre>
 <pre><code>##  [1] 27 27 27 27 27 32 32 32 32 32 55 55 55 55 55
 ## Levels: 27 32 55</code></pre>
-<div id="coercion-de-factores" class="section level3">
+<div id="coerción-de-factores" class="section level3">
 <h3><span class="header-section-number">3.1.1</span> Coerción de factores</h3>
 <p>Un factor puede convertirse en variable numérica mediante la función as.numeric(). Ahora bien, dichas conversiones deben realizarse con cierta precaución. Así por ejemplo, si en el caso anterior aplicamos la función as.numeric() al factor maquina obtenemos:</p>
 <pre class="r"><code>as.numeric(maquina)  </code></pre>
@@ -525,7 +525,7 @@ maquina</code></pre>
 <pre><code>##  [1] 27 27 27 27 27 32 32 32 32 32 55 55 55 55 55</code></pre>
 </div>
 </div>
-<div id="variables-logicas" class="section level2">
+<div id="variables-lógicas" class="section level2">
 <h2><span class="header-section-number">3.2</span> Variables lógicas</h2>
 <p>Las variables lógicas constituyen un tipo particular de factor en R, que se caracteriza por tomar sólo dos valores: <strong>TRUE</strong> o <strong>FALSE</strong> codificados, respectivamente, como 1 y 0. Es posible construir condiciones lógicas utilizando los operadores ‘y’ (<code>&amp;</code>), ‘o’ (<code>|</code>) y ‘no’ (<code>!</code>).</p>
 <p>La comparación de valores se lleva a cabo mediante <code>==</code> (‘es igual a’) y <code>!=</code> (‘es distinto de’).</p>
@@ -611,7 +611,7 @@ b %in% x</code></pre>
 <pre><code>## [1]  TRUE  TRUE FALSE  TRUE FALSE</code></pre>
 </div>
 </div>
-<div id="seleccion-condicionada-de-valores" class="section level2">
+<div id="selección-condicionada-de-valores" class="section level2">
 <h2><span class="header-section-number">4.3</span> Selección condicionada de valores</h2>
 <p>La función <code>which()</code> nos da las posiciones, dentro de un vector, de los valores que cumplen cierta condición. Por ejemplo, si definimos:</p>
 <pre class="r"><code>edad &lt;- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)</code></pre>
@@ -634,13 +634,13 @@ b %in% x</code></pre>
 <pre class="r"><code>edad[sexo==&quot;M&quot;]</code></pre>
 <pre><code>## [1] 22 25 30 31 27</code></pre>
 </div>
-<div id="funcion-unique" class="section level2">
+<div id="función-unique" class="section level2">
 <h2><span class="header-section-number">4.4</span> Función <code>unique()</code></h2>
 <p>Es frecuente que, dado un conjunto de datos, nos interese solamente conocer los valores, sin importar su repetición en el conjunto:</p>
 <pre class="r"><code>unique(sexo)</code></pre>
 <pre><code>## [1] &quot;M&quot; &quot;H&quot;</code></pre>
 </div>
-<div id="funcion-table" class="section level2">
+<div id="función-table" class="section level2">
 <h2><span class="header-section-number">4.5</span> Función <code>table()</code></h2>
 <p>Si quisieramos conocer cuántas repeticiones tiene cada elemento se puede utilizar:</p>
 <pre class="r"><code>table(edad)</code></pre>
@@ -648,7 +648,7 @@ b %in% x</code></pre>
 ## 22 25 27 29 30 31 33 34 
 ##  1  3  1  1  1  1  1  1</code></pre>
 </div>
-<div id="operaciones-con-variables-numericas" class="section level2">
+<div id="operaciones-con-variables-numéricas" class="section level2">
 <h2><span class="header-section-number">4.6</span> Operaciones con variables numéricas</h2>
 <p>Si <code>x</code> e <code>y</code> son dos vectores de la misma dimensión, las operaciones elementales se realizan término a término (característica que se conoce como aritmética vectorial):</p>
 <pre class="r"><code>x &lt;- seq(2,20,by=2)  # Números pares entre 2 y 20
@@ -688,7 +688,7 @@ codigos</code></pre>
 <p>Cuando se utiliza <code>paste()</code> sobre un único vector con la opción <code>collapse</code>, se “pegan” todos los términos del arreglo en un único valor:</p>
 <pre class="r"><code>paste(c(&quot;una&quot;, &quot;frase&quot;, &quot;simple&quot;), collapse = &quot; &quot;)</code></pre>
 <pre><code>## [1] &quot;una frase simple&quot;</code></pre>
-<div id="seleccionasignacion-de-una-parte-de-una-cadena-de-caracteres." class="section level3">
+<div id="selecciónasignación-de-una-parte-de-una-cadena-de-caracteres." class="section level3">
 <h3><span class="header-section-number">4.7.1</span> Selección/asignación de una parte de una cadena de caracteres.</h3>
 <p>La función <code>substr(x,n1,n2)</code> selecciona los caracteres de <code>x</code> entre las posiciones <code>n1</code> y <code>n2</code>. También permite realizar asignaciones:</p>
 <pre class="r"><code>substr(&quot;abcdef&quot;, 2, 4)</code></pre>
@@ -807,7 +807,7 @@ M1  </code></pre>
 <div id="data.frames" class="section level1">
 <h1><span class="header-section-number">6</span> Data.frames</h1>
 <p>El término “dataframe” es difícil de traducir al castellano. Podría traducirse como Hoja de datos o Marco de datos. Los dataframes son una clase de objetos especial en R. Normalmente, cuando se realiza un estudio estadístico sobre los sujetos u objetos de una muestra, la información se organiza precisamente en un dataframe: una hoja de datos, en los que cada fila corresponde a un sujeto y cada columna a una variable. La estructura de un data.frame es muy similar a la de una matriz. La diferencia es que una matriz sólo admite valores numéricos, mientras que en un dataframe podemos incluir también datos alfanuméricos.</p>
-<div id="creacion" class="section level2">
+<div id="creación" class="section level2">
 <h2><span class="header-section-number">6.1</span> Creación</h2>
 <p>El siguiente ejemplo nos muestra como crear un data.frame a partir de los datos recogidos sobre una muestra de 10 personas, para cada una de las cuales se ha registrado su edad, sexo y tiempo en minutos que estuvo hablando por teléfono el día antes de la encuesta:</p>
 <pre class="r"><code>edad &lt;- c(22, 34, 29, 25, 30, 33, 31, 27, 25, 25)
@@ -830,7 +830,7 @@ misDatos</code></pre>
 <pre><code>## &#39;data.frame&#39;:    10 obs. of  3 variables:
 ##  $ edad  : num  22 34 29 25 30 33 31 27 25 25
 ##  $ tiempo: num  14.2 10.4 11.9 13.8 12 ...
-##  $ sexo  : Factor w/ 2 levels &quot;H&quot;,&quot;M&quot;: 2 1 1 2 2 1 2 2 1 1</code></pre>
+##  $ sexo  : chr  &quot;M&quot; &quot;H&quot; &quot;H&quot; &quot;M&quot; ...</code></pre>
 <pre class="r"><code>names(misDatos)  # Nombre de las variables contenidas en &#39;misDatos&#39;</code></pre>
 <pre><code>## [1] &quot;edad&quot;   &quot;tiempo&quot; &quot;sexo&quot;</code></pre>
 <p>En este ejemplo hemos creado un data.frame llamado <code>misDatos</code> que contiene a las tres variables <code>edad</code>, <code>tiempo</code> y <code>sexo</code>. La función <code>str()</code> nos muestra la estructura de este objeto, confirmándonos que es un data.frame de tres variables con 10 observaciones cada una. Nos informa además de que las dos primeras variables son numéricas y la tercera, el sexo, es un factor con dos valores, “H” y “M”. La función <code>names()</code> por su parte, nos devuelve los nombres de las variables contenidas en <code>misDatos</code>.</p>
@@ -946,25 +946,25 @@ merge(animales3,superficieAnimales) # Muestra sólo los animales comunes a ambos
 ## 5      vaca mamífero       pelo</code></pre>
 <pre class="r"><code>merge(animales3,superficieAnimales, all.x=TRUE) # Muestra todos los animales del primer dataframe.</code></pre>
 <pre><code>##       animal    clase superficie
-## 1   jilguero      ave     plumas
-## 2    lagarto   reptil    escamas
-## 3      mosca  insecto       &lt;NA&gt;
-## 4      perro mamífero       pelo
-## 5       rana  anfibio       &lt;NA&gt;
-## 6       rana  anfibio       &lt;NA&gt;
-## 7       vaca mamífero       pelo
-## 8       atún      pez       &lt;NA&gt;
-## 9  cocodrilo   reptil    escamas
-## 10      gato mamífero       &lt;NA&gt;</code></pre>
+## 1       atún      pez       &lt;NA&gt;
+## 2  cocodrilo   reptil    escamas
+## 3       gato mamífero       &lt;NA&gt;
+## 4   jilguero      ave     plumas
+## 5    lagarto   reptil    escamas
+## 6      mosca  insecto       &lt;NA&gt;
+## 7      perro mamífero       pelo
+## 8       rana  anfibio       &lt;NA&gt;
+## 9       rana  anfibio       &lt;NA&gt;
+## 10      vaca mamífero       pelo</code></pre>
 <pre class="r"><code>merge(animales3,superficieAnimales, all.y=TRUE) # Muestra todos los animales del segundo dataframe.</code></pre>
 <pre><code>##      animal    clase   superficie
-## 1  jilguero      ave       plumas
-## 2   lagarto   reptil      escamas
-## 3     perro mamífero         pelo
-## 4      vaca mamífero         pelo
-## 5 cocodrilo   reptil      escamas
-## 6   sardina     &lt;NA&gt;      escamas
-## 7   tortuga     &lt;NA&gt; placas óseas</code></pre>
+## 1 cocodrilo   reptil      escamas
+## 2  jilguero      ave       plumas
+## 3   lagarto   reptil      escamas
+## 4     perro mamífero         pelo
+## 5   sardina     &lt;NA&gt;      escamas
+## 6   tortuga     &lt;NA&gt; placas óseas
+## 7      vaca mamífero         pelo</code></pre>
 </div>
 <div id="ordenamiento" class="section level2">
 <h2><span class="header-section-number">6.5</span> Ordenamiento</h2>
@@ -978,7 +978,7 @@ animales1 &lt;- animales1[order(animales1$animal),]  # lo mismo pero en una sola
 <p>Si queremos ordenar nuestro primer data.frame (<code>misDatos</code>) primero por edad y luego por tiempo utilizando el celular:</p>
 <pre class="r"><code>misDatos &lt;- misDatos[order(misDatos$edad,misDatos$tiempo),]</code></pre>
 </div>
-<div id="funcion-table-1" class="section level2">
+<div id="función-table-1" class="section level2">
 <h2><span class="header-section-number">6.6</span> función <code>table()</code></h2>
 <p>Ya utilizamos la función <code>table()</code> en arreglos. Lo hicimos para saber cuántas repeticiones tenía cada elemento de un arreglo. Esta función también se puede usar en matrices o data.frames:</p>
 <pre class="r"><code>table(misDatos[,&quot;sexo&quot;])</code></pre>
@@ -1044,7 +1044,7 @@ MiLista &lt;- list(misDatos,A,M=M,x=c(1,2,3,4),e=exp(1))</code></pre>
 <p>Si guardamos el resultado de este contraste en el objeto contraste, podemos observar que tiene estructura de lista:</p>
 <pre class="r"><code>contraste &lt;- t.test(tiempo~sexo, data=misDatos)
 str(contraste)</code></pre>
-<pre><code>## List of 9
+<pre><code>## List of 10
 ##  $ statistic  : Named num -3.13
 ##   ..- attr(*, &quot;names&quot;)= chr &quot;t&quot;
 ##  $ parameter  : Named num 7.85
@@ -1056,6 +1056,7 @@ str(contraste)</code></pre>
 ##   ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;mean in group H&quot; &quot;mean in group M&quot;
 ##  $ null.value : Named num 0
 ##   ..- attr(*, &quot;names&quot;)= chr &quot;difference in means&quot;
+##  $ stderr     : num 0.539
 ##  $ alternative: chr &quot;two.sided&quot;
 ##  $ method     : chr &quot;Welch Two Sample t-test&quot;
 ##  $ data.name  : chr &quot;tiempo by sexo&quot;
@@ -1067,7 +1068,7 @@ str(contraste)</code></pre>
 ## [1] 0.95</code></pre>
 <hr />
 </div>
-<div id="coercion" class="section level1">
+<div id="coerción" class="section level1">
 <h1><span class="header-section-number">8</span> Coerción</h1>
 <p>En R es posible “forzar” (“coerce”) la conversión de una clase de datos en otra, mediante comandos de la forma as.class. Por ejemplo:</p>
 <pre class="r"><code>x=&quot;1&quot;
@@ -1087,7 +1088,7 @@ z</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <hr />
 </div>
-<div id="algunas-operaciones-basicas" class="section level1">
+<div id="algunas-operaciones-básicas" class="section level1">
 <h1><span class="header-section-number">9</span> Algunas operaciones básicas</h1>
 <p>R tiene un manejo muy potente de operaciones entre tipos primitivos &lt;-&gt; arreglos &lt;-&gt; matrices. Veamos unos ejemplos:</p>
 <pre class="r"><code>a &lt;- c(1,2,3,4)
@@ -1120,7 +1121,7 @@ sum(a)</code></pre>
 <pre><code>## [1] 10 20 30 40</code></pre>
 <pre class="r"><code>b &lt;- a[!is.na(a)]
 b &lt;- a[a&lt;6]</code></pre>
-<div id="funciones-matematicas" class="section level2">
+<div id="funciones-matemáticas" class="section level2">
 <h2><span class="header-section-number">9.1</span> Funciones matemáticas</h2>
 <p>R cuenta con un catálogo muy completo de funciones matemáticas. Por citar unas pocas: logaritmo neperiano (log), exponencial (exp), seno (sin), coseno (cos), valor absoluto (abs), parte entera (floor), redondeo (round). Cuando una función se aplica a un arreglo, se aplica a todos y cada uno de sus elementos:</p>
 <pre class="r"><code>x &lt;- 1
@@ -1143,7 +1144,7 @@ a&lt;-scan(what=double(0))</code></pre>
 <p>Sugerimos que explores, por tu cuenta, los siguientes comandos: <code>help(repeat)</code>, <code>help(break)</code>, <code>help(next)</code>, <code>help(switch)</code>.</p>
 </div>
 </div>
-<div id="algunos-conceptos-algoritmicos-en-r" class="section level1">
+<div id="algunos-conceptos-algorítmicos-en-r" class="section level1">
 <h1><span class="header-section-number">10</span> Algunos conceptos algorítmicos en R</h1>
 <div id="flujos-de-control" class="section level2">
 <h2><span class="header-section-number">10.1</span> Flujos de control</h2>
@@ -1205,24 +1206,24 @@ while(x &lt; 4)
 <pre class="r"><code>A = matrix(runif(50),nrow=10) # Matriz de dimensión 10x10 cuyos elementos son valores
                                # aleatorios con distribución uniforme en (0,1)
 A</code></pre>
-<pre><code>##            [,1]      [,2]        [,3]       [,4]       [,5]
-##  [1,] 0.2572167 0.9257080 0.871043414 0.75859317 0.29774178
-##  [2,] 0.2217879 0.8819776 0.006300784 0.13710608 0.10072158
-##  [3,] 0.5930457 0.6741868 0.072057124 0.39658459 0.07190410
-##  [4,] 0.2675214 0.9501670 0.164211225 0.22498533 0.88044057
-##  [5,] 0.5310704 0.5164449 0.770334074 0.05795856 0.75424740
-##  [6,] 0.7852917 0.5765190 0.735184306 0.39589269 0.81660589
-##  [7,] 0.1680608 0.3363312 0.971875636 0.06492830 0.98214037
-##  [8,] 0.4043992 0.3473246 0.466472377 0.22588643 0.10359964
-##  [9,] 0.4715763 0.0200243 0.074384513 0.05462911 0.09904183
-## [10,] 0.8681068 0.5028130 0.648818124 0.67028204 0.79883161</code></pre>
+<pre><code>##             [,1]      [,2]       [,3]      [,4]      [,5]
+##  [1,] 0.97985628 0.1694561 0.01026196 0.1501022 0.5890426
+##  [2,] 0.75067233 0.1485258 0.16547814 0.3148842 0.3698704
+##  [3,] 0.99365869 0.3278162 0.74553504 0.4913933 0.9744030
+##  [4,] 0.31796413 0.6339117 0.93079449 0.7721734 0.3099775
+##  [5,] 0.07218591 0.5747658 0.39869692 0.8189406 0.2794764
+##  [6,] 0.19020442 0.3403374 0.36464556 0.2010564 0.1176737
+##  [7,] 0.53970479 0.2040987 0.90812736 0.5860942 0.6255620
+##  [8,] 0.09674536 0.2929998 0.20140732 0.2436184 0.8929448
+##  [9,] 0.96949563 0.1254258 0.33146140 0.9269237 0.3439803
+## [10,] 0.15498959 0.6941516 0.21823582 0.1284648 0.1090833</code></pre>
 <pre class="r"><code>sumCuadrados=function(x){sum(x^2)}  # Función que calcula la suma de cuadrados de 
                                     # los términos de un vector x
 apply(A,1,sumCuadrados)  # Devuelve la suma de cuadrados de cada fila de A</code></pre>
-<pre><code>##  [1] 2.3459261 0.8560569 0.9738728 1.8271443 1.7144140 2.3131294 2.0547208 0.5635271 0.2411118
-## [10] 2.5148053</code></pre>
+<pre><code>##  [1] 1.3584409 0.8489080 2.8415721 2.0616615 1.2432965 0.3392444 1.8924670 0.9924737 2.0430301
+## [10] 0.5818975</code></pre>
 <pre class="r"><code>apply(A,2,sumCuadrados)  # Devuelve la suma de cuadrados de cada columna de A</code></pre>
-<pre><code>## [1] 2.605117 4.078229 3.513461 1.469752 3.738149</code></pre>
+<pre><code>## [1] 3.918059 1.631351 2.764369 2.949036 2.940177</code></pre>
 <ul>
 <li><p><code>lapply(L,fun)</code>: aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>. El resultado se devuelve también en una lista.</p></li>
 <li><p><code>sapply(L,fun)</code>: al igual que <code>lapply()</code>, aplica la función <code>fun</code> a todos los elementos de la lista <code>L</code>, pero devuelve el resultado en forma de vector o matriz</p></li>
@@ -1261,7 +1262,7 @@ resultado
  h&lt;-sqrt(cateto1^2+cateto2^2)
  list(cateto1=cateto1,cateto2=cateto2,hipotenusa=h)
 }</code></pre>
-<div id="buena-practica-para-la-programacion-de-funciones" class="section level3">
+<div id="buena-práctica-para-la-programación-de-funciones" class="section level3">
 <h3><span class="header-section-number">10.2.1</span> Buena práctica para la programación de funciones</h3>
 <p>Es recomendable programar las funciones en un archivo .r y, cuando se los necesita, cargarlo en memoria con el comando:</p>
 <pre class="r"><code>source(&#39;misFunciones.R&#39;)</code></pre>
@@ -1287,6 +1288,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

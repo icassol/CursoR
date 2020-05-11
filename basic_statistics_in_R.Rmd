@@ -1,0 +1,1188 @@
+---
+title: 'Algunas distribuciones y simulaciones en R'
+author: "Facundo Bocalandro & Ignacio Cassol"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    fig_caption: yes
+    fig_height: 4
+    fig_width: 4.5
+    keep_md: no
+    number_sections: yes
+    self_contained: yes
+    toc: yes
+    toc_depth: 2
+---
+
+<!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
+```{r style, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
+if (!"BiocStyle" %in% rownames(installed.packages()))
+  BiocManager::install("BiocStyle")
+
+library(BiocStyle)
+BiocStyle::markdown()
+options(width=100)
+knitr::opts_chunk$set(cache=TRUE, autodep=TRUE)
+```
+
+Paquete de R necesario para este hands-on:
+
+```{r setup}
+if (!is.element("VennDiagram", installed.packages()[,1])){
+  install.packages("VennDiagram")
+}
+library(VennDiagram)
+if (!is.element("visualize", installed.packages()[,1])){
+  install.packages("visualize")
+}
+
+library(visualize)
+if (!is.element("stargazer", installed.packages()[,1])){
+  install.packages("stargazer")
+}
+
+library(stargazer)
+```
+
+# Introducción
+
+En este archivo encontrarán una introducción a las distribuciones estadísticas en R.
+
+Los conceptos teóricos, las definiciones y las fórmulas de cada distibución ya fueron explicadas en clase. El objetivo de este hands-on es aplicar esos conceptos y fórmulas en el lenguaje R y hacer simulaciones para mostar empíricamente algunos de esos conceptos. 
+
+# Patrones comunes a las intrucciones de distribución en R
+
+Las funciones para distribuciones de probabilidad en R se separan en 4 grandes categorías:
+
+* Prefijo r: Simular experimento aleatorio
+* Prefijo d: Funcion de densidad de probabilidad
+* Prefijo p: Funcion de distribucion acumulada
+* Prefijo q: Funcion percentil 
+
+# Distribuciones Discretas
+
+## Uniforme
+
+Vamos a guardar en un arreglo la probabilidad de que salga cada cara de un dado:
+
+```{r unif}
+p.de.cada.cara <- rep(1/6,6)
+sum(p.de.cada.cara) # check
+
+ncara <- 1:6
+
+esperanza <- sum(ncara*p.de.cada.cara)
+esperanza
+```
+
+---
+
+## Bernoulli
+
+### Simulaciones singulares
+
+Vamos a usar la función `sample()` para mostrar el resultado particular de a) tirar un dado, a) tirar una moneda equilibrada y c) tirar tres veces un dado:
+
+```{r bern1}
+# función básica para tirar un dado una vez: 
+sample(1:6, 1)
+
+# función básica para tirar una moneda equilibrada:
+sample(c("cara", "cruz"), 1) 
+
+# función básica para tirar un dado tres veces con reposición: 
+sample(1:6, 3, replace = T)
+```
+
+### Simulaciones múltiples
+
+Vamos a mostrar, empíricamente, que la VA X = "Resultado de lanzar un dado" es equiprobable:
+
+```{r bern2}
+# cantidad de veces que vamos a tirar el dado:
+nsample<-1000
+
+# voy a tirar "nsample" dados:
+samples<-sample(ncara, size=nsample, prob=p.de.cada.cara, replace=T)
+
+freqs<-table(samples)
+freqs
+
+lbls = sprintf("%0.1f%%", freqs/sum(freqs)*100)
+barX <- barplot(freqs, ylim=c(0,250))
+text(x=barX, y=freqs+10, label=lbls)
+```
+
+De la tabla de frecuencia y/o del barplot se observa que todas las caras de los dados tienden a salir un nro de veces similar.
+
+---
+
+Ejercicio: 
+
+Un bolillero para un examen tiene 15 bolillas. 
+
+1) Suponga que el examen consiste en explicar 3 bolillas estraídas del bolillero. Simule la generación de los tres temas que le tocaría a un alumno al azar. 
+
+2) Muestre, a través de una simulación, que la probabilidad de que un alumno saque un tema es la misma para todos los temas.
+
+Nota: Resuelto al final del hands-on
+
+---
+
+Vamos a mostrar que la esperanza de tirar un dado muchas veces es 3.5:
+(o sea, vamos a mostrar empíricamente el valor de la esperanza)
+
+1° Tiraremos el dado 10.000 veces y vamos a calcular la media de esas 10000 veces: 
+```{r bern3}
+mean(sample(1:6, 10000, replace = T))
+```
+
+2° Vamos a repetir muchas veces el experimento de tirar "n" veces un dado. 
+A cada experimento lo vamos a llamar "muestra de la población". 
+Y vamos a mostrar que la media de todas las muestras sigue una distribución normal:
+
+```{r bern4}
+# La siguiente función genera la media de 1000 experimentos.
+# En cada experimento tiro "n" veces el dado
+
+generate.sample.means <- function(n) {
+  sample.means <- numeric()
+  for (i in 1:1000) { 
+    sample.means <- append(sample.means, 
+            sum(sample(ncara, size=n, prob=p.de.cada.cara, replace=T))/n)
+  }
+  return (sample.means)
+}
+
+sample.means <- generate.sample.means(100)
+plot(density(sample.means), 
+     main="Distribución de la media",xlab="media de los experimentos", 
+     col="orange")
+
+x = seq(3,4,0.01)
+
+# función de densidad teórica para una media de 3.5 y un sd de 0.1707825.
+mimean<-mean(sample.means)
+misd<-sd(sample.means)
+
+# comparamos el desvío standard teórico contra el empírico: 
+sqrt(sum( (1:6-3.5)^2 ) / 6) / sqrt(100)
+misd  
+
+lines(x=x,y=dnorm(x,mean=mimean,sd=misd), col=rgb(0x33,0x66,0xAA,0x90,maxColorValue=255), type="l", lty=2)
+```
+
+La gráfica anterior muestra las dos distribuciones: la empírica (punteada) y la teórica (continua). Lógicamente la función empírica "se aproxima" a la función teórica y no es perfecta. 
+
+### Ley de los grandes números
+
+Siguiendo la simulación anterior...
+
+En la medida que agrandamos el "n" (100, en este caso) => la media empírica tiende a parecerse más a la media poblacional! A esto se le llama "ley de los grandes números":
+
+```{r}
+sample.means <- generate.sample.means(100)
+plot(density(sample.means), main="Distribución de las medias de las muestras", xlab="media la muestra", col="yellow", xlim=c(3.2,3.8), ylim=c(0,8))
+
+sample.means <- generate.sample.means(500)
+lines(density(sample.means), col="orange")
+
+sample.means <- generate.sample.means(1000)
+lines(density(sample.means), col="red")
+legend(3.6,7,c("n=100","n=500","n=1000"), fill=c("yellow", "orange", "red"))
+
+```
+
+---
+
+## Binomial
+
+Ejercicio 3.4
+“Lanzamiento de dado”: Se lanza un dado de 6 caras (no cargado) 10 veces.
+```{r binom}
+#x: numero de exitos
+exitosE <- c(0,1)
+
+#size: numero de ensayos
+ensayosBinom <- 10
+
+#prob: probabilidad de exito
+probabilidadBinom <- 1/6
+```
+
+Podemos representar fácilmente la función de probabilidad de esta distribución binomial:
+
+``` {r cache=TRUE, message=FALSE}
+plot(dbinom(0:10,ensayosBinom,probabilidadBinom),type="h",xlab="k",ylab="P(X=k)",main="Función de Probabilidad")
+``` 
+
+También podemos representar su función de distribución:
+
+``` {r cache=TRUE, message=FALSE}
+plot(stepfun(0:10,pbinom(0:11,ensayosBinom,probabilidadBinom)),xlab="k",ylab="F(k)",main="Función de distribución")
+``` 
+
+
+3.4.a) Calcular la probabilidad de que aparezca algún as:
+
+Vamos a resolverlo de 4 maneras posibles.
+
+```{r}
+#op1: 
+sum(dbinom(1:10, ensayosBinom, probabilidadBinom))
+
+#op2:
+1- dbinom(0, ensayosBinom, probabilidadBinom)
+
+# op3:
+1 - pbinom(0, ensayosBinom, probabilidadBinom)
+
+# op4:
+pbinom(0, ensayosBinom, probabilidadBinom,lower.tail = FALSE)
+```
+
+Calcular la probabilidad de que aparezca al menos dos ases: 
+
+3.4.c) Calcular la probabilidad de que aparezca ningún as:
+
+```{r}
+dbinom(0, ensayosBinom, probabilidadBinom)
+```
+
+3.4.d) Calcular la probabilidad de que aparezca más de un as:
+```{r}
+sum(dbinom(2:10, ensayosBinom, probabilidadBinom))
+```
+
+3.4.e) Calcular la probabilidad de que aparezca menos de dos ases:
+
+```{r}
+Ej3.4.e<-sum(dbinom(0:1, ensayosBinom, probabilidadBinom))
+```
+
+3.4.f) Calcular la probabilidad de que aparezca a lo sumo dos ases:
+
+Los vamos a resolver de dos maneras posibles.
+
+```{r}
+# op1: usando la función de densidad
+sum(dbinom(0:2, ensayosBinom, probabilidadBinom))
+
+# op2: usando la función de distribución acumulada
+#pbinom(q, size, prob, lower.tail = TRUE, log.p = FALSE)
+pbinom(2, ensayosBinom, probabilidadBinom)
+
+```
+
+3.4.h) Calcular la probabilidad de que aparezca entre 2 y 4 ases (incluidos):
+
+```{r}
+pbinom(4, ensayosBinom, probabilidadBinom) - Ej3.4.e
+```
+
+---
+
+### Link entre binomial e hipergeométrica
+
+Se extrae una muestra de 100 personas de una población de 600,000 habitantes. Si se sabe que el 40% de la población da COVID positivo. ¿cuál es la probabilidad de que 35 o menos (personas) en la muestra den COVID positivo?
+
+Los podemos resolver de dos maneras: con una binomial o con una hypergeométrica. 
+
+```{r binhyper}
+# op1:
+pbinom(35,100,0.4)
+```
+
+Nota: ¿es correcto utilizar una binomial en este ejemplo? Justificar. 
+Se puede suponer que 600,000 es lo suficientemente grande como para que 
+las extracciones de las muestras puedan dar a entender que son independientes.
+RECORDAR que la binomial es con reposición.
+
+Una buena alternativa es resolver el ejercicio con una hipergeométrica: 
+
+```{r}
+# op2:
+phyper(35,240000,360000, 100)
+```
+
+Vamos a simular los 600.000 habitantes y hallar el valor empíricamente. Para esto, generaremos 5000 muestras de 100 personas cada una:
+
+```{r}
+population <- rep(c(0,1),c(360000, 240000))
+length(population)
+mean(population)
+sd(population)
+
+# cantidad de experimentos/muestras. Es decir: cantidad de veces que extraigo 100 personas al azar de la población.
+nsamples<-5000
+
+## visualización de los vectores
+
+sums <- sapply(1:nsamples, function(x) { sum(sample(population,100))})
+
+# la proporción del promedio de sums es similar a la proporción de la binomial
+
+# op3: 
+sum(sums <= 35) / nsamples
+```
+
+
+Ahora vamos a mostrar que la media de todos los experimentos es la media poblacional: 
+
+```{r}
+means_experiment <- sapply(1:nsamples, function(x) { mean(sample(population,100))})
+mean(means_experiment)
+sd(means_experiment)
+
+# vamos a comparar la función de densidad población vs la función de la media muestral: 
+curve(dnorm(x, 0.4, sd(population)/sqrt(100)), 0.2, 0.6, col='blue')
+lines(density(means_experiment), lty=2)
+```
+
+---
+
+## Geométrica
+
+Se lanza al aire una moneda cargada 8 veces, de tal manera que la probabilidad de que aparezca cara es de 2/3, mientras que la probabilidad de que aparezca cruz es de 1/3. 
+Determine la probabilidad de que en el ultimo lanzamiento aparezca cara.
+
+```{r geom1}
+#x: numero de repeticiones hasta el primer exito
+repeticiones <- 7
+
+probabilidadCara <- 2/3
+
+# ajustar la p
+
+#Resolucion
+resultadoGeom <- dgeom(repeticiones, probabilidadCara)
+```
+
+Calcular la probabilidad de que en el experimento anterior, aparezca cara entre el tiro 5 y 8:
+
+```{r}
+# op1: 
+pgeom(repeticiones, probabilidadCara) - pgeom(repeticiones-4, probabilidadCara)
+
+# op2:
+sum(dgeom(4:7, probabilidadCara))
+```
+
+---
+
+Supongamos que tenemos una moneda equilibrada (probabilidad de cara=cruz=0.5). Vamos a realizar 100 experimentos en donde cada experimento es "el número de veces que tengo que tirar la moneda hasta que salga una cara".
+
+```{r geom2}
+# Un experimento concreto sería: 
+## (puede ejecutar varias veces la sig instrucción)
+rgeom(1,0.5)
+
+# Vamos a generar los 100 experimentos: 
+nsample<-100
+
+geom_samples <- rgeom(nsample, 0.5)
+
+hist(geom_samples, col='light grey', border='grey', xlab=NULL,ylab=NULL,main=NULL)
+par(new=T)
+plot(density(geom_samples), col='blue', axes=F)
+```
+
+---
+
+## Binomial negativa
+
+Se sabe que la probabilidad de que un niño expuesto a una enfermedad contagiosa contraiga la enfermedad es de 0.4. 
+Calcula la probabilidad de que el décimo niño estudiado sea el tercero en contraer la enfermedad.
+
+```{r bneg1}
+#x: numero de fallas hasta el r-esimo exito.
+fallasBNeg <- 7
+
+#size: numero de exitos (r)
+exitosBNeg <- 3
+
+probabilidadBNeg <- 0.4
+
+#resolucion
+resultadoBNeg <- dnbinom(fallasBNeg, exitosBNeg, probabilidadBNeg)
+
+```
+
+---
+
+El 60% de una gran cantidad de bujías viejas todavía se pueden usar. Se las puede probar individualmente.
+Sea Y el "número de bujías que se probarán para encontrar 5 en buen estado". ¿P[Y<=10]?.
+
+```{r bneg2}
+# op1:
+sum(dnbinom(x=0:5,size=5,prob=0.6))
+
+# op2:
+pnbinom(5, size=5, prob=0.6)
+```
+
+### Diagrama de Venn
+
+Vamos a crear 3 conjuntos de pacientes: 
+
+```{r venn1}
+diabeticos<-c("Pedro", "Jose", "Carolina", "Mariana", "Antonio", "Eduardo")
+obesos<-c("Ricardo", "Jose", "Carolina", "Carmen", "Felipe", "Eduardo")
+fumadores<-c("Juan", "Jose", "Carolina", "Mariana", "Carmen", "Bruno")
+
+length(diabeticos)
+length(obesos)
+length(fumadores)
+```
+
+Ejemplo de unión de dos conjuntos: 
+```{r}
+union(diabeticos,obesos)
+```
+
+Ejemplo de intersección de dos conjuntos: 
+```{r}
+intersect(diabeticos,fumadores)
+```
+
+Porcentaje de elementos comunes: 
+```{r}
+length(intersect(diabeticos,obesos))/length(union(diabeticos,obesos))
+```
+
+Pacientes diabéticos que no son obesos:
+```{r}
+setdiff(diabeticos,obesos)
+```
+
+Pacientes obesos que no son diabéticos: 
+```{r}
+setdiff(obesos,diabeticos)
+```
+
+Dibujamos un diagrama de Venn para dos conjuntos:
+```{r}
+grid.newpage()
+draw.pairwise.venn(length(diabeticos), 
+                   length(obesos), 
+                   length(intersect(diabeticos,obesos)), 
+                   category = c("diabeticos", "obesos"), lty = rep("blank", 2), 
+                   fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(0, 0), 
+                   cat.dist = rep(0.025, 2))
+```
+
+Diagrama de Venn para tres conjuntos: 
+```{r}
+grid.newpage()
+draw.triple.venn(area1 = length(diabeticos), 
+                 area2 = length(obesos), 
+                 area3 = length(fumadores), 
+                 n12 = length(intersect(diabeticos,obesos)), 
+                 n23 = length(intersect(obesos,fumadores)), 
+                 n13 = length(intersect(diabeticos,fumadores)), 
+                 n123 = length(intersect(intersect(diabeticos,obesos),fumadores)), 
+                 category = c("diabeticos", "obsesos", "fumadores"), lty = "blank", 
+                 fill = c("skyblue", "pink1", "mediumorchid"))
+```
+
+Calculamos analíticamente las intersecciones de los tres conjuntos: 
+```{r}
+experimento<-list("diabeticos"= diabeticos,"obesos"= obesos,"fumadores"=fumadores)
+
+intersecciones<-get.venn.partitions(experimento, keep.elements = T, force.unique = T)
+
+View(intersecciones)
+```
+
+Veamos un ejemplo con genes: 
+```{r venn2}
+# generamos 1000 genes
+gene_list = paste0("GENE", 1:1000)
+
+# generamos tres conjuntos de 700 genes cada uno. 
+studies = list( S1=sample(gene_list, 700, replace = FALSE),
+                S2=sample(gene_list, 700, replace = FALSE),
+                S3=sample(gene_list, 700, replace = FALSE) )
+
+ol = calculate.overlap(x = studies)
+
+interseccionesGenes<-get.venn.partitions(studies, keep.elements = T, force.unique = T)
+
+View(interseccionesGenes)
+
+grid.newpage()
+draw.triple.venn(area1 = length(studies$S1), 
+                 area2 = length(studies$S2), 
+                 area3 = length(studies$S3), 
+                 n12 = length(intersect(studies$S1,studies$S2)), 
+                 n23 = length(intersect(studies$S2,studies$S3)), 
+                 n13 = length(intersect(studies$S1,studies$S3)), 
+                 n123 = length(intersect(intersect(studies$S1,studies$S2),studies$S3)), 
+                 category = c("S1", "S2", "S3"), lty = "blank", 
+                 fill = c("skyblue", "pink1", "mediumorchid"))
+```
+
+---
+
+## Hipergeometrica
+
+De cada 20 piezas fabricadas por una máquina, hay 2 que son defectuosas. Para realizar un control de calidad, se observan 15 elementos y se rechaza el lote si hay alguna que sea defectuoso. Vamos a calcular la probabilidad de que el lote no sea rechazado.
+
+```{r hyper}
+#x: cantidad de exitos
+exitosHGeom <- 0
+
+#m: numero de exitos en la poblacion
+exitosEnPoblacion <- 2
+
+#n: numero de fracasos en la poblacion
+fallasHGeom <- 18
+
+#k: tamaño de la muestra extraida
+muestraHGeom <- 15
+
+probabilidadHGeom <- dhyper(exitosHGeom, exitosEnPoblacion, fallasHGeom, muestraHGeom)
+
+#Calcular en el experimento anterior, la probabilidad de que sea rechazado
+
+probabilidadHGeomAcumulada <- phyper(exitosEnPoblacion, exitosEnPoblacion, fallasHGeom, muestraHGeom) - probabilidadHGeom
+```
+
+---
+
+## Poisson
+
+```{r poiss}
+#x: cantidad de exitos
+xEjA <- 0
+xEjC <- 10
+
+lambda <- 4
+
+#Resolucion
+ejAPois <- dpois(xEjA, lambda*2)
+ejCPois <- dpois(xEjC, lambda*3)
+
+#ppois(q, lambda, lower.tail = TRUE, log.p = FALSE)
+ejBPois <- ppois(1, lambda, lower.tail = FALSE)
+
+```
+
+---
+
+# Distribuciones continuas
+
+## Normal
+
+Ejercicio 2 - Guía 5
+
+En una planta industrial el consumo mensual de combustible es una variable aleatoria distribuida normalmente con media 20000 litros y desvío estándar 2500 litros.
+
+a) ¿Qué porcentaje de los meses se consume menos de 24000 litros? 
+
+```{r norm}
+visualize.norm(stat = c(24000), mu = 20000, sd = 2500, section ="lower")
+```
+
+b) Ídem con más de 18000 lts. 
+
+```{r}
+visualize.norm(stat = c(18000), mu = 20000, sd = 2500, section ="upper")
+```
+
+c) Ídem entre 18000 y 24000 lts. 
+
+```{r}
+visualize.norm(stat = c(18000,24000), mu = 20000, sd = 2500, section = "bounded")
+```
+
+Función de distribución normal estandarizada:
+
+```{r norm2}
+f <- function(x) {
+  1/(sqrt(2 * pi)) * exp(-0.5 * x^2)
+}
+
+x=seq(-5,5,by = 0.01)
+plot(x,f(x), type="l", col="red")
+```
+
+Vamos a probar con tres valores reales nuestra función de distribución: 
+
+```{r}
+valores <- c(-1.96, 0, 1.96)
+
+f(valores)
+
+# vamos a comparar estos valores con los valores calculados por dnorm():
+f(valores) == dnorm(valores)
+```
+
+Vamos a hallar la probabilidad del 1er valor integrando la función de distribución: 
+
+```{r}
+# op1:
+integrate(f, 
+          lower = -Inf, 
+          upper = -1.96)
+
+# op2:
+pnorm(-1.96)
+```
+
+---
+
+Otro ejemplo: 
+
+Dada la siguiente función definida para x>=0: 
+
+```{r}
+f <- function(x) {
+  1/(sqrt(2 * pi)) * exp(-0.5 * x^2)
+}
+```
+
+1) Indicar si dicha función cumple las propiedades correspondientes a una función de densidad de probabilidad.
+2) Hallar la esperanza de dicha de dicha función de probabilidad. 
+3) Considere que X es una VA con la función de densidad indicada en el enunciado: Calcule la esperanza de $X^2$.
+4) Calcule la varianza de X. 
+
+Nota: Resuelto al final del hands-on
+
+---
+
+Ejemplo con la distribución Gamma: 
+
+Primero vamos a definir la función de densidad de la distribución Gamma:
+
+```{r}
+fgamma<-function(x,a,s) {1/(s^a*gamma(a))*x^(a-1)*exp(-x/s)}
+```
+
+Gráfica de la distribución Gamma variando algunos de sus parámetros: 
+
+```{r}
+x=seq(0,20,by = 0.001)
+plot(x,fgamma(x,1,2), xlim = c(0,20), ylim = c(0,0.5), col="red", type="l", ylab="")
+lines(x,fgamma(x,2,2), xlim = c(0,20),  col="green")
+lines(x,fgamma(x,3,2), xlim = c(0,20), col="blue")
+lines(x,fgamma(x,5,1), xlim = c(0,20), col="magenta")
+lines(x,fgamma(x,9,0.5))
+```
+
+Ahora supondremos una VA que sigue una distribución Gamma con a=9 y l=0.5, vamos a hallar P(X=5):
+
+```{r}
+integrate(fgamma,0,5,9,0.5)
+```
+
+Confirmamos el valor utilizando la función de r: 
+
+```{r}
+pgamma(5,9,2)
+```
+
+Tarea: 
+1) Hallar la esperenza y la varianza de dicha VA. 
+2) Mostrar con una simulación que la media de dicha VA tiende a "a*1/s" es decir 18. 
+
+---
+
+Mostrar con una simulación que el porcentaje de datos entre 1 SD es aproximadamente 68%. O sea que el 68 % de los datos de una distribución normal están dentro de [μ-σ;μ+σ].
+
+Nota: Resuelto al final del hands-on
+
+### Teorema central del límite
+
+Vamos a tomar una muestra aleatoria en una población normal cuda media (de la muestra) es μ=170 y desviación típica σ=12. No conocemos el tamaño de la población. Fijamos inicialmente un tamaño de muestra n=25, tomamos la muestra y calculamos su media:
+
+``` {r cache=TRUE, message=FALSE}
+n=25
+muestra1=rnorm(n,170,12)
+media1=mean(muestra1)
+media1
+``` 
+
+En esta muestra hemos obtenido un valor medio muestral de 172.2. Si repetimos el proceso obtenemos otra media distinta:
+
+``` {r cache=TRUE, message=FALSE}
+muestra2=rnorm(n,170,12)
+media2=mean(muestra2)
+media2
+```
+
+Y si volvemos a repetir:
+
+``` {r cache=TRUE, message=FALSE}
+muestra3=rnorm(n,170,12)
+media3=mean(muestra3)
+media3
+```
+
+En este punto el lector habrá observado que cada vez que se toma una muestra se obtiene una media diferente. Como a priori es imposible predecir en cada muestreo cuál será el valor medio resultante, la media muestral es una variable aleatoria. El lector habrá observado también que las medias muestrales se parecen a la media de la población, μ=170. Cabe preguntarse entonces: ¿tenderá la media muestral a comportarse de esta manera en todas las muestras? ¿Cuánto llega a apartarse de la media de la población?
+
+Para responder a estas preguntas podemos repetir el proceso anterior no tres, sino muchísimas más veces. En R esto es muy sencillo de hacer. Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:
+
+``` {r cache=TRUE, message=FALSE}
+mediaMuestral=function(n){
+  muestra=rnorm(n,170,12)
+  media=mean(muestra)
+  return(media)
+}
+```
+
+Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población N(170,12) y calculando su media:
+
+``` {r cache=TRUE, message=FALSE}
+mediaMuestral(25)
+mediaMuestral(25)
+mediaMuestral(25)
+```
+
+Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función  replicate():
+
+``` {r cache=TRUE, message=FALSE}
+m=10000
+muchasMedias=replicate(m,mediaMuestral(25))
+```
+
+La media y desviación típica de todas estas medias muestrales son:
+
+``` {r cache=TRUE, message=FALSE}
+mean(muchasMedias)
+sd(muchasMedias)
+```
+
+Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:
+
+``` {r cache=TRUE, message=FALSE}
+hist(muchasMedias,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25")
+curve(dnorm(x,170,sd(muchasMedias)),xlim=c(160,180),col="blue",lwd=2,add=TRUE)      
+```
+
+A estas alturas, para el lector debe de haber quedado claro que la media muestral es una variable aleatoria, y que su distribución de probabilidad es muy parecida a la normal; además la media de todas las medias muestrales es casi idéntica a la media de la población.
+
+¿Cuál es el efecto de aumentar el tamaño de la muestra? Podemos evaluarlo repitiendo el proceso anterior para n=50, n=100 y n=500 (en todos los casos presentaremos los gráficos en la misma escala para facilitar la comparación):
+
+``` {r cache=TRUE, message=FALSE}
+muchasMedias50=replicate(m,mediaMuestral(50))
+muchasMedias100=replicate(m,mediaMuestral(100))
+muchasMedias500=replicate(m,mediaMuestral(500))
+mean(muchasMedias50); sd(muchasMedias50)
+
+mean(muchasMedias100); sd(muchasMedias100)
+
+mean(muchasMedias500); sd(muchasMedias500)
+
+hist(muchasMedias50,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 50")
+curve(dnorm(x,170,sd(muchasMedias50)),xlim=c(160,180),col="blue",lwd=2,add=TRUE)
+
+hist(muchasMedias100,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 100")
+curve(dnorm(x,170,sd(muchasMedias100)),xlim=c(160,180),col="blue",lwd=2,add=TRUE)
+
+hist(muchasMedias500,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 500")
+curve(dnorm(x,170,sd(muchasMedias500)),xlim=c(160,180),col="blue",lwd=2,add=TRUE,n=200)
+```
+
+Resulta evidente en las gráficas, que el incremento del tamaño de la muestra tiene como consecuencia que las posibles medias muestrales se concentran más en torno a su media; en otras palabras, cuanto más grande sea la muestra, más probable es que la media de la muestra esté muy cerca de la media de la población. Puede comprobarse además que la desviación típica de las medias muestrales es en todos los casos un valor muy parecido a σ/√n=12/√n:
+
+
+| Tamaño de muestra (n) | Desviación típica de las medias muestrales | σ/√n    |
+|-----------------------|--------------------------------------------|---------|
+| 25                    | 2.40882                                    | 2.4     |
+| 50                    | 1.69587                                    | 1.69706 |
+| 100                   | 1.18425                                    | 1.2     |
+| 1000                  | 0.53569                                    | 0.53666 |
+
+Tras esta serie de simulaciones, el lector debe haber quedado bastante convencido de que la media muestral de variables N(μ,σ) es una variable aleatoria también normal de media μ y desviación típica σ/√n.
+
+Ejercicio: 
+
+Hemos visto la media de variables normales es también normal. ¿Ocurrirá lo mismo si las variables que se promedian no son normales? Podemos aquí plantear el siguiente ejercicio, para que el lector “descubra” el teorema central del límite.
+
+1. Repetir el proceso anterior cuando la variable aleatoria original es de Poisson de parámetro λ=1.3
+2. Idem cuando es exponencial de parámetro μ=1.5
+3. Idem cuando es uniforme en el intervalo [5,10]
+
+Nota: Resuelto al final del hands-on.
+
+---
+
+### Otro ejemplo 
+
+Vamos a definir 2 poblaciones: pobA y pobB. Ambas tienen 10.000 habitantes. La pobA sigue una distribución uniforme [0,1], mientras que la pobB sigue una distribución exponencial con alfa=10.
+Vamos a tomar muestras de 10 personas en ambas poblaciones y vamos a mostras que, en ambos casos, el histograma de las medias (muestrales) siguen una distribución normal: 
+
+```{r tcl1, warning=FALSE}
+# generamos los 10000 elementos de pobA:
+runi<-runif(100000,0,1)
+
+# extraemos 10 elementos al azar de la población. Y esta extracción la repetimos 1000 veces. 
+means<-NULL
+for(i in 1:1000){
+  # calculo la media de los 10 elementos extraídos al azar de la pobA:
+  means<-c(means,mean(sample(runi,size = 10)))
+}
+
+# generamos los 10000 elementos de pobB:
+rexpon<-rexp(100000,10)
+
+# extraemos 10 elementos al azar de la población. Y esta extracción la repetimos 1000 veces. 
+means2<-NULL
+for(i in 1:1000){
+  # calculo la media de los 10 elementos extraídos al azar de la pobB:
+  means2<-c(means2,mean(sample(rexpon,size = 10)))
+}
+
+# visualizo las 2 distribuciones poblacionales y las 2 distribuciones de las medias muestrales: 
+par(mfrow=c(2,2))
+hist(runi, main = "Distribución uniforme")
+plot(density(means), col='blue', xlab="", ylab="", main="", axes=F, add=T)
+par(new=T)
+hist(means, main="Distribución de las medias muestrales")
+hist(rexpon, main="Distribución exponencial")
+plot(density(means2), col='blue', axes=F, xlab="", ylab="", main="", add=T)
+par(new=T)
+hist(means2, main="Distribución de las medias muestrales")
+```
+
+Ahora vamos a mostrar que la aproximación de las medias muestras de un experimento se asemeja a una distribución normal también cuando la distribución poblacional es binomial.
+
+Vamos a simular 10000 habitantes de una población que sigue una B(10,0.4):
+
+```{r tcl2, warning=FALSE}
+mysample<-NULL
+for(m in 1:10000){
+  mysample<-c(mysample,rbinom(1,size=10,prob=0.4))
+}
+mupob<-mean(mysample)
+sdpob<-sd(mysample)
+```
+
+Vamos a repetir 20000 veces el experimento: vamos a tomar 10 elementos de la población, le vamos a sacar la media a esa muestra (de 10 els) y vamos a graficar la distribución de esas 20000 medias. 
+
+```{r}
+summeans<-NULL
+for(k in 1:20000) {
+  mysubsample<-sample(mysample,10)
+  summeans<-c(summeans, mean(mysubsample))
+}
+
+par(mfrow=c(1,1))
+plot(density(summeans), col='blue', axes=F, xlab="", ylab="", main="", add=T)
+par(new=T)
+hist(summeans, main = "Aproximación de la Binomial")
+```
+
+---
+
+# Resumen de las intrucciones de distribución en R
+
+El paquete `stats` de R (que se instala por defecto al instalar R, y se carga en memoria siempre que iniciamos sesión) implementa numerosas funciones para la realización de cálculos asociados a distintas distribuciones de probabilidad. Entre las utilizadas más comunmente podemos citar: 
+
+
+| Distribuciones Discretas	 	    |   | Distribuciones Continuas    |
+|-------------------|-------------|---|---------------|-------------|
+| Distribución      | Nombre en R |   | Distribución  | Nombre en R |
+|-------------------|-------------|---|---------------|-------------|
+| Binomial          | binom       |   | Uniforme      | unif        |
+| Poisson           | pois        |   | Normal        | norm        |
+| Geométrica        | geom        |   | t Student     | t           |
+| Hipergeométrica   | hyper       |   | F Fisher      | F           |
+| Binomial Negativa | nbinom      |   | Chi-Cuadrado  | chisq       |
+|                   |             |   | Exponencial   | exp         |
+|                   |             |   | Gamma         | gamma       |
+|                   |             |   | Weibull       | weibull     |
+|                   |             |   | W de Wilcoxon | wilcox      |
+
+# Resueltos
+
+## [μ-σ;μ+σ]
+
+Mostrar con una simulación que el porcentaje de datos entre 1 SD es aproximadamente 68%. O sea que el 68 % de los datos de una distribución normal están dentro de [μ-σ;μ+σ].
+
+```{r}
+#valores generados
+propg <- rnorm(10000)
+#estadísticos
+n = length(propg)
+mean = mean(propg)
+sd = sd(propg)
+#función para calcular proporción
+proporcion <- function(nSD){
+  lo = mean - nSD*sd
+  hi = mean + nSD*sd
+  percent = sum(propg>=lo 
+                & propg<=hi)/n *100
+}
+#cálculo de la proporción (en %) para 1 y 2 desviaciones estándares:
+print(paste("Porcentaje de datos entre 1 SD es ",proporcion(1),"%", sep=""))
+```
+
+---
+
+## función de densidad, esperanza y varianza
+
+Dada la siguiente función definida para x>=0: 
+
+```{r}
+f <- function(x) {
+  1/(sqrt(2 * pi)) * exp(-0.5 * x^2)
+}
+```
+
+1) Indicar si dicha función cumple las propiedades correspondientes a una función de densidad de probabilidad.
+
+Respuesta: tenemos que chequear que f(x)>0 y que la integral de f(x)=1.
+
+* f(x)>0 por la definición de la fórmula
+* para demostrar la segunda propiedad, vamos a integrar y ver si da 1:
+
+```{r}
+f <- function(x){x/4*exp(-x^2/8)}
+
+```
+
+2) Hallar la esperanza de dicha función de probabilidad. 
+
+```{r}
+ex <- function(x){x*f(x)}
+expected_value <- integrate(ex, 0, Inf)$value
+expected_value
+```
+
+3) Considere que X es una VA con la función de densidad indicada en el enunciado: Calcule la esperanza de $X^2$.
+
+```{r}
+ex2 <- function(x){x^2*f(x)}
+integrate(ex2, 0, Inf)$value
+```
+
+4) Calcule la varianza de X. 
+
+```{r}
+variance <- integrate(ex2, 0, Inf)$value - expected_value^2
+```
+
+---
+
+## Bolillero de 15 bolillas
+
+Un bolillero para un examen tiene 15 bolillas. 
+
+1) Suponga que el examen consiste en explicar 3 bolillas estraídas del bolillero. Simule la generación de los tres temas que le tocaría a un alumno al azar. 
+
+```{r}
+sample(1:15, 3) # se supone que son extracciones sin resposición. 
+```
+
+2) Muestre, a través de una simulación, que la probabilidad de que un alumno saque un tema es la misma para todos los temas.
+
+```{r bern5, echo=FALSE}
+nsample<-sample(1:15, 100000, replace = T) # con reposición (sino, no podríamos sacar 100000 bolillas...)
+
+# Como ejemplo, veamos la cantidad de bolillas "3", "7", "11" y "15": 
+length(nsample[nsample==3])
+length(nsample[nsample==7])
+length(nsample[nsample==11])
+length(nsample[nsample==15])
+```
+
+---
+
+## Varias distribuciones para el TCL
+
+Ejercicio: 
+
+Hemos visto la media de variables normales es también normal. ¿Ocurrirá lo mismo si las variables que se promedian no son normales? Podemos aquí plantear el siguiente ejercicio, para que el lector “descubra” el teorema central del límite.
+
+1. Repetir el proceso anterior cuando la variable aleatoria original es de Poisson de parámetro λ=1.3
+Fijamos inicialmente un tamaño de muestra n=25, tomamos la muestra y calculamos su media:
+  
+```{r cache=TRUE, message=FALSE}
+n=25
+muestraPois=rpois(n,lambda = 1.3)
+mediaPois=mean(muestraPois)
+mediaPois
+```
+Obtuvimos como resultado `mediaPois`. Podemos repetir el experimento muchas veces y obtendremos valores distintos.
+  
+Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:
+  
+```{r cache=TRUE, message=FALSE}
+mediaMuestralPois=function(n){
+  muestra=rpois(n,lambda = 1.3)
+  media=mean(muestra)
+  return(media)
+}
+```
+
+Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población Poiss(1.3) y calculando su media:
+  
+```{r cache=TRUE, message=FALSE}
+mediaMuestralPois(25)
+mediaMuestralPois(25)
+mediaMuestralPois(25)
+```
+
+Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función  replicate():
+  
+```{r cache=TRUE, message=FALSE}
+m=10000
+muchasMediasPois=replicate(m,mediaMuestralPois(25))
+```
+
+La media y desviación típica de todas estas medias muestrales son:
+  
+```{r cache=TRUE, message=FALSE}
+mean(muchasMediasPois)
+sd(muchasMediasPois)
+```
+
+Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:
+  
+```{r cache=TRUE, message=FALSE}
+hist(muchasMediasPois,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(0.5,2),freq=FALSE,ylim=c(0,2.5),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25")
+curve(dnorm(x,1.3,sd(muchasMediasPois)),xlim=c(0.5,2),col="blue",lwd=2,add=TRUE)    
+```
+
+Repetimos el proceso anterior para n=50, n=100 y n=500 (en todos los casos presentaremos los gráficos en la misma escala para facilitar la comparación):
+
+```{r cache=TRUE, message=FALSE}
+muchasMedias50=replicate(m,mediaMuestralPois(50))
+muchasMedias100=replicate(m,mediaMuestralPois(100))
+muchasMedias500=replicate(m,mediaMuestralPois(500))
+mean(muchasMedias50); sd(muchasMedias50)
+
+mean(muchasMedias100); sd(muchasMedias100)
+
+mean(muchasMedias500); sd(muchasMedias500)
+
+hist(muchasMedias50,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(0.5,2),freq=FALSE,ylim=c(0,9),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 50")
+curve(dnorm(x,1.3,sd(muchasMedias50)),xlim=c(0.5,2),col="blue",lwd=2,add=TRUE)
+
+hist(muchasMedias100,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(0.5,2),freq=FALSE,ylim=c(0,9),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 100")
+curve(dnorm(x,1.3,sd(muchasMedias100)),xlim=c(0.5,2),col="blue",lwd=2,add=TRUE)
+
+hist(muchasMedias500,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(0.5,2),freq=FALSE,ylim=c(0,9),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 500")
+curve(dnorm(x,1.3,sd(muchasMedias500)),xlim=c(0.5,2),col="blue",lwd=2,add=TRUE,n=200)
+```
+
+
+2. Idem cuando es exponencial de parámetro μ=1.5
+
+Fijamos inicialmente un tamaño de muestra n=25, tomamos la muestra y calculamos su media:
+  
+```{r cache=TRUE, message=FALSE}
+n=25
+muestraExp=rexp(n, rate = 1.5)
+mediaExp=mean(muestraExp)
+mediaExp
+```
+Obtuvimos como resultado `mediaExp`. Notar que la esperanza de la exponencial es 1/μ.
+Podemos repetir el experimento muchas veces y obtendremos valores distintos.
+  
+Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:
+  
+```{r cache=TRUE, message=FALSE}
+mediaMuestralExp=function(n){
+  muestra=rexp(n,rate = 1.5)
+  media=mean(muestra)
+  return(media)
+}
+```
+
+Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población E(1.5) y calculando su media:
+  
+```{r cache=TRUE, message=FALSE}
+mediaMuestralExp(25)
+mediaMuestralExp(25)
+mediaMuestralExp(25)
+```
+
+Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función  replicate():
+  
+```{r cache=TRUE, message=FALSE}
+m=10000
+muchasMediasExp=replicate(m,mediaMuestralExp(25))
+```
+
+La media y desviación típica de todas estas medias muestrales son:
+  
+```{r cache=TRUE, message=FALSE}
+mean(muchasMediasExp)
+sd(muchasMediasExp)
+```
+
+Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:
+  
+```{r cache=TRUE, message=FALSE}
+hist(muchasMediasExp,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(0.2,1.2),freq=FALSE,ylim=c(0,4),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25")
+curve(dnorm(x,1/1.5,sd(muchasMediasExp)),xlim=c(0.2,1.2),col="blue",lwd=2,add=TRUE)    
+```
+
+Repetimos el proceso anterior para n=50, n=100 y n=500 (en todos los casos presentaremos los gráficos en la misma escala para facilitar la comparación):
+
+```{r cache=TRUE, message=FALSE}
+muchasMedias50=replicate(m,mediaMuestralExp(50))
+muchasMedias100=replicate(m,mediaMuestralExp(100))
+muchasMedias500=replicate(m,mediaMuestralExp(500))
+mean(muchasMedias50); sd(muchasMedias50)
+
+mean(muchasMedias100); sd(muchasMedias100)
+
+mean(muchasMedias500); sd(muchasMedias500)
+
+hist(muchasMedias50,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(0.2,1.2),freq=FALSE,ylim=c(0,15),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25")
+curve(dnorm(x,1/1.5,sd(muchasMedias50)),xlim=c(0.2,1.2),col="blue",lwd=2,add=TRUE)
+
+hist(muchasMedias100,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(0.2,1.2),freq=FALSE,ylim=c(0,15),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25")
+curve(dnorm(x,1/1.5,sd(muchasMedias100)),xlim=c(0.2,1.2),col="blue",lwd=2,add=TRUE)
+
+hist(muchasMedias500,xlab="Media muestral", ylab="Frecuencia", col="lightcyan",
+     xlim=c(0.2,1.2),freq=FALSE,ylim=c(0,15),
+     main="Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25")
+curve(dnorm(x,1/1.5,sd(muchasMedias500)),xlim=c(0.2,1.2),col="blue",lwd=2,add=TRUE)
+```
+
+3. Idem cuando es uniforme en el intervalo [5,10]
+
+El procedimiento es idéntico a los anteior pero la generación aleatoria de los números de población se debe hacer con la función correspondiente. 
+
+---
+
+# Material para consulta
+
+* G. Jay Kerns (Youngstown State University, Ohio) ha creado dos paquetes de R, prob, IPSUR que corresponden a dos libros de probabilidad y estadística de este autor (los libros pueden descargarse libremente [aquí](http://prob.r-forge.r-project.org/doc/prob.pdf) y [aquí](http://cran.r-project.org/web/packages/IPSUR/vignettes/IPSUR.pdf)), y los paquetes se pueden descargar directamente de CRAN. Ambos libros se pueden utilizar para un curso de probabilidad y estadística de primero de carrera. Los paquetes citados, además de incluir versiones pdf de ambos libros, incluyen datos, funciones y ejemplos de utilización de R para el aprendizaje del cálculo de probabilidades y la estadística.
+
+* http://www.ats.ucla.edu/stat/r/modules/prob_dist.htm
+
+* http://www.r-tutor.com/elementary-statistics/probability-distributions
+
+* https://rpubs.com/dsfernandez/418180
+
+* [Excelente material de Estadística en R](https://www.econometrics-with-r.org/1-introduction.html)
+
+* [Diagramas de Venn](https://rstudio-pubs-static.s3.amazonaws.com/13301_6641d73cfac741a59c0a851feb99e98b.html)
