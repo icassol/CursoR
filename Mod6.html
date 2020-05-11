@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -15,15 +15,15 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.7/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.7/shim/respond.min.js"></script>
+<link href="site_libs/bootstrap-3.4.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.4.1/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.4.1/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <div class="header">
-  <img style="width: 100%;" class="center-fit" src="./resources/curso-banner.png"/>
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
 </div>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -86,7 +86,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -235,6 +234,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -246,18 +246,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -295,8 +283,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod2.html">Lenguaje R</a>
 </li>
-<li>
-  <a href="Mod3.html">Estadística</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -343,11 +343,11 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#que-es-shiny"><span class="toc-section-number">1</span> Qué es Shiny</a></li>
-<li><a href="#estructura-de-una-aplicacion-shiny"><span class="toc-section-number">2</span> Estructura de una aplicación Shiny</a></li>
+<li><a href="#qué-es-shiny"><span class="toc-section-number">1</span> Qué es Shiny</a></li>
+<li><a href="#estructura-de-una-aplicación-shiny"><span class="toc-section-number">2</span> Estructura de una aplicación Shiny</a></li>
 <li><a href="#mi-primer-shiny-app"><span class="toc-section-number">3</span> Mi primer Shiny app</a></li>
-<li><a href="#ejecucion-de-una-shiny-app"><span class="toc-section-number">4</span> Ejecución de una Shiny app</a></li>
-<li><a href="#construccion-de-la-interface-de-usuario-ui"><span class="toc-section-number">5</span> Construcción de la interface de usuario (UI)</a><ul>
+<li><a href="#ejecución-de-una-shiny-app"><span class="toc-section-number">4</span> Ejecución de una Shiny app</a></li>
+<li><a href="#construcción-de-la-interface-de-usuario-ui"><span class="toc-section-number">5</span> Construcción de la interface de usuario (UI)</a><ul>
 <li><a href="#layouts"><span class="toc-section-number">5.1</span> Layouts</a></li>
 <li><a href="#input-widget"><span class="toc-section-number">5.2</span> Input widget</a></li>
 </ul></li>
@@ -355,7 +355,7 @@ $(document).ready(function () {
 </div>
 
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
-<div id="que-es-shiny" class="section level1">
+<div id="qué-es-shiny" class="section level1">
 <h1><span class="header-section-number">1</span> Qué es Shiny</h1>
 <p><em>(Para profundizar contenidos de este curso, o aprender otros aspectos no incluidos, sugerimos tener en cuenta <a href="https://shiny.rstudio.com/tutorial/">este tutorial de Shiny</a>).</em></p>
 <p>Shiny es un paquete de R que facilita la creación de aplicaciones web interactivas (aplicaciones) directamente desde R. Shiny viene con una variedad de widgets para la construcción rapida de interfaces de usuario web, nosotros escribimos el codigo en R y shiny hará el trabajo pesado de generar el HTML, css, javascript, jquery, etc.</p>
@@ -363,7 +363,7 @@ $(document).ready(function () {
 <pre><code>install.packages(&quot;shiny&quot;)
 library(&quot;shiny&quot;)</code></pre>
 </div>
-<div id="estructura-de-una-aplicacion-shiny" class="section level1">
+<div id="estructura-de-una-aplicación-shiny" class="section level1">
 <h1><span class="header-section-number">2</span> Estructura de una aplicación Shiny</h1>
 <p>Las aplicaciones de <code>Shiny</code> deben tener tres componentes:</p>
 <ul>
@@ -439,10 +439,7 @@ server &lt;- function(input, output) {
 # Create Shiny app ----
 shinyApp(ui = ui, server = server)</code></pre>
 <p>3º Selecciona todo el texto y ejecútalo. Deberías ver la aplicación funcionando similar a esto:</p>
-<div class="figure">
-<img src="https://github.com/icassol/platform-samples/blob/master/HelloShiny.png?raw=true" />
-
-</div>
+<p><img src="https://github.com/icassol/platform-samples/blob/master/HelloShiny.png?raw=true" /></p>
 <p>4º Prueba la aplicación modificando el <strong>sliderInput</strong> del <em>Number of bins:</em>. Verás que se modifica el histograma.</p>
 <p>5º Si quieres, también puedes hacer click en “Open in Browser” para ver la aplicación como una ventana más de tu browser.</p>
 <hr />
@@ -460,7 +457,7 @@ shinyApp(ui = ui, server = server)</code></pre>
 </ul>
 <p>Más adelante, vemos un ejemplo sobre esta buena práctica.</p>
 </div>
-<div id="ejecucion-de-una-shiny-app" class="section level1">
+<div id="ejecución-de-una-shiny-app" class="section level1">
 <h1><span class="header-section-number">4</span> Ejecución de una Shiny app</h1>
 <ul>
 <li><p>Opción 1: Ejecutando el script <code>app.r</code> presionando el boton “Run”. (Es la opción que utilizaste para ejecutar la app <code>Hello Shiny</code>)</p></li>
@@ -469,17 +466,14 @@ shinyApp(ui = ui, server = server)</code></pre>
 <pre><code>runApp(&quot;my_app&quot;)</code></pre>
 <hr />
 </div>
-<div id="construccion-de-la-interface-de-usuario-ui" class="section level1">
+<div id="construcción-de-la-interface-de-usuario-ui" class="section level1">
 <h1><span class="header-section-number">5</span> Construcción de la interface de usuario (UI)</h1>
 <p>La UI en Shiny utiliza código HTML. Vamos a usar la función <code>fluidPage</code> para crear una pantalla que se ajusta automáticamente a las dimensiones de la ventana del navegador. Para diseñar la interfaz de usuario de su aplicación, hay que agregar elementos dentro de la función <code>fluidPage</code>.</p>
 <p>La función <code>fluidPage</code> contiene <code>layouts</code> y, a su vez, los <code>layouts</code> contienen <code>paneles</code>.</p>
 <div id="layouts" class="section level2">
 <h2><span class="header-section-number">5.1</span> Layouts</h2>
 <p>Los <code>layouts</code> se utilizan para organizar los paneles y elementos dentro de un layout existente. A continuación, verás algunos layouts y cómo es su estructura interna:</p>
-<div class="figure">
-<img src="https://github.com/icassol/platform-samples/blob/master/Layouts.png?raw=true" />
-
-</div>
+<p><img src="https://github.com/icassol/platform-samples/blob/master/Layouts.png?raw=true" /></p>
 <p>Ejemplo:</p>
 <pre id="numCode" class="R numberLines"><code>library(shiny)
 fluidPage(
@@ -573,13 +567,18 @@ fluidPage(
 </tbody>
 </table>
 <p>Output de algunos widgets:</p>
-<div class="figure">
-<img src="https://github.com/icassol/platform-samples/blob/master/Basicwidgets.png?raw=true" />
-
-</div>
+<p><img src="https://github.com/icassol/platform-samples/blob/master/Basicwidgets.png?raw=true" /></p>
 <p>Probemos algunos de ellos usando, como base, el layout del ejemplo anterior:</p>
-<pre class="r"><code>library(shiny)
-fluidPage(
+<pre class="r"><code>library(shiny)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;shiny&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:DT&#39;:
+## 
+##     dataTableOutput, renderDataTable</code></pre>
+<pre><code>## The following object is masked from &#39;package:geosphere&#39;:
+## 
+##     span</code></pre>
+<pre class="r"><code>fluidPage(
   titlePanel(&quot;Mi primera Shiny App&quot;),
   sidebarLayout(
     sidebarPanel(
@@ -599,7 +598,7 @@ fluidPage(
 <div class="col-sm-4">
 <form class="well">
 <div class="form-group shiny-input-container">
-<label for="numInput">Ingresa un número:</label>
+<label class="control-label" for="numInput">Ingresa un número:</label>
 <input id="numInput" type="number" class="form-control" value="7" min="1" max="30"/>
 </div>
 <button id="MiBoton" type="button" class="btn btn-default action-button">Boton</button>
@@ -645,6 +644,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

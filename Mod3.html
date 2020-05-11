@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -23,7 +23,7 @@
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <div class="header">
-  <img style="width: 100%;" class="center-fit" src="./resources/curso-banner.png"/>
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
 </div>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -86,7 +86,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -235,6 +234,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -246,18 +246,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -295,8 +283,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod2.html">Lenguaje R</a>
 </li>
-<li>
-  <a href="Mod3.html">Estadística</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -343,21 +343,21 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#estadistica-descriptiva-con-r"><span class="toc-section-number">1</span> Estadística Descriptiva con R</a><ul>
+<li><a href="#estadística-descriptiva-con-r"><span class="toc-section-number">1</span> Estadística Descriptiva con R</a><ul>
 <li><a href="#tablas-de-frecuencias-unidimensionales"><span class="toc-section-number">1.1</span> Tablas de frecuencias unidimensionales</a></li>
 <li><a href="#tablas-de-frecuencias-cruzadas"><span class="toc-section-number">1.2</span> Tablas de frecuencias cruzadas</a></li>
 <li><a href="#tabla-de-frecuencias-de-una-variable-continua-agrupada-en-intervalos"><span class="toc-section-number">1.3</span> Tabla de frecuencias de una variable continua agrupada en intervalos</a></li>
-<li><a href="#creacion-de-intervalos"><span class="toc-section-number">1.4</span> Creación de intervalos</a></li>
+<li><a href="#creación-de-intervalos"><span class="toc-section-number">1.4</span> Creación de intervalos</a></li>
 </ul></li>
 <li><a href="#distribuciones-de-probabilidad-en-r"><span class="toc-section-number">2</span> Distribuciones de probabilidad en R</a><ul>
 <li><a href="#distribuciones-de-probabilidad-en-r-1"><span class="toc-section-number">2.1</span> Distribuciones de probabilidad en R</a></li>
-<li><a href="#distribucion-de-la-media-en-el-muestreo.-teorema-central-del-limite."><span class="toc-section-number">2.2</span> Distribución de la media en el muestreo. Teorema central del límite.</a></li>
+<li><a href="#distribución-de-la-media-en-el-muestreo.-teorema-central-del-límite."><span class="toc-section-number">2.2</span> Distribución de la media en el muestreo. Teorema central del límite.</a></li>
 </ul></li>
 </ul>
 </div>
 
 <!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
-<div id="estadistica-descriptiva-con-r" class="section level1">
+<div id="estadística-descriptiva-con-r" class="section level1">
 <h1><span class="header-section-number">1</span> Estadística Descriptiva con R</h1>
 <p>Vamos a trabajar sobre 10 personas:</p>
 <pre class="r"><code>edad=c(18,19,NA,18,24,17,22,15,22,25)
@@ -399,7 +399,7 @@ prop.table(table(estudios,sexo),2)</code></pre>
 <p>Para conocer el rango de edad de nuestras 10 personas, usamos la función:</p>
 <pre class="r"><code>range(edad, na.rm = TRUE) # na.rm = TRUE indica que ignore los valores perdidos.</code></pre>
 </div>
-<div id="creacion-de-intervalos" class="section level2">
+<div id="creación-de-intervalos" class="section level2">
 <h2><span class="header-section-number">1.4</span> Creación de intervalos</h2>
 <p>En este caso, para la creación de intervalos, vamos a usar la regla de Sturges, que nos proporciona un número adecuado de intervalos en función del rango de los datos (ver help(nclass.Sturges).</p>
 <p>Si quisieramos agrupar a las personas por intervalos según su edad:</p>
@@ -413,7 +413,7 @@ table(intervalosEdad)</code></pre>
 <pre><code>seq.int(from, to, by)</code></pre>
 <p>Ejemplo:</p>
 <pre class="r"><code>seq(1,10,2)</code></pre>
-<div id="estadisticos-descriptivos" class="section level3">
+<div id="estadísticos-descriptivos" class="section level3">
 <h3><span class="header-section-number">1.4.1</span> Estadísticos descriptivos</h3>
 <p>Calcular media y desviación típica de la variable ‘edad’.</p>
 <p>R dispone de una función genérica summary(), que cuando se aplica a una variable presenta un pequeño resumen descriptivo. Si la variable es numérica, dicho resumen incluye el mínimo, máximo, mediana, primer y tercer cuartiles, media y número de valores perdidos. Si la variable es de tipo factor, summary() muestra el número de observaciones en cada nivel del factor:</p>
@@ -423,7 +423,7 @@ summary(estudios)</code></pre>
 <pre class="r"><code>mean(edad, na.rm=T)
 sd(edad, na.rm=T)</code></pre>
 </div>
-<div id="representaciones-graficas" class="section level3">
+<div id="representaciones-gráficas" class="section level3">
 <h3><span class="header-section-number">1.4.2</span> Representaciones gráficas</h3>
 <pre class="r"><code>pie(table(estudios))
 barplot(table(sexo))
@@ -448,6 +448,7 @@ boxplot(edad~sexo)</code></pre>
 <th>Distribuciones Discretas</th>
 <th></th>
 <th>Distribuciones Continuas</th>
+<th></th>
 <th></th>
 </tr>
 </thead>
@@ -618,24 +619,24 @@ curve(pnorm(x,170,12),xlim=c(110,220),col=&quot;red&quot;,lwd=2,lty=2,add=TRUE)
 legend(&quot;topleft&quot;,lty=c(1,2),lwd=c(1,2),col=c(&quot;black&quot;,&quot;red&quot;),legend=c(&quot;Distribución empírica&quot;,&quot;Distribución teórica&quot;))</code></pre>
 <p><img src="Mod3_files/figure-html/unnamed-chunk-23-1.png" width="432" /></p>
 </div>
-<div id="distribucion-de-la-media-en-el-muestreo.-teorema-central-del-limite." class="section level2">
+<div id="distribución-de-la-media-en-el-muestreo.-teorema-central-del-límite." class="section level2">
 <h2><span class="header-section-number">2.2</span> Distribución de la media en el muestreo. Teorema central del límite.</h2>
 <p>R es una herramienta excelente para ayudar a entender el significado de muchos conceptos estadísticos. Un concepto a menudo mal entendido es el de la distribución de un estadístico en el muestreo. Para aclarar este concepto podemos comenzar por realizar un sencillo experimento: tomar una muestra aleatoria simple en una población normal de, por ejemplo, media μ=170 y desviación típica σ=12. Fijamos inicialmente un tamaño de muestra n=25, tomamos la muestra y calculamos su media:</p>
 <pre class="r"><code>n=25
 muestra1=rnorm(n,170,12)
 media1=mean(muestra1)
 media1</code></pre>
-<pre><code>## [1] 173.4173</code></pre>
+<pre><code>## [1] 173.8828</code></pre>
 <p>En esta muestra hemos obtenido un valor medio muestral de 172.2. Si repetimos el proceso obtenemos otra media distinta:</p>
 <pre class="r"><code>muestra2=rnorm(n,170,12)
 media2=mean(muestra2)
 media2</code></pre>
-<pre><code>## [1] 168.3656</code></pre>
+<pre><code>## [1] 165.5217</code></pre>
 <p>Y si volvemos a repetir:</p>
 <pre class="r"><code>muestra3=rnorm(n,170,12)
 media3=mean(muestra3)
 media3</code></pre>
-<pre><code>## [1] 175.1746</code></pre>
+<pre><code>## [1] 172.0646</code></pre>
 <p>En este punto el lector habrá observado que cada vez que se toma una muestra se obtiene una media diferente. Como a priori es imposible predecir en cada muestreo cuál será el valor medio resultante, la media muestral es una variable aleatoria. El lector habrá observado también que las medias muestrales se parecen a la media de la población, μ=170. Cabe preguntarse entonces: ¿tenderá la media muestral a comportarse de esta manera en todas las muestras? ¿Cuánto llega a apartarse de la media de la población?</p>
 <p>Para responder a estas preguntas podemos repetir el proceso anterior no tres, sino muchísimas más veces. En R esto es muy sencillo de hacer. Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:</p>
 <pre class="r"><code>mediaMuestral=function(n){
@@ -645,23 +646,23 @@ media3</code></pre>
 }</code></pre>
 <p>Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población N(170,12) y calculando su media:</p>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 171.0579</code></pre>
+<pre><code>## [1] 167.3458</code></pre>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 174.1744</code></pre>
+<pre><code>## [1] 169.7165</code></pre>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 169.5267</code></pre>
+<pre><code>## [1] 171.0644</code></pre>
 <p>Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función replicate():</p>
 <pre class="r"><code>m=10000
 muchasMedias=replicate(m,mediaMuestral(25))</code></pre>
 <p>Las primeras 20 medias obtenidas en esta simulación son:</p>
 <pre class="r"><code>muchasMedias[1:20]</code></pre>
-<pre><code>##  [1] 170.7074 168.2779 173.6107 168.4732 172.4682 170.7582 169.8703 167.3168 171.6523 170.3815
-## [11] 172.0437 172.7081 170.0686 168.1353 168.4408 169.6045 170.5168 168.5636 170.5906 169.8624</code></pre>
+<pre><code>##  [1] 167.3413 171.8913 171.2389 174.2282 172.9144 170.4967 166.8207 169.8659 166.7406 170.8898
+## [11] 169.1772 167.3443 167.1564 172.7780 168.5463 169.9116 177.1926 167.4052 167.5461 171.8527</code></pre>
 <p>La media y desviación típica de todas estas medias muestrales son:</p>
 <pre class="r"><code>mean(muchasMedias)</code></pre>
-<pre><code>## [1] 170.0272</code></pre>
+<pre><code>## [1] 169.9935</code></pre>
 <pre class="r"><code>sd(muchasMedias)</code></pre>
-<pre><code>## [1] 2.366674</code></pre>
+<pre><code>## [1] 2.401142</code></pre>
 <p>Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:</p>
 <pre class="r"><code>hist(muchasMedias,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
@@ -674,14 +675,14 @@ curve(dnorm(x,170,sd(muchasMedias)),xlim=c(160,180),col=&quot;blue&quot;,lwd=2,a
 muchasMedias100=replicate(m,mediaMuestral(100))
 muchasMedias500=replicate(m,mediaMuestral(500))
 mean(muchasMedias50); sd(muchasMedias50)</code></pre>
-<pre><code>## [1] 169.9838</code></pre>
-<pre><code>## [1] 1.690207</code></pre>
+<pre><code>## [1] 170.0274</code></pre>
+<pre><code>## [1] 1.686655</code></pre>
 <pre class="r"><code>mean(muchasMedias100); sd(muchasMedias100)</code></pre>
-<pre><code>## [1] 169.9767</code></pre>
-<pre><code>## [1] 1.202434</code></pre>
+<pre><code>## [1] 169.9921</code></pre>
+<pre><code>## [1] 1.187837</code></pre>
 <pre class="r"><code>mean(muchasMedias500); sd(muchasMedias500)</code></pre>
-<pre><code>## [1] 169.9958</code></pre>
-<pre><code>## [1] 0.5345043</code></pre>
+<pre><code>## [1] 169.9994</code></pre>
+<pre><code>## [1] 0.5385436</code></pre>
 <pre class="r"><code>hist(muchasMedias50,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
      main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 50&quot;)
@@ -737,7 +738,7 @@ curve(dnorm(x,170,sd(muchasMedias500)),xlim=c(160,180),col=&quot;blue&quot;,lwd=
 <li>Idem cuando es uniforme en el intervalo [5,10,]</li>
 <li>Idem cuando es de Weibull de parámetros 1.2 y 0.5.</li>
 </ol>
-<div id="mas-informacion-sobre-distribucion-de-probabilidad-en-r" class="section level3">
+<div id="más-información-sobre-distribución-de-probabilidad-en-r" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> Más información sobre distribución de probabilidad en R</h3>
 <ul>
 <li><p>G. Jay Kerns (Youngstown State University, Ohio) ha creado dos paquetes de R, prob, IPSUR que corresponden a dos libros de probabilidad y estadística de este autor (los libros pueden descargarse libremente <a href="http://prob.r-forge.r-project.org/doc/prob.pdf">aquí</a> y <a href="http://cran.r-project.org/web/packages/IPSUR/vignettes/IPSUR.pdf">aquí</a>), y los paquetes se pueden descargar directamente de CRAN. Ambos libros se pueden utilizar para un curso de probabilidad y estadística de primero de carrera. Los paquetes citados, además de incluir versiones pdf de ambos libros, incluyen datos, funciones y ejemplos de utilización de R para el aprendizaje del cálculo de probabilidades y la estadística.</p></li>
@@ -765,6 +766,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

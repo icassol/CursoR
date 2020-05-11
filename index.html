@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -23,7 +23,7 @@
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <div class="header">
-  <img style="width: 100%;" class="center-fit" src="./resources/curso-banner.png"/>
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
 </div>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -86,7 +86,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -235,6 +234,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -246,18 +246,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -295,8 +283,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod2.html">Lenguaje R</a>
 </li>
-<li>
-  <a href="Mod3.html">Estadística</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -342,25 +342,23 @@ $(document).ready(function () {
 </div>
 
 
-<div id="acerca-de-este-curso" class="section level1">
-<h1>Acerca de este curso</h1>
+<p>#Acerca de este curso</p>
 <p>Este curso te proporcionará las bases del lenguaje de programación estadística R, uno de los lenguajes de programación más utilizados para la estadística, el cual te permitirá escribir programas que lean, manipulen y analicen datos cuantitativos. Te explicaremos la instalación del lenguaje, fundamentos de programación y también verás una introducción a los sistemas base de gráficos. Los últimos módulos están orientados a la construcción de documentos rmarkdown y de aplicaciones web a través del paquete shiny. Además también abordarás la utilización de uno de los IDEs más populares entre la comunidad de usuarios de R, llamado RStudio.</p>
 <div id="dr.ing.-ignacio-cassol" class="section level3">
 <h3>Dr. Ing. Ignacio Cassol</h3>
 <p>El Dr. Cassol es ingeniero en informática, Master en Software engineering por el Instituto de Buenos Aires (ITBA) y por el Politénico de Madrid. Es doctor en Matemática computacional e industrial (UNICEN) y realizó una estancia post-doctoral como investigador y profesor visitante en TECNUN (Escuela de Ingenieros de la Universidad de Navarra). Además de su tarea docente, es Director de Ingeniería Biomédicas de la Facultad de Ingeniería de la Universidad Austral. Sus areas de investigación son le refactorización de código estructurado y la genómica y la ciencia de datos.</p>
 <ul>
-<li><a href="mailto:icassol@austral.edu.ar">icassol@austral.edu.ar</a></li>
+<li><a href="mailto:icassol@austral.edu.ar" class="email">icassol@austral.edu.ar</a></li>
 </ul>
 </div>
 <div id="bautista-baiocchi-lora" class="section level3">
 <h3>Bautista Baiocchi-lora</h3>
 <p>Bautista Baiocchi-lora es un estudiante autodidacta de la informática. Comenzo a los trece años, hábil en una variedad de lenguajes, especializándose en las áreas de Reverse Engineering, la ciencia de datos, y Full Stack Development. Actualmente se encuentra como desarrollador Full Stack y estudiante de Ingeniería Informática en la Universidad Austral.</p>
 <ul>
-<li><a href="mailto:bautista.baiocchi@ing.austral.edu.ar">bautista.baiocchi@ing.austral.edu.ar</a></li>
+<li><a href="mailto:bautista.baiocchi@ing.austral.edu.ar" class="email">bautista.baiocchi@ing.austral.edu.ar</a></li>
 <li><a href="https://github.com/Bautista-Baiocchi-lora">Github</a></li>
 <li><a href="https://www.linkedin.com/in/bautista-baiocchi-lora/">Linkedin</a></li>
 </ul>
-</div>
 </div>
 
 
@@ -380,6 +378,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

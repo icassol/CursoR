@@ -11,7 +11,11 @@ navbar: # Definir un navigation bar
     - text: "Lenguaje R"
       href: Mod2.html
     - text: "Estadística"
-      href: Mod3.html
+      menu:
+        - text: "Basics"
+          href: Mod3.html
+        - text: "Distribuciones"
+          href: basic_statistics_in_R.html
     - text: "Gráficos"
       menu:
         - text: "Introducción"

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -23,7 +23,7 @@
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <div class="header">
-  <img style="width: 100%;" class="center-fit" src="./resources/curso-banner.png"/>
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
 </div>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -86,7 +86,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -235,6 +234,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -246,18 +246,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -295,8 +283,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod2.html">Lenguaje R</a>
 </li>
-<li>
-  <a href="Mod3.html">Estadística</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -344,15 +344,15 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#objetivos-del-curso"><span class="toc-section-number">1</span> Objetivos del curso</a></li>
-<li><a href="#que-es-r"><span class="toc-section-number">2</span> ¿Qué es R?</a></li>
-<li><a href="#por-que-r-se-ha-convertido-en-una-opcion-tan-interesante"><span class="toc-section-number">3</span> ¿Por qué R se ha convertido en una opción tan interesante?</a></li>
-<li><a href="#metodologia-del-curso"><span class="toc-section-number">4</span> Metodología del curso</a></li>
-<li><a href="#como-puedo-descargar-r"><span class="toc-section-number">5</span> ¿Cómo puedo descargar R?</a><ul>
-<li><a href="#instalacion-de-r"><span class="toc-section-number">5.1</span> Instalación de R</a></li>
-<li><a href="#instalacion-de-rstudio"><span class="toc-section-number">5.2</span> Instalación de Rstudio</a></li>
+<li><a href="#qué-es-r"><span class="toc-section-number">2</span> ¿Qué es R?</a></li>
+<li><a href="#por-qué-r-se-ha-convertido-en-una-opción-tan-interesante"><span class="toc-section-number">3</span> ¿Por qué R se ha convertido en una opción tan interesante?</a></li>
+<li><a href="#metodología-del-curso"><span class="toc-section-number">4</span> Metodología del curso</a></li>
+<li><a href="#cómo-puedo-descargar-r"><span class="toc-section-number">5</span> ¿Cómo puedo descargar R?</a><ul>
+<li><a href="#instalación-de-r"><span class="toc-section-number">5.1</span> Instalación de R</a></li>
+<li><a href="#instalación-de-rstudio"><span class="toc-section-number">5.2</span> Instalación de Rstudio</a></li>
 <li><a href="#primer-ingreso-a-rstudio"><span class="toc-section-number">5.3</span> Primer ingreso a Rstudio</a></li>
 </ul></li>
-<li><a href="#donde-puedo-encontrar-mas-material-sobre-r"><span class="toc-section-number">6</span> ¿Dónde puedo encontrar más material sobre R?</a></li>
+<li><a href="#dónde-puedo-encontrar-más-material-sobre-r"><span class="toc-section-number">6</span> ¿Dónde puedo encontrar más material sobre R?</a></li>
 </ul>
 </div>
 
@@ -367,39 +367,36 @@ $(document).ready(function () {
 <li>Utilizar el programa R para la exploración y descripción de datos.</li>
 </ul>
 </div>
-<div id="que-es-r" class="section level1">
+<div id="qué-es-r" class="section level1">
 <h1><span class="header-section-number">2</span> ¿Qué es R?</h1>
 <p>R es muchas cosas:</p>
 <ul>
 <li><p>Es una simple calculadora.</p></li>
 <li><p>Es un programa para el análisis de datos, que dispone de procedimientos específicos para:</p>
-<ul>
-<li>Estadística descriptiva.</li>
-<li>Inferencia estadística.</li>
-<li>Ajuste de Modelos.</li>
-<li>Estadística espacial.</li>
-<li>Epidemiología.</li>
-<li>Análisis de señales.</li>
-<li>Genética</li>
-<li>Econometría</li>
-<li>Series Temporales</li>
-<li>Ecuaciones estructurales</li>
-<li>Métodos bayesianos …</li>
-</ul></li>
+<pre><code>* Estadística descriptiva.
+* Inferencia estadística.
+* Ajuste de Modelos.
+* Estadística espacial.
+* Epidemiología.
+* Análisis de señales.
+* Genética
+* Econometría
+* Series Temporales
+* Ecuaciones estructurales
+* Métodos bayesianos
+…</code></pre></li>
 <li><p>Es una herramienta de cálculo numérico con procedimientos para el álgebra lineal, las ecuaciones diferenciales, la optimización, etc.</p></li>
 <li><p>Es un lenguaje de programación con las siguientes características:</p>
-<ul>
-<li>Actúa como interfaz para procedimientos computacionales muy diversos.</li>
-<li>Es interactivo.</li>
-<li>Su modelo de programación es funcional.</li>
-<li>Es orientado a objetos. Todo en R es un “objeto”.</li>
-<li>Es modular, construido a partir de mútiples “piezas” ajustadas a un formato estándar.</li>
-<li>Es colaborativo: es software libre, abierto a la participación de quien desee aportar su conocimiento y experiencia.</li>
-</ul></li>
+<pre><code>* Actúa como interfaz para procedimientos computacionales muy diversos.
+* Es interactivo.
+* Su modelo de programación es funcional.
+* Es orientado a objetos. Todo en R es un “objeto”.
+* Es modular, construido a partir de mútiples “piezas” ajustadas a un formato estándar.
+* Es colaborativo: es software libre, abierto a la participación de quien desee aportar su conocimiento y experiencia.</code></pre></li>
 </ul>
 <p>Es sobre todo un entorno de trabajo en el que se pueden manipular múltiples elementos: archivos de datos, gráficos, accesos a internet, etc. Este entorno de trabajo cuenta con la indiscutible ventaja de ser idéntico en los tres grandes sistemas operativos: Linux, Windows y Mac.</p>
 </div>
-<div id="por-que-r-se-ha-convertido-en-una-opcion-tan-interesante" class="section level1">
+<div id="por-qué-r-se-ha-convertido-en-una-opción-tan-interesante" class="section level1">
 <h1><span class="header-section-number">3</span> ¿Por qué R se ha convertido en una opción tan interesante?</h1>
 <ol style="list-style-type: decimal">
 <li>Lenguaje robusto.</li>
@@ -422,22 +419,22 @@ $(document).ready(function () {
 </ol>
 <p>Si eres programador y quieres empezar con R, esto es un detalle importante. No hay limitaciones. El código está en cualquier repositorio de plataformas de desarrollo colaborativo como <code>GitHub´ o foros de dudas para desarrolladores como</code>Stackoverflow´. Hay librerías y paquetes adicionales para impulsar proyectos, cuyo código se puede modificar para implementar nuevas funcionalidades. Y gratis.</p>
 </div>
-<div id="metodologia-del-curso" class="section level1">
+<div id="metodología-del-curso" class="section level1">
 <h1><span class="header-section-number">4</span> Metodología del curso</h1>
 <p>El curso consiste en la lectura y estudio del material escrito. Las clases presenciales seguirán estas guías y se intercambiarán ejercicios.</p>
 <p>Para afianzar los contenidos, se recomienda vivamente probar los conceptos con datos reales. Para eso, por ejemplo, se puede instalar el paquete <code>datasets</code>:</p>
 <pre class="r"><code>library(datasets)</code></pre>
 <p><a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html">Aquí</a> encontrarás un listado de los data.frames que contiene el paquete.</p>
 </div>
-<div id="como-puedo-descargar-r" class="section level1">
+<div id="cómo-puedo-descargar-r" class="section level1">
 <h1><span class="header-section-number">5</span> ¿Cómo puedo descargar R?</h1>
 <p>Habitualmente, el lenguaje R se utiliza con la ayuda de una interfaz gráfica llamada Rstudio. Como en este curso utilizaremos R a través de Rstudio, tendrás que instalar R, y luego Rstudio.</p>
-<div id="instalacion-de-r" class="section level2">
+<div id="instalación-de-r" class="section level2">
 <h2><span class="header-section-number">5.1</span> Instalación de R</h2>
 <p>R es software libre y por tanto no es necesario pagar para adquirirlo. Se puede descargar directamente desde la web <a href="https://www.r-project.org/">www.r-project.org</a>.</p>
 <p>Click en <a href="https://cran.r-project.org/mirrors.html"><strong><em>download R</em></strong></a> y seleccionar el <a href="http://mirror.fcaglp.unlp.edu.ar/CRAN/">servidor para Argentina</a>. Luego tendrás que clickear el link que corresponda a tu sistema operativo.</p>
 </div>
-<div id="instalacion-de-rstudio" class="section level2">
+<div id="instalación-de-rstudio" class="section level2">
 <h2><span class="header-section-number">5.2</span> Instalación de Rstudio</h2>
 <p>Una vez que tienes el lenguaje R instalado, estas en condiciones de instalar la interfaz gráfica. La versión <strong><em>Open Source</em></strong> puede descargarse libremente desde <a href="https://www.rstudio.com">www.rstudio.com</a>. Se recomienda descargar la versión gratuita de “RStudio Desktop”. Deberás clickear sobre el “installer” acorde a tu sistema operativo.</p>
 <p>La interfaz de Rstudio permite un acceso más cómodo a la edición de código, los resultados, los gráficos, la descarga de librerías, los objetos en memoria, etc. Además permite generar muy fácilmente informes con los procedimientos y resultados de nuestros análisis en varios formatos (html, pdf y word).</p>
@@ -446,10 +443,7 @@ $(document).ready(function () {
 <div id="primer-ingreso-a-rstudio" class="section level2">
 <h2><span class="header-section-number">5.3</span> Primer ingreso a Rstudio</h2>
 <p>Abre Rstudio para empezar a trabajar. Luego <strong>File</strong> -&gt; <strong>New file</strong> -&gt; <strong>R Script</strong>. La pantalla debería ser similar a esto:</p>
-<div class="figure">
-<img src="https://github.com/icassol/platform-samples/blob/master/InicioRst.png?raw=true" />
-
-</div>
+<p><img src="https://github.com/icassol/platform-samples/blob/master/InicioRst.png?raw=true" /></p>
 <p>Esta pantalla contiene las cuatro áreas de trabajo de Rstudio:</p>
 <ul>
 <li><strong><em>Script:</em></strong> Aquí es donde se escriben los programas en r. Son scripts, o sea, archivos que contienen instrucciones en R. Aquí es donde vamos a escribir algoritmos o conjuntos de instrucciones para, luego, ejecutarlas. Para ejecutar un script, antes, hay que nombrarlo y grabarlo. En nuestro caso, el script figura como “Untitled1” porque está recién creado, vacío y todavía no le pusimos nombre.<br />
@@ -465,30 +459,15 @@ $(document).ready(function () {
 <pre class="r"><code>a&lt;-1</code></pre>
 <p>Con esta instrucción estamos creando una variable llamada “a”, y le estamos cargando el valor “1”. Esa variable se podrá ver en el área “Environment”.</p>
 <p>En la consola también puedes escribir, por ejemplo:</p>
-<div class="figure">
-<img src="https://pepemaluza.github.io/Predictor/ejemplo2+2.png" />
-
-</div>
+<p><img src="https://pepemaluza.github.io/Predictor/ejemplo2+2.png" /></p>
 <p>Puedes probar con múltiples funciones: raiz cuadrada (sqrt), cuadrado ( ^ 2), logaritmo, etc:</p>
-<div class="figure">
-<img src="https://pepemaluza.github.io/Predictor/variasOperaciones.png" />
-
-</div>
+<p><img src="https://pepemaluza.github.io/Predictor/variasOperaciones.png" /></p>
 <p>Puedes asignar valores a variables:</p>
-<div class="figure">
-<img src="https://pepemaluza.github.io/Predictor/valVari.png" />
-
-</div>
+<p><img src="https://pepemaluza.github.io/Predictor/valVari.png" /></p>
 <p>Una variable puede contener muchos valores; en tal caso la variable puede expresarse como un vector de dimensión n, que se construye mediante la función de concatenación, ´c()´:</p>
-<div class="figure">
-<img src="https://pepemaluza.github.io/Predictor/vectores.png" />
-
-</div>
+<p><img src="https://pepemaluza.github.io/Predictor/vectores.png" /></p>
 <p>Las operaciones con variables n-dimensionales se realizan término a término:</p>
-<div class="figure">
-<img src="https://pepemaluza.github.io/Predictor/operaVectores.png" />
-
-</div>
+<p><img src="https://pepemaluza.github.io/Predictor/operaVectores.png" /></p>
 <p>Hasta ahora hemos ejecutados instrucciones en R en la consola. Ahora bien, cuando cerremos Rstudio,no quedará rastro de lo que hemos estado haciendo. Para eso es que debemos trabajar con <strong><em>scripts</em></strong>.</p>
 <p>En muchas ocasiones nos interesará guardar los comandos que hemos empleado, por múltiples razones:</p>
 <ul>
@@ -498,7 +477,7 @@ $(document).ready(function () {
 <li>Porque tenemos colaboradores a los que queremos mostrar exactamente la forma en que hemos llevado a cabo el análisis de datos.</li>
 <li>Simplemente porque el análisis de los datos es parte del proceso de investigación científica. Tradicionalmente, al publicar un trabajo el investigador suele ser muy cuidadoso en la descripción del material y métodos empleados, ya que esta es la forma de conseguir que el trabajo se pueda reproducir y se puedan confirmar (o no) los hallazgos realizados. Pero tan importante como la descripción del material y métodos es la comunicación más fiel y exacta posible del análisis estadístico realizado.</li>
 </ul>
-<div id="ejecucion-de-scripts-con-r" class="section level3">
+<div id="ejecución-de-scripts-con-r" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> Ejecución de scripts con R</h3>
 <p>Vamos a crear nuestro primer script. En el area de “Untitled1” pegar el siguiente código:</p>
 <pre class="r"><code>mensaje&lt;-&quot;Hola mundo&quot;
@@ -506,7 +485,7 @@ fecha&lt;-date()
 repeticiones&lt;-5
 
 print(fecha)</code></pre>
-<pre><code>## [1] &quot;Thu Oct 24 18:39:57 2019&quot;</code></pre>
+<pre><code>## [1] &quot;Mon May 11 11:20:39 2020&quot;</code></pre>
 <pre class="r"><code>for (i in 1:repeticiones){
   print(mensaje)
 }</code></pre>
@@ -533,7 +512,7 @@ print(fecha)</code></pre>
 </div>
 </div>
 </div>
-<div id="donde-puedo-encontrar-mas-material-sobre-r" class="section level1">
+<div id="dónde-puedo-encontrar-más-material-sobre-r" class="section level1">
 <h1><span class="header-section-number">6</span> ¿Dónde puedo encontrar más material sobre R?</h1>
 <p>En la actualidad, numerosas plataformas de enseñanza online ofrecen cursos de R, o cursos de estadística que emplean R como herramienta para el análisis de datos:</p>
 <p><a href="https://www.datacamp.com/">DataCamp</a></p>
@@ -560,6 +539,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
