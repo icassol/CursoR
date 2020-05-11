@@ -425,13 +425,13 @@ esperanza</code></pre>
 <p>Vamos a usar la función <code>sample()</code> para mostrar el resultado particular de a) tirar un dado, a) tirar una moneda equilibrada y c) tirar tres veces un dado:</p>
 <pre class="r"><code># función básica para tirar un dado una vez: 
 sample(1:6, 1)</code></pre>
-<pre><code>## [1] 2</code></pre>
+<pre><code>## [1] 4</code></pre>
 <pre class="r"><code># función básica para tirar una moneda equilibrada:
 sample(c(&quot;cara&quot;, &quot;cruz&quot;), 1) </code></pre>
 <pre><code>## [1] &quot;cara&quot;</code></pre>
 <pre class="r"><code># función básica para tirar un dado tres veces con reposición: 
 sample(1:6, 3, replace = T)</code></pre>
-<pre><code>## [1] 4 2 4</code></pre>
+<pre><code>## [1] 2 2 3</code></pre>
 </div>
 <div id="simulaciones-múltiples" class="section level3">
 <h3><span class="header-section-number">3.2.2</span> Simulaciones múltiples</h3>
@@ -446,7 +446,7 @@ freqs&lt;-table(samples)
 freqs</code></pre>
 <pre><code>## samples
 ##   1   2   3   4   5   6 
-## 150 188 154 165 164 179</code></pre>
+## 168 177 164 173 158 160</code></pre>
 <pre class="r"><code>lbls = sprintf(&quot;%0.1f%%&quot;, freqs/sum(freqs)*100)
 barX &lt;- barplot(freqs, ylim=c(0,250))
 text(x=barX, y=freqs+10, label=lbls)</code></pre>
@@ -464,7 +464,7 @@ text(x=barX, y=freqs+10, label=lbls)</code></pre>
 <p>Vamos a mostrar que la esperanza de tirar un dado muchas veces es 3.5: (o sea, vamos a mostrar empíricamente el valor de la esperanza)</p>
 <p>1° Tiraremos el dado 10.000 veces y vamos a calcular la media de esas 10000 veces:</p>
 <pre class="r"><code>mean(sample(1:6, 10000, replace = T))</code></pre>
-<pre><code>## [1] 3.487</code></pre>
+<pre><code>## [1] 3.5233</code></pre>
 <p>2° Vamos a repetir muchas veces el experimento de tirar “n” veces un dado. A cada experimento lo vamos a llamar “muestra de la población”. Y vamos a mostrar que la media de todas las muestras sigue una distribución normal:</p>
 <pre class="r"><code># La siguiente función genera la media de 1000 experimentos.
 # En cada experimento tiro &quot;n&quot; veces el dado
@@ -493,7 +493,7 @@ misd&lt;-sd(sample.means)
 sqrt(sum( (1:6-3.5)^2 ) / 6) / sqrt(100)</code></pre>
 <pre><code>## [1] 0.1707825</code></pre>
 <pre class="r"><code>misd  </code></pre>
-<pre><code>## [1] 0.1739365</code></pre>
+<pre><code>## [1] 0.1733412</code></pre>
 <pre class="r"><code>lines(x=x,y=dnorm(x,mean=mimean,sd=misd), col=rgb(0x33,0x66,0xAA,0x90,maxColorValue=255), type=&quot;l&quot;, lty=2)</code></pre>
 <p><img src="basic_statistics_in_R_files/figure-html/bern4-1.png" width="432" /></p>
 <p>La gráfica anterior muestra las dos distribuciones: la empírica (punteada) y la teórica (continua). Lógicamente la función empírica “se aproxima” a la función teórica y no es perfecta.</p>
@@ -599,13 +599,13 @@ sums &lt;- sapply(1:nsamples, function(x) { sum(sample(population,100))})
 
 # op3: 
 sum(sums &lt;= 35) / nsamples</code></pre>
-<pre><code>## [1] 0.1772</code></pre>
+<pre><code>## [1] 0.1844</code></pre>
 <p>Ahora vamos a mostrar que la media de todos los experimentos es la media poblacional:</p>
 <pre class="r"><code>means_experiment &lt;- sapply(1:nsamples, function(x) { mean(sample(population,100))})
 mean(means_experiment)</code></pre>
-<pre><code>## [1] 0.400686</code></pre>
+<pre><code>## [1] 0.400252</code></pre>
 <pre class="r"><code>sd(means_experiment)</code></pre>
-<pre><code>## [1] 0.04909574</code></pre>
+<pre><code>## [1] 0.04938202</code></pre>
 <pre class="r"><code># vamos a comparar la función de densidad población vs la función de la media muestral: 
 curve(dnorm(x, 0.4, sd(population)/sqrt(100)), 0.2, 0.6, col=&#39;blue&#39;)
 lines(density(means_experiment), lty=2)</code></pre>
@@ -708,7 +708,7 @@ draw.pairwise.venn(length(diabeticos),
                    fill = c(&quot;light blue&quot;, &quot;pink&quot;), alpha = rep(0.5, 2), cat.pos = c(0, 0), 
                    cat.dist = rep(0.025, 2))</code></pre>
 <p><img src="basic_statistics_in_R_files/figure-html/unnamed-chunk-19-1.png" width="432" /></p>
-<pre><code>## (polygon[GRID.polygon.4003], polygon[GRID.polygon.4004], polygon[GRID.polygon.4005], polygon[GRID.polygon.4006], text[GRID.text.4007], text[GRID.text.4008], text[GRID.text.4009], text[GRID.text.4010], text[GRID.text.4011])</code></pre>
+<pre><code>## (polygon[GRID.polygon.4875], polygon[GRID.polygon.4876], polygon[GRID.polygon.4877], polygon[GRID.polygon.4878], text[GRID.text.4879], text[GRID.text.4880], text[GRID.text.4881], text[GRID.text.4882], text[GRID.text.4883])</code></pre>
 <p>Diagrama de Venn para tres conjuntos:</p>
 <pre class="r"><code>grid.newpage()
 draw.triple.venn(area1 = length(diabeticos), 
@@ -721,7 +721,7 @@ draw.triple.venn(area1 = length(diabeticos),
                  category = c(&quot;diabeticos&quot;, &quot;obsesos&quot;, &quot;fumadores&quot;), lty = &quot;blank&quot;, 
                  fill = c(&quot;skyblue&quot;, &quot;pink1&quot;, &quot;mediumorchid&quot;))</code></pre>
 <p><img src="basic_statistics_in_R_files/figure-html/unnamed-chunk-20-1.png" width="432" /></p>
-<pre><code>## (polygon[GRID.polygon.4012], polygon[GRID.polygon.4013], polygon[GRID.polygon.4014], polygon[GRID.polygon.4015], polygon[GRID.polygon.4016], polygon[GRID.polygon.4017], text[GRID.text.4018], text[GRID.text.4019], text[GRID.text.4020], text[GRID.text.4021], text[GRID.text.4022], text[GRID.text.4023], text[GRID.text.4024], text[GRID.text.4025], text[GRID.text.4026], text[GRID.text.4027])</code></pre>
+<pre><code>## (polygon[GRID.polygon.4884], polygon[GRID.polygon.4885], polygon[GRID.polygon.4886], polygon[GRID.polygon.4887], polygon[GRID.polygon.4888], polygon[GRID.polygon.4889], text[GRID.text.4890], text[GRID.text.4891], text[GRID.text.4892], text[GRID.text.4893], text[GRID.text.4894], text[GRID.text.4895], text[GRID.text.4896], text[GRID.text.4897], text[GRID.text.4898], text[GRID.text.4899])</code></pre>
 <p>Calculamos analíticamente las intersecciones de los tres conjuntos:</p>
 <pre class="r"><code>experimento&lt;-list(&quot;diabeticos&quot;= diabeticos,&quot;obesos&quot;= obesos,&quot;fumadores&quot;=fumadores)
 
@@ -754,7 +754,7 @@ draw.triple.venn(area1 = length(studies$S1),
                  category = c(&quot;S1&quot;, &quot;S2&quot;, &quot;S3&quot;), lty = &quot;blank&quot;, 
                  fill = c(&quot;skyblue&quot;, &quot;pink1&quot;, &quot;mediumorchid&quot;))</code></pre>
 <p><img src="basic_statistics_in_R_files/figure-html/venn2-1.png" width="432" /></p>
-<pre><code>## (polygon[GRID.polygon.4028], polygon[GRID.polygon.4029], polygon[GRID.polygon.4030], polygon[GRID.polygon.4031], polygon[GRID.polygon.4032], polygon[GRID.polygon.4033], text[GRID.text.4034], text[GRID.text.4035], text[GRID.text.4036], text[GRID.text.4037], text[GRID.text.4038], text[GRID.text.4039], text[GRID.text.4040], text[GRID.text.4041], text[GRID.text.4042], text[GRID.text.4043])</code></pre>
+<pre><code>## (polygon[GRID.polygon.4900], polygon[GRID.polygon.4901], polygon[GRID.polygon.4902], polygon[GRID.polygon.4903], polygon[GRID.polygon.4904], polygon[GRID.polygon.4905], text[GRID.text.4906], text[GRID.text.4907], text[GRID.text.4908], text[GRID.text.4909], text[GRID.text.4910], text[GRID.text.4911], text[GRID.text.4912], text[GRID.text.4913], text[GRID.text.4914], text[GRID.text.4915])</code></pre>
 <hr />
 </div>
 </div>
@@ -885,17 +885,17 @@ lines(x,fgamma(x,9,0.5))</code></pre>
 muestra1=rnorm(n,170,12)
 media1=mean(muestra1)
 media1</code></pre>
-<pre><code>## [1] 169.9866</code></pre>
+<pre><code>## [1] 167.4142</code></pre>
 <p>En esta muestra hemos obtenido un valor medio muestral de 172.2. Si repetimos el proceso obtenemos otra media distinta:</p>
 <pre class="r"><code>muestra2=rnorm(n,170,12)
 media2=mean(muestra2)
 media2</code></pre>
-<pre><code>## [1] 168.3383</code></pre>
+<pre><code>## [1] 171.3393</code></pre>
 <p>Y si volvemos a repetir:</p>
 <pre class="r"><code>muestra3=rnorm(n,170,12)
 media3=mean(muestra3)
 media3</code></pre>
-<pre><code>## [1] 166.8951</code></pre>
+<pre><code>## [1] 170.697</code></pre>
 <p>En este punto el lector habrá observado que cada vez que se toma una muestra se obtiene una media diferente. Como a priori es imposible predecir en cada muestreo cuál será el valor medio resultante, la media muestral es una variable aleatoria. El lector habrá observado también que las medias muestrales se parecen a la media de la población, μ=170. Cabe preguntarse entonces: ¿tenderá la media muestral a comportarse de esta manera en todas las muestras? ¿Cuánto llega a apartarse de la media de la población?</p>
 <p>Para responder a estas preguntas podemos repetir el proceso anterior no tres, sino muchísimas más veces. En R esto es muy sencillo de hacer. Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:</p>
 <pre class="r"><code>mediaMuestral=function(n){
@@ -905,19 +905,19 @@ media3</code></pre>
 }</code></pre>
 <p>Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población N(170,12) y calculando su media:</p>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 164.1635</code></pre>
+<pre><code>## [1] 167.8541</code></pre>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 171.4661</code></pre>
+<pre><code>## [1] 171.0514</code></pre>
 <pre class="r"><code>mediaMuestral(25)</code></pre>
-<pre><code>## [1] 170.376</code></pre>
+<pre><code>## [1] 170.8345</code></pre>
 <p>Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función replicate():</p>
 <pre class="r"><code>m=10000
 muchasMedias=replicate(m,mediaMuestral(25))</code></pre>
 <p>La media y desviación típica de todas estas medias muestrales son:</p>
 <pre class="r"><code>mean(muchasMedias)</code></pre>
-<pre><code>## [1] 170.0118</code></pre>
+<pre><code>## [1] 170.0279</code></pre>
 <pre class="r"><code>sd(muchasMedias)</code></pre>
-<pre><code>## [1] 2.390886</code></pre>
+<pre><code>## [1] 2.406429</code></pre>
 <p>Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:</p>
 <pre class="r"><code>hist(muchasMedias,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
@@ -930,14 +930,14 @@ curve(dnorm(x,170,sd(muchasMedias)),xlim=c(160,180),col=&quot;blue&quot;,lwd=2,a
 muchasMedias100=replicate(m,mediaMuestral(100))
 muchasMedias500=replicate(m,mediaMuestral(500))
 mean(muchasMedias50); sd(muchasMedias50)</code></pre>
-<pre><code>## [1] 170.0125</code></pre>
-<pre><code>## [1] 1.717948</code></pre>
+<pre><code>## [1] 169.9703</code></pre>
+<pre><code>## [1] 1.714665</code></pre>
 <pre class="r"><code>mean(muchasMedias100); sd(muchasMedias100)</code></pre>
-<pre><code>## [1] 169.9997</code></pre>
-<pre><code>## [1] 1.183056</code></pre>
+<pre><code>## [1] 170.0082</code></pre>
+<pre><code>## [1] 1.20334</code></pre>
 <pre class="r"><code>mean(muchasMedias500); sd(muchasMedias500)</code></pre>
-<pre><code>## [1] 169.9987</code></pre>
-<pre><code>## [1] 0.5374497</code></pre>
+<pre><code>## [1] 170</code></pre>
+<pre><code>## [1] 0.5352195</code></pre>
 <pre class="r"><code>hist(muchasMedias50,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(160,180),freq=FALSE,ylim=c(0,0.75),
      main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 50&quot;)
@@ -1171,7 +1171,7 @@ proporcion &lt;- function(nSD){
 }
 #cálculo de la proporción (en %) para 1 y 2 desviaciones estándares:
 print(paste(&quot;Porcentaje de datos entre 1 SD es &quot;,proporcion(1),&quot;%&quot;, sep=&quot;&quot;))</code></pre>
-<pre><code>## [1] &quot;Porcentaje de datos entre 1 SD es 67.95%&quot;</code></pre>
+<pre><code>## [1] &quot;Porcentaje de datos entre 1 SD es 67.69%&quot;</code></pre>
 <hr />
 </div>
 <div id="función-de-densidad-esperanza-y-varianza" class="section level2">
@@ -1215,14 +1215,14 @@ integrate(ex2, 0, Inf)$value</code></pre>
 <li>Suponga que el examen consiste en explicar 3 bolillas estraídas del bolillero. Simule la generación de los tres temas que le tocaría a un alumno al azar.</li>
 </ol>
 <pre class="r"><code>sample(1:15, 3) # se supone que son extracciones sin resposición. </code></pre>
-<pre><code>## [1]  7 15  4</code></pre>
+<pre><code>## [1]  5  3 12</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Muestre, a través de una simulación, que la probabilidad de que un alumno saque un tema es la misma para todos los temas.</li>
 </ol>
-<pre><code>## [1] 6742</code></pre>
-<pre><code>## [1] 6558</code></pre>
-<pre><code>## [1] 6643</code></pre>
-<pre><code>## [1] 6718</code></pre>
+<pre><code>## [1] 6684</code></pre>
+<pre><code>## [1] 6555</code></pre>
+<pre><code>## [1] 6552</code></pre>
+<pre><code>## [1] 6622</code></pre>
 <hr />
 </div>
 <div id="varias-distribuciones-para-el-tcl" class="section level2">
@@ -1236,7 +1236,7 @@ integrate(ex2, 0, Inf)$value</code></pre>
 muestraPois=rpois(n,lambda = 1.3)
 mediaPois=mean(muestraPois)
 mediaPois</code></pre>
-<pre><code>## [1] 1.4</code></pre>
+<pre><code>## [1] 1.24</code></pre>
 <p>Obtuvimos como resultado <code>mediaPois</code>. Podemos repetir el experimento muchas veces y obtendremos valores distintos.</p>
 <p>Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:</p>
 <pre class="r"><code>mediaMuestralPois=function(n){
@@ -1246,19 +1246,19 @@ mediaPois</code></pre>
 }</code></pre>
 <p>Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población Poiss(1.3) y calculando su media:</p>
 <pre class="r"><code>mediaMuestralPois(25)</code></pre>
-<pre><code>## [1] 1.48</code></pre>
+<pre><code>## [1] 1.36</code></pre>
 <pre class="r"><code>mediaMuestralPois(25)</code></pre>
 <pre><code>## [1] 1.4</code></pre>
 <pre class="r"><code>mediaMuestralPois(25)</code></pre>
-<pre><code>## [1] 0.92</code></pre>
+<pre><code>## [1] 1.24</code></pre>
 <p>Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función replicate():</p>
 <pre class="r"><code>m=10000
 muchasMediasPois=replicate(m,mediaMuestralPois(25))</code></pre>
 <p>La media y desviación típica de todas estas medias muestrales son:</p>
 <pre class="r"><code>mean(muchasMediasPois)</code></pre>
-<pre><code>## [1] 1.296992</code></pre>
+<pre><code>## [1] 1.299464</code></pre>
 <pre class="r"><code>sd(muchasMediasPois)</code></pre>
-<pre><code>## [1] 0.2261841</code></pre>
+<pre><code>## [1] 0.2276238</code></pre>
 <p>Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:</p>
 <pre class="r"><code>hist(muchasMediasPois,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(0.5,2),freq=FALSE,ylim=c(0,2.5),
@@ -1270,14 +1270,14 @@ curve(dnorm(x,1.3,sd(muchasMediasPois)),xlim=c(0.5,2),col=&quot;blue&quot;,lwd=2
 muchasMedias100=replicate(m,mediaMuestralPois(100))
 muchasMedias500=replicate(m,mediaMuestralPois(500))
 mean(muchasMedias50); sd(muchasMedias50)</code></pre>
-<pre><code>## [1] 1.301874</code></pre>
-<pre><code>## [1] 0.1601221</code></pre>
+<pre><code>## [1] 1.29884</code></pre>
+<pre><code>## [1] 0.160826</code></pre>
 <pre class="r"><code>mean(muchasMedias100); sd(muchasMedias100)</code></pre>
-<pre><code>## [1] 1.29913</code></pre>
-<pre><code>## [1] 0.1130908</code></pre>
+<pre><code>## [1] 1.301058</code></pre>
+<pre><code>## [1] 0.1145911</code></pre>
 <pre class="r"><code>mean(muchasMedias500); sd(muchasMedias500)</code></pre>
-<pre><code>## [1] 1.299306</code></pre>
-<pre><code>## [1] 0.05090106</code></pre>
+<pre><code>## [1] 1.300488</code></pre>
+<pre><code>## [1] 0.05094769</code></pre>
 <pre class="r"><code>hist(muchasMedias50,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(0.5,2),freq=FALSE,ylim=c(0,9),
      main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 50&quot;)
@@ -1301,7 +1301,7 @@ curve(dnorm(x,1.3,sd(muchasMedias500)),xlim=c(0.5,2),col=&quot;blue&quot;,lwd=2,
 muestraExp=rexp(n, rate = 1.5)
 mediaExp=mean(muestraExp)
 mediaExp</code></pre>
-<pre><code>## [1] 0.5506946</code></pre>
+<pre><code>## [1] 0.6062621</code></pre>
 <p>Obtuvimos como resultado <code>mediaExp</code>. Notar que la esperanza de la exponencial es 1/μ. Podemos repetir el experimento muchas veces y obtendremos valores distintos.</p>
 <p>Una forma muy eficiente de replicar muchas veces el proceso anterior consiste en encapsular el proceso de muestreo en una función que haremos depender del tamaño de la muestra:</p>
 <pre class="r"><code>mediaMuestralExp=function(n){
@@ -1311,19 +1311,19 @@ mediaExp</code></pre>
 }</code></pre>
 <p>Cada vez que ejecutemos esta función estaremos eligiendo una muestra de tamaño n de esa población E(1.5) y calculando su media:</p>
 <pre class="r"><code>mediaMuestralExp(25)</code></pre>
-<pre><code>## [1] 0.4934362</code></pre>
+<pre><code>## [1] 0.7245616</code></pre>
 <pre class="r"><code>mediaMuestralExp(25)</code></pre>
-<pre><code>## [1] 0.7598228</code></pre>
+<pre><code>## [1] 0.7524751</code></pre>
 <pre class="r"><code>mediaMuestralExp(25)</code></pre>
-<pre><code>## [1] 0.8393522</code></pre>
+<pre><code>## [1] 0.5723357</code></pre>
 <p>Para repetir m veces el proceso de extraer una muestra de tamaño n y calcular su media podemos utilizar la función replicate():</p>
 <pre class="r"><code>m=10000
 muchasMediasExp=replicate(m,mediaMuestralExp(25))</code></pre>
 <p>La media y desviación típica de todas estas medias muestrales son:</p>
 <pre class="r"><code>mean(muchasMediasExp)</code></pre>
-<pre><code>## [1] 0.6649953</code></pre>
+<pre><code>## [1] 0.6674657</code></pre>
 <pre class="r"><code>sd(muchasMediasExp)</code></pre>
-<pre><code>## [1] 0.1324356</code></pre>
+<pre><code>## [1] 0.1336338</code></pre>
 <p>Por último, representamos gráficamente la distribución de frecuencias de estas medias muestrales mediante un histograma, al que le superponemos una densidad normal:</p>
 <pre class="r"><code>hist(muchasMediasExp,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(0.2,1.2),freq=FALSE,ylim=c(0,4),
@@ -1335,14 +1335,14 @@ curve(dnorm(x,1/1.5,sd(muchasMediasExp)),xlim=c(0.2,1.2),col=&quot;blue&quot;,lw
 muchasMedias100=replicate(m,mediaMuestralExp(100))
 muchasMedias500=replicate(m,mediaMuestralExp(500))
 mean(muchasMedias50); sd(muchasMedias50)</code></pre>
-<pre><code>## [1] 0.6667048</code></pre>
-<pre><code>## [1] 0.09375563</code></pre>
+<pre><code>## [1] 0.6669622</code></pre>
+<pre><code>## [1] 0.09427128</code></pre>
 <pre class="r"><code>mean(muchasMedias100); sd(muchasMedias100)</code></pre>
-<pre><code>## [1] 0.6671091</code></pre>
-<pre><code>## [1] 0.06631816</code></pre>
+<pre><code>## [1] 0.666013</code></pre>
+<pre><code>## [1] 0.06633695</code></pre>
 <pre class="r"><code>mean(muchasMedias500); sd(muchasMedias500)</code></pre>
-<pre><code>## [1] 0.6666251</code></pre>
-<pre><code>## [1] 0.02938612</code></pre>
+<pre><code>## [1] 0.6662421</code></pre>
+<pre><code>## [1] 0.02984911</code></pre>
 <pre class="r"><code>hist(muchasMedias50,xlab=&quot;Media muestral&quot;, ylab=&quot;Frecuencia&quot;, col=&quot;lightcyan&quot;,
      xlim=c(0.2,1.2),freq=FALSE,ylim=c(0,15),
      main=&quot;Histograma de las medias muestrales observadas\n en 10000 muestras de tamaño 25&quot;)
