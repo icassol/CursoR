@@ -4,3 +4,4 @@
 .Ruserdata
 /learning-data/**
 /*_cache/
+.DS_Store
