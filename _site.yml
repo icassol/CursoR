@@ -27,7 +27,11 @@ navbar: # Definir un navigation bar
     - text: "Clustering"
       href: Mod8.html
     - text: "Reportes"
-      href: Mod5.html
+      menu: 
+        - text: "RMarkdown"
+          href: Mod5.html
+        - text: "Deployment"
+          href: ModDeployment.html
     - text: "Web"
       href: Mod6.html
 output: # Output gobal
