@@ -319,8 +319,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod8.html">Clustering</a>
 </li>
-<li>
-  <a href="Mod5.html">Reportes</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Reportes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod5.html">RMarkdown</a>
+    </li>
+    <li>
+      <a href="ModDeployment.html">Deployment</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="Mod6.html">Web</a>
@@ -501,7 +513,6 @@ if (!&quot;factoextra&quot; %in% rownames(installed.packages()))
 library(ggplot2)
 library(cluster)
 library(factoextra)</code></pre>
-<pre><code>## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Cálculo de distancia</li>
 </ol>
@@ -578,6 +589,10 @@ total within-cluster=\sum_{k=1}^{k}W(C_k)=\sum_{k=1}^{k}\sum_{x_i \in C_k}^{} (x
 library(factoextra)
 # recordemos que df_standardized es el dataset estandarizado
 factoextra::fviz_nbclust(df_standardized, kmeans, method = &quot;gap_stat&quot;)</code></pre>
+<pre><code>## Clustering k = 1,2,..., K.max (= 10): .. done
+## Bootstrapping, b = 1,2,..., B (= 100)  [one &quot;.&quot; per sample]:
+## .................................................. 50 
+## .................................................. 100</code></pre>
 <p><img src="Mod8_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>El número óptimo de grupo que sugiere <code>fviz_nbclust()</code> es 3. Es decir, K=3.</p>
 <ol start="2" style="list-style-type: decimal">
@@ -597,36 +612,36 @@ fviz_cluster(km.res, data = df_standardized, palette = &quot;jco&quot;,
 <li>Veamos la información de <code>km.res</code>:</li>
 </ol>
 <pre class="r"><code>print(km.res)</code></pre>
-<pre><code>## K-means clustering with 3 clusters of sizes 20, 13, 17
+<pre><code>## K-means clustering with 3 clusters of sizes 13, 17, 20
 ## 
 ## Cluster means:
 ##       Murder    Assault   UrbanPop       Rape
-## 1  1.0049340  1.0138274  0.1975853  0.8469650
-## 2 -0.9615407 -1.1066010 -0.9301069 -0.9667633
-## 3 -0.4469795 -0.3465138  0.4788049 -0.2571398
+## 1 -0.9615407 -1.1066010 -0.9301069 -0.9667633
+## 2 -0.4469795 -0.3465138  0.4788049 -0.2571398
+## 3  1.0049340  1.0138274  0.1975853  0.8469650
 ## 
 ## Clustering vector:
 ##        Alabama         Alaska        Arizona       Arkansas     California       Colorado 
-##              1              1              1              3              1              1 
+##              3              3              3              2              3              3 
 ##    Connecticut       Delaware        Florida        Georgia         Hawaii          Idaho 
-##              3              3              1              1              3              2 
+##              2              2              3              3              2              1 
 ##       Illinois        Indiana           Iowa         Kansas       Kentucky      Louisiana 
-##              1              3              2              3              2              1 
+##              3              2              1              2              1              3 
 ##          Maine       Maryland  Massachusetts       Michigan      Minnesota    Mississippi 
-##              2              1              3              1              2              1 
+##              1              3              2              3              1              3 
 ##       Missouri        Montana       Nebraska         Nevada  New Hampshire     New Jersey 
-##              1              2              2              1              2              3 
+##              3              1              1              3              1              2 
 ##     New Mexico       New York North Carolina   North Dakota           Ohio       Oklahoma 
-##              1              1              1              2              3              3 
+##              3              3              3              1              2              2 
 ##         Oregon   Pennsylvania   Rhode Island South Carolina   South Dakota      Tennessee 
-##              3              3              3              1              2              1 
+##              2              2              2              3              1              3 
 ##          Texas           Utah        Vermont       Virginia     Washington  West Virginia 
-##              1              3              2              3              3              2 
+##              3              2              1              2              2              1 
 ##      Wisconsin        Wyoming 
-##              2              3 
+##              1              2 
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 46.74796 11.95246 19.62285
+## [1] 11.95246 19.62285 46.74796
 ##  (between_SS / total_SS =  60.0 %)
 ## 
 ## Available components:
@@ -637,18 +652,20 @@ fviz_cluster(km.res, data = df_standardized, palette = &quot;jco&quot;,
 <li>Quedarnos, por ejemplo, con los datos del cluster 2:</li>
 </ol>
 <pre class="r"><code>km.res$cluster[km.res$cluster==2]</code></pre>
-<pre><code>##         Idaho          Iowa      Kentucky         Maine     Minnesota       Montana      Nebraska 
+<pre><code>##      Arkansas   Connecticut      Delaware        Hawaii       Indiana        Kansas Massachusetts 
 ##             2             2             2             2             2             2             2 
-## New Hampshire  North Dakota  South Dakota       Vermont West Virginia     Wisconsin 
-##             2             2             2             2             2             2</code></pre>
+##    New Jersey          Ohio      Oklahoma        Oregon  Pennsylvania  Rhode Island          Utah 
+##             2             2             2             2             2             2             2 
+##      Virginia    Washington       Wyoming 
+##             2             2             2</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>También podemos ver las medias de cada grupo:</li>
 </ol>
 <pre class="r"><code>aggregate(df, by=list(cluster=km.res$cluster), mean)</code></pre>
 <pre><code>##   cluster    Murder   Assault UrbanPop     Rape
-## 1       1 12.165000 255.25000 68.40000 29.16500
-## 2       2  3.600000  78.53846 52.07692 12.17692
-## 3       3  5.841176 141.88235 72.47059 18.82353</code></pre>
+## 1       1  3.600000  78.53846 52.07692 12.17692
+## 2       2  5.841176 141.88235 72.47059 18.82353
+## 3       3 12.165000 255.25000 68.40000 29.16500</code></pre>
 <p>Ejemplo de interprestación de la matriz anterior: <em>Los habitantes del grupo 1 tienen una media de asesinatos (</em>Murder<em>) de 3.6, mientras que los habitantes del grupo 2 tiene una media de 5.83 y los de grupos 3 una media de 12.16 asesinatos por 1000 habitantes.</em></p>
 <ol start="5" style="list-style-type: decimal">
 <li>Podemos probar con <code>cluster=4</code>:</li>
@@ -784,7 +801,7 @@ hopkins(data = datos_iris, n = nrow(datos_iris) - 1)</code></pre>
 <pre class="r"><code># Estadístico H para el set de datos simulado
 hopkins(data = datos_simulados, n = nrow(datos_simulados) - 1)</code></pre>
 <pre><code>## $H
-## [1] 0.5198121</code></pre>
+## [1] 0.5072578</code></pre>
 <p>El set de datos <code>iris</code> no sigue una distribución espacial uniforme, su estructura contiene algún tipo de agrupación. Por contra, el valor del estadístico H obtenido para el set de datos simulado es muy próximo a 0.5, lo que indica que los datos están uniformemente distribuidos y desaconseja la utilización de métodos de clustering.</p>
 </div>
 <div id="estudio-de-la-calidad" class="section level3">
@@ -808,22 +825,22 @@ fviz_silhouette(sil.obj = km_clusters, print.summary = TRUE, palette = &quot;jco
                 ggtheme = theme_classic())</code></pre>
 <pre><code>##   cluster size ave.sil.width
 ## 1       1   50          0.64
-## 2       2   53          0.39
-## 3       3   47          0.35</code></pre>
+## 2       2   47          0.35
+## 3       3   53          0.39</code></pre>
 <p><img src="Mod8_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>La función eclust() almacena, además de la información devuelta por la función de clustering empleada, en este caso kmeans, información sobre los coeficientes silhouette individuales y por cluster, el cluster al que se ha asignado cada observación y el cluster vecino más próximo (el segundo mejor candidato).</p>
 <pre class="r"><code># Media silhouette por cluster
 km_clusters$silinfo$clus.avg.widths</code></pre>
-<pre><code>## [1] 0.6363162 0.3933772 0.3473922</code></pre>
+<pre><code>## [1] 0.6363162 0.3473922 0.3933772</code></pre>
 <pre class="r"><code># Coeficiente silhouette para cada observación
 head(km_clusters$silinfo$widths)</code></pre>
 <pre><code>##    cluster neighbor sil_width
-## 1        1        2 0.7341949
-## 41       1        2 0.7333345
-## 8        1        2 0.7308169
-## 18       1        2 0.7287522
-## 5        1        2 0.7284741
-## 40       1        2 0.7247047</code></pre>
+## 1        1        3 0.7341949
+## 41       1        3 0.7333345
+## 8        1        3 0.7308169
+## 18       1        3 0.7287522
+## 5        1        3 0.7284741
+## 40       1        3 0.7247047</code></pre>
 <p>El cluster número 2 (amarillo) tiene observaciones con valores de silhouette próximos a 0 e incluso negativos, lo que indica que esas observaciones podrían estar mal clasificadas. Viendo la representación gráfica del clustering, cabe esperar que sean observaciones que están situadas en la frontera entre los clusters 2 y 3 ya que solapan.</p>
 <p>Véase cómo cambia el resultado si en lugar de 3 clusters (número correcto de especies), se crean 5.</p>
 <pre class="r"><code>library(ggpubr)

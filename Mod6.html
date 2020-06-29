@@ -319,8 +319,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod8.html">Clustering</a>
 </li>
-<li>
-  <a href="Mod5.html">Reportes</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Reportes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod5.html">RMarkdown</a>
+    </li>
+    <li>
+      <a href="ModDeployment.html">Deployment</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="Mod6.html">Web</a>
@@ -569,8 +581,16 @@ fluidPage(
 <p>Output de algunos widgets:</p>
 <p><img src="https://github.com/icassol/platform-samples/blob/master/Basicwidgets.png?raw=true" /></p>
 <p>Probemos algunos de ellos usando, como base, el layout del ejemplo anterior:</p>
-<pre class="r"><code>library(shiny)
-fluidPage(
+<pre class="r"><code>library(shiny)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;shiny&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:DT&#39;:
+## 
+##     dataTableOutput, renderDataTable</code></pre>
+<pre><code>## The following object is masked from &#39;package:geosphere&#39;:
+## 
+##     span</code></pre>
+<pre class="r"><code>fluidPage(
   titlePanel(&quot;Mi primera Shiny App&quot;),
   sidebarLayout(
     sidebarPanel(

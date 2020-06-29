@@ -319,8 +319,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod8.html">Clustering</a>
 </li>
-<li>
-  <a href="Mod5.html">Reportes</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Reportes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod5.html">RMarkdown</a>
+    </li>
+    <li>
+      <a href="ModDeployment.html">Deployment</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="Mod6.html">Web</a>
@@ -810,8 +822,13 @@ print(x4, split=c(2,2,2,2), newpage=FALSE) </code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Ver el dendograma como árbol filogenético</li>
 </ol>
-<pre class="r"><code>library(&quot;ape&quot;)
-plot(as.phylo(hc), type = &quot;unrooted&quot;, cex = 0.6,
+<pre class="r"><code>library(&quot;ape&quot;)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ape&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:VennDiagram&#39;:
+## 
+##     rotate</code></pre>
+<pre class="r"><code>plot(as.phylo(hc), type = &quot;unrooted&quot;, cex = 0.6,
      no.margin = TRUE)</code></pre>
 <p><img src="Mod4_files/figure-html/unnamed-chunk-47-1.png" width="432" /></p>
 <ol start="6" style="list-style-type: decimal">

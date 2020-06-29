@@ -320,8 +320,20 @@ $(document).ready(function () {
 <li>
   <a href="Mod8.html">Clustering</a>
 </li>
-<li>
-  <a href="Mod5.html">Reportes</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Reportes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod5.html">RMarkdown</a>
+    </li>
+    <li>
+      <a href="ModDeployment.html">Deployment</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="Mod6.html">Web</a>
@@ -1385,199 +1397,422 @@ modelAIC3&lt;-stepAIC(fit1,direction=&quot;both&quot;,scope=list(upper=fit3,lowe
 </ol>
 <pre class="r"><code>load(&quot;./resources/LogisticRegresion&amp;StepAIC.RData&quot;)</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li><p>Ver el contenido de cada columna</p>
+<li>Ver el contenido de cada columna</li>
+</ol>
 <table>
 <thead>
-<tr class="header">
-<th align="right">nam</th>
-<th>e lab</th>
-<th align="left">el</th>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+label
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">6</td>
-<td>fmx</td>
-<td align="left">Family Number</td>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+fmx
+</td>
+<td style="text-align:left;">
+Family Number
+</td>
 </tr>
-<tr class="even">
-<td align="right">7</td>
-<td>fpx</td>
-<td align="left">Person Number (Within family)</td>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+fpx
+</td>
+<td style="text-align:left;">
+Person Number (Within family)
+</td>
 </tr>
-<tr class="odd">
-<td align="right">8</td>
-<td>wtia_sa</td>
-<td align="left">Weight - Interim Annual</td>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+wtia_sa
+</td>
+<td style="text-align:left;">
+Weight - Interim Annual
+</td>
 </tr>
-<tr class="even">
-<td align="right">9</td>
-<td>wtfa_sa</td>
-<td align="left">Weight - Final Annual</td>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+wtfa_sa
+</td>
+<td style="text-align:left;">
+Weight - Final Annual
+</td>
 </tr>
-<tr class="odd">
-<td align="right">10</td>
-<td>region</td>
-<td align="left">Region</td>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+region
+</td>
+<td style="text-align:left;">
+Region
+</td>
 </tr>
-<tr class="even">
-<td align="right">11</td>
-<td>strat_p</td>
-<td align="left">Pseudo-stratum for public use file variance estimation</td>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+strat_p
+</td>
+<td style="text-align:left;">
+Pseudo-stratum for public use file variance estimation
+</td>
 </tr>
-<tr class="odd">
-<td align="right">12</td>
-<td>psu_p</td>
-<td align="left">Pseudo-PSU for public use file variance estimation</td>
+<tr>
+<td style="text-align:left;">
+12
+</td>
+<td style="text-align:left;">
+psu_p
+</td>
+<td style="text-align:left;">
+Pseudo-PSU for public use file variance estimation
+</td>
 </tr>
-<tr class="even">
-<td align="right">13</td>
-<td>sex</td>
-<td align="left">Sex</td>
+<tr>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:left;">
+Sex
+</td>
 </tr>
-<tr class="odd">
-<td align="right">14</td>
-<td>hispan_i</td>
-<td align="left">Hispanic subgroup detail</td>
+<tr>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+hispan_i
+</td>
+<td style="text-align:left;">
+Hispanic subgroup detail
+</td>
 </tr>
-<tr class="even">
-<td align="right">16</td>
-<td>mracrpi2</td>
-<td align="left">Race coded to single/multiple race group</td>
+<tr>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+mracrpi2
+</td>
+<td style="text-align:left;">
+Race coded to single/multiple race group
+</td>
 </tr>
-<tr class="odd">
-<td align="right">18</td>
-<td>age_p</td>
-<td align="left">Age</td>
+<tr>
+<td style="text-align:left;">
+18
+</td>
+<td style="text-align:left;">
+age_p
+</td>
+<td style="text-align:left;">
+Age
+</td>
 </tr>
-<tr class="even">
-<td align="right">19</td>
-<td>r_maritl</td>
-<td align="left">Marital Status</td>
+<tr>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+r_maritl
+</td>
+<td style="text-align:left;">
+Marital Status
+</td>
 </tr>
-<tr class="odd">
-<td align="right">27</td>
-<td>everwrk</td>
-<td align="left">Ever worked</td>
+<tr>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+everwrk
+</td>
+<td style="text-align:left;">
+Ever worked
+</td>
 </tr>
-<tr class="even">
-<td align="right">41</td>
-<td>hypev</td>
-<td align="left">Ever been told you have hypertension</td>
+<tr>
+<td style="text-align:left;">
+41
+</td>
+<td style="text-align:left;">
+hypev
+</td>
+<td style="text-align:left;">
+Ever been told you have hypertension
+</td>
 </tr>
-<tr class="odd">
-<td align="right">49</td>
-<td>aasmev</td>
-<td align="left">Ever been told you had asthma</td>
+<tr>
+<td style="text-align:left;">
+49
+</td>
+<td style="text-align:left;">
+aasmev
+</td>
+<td style="text-align:left;">
+Ever been told you had asthma
+</td>
 </tr>
-<tr class="even">
-<td align="right">51</td>
-<td>aasmyr</td>
-<td align="left">Had an asthma episode/attack past 12 m</td>
+<tr>
+<td style="text-align:left;">
+51
+</td>
+<td style="text-align:left;">
+aasmyr
+</td>
+<td style="text-align:left;">
+Had an asthma episode/attack past 12 m
+</td>
 </tr>
-<tr class="odd">
-<td align="right">117</td>
-<td>dibev</td>
-<td align="left">Ever been told that you have diabetes</td>
+<tr>
+<td style="text-align:left;">
+117
+</td>
+<td style="text-align:left;">
+dibev
+</td>
+<td style="text-align:left;">
+Ever been told that you have diabetes
+</td>
 </tr>
-<tr class="even">
-<td align="right">119</td>
-<td>dibage</td>
-<td align="left">Age first diagnosed w/diabetes</td>
+<tr>
+<td style="text-align:left;">
+119
+</td>
+<td style="text-align:left;">
+dibage
+</td>
+<td style="text-align:left;">
+Age first diagnosed w/diabetes
+</td>
 </tr>
-<tr class="odd">
-<td align="right">120</td>
-<td>difage2</td>
-<td align="left">Years since first diagnosed w/diabetes</td>
+<tr>
+<td style="text-align:left;">
+120
+</td>
+<td style="text-align:left;">
+difage2
+</td>
+<td style="text-align:left;">
+Years since first diagnosed w/diabetes
+</td>
 </tr>
-<tr class="even">
-<td align="right">121</td>
-<td>insln</td>
-<td align="left">NOW taking insulin</td>
+<tr>
+<td style="text-align:left;">
+121
+</td>
+<td style="text-align:left;">
+insln
+</td>
+<td style="text-align:left;">
+NOW taking insulin
+</td>
 </tr>
-<tr class="odd">
-<td align="right">122</td>
-<td>dibpill</td>
-<td align="left">NOW taking diabetic pills</td>
+<tr>
+<td style="text-align:left;">
+122
+</td>
+<td style="text-align:left;">
+dibpill
+</td>
+<td style="text-align:left;">
+NOW taking diabetic pills
+</td>
 </tr>
-<tr class="even">
-<td align="right">148</td>
-<td>arth1</td>
-<td align="left">Ever been told you had arthritis</td>
+<tr>
+<td style="text-align:left;">
+148
+</td>
+<td style="text-align:left;">
+arth1
+</td>
+<td style="text-align:left;">
+Ever been told you had arthritis
+</td>
 </tr>
-<tr class="odd">
-<td align="right">149</td>
-<td>arthlmt</td>
-<td align="left">Limited due to arthritis or joint symptoms</td>
+<tr>
+<td style="text-align:left;">
+149
+</td>
+<td style="text-align:left;">
+arthlmt
+</td>
+<td style="text-align:left;">
+Limited due to arthritis or joint symptoms
+</td>
 </tr>
-<tr class="even">
-<td align="right">171</td>
-<td>wkdayr</td>
-<td align="left">Number of work loss days, past 12 months</td>
+<tr>
+<td style="text-align:left;">
+171
+</td>
+<td style="text-align:left;">
+wkdayr
+</td>
+<td style="text-align:left;">
+Number of work loss days, past 12 months
+</td>
 </tr>
-<tr class="odd">
-<td align="right">172</td>
-<td>beddayr</td>
-<td align="left">Number of bed days, past 12 months</td>
+<tr>
+<td style="text-align:left;">
+172
+</td>
+<td style="text-align:left;">
+beddayr
+</td>
+<td style="text-align:left;">
+Number of bed days, past 12 months
+</td>
 </tr>
-<tr class="even">
-<td align="right">205</td>
-<td>aflhca18</td>
-<td align="left">Weight problem causes difficulty with activity</td>
+<tr>
+<td style="text-align:left;">
+205
+</td>
+<td style="text-align:left;">
+aflhca18
+</td>
+<td style="text-align:left;">
+Weight problem causes difficulty with activity
+</td>
 </tr>
-<tr class="odd">
-<td align="right">271</td>
-<td>aldura10</td>
-<td align="left">Duration (in years) of diabetes, recode 1</td>
+<tr>
+<td style="text-align:left;">
+271
+</td>
+<td style="text-align:left;">
+aldura10
+</td>
+<td style="text-align:left;">
+Duration (in years) of diabetes, recode 1
+</td>
 </tr>
-<tr class="even">
-<td align="right">306</td>
-<td>aldura17</td>
-<td align="left">Duration (in years) of depression/anxiety/emotional problem, rec ode 1</td>
+<tr>
+<td style="text-align:left;">
+306
+</td>
+<td style="text-align:left;">
+aldura17
+</td>
+<td style="text-align:left;">
+Duration (in years) of depression/anxiety/emotional problem, rec ode 1
+</td>
 </tr>
-<tr class="odd">
-<td align="right">311</td>
-<td>aldura18</td>
-<td align="left">Duration (in years) of weight problem, recode 1</td>
+<tr>
+<td style="text-align:left;">
+311
+</td>
+<td style="text-align:left;">
+aldura18
+</td>
+<td style="text-align:left;">
+Duration (in years) of weight problem, recode 1
+</td>
 </tr>
-<tr class="even">
-<td align="right">406</td>
-<td>smkev</td>
-<td align="left">Ever smoked 100 cigarettes</td>
+<tr>
+<td style="text-align:left;">
+406
+</td>
+<td style="text-align:left;">
+smkev
+</td>
+<td style="text-align:left;">
+Ever smoked 100 cigarettes
+</td>
 </tr>
-<tr class="odd">
-<td align="right">416</td>
-<td>cigsday</td>
-<td align="left">Number of cigarettes a day (all current smokers)</td>
+<tr>
+<td style="text-align:left;">
+416
+</td>
+<td style="text-align:left;">
+cigsday
+</td>
+<td style="text-align:left;">
+Number of cigarettes a day (all current smokers)
+</td>
 </tr>
-<tr class="even">
-<td align="right">423</td>
-<td>vigmin</td>
-<td align="left">Duration vigorous activity (in minutes)</td>
+<tr>
+<td style="text-align:left;">
+423
+</td>
+<td style="text-align:left;">
+vigmin
+</td>
+<td style="text-align:left;">
+Duration vigorous activity (in minutes)
+</td>
 </tr>
-<tr class="odd">
-<td align="right">429</td>
-<td>modmin</td>
-<td align="left">Duration light/moderate activity (in minutes)</td>
+<tr>
+<td style="text-align:left;">
+429
+</td>
+<td style="text-align:left;">
+modmin
+</td>
+<td style="text-align:left;">
+Duration light/moderate activity (in minutes)
+</td>
 </tr>
-<tr class="even">
-<td align="right">453</td>
-<td>bmi</td>
-<td align="left">Body Mass Index (BMI)</td>
+<tr>
+<td style="text-align:left;">
+453
+</td>
+<td style="text-align:left;">
+bmi
+</td>
+<td style="text-align:left;">
+Body Mass Index (BMI)
+</td>
 </tr>
-<tr class="odd">
-<td align="right">454</td>
-<td>sleep</td>
-<td align="left">Hours of sleep</td>
+<tr>
+<td style="text-align:left;">
+454
+</td>
+<td style="text-align:left;">
+sleep
+</td>
+<td style="text-align:left;">
+Hours of sleep
+</td>
 </tr>
-<tr class="even">
-<td align="right">455</td>
-<td>ausualpl</td>
-<td align="left">Place USUALLY go when sick</td>
+<tr>
+<td style="text-align:left;">
+455
+</td>
+<td style="text-align:left;">
+ausualpl
+</td>
+<td style="text-align:left;">
+Place USUALLY go when sick
+</td>
 </tr>
 </tbody>
-</table></li>
-<li><p>Chequear la estructura de <code>hypev</code></p></li>
+</table>
+<ol start="4" style="list-style-type: decimal">
+<li>Chequear la estructura de <code>hypev</code></li>
 </ol>
 <pre class="r"><code>  str(NH11$hypev) </code></pre>
 <pre><code>##  Factor w/ 2 levels &quot;2 No&quot;,&quot;1 Yes&quot;: 1 1 2 1 1 2 1 1 2 1 ...</code></pre>
@@ -1744,11 +1979,8 @@ str(cu.summary)</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Visualización del árbol correspondiente (usando el paquete <a href="https://cran.r-project.org/web/packages/rattle/index.html">´rattle´</a>):</li>
 </ol>
-<pre class="r"><code>library(rattle)</code></pre>
-<pre><code>## Rattle: A free graphical interface for data science with R.
-## Version 5.3.0 Copyright (c) 2006-2018 Togaware Pty Ltd.
-## Type &#39;rattle()&#39; to shake, rattle, and roll your data.</code></pre>
-<pre class="r"><code>fancyRpartPlot(fit1)</code></pre>
+<pre class="r"><code>library(rattle)
+fancyRpartPlot(fit1)</code></pre>
 <p><img src="Mod7_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <p>Cómo leer el arbol? Vamos a interpretar los números del nodo raíz (nodo 1):</p>
 <ul>
@@ -1866,271 +2098,666 @@ AutosSinCalificar$Reliability&lt;-Predictions
 knitr::kable(AutosSinCalificar)</code></pre>
 <table>
 <thead>
-<tr class="header">
-<th></th>
-<th align="right">Price</th>
-<th align="left">Country</th>
-<th align="left">Reliability</th>
-<th align="right">Mileage</th>
-<th align="left">Type</th>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Price
+</th>
+<th style="text-align:left;">
+Country
+</th>
+<th style="text-align:left;">
+Reliability
+</th>
+<th style="text-align:right;">
+Mileage
+</th>
+<th style="text-align:left;">
+Type
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>Dodge Colt 4</td>
-<td align="right">6851</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">NA</td>
-<td align="left">Small</td>
+<tr>
+<td style="text-align:left;">
+Dodge Colt 4
+</td>
+<td style="text-align:right;">
+6851
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
 </tr>
-<tr class="even">
-<td>GEO Metro 3</td>
-<td align="right">6695</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">NA</td>
-<td align="left">Small</td>
+<tr>
+<td style="text-align:left;">
+GEO Metro 3
+</td>
+<td style="text-align:right;">
+6695
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
 </tr>
-<tr class="odd">
-<td>Subaru Justy 3</td>
-<td align="right">5866</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">34</td>
-<td align="left">Small</td>
+<tr>
+<td style="text-align:left;">
+Subaru Justy 3
+</td>
+<td style="text-align:right;">
+5866
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:left;">
+Small
+</td>
 </tr>
-<tr class="even">
-<td>Volkswagen Fox 4</td>
-<td align="right">7225</td>
-<td align="left">Brazil</td>
-<td align="left">worse</td>
-<td align="right">NA</td>
-<td align="left">Small</td>
+<tr>
+<td style="text-align:left;">
+Volkswagen Fox 4
+</td>
+<td style="text-align:right;">
+7225
+</td>
+<td style="text-align:left;">
+Brazil
+</td>
+<td style="text-align:left;">
+worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Small
+</td>
 </tr>
-<tr class="odd">
-<td>Eagle Talon 4</td>
-<td align="right">12995</td>
-<td align="left">USA</td>
-<td align="left">Much worse</td>
-<td align="right">NA</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Eagle Talon 4
+</td>
+<td style="text-align:right;">
+12995
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="even">
-<td>GEO Storm 4</td>
-<td align="right">10390</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">NA</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+GEO Storm 4
+</td>
+<td style="text-align:right;">
+10390
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="odd">
-<td>Mazda MX-5 Miata</td>
-<td align="right">13800</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">NA</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Mazda MX-5 Miata
+</td>
+<td style="text-align:right;">
+13800
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="even">
-<td>Nissan 300ZX V6</td>
-<td align="right">27900</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">NA</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Nissan 300ZX V6
+</td>
+<td style="text-align:right;">
+27900
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="odd">
-<td>Plymouth Laser</td>
-<td align="right">10855</td>
-<td align="left">USA</td>
-<td align="left">Much worse</td>
-<td align="right">26</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Plymouth Laser
+</td>
+<td style="text-align:right;">
+10855
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="even">
-<td>Porsche 944</td>
-<td align="right">41990</td>
-<td align="left">Germany</td>
-<td align="left">Much worse</td>
-<td align="right">NA</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Porsche 944
+</td>
+<td style="text-align:right;">
+41990
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="odd">
-<td>Subaru XT 4</td>
-<td align="right">13071</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">28</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Subaru XT 4
+</td>
+<td style="text-align:right;">
+13071
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="even">
-<td>Toyota Celica GT-S 4</td>
-<td align="right">12268</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">NA</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Toyota Celica GT-S 4
+</td>
+<td style="text-align:right;">
+12268
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="odd">
-<td>Volkswagen Corrado 4</td>
-<td align="right">17900</td>
-<td align="left">Germany</td>
-<td align="left">Much worse</td>
-<td align="right">NA</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Volkswagen Corrado 4
+</td>
+<td style="text-align:right;">
+17900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="even">
-<td>Volkswagen GTI 4</td>
-<td align="right">9995</td>
-<td align="left">Mexico</td>
-<td align="left">Much worse</td>
-<td align="right">NA</td>
-<td align="left">Sporty</td>
+<tr>
+<td style="text-align:left;">
+Volkswagen GTI 4
+</td>
+<td style="text-align:right;">
+9995
+</td>
+<td style="text-align:left;">
+Mexico
+</td>
+<td style="text-align:left;">
+Much worse
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Sporty
+</td>
 </tr>
-<tr class="odd">
-<td>Audi 80 4</td>
-<td align="right">18900</td>
-<td align="left">Germany</td>
-<td align="left">average</td>
-<td align="right">27</td>
-<td align="left">Compact</td>
+<tr>
+<td style="text-align:left;">
+Audi 80 4
+</td>
+<td style="text-align:right;">
+18900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:left;">
+Compact
+</td>
 </tr>
-<tr class="even">
-<td>Audi 90 5</td>
-<td align="right">23990</td>
-<td align="left">Germany</td>
-<td align="left">average</td>
-<td align="right">NA</td>
-<td align="left">Compact</td>
+<tr>
+<td style="text-align:left;">
+Audi 90 5
+</td>
+<td style="text-align:right;">
+23990
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Compact
+</td>
 </tr>
-<tr class="odd">
-<td>Peugeot 405 4</td>
-<td align="right">15930</td>
-<td align="left">France</td>
-<td align="left">average</td>
-<td align="right">24</td>
-<td align="left">Compact</td>
+<tr>
+<td style="text-align:left;">
+Peugeot 405 4
+</td>
+<td style="text-align:right;">
+15930
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:left;">
+Compact
+</td>
 </tr>
-<tr class="even">
-<td>Audi 100 5</td>
-<td align="right">26900</td>
-<td align="left">Germany</td>
-<td align="left">average</td>
-<td align="right">NA</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Audi 100 5
+</td>
+<td style="text-align:right;">
+26900
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="odd">
-<td>BMW 535i 6</td>
-<td align="right">33200</td>
-<td align="left">Germany</td>
-<td align="left">average</td>
-<td align="right">NA</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+BMW 535i 6
+</td>
+<td style="text-align:right;">
+33200
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="even">
-<td>Chevrolet Lumina 4</td>
-<td align="right">12140</td>
-<td align="left">USA</td>
-<td align="left">average</td>
-<td align="right">NA</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Chevrolet Lumina 4
+</td>
+<td style="text-align:right;">
+12140
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="odd">
-<td>Hyundai Sonata 4</td>
-<td align="right">9999</td>
-<td align="left">Korea</td>
-<td align="left">average</td>
-<td align="right">23</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Hyundai Sonata 4
+</td>
+<td style="text-align:right;">
+9999
+</td>
+<td style="text-align:left;">
+Korea
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="even">
-<td>Infiniti Q45 V8</td>
-<td align="right">38000</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">NA</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Infiniti Q45 V8
+</td>
+<td style="text-align:right;">
+38000
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="odd">
-<td>Lexus LS 400 V8</td>
-<td align="right">35000</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">NA</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Lexus LS 400 V8
+</td>
+<td style="text-align:right;">
+35000
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="even">
-<td>Oldsmobile Cutlass Supreme V6</td>
-<td align="right">14495</td>
-<td align="left">USA</td>
-<td align="left">average</td>
-<td align="right">21</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Oldsmobile Cutlass Supreme V6
+</td>
+<td style="text-align:right;">
+14495
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="odd">
-<td>Peugeot 505 4</td>
-<td align="right">19945</td>
-<td align="left">France</td>
-<td align="left">average</td>
-<td align="right">NA</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Peugeot 505 4
+</td>
+<td style="text-align:right;">
+19945
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="even">
-<td>Saab 9000S 4</td>
-<td align="right">25995</td>
-<td align="left">Sweden</td>
-<td align="left">average</td>
-<td align="right">NA</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Saab 9000S 4
+</td>
+<td style="text-align:right;">
+25995
+</td>
+<td style="text-align:left;">
+Sweden
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="odd">
-<td>Sterling 827 V6</td>
-<td align="right">23550</td>
-<td align="left">England</td>
-<td align="left">average</td>
-<td align="right">NA</td>
-<td align="left">Medium</td>
+<tr>
+<td style="text-align:left;">
+Sterling 827 V6
+</td>
+<td style="text-align:right;">
+23550
+</td>
+<td style="text-align:left;">
+England
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Medium
+</td>
 </tr>
-<tr class="even">
-<td>Chevrolet Lumina APV V6</td>
-<td align="right">13995</td>
-<td align="left">USA</td>
-<td align="left">average</td>
-<td align="right">18</td>
-<td align="left">Van</td>
+<tr>
+<td style="text-align:left;">
+Chevrolet Lumina APV V6
+</td>
+<td style="text-align:right;">
+13995
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+Van
+</td>
 </tr>
-<tr class="odd">
-<td>Mitsubishi Wagon 4</td>
-<td align="right">14929</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">20</td>
-<td align="left">Van</td>
+<tr>
+<td style="text-align:left;">
+Mitsubishi Wagon 4
+</td>
+<td style="text-align:right;">
+14929
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+Van
+</td>
 </tr>
-<tr class="even">
-<td>Nissan Axxess 4</td>
-<td align="right">13949</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">20</td>
-<td align="left">Van</td>
+<tr>
+<td style="text-align:left;">
+Nissan Axxess 4
+</td>
+<td style="text-align:right;">
+13949
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+Van
+</td>
 </tr>
-<tr class="odd">
-<td>Nissan Van 4</td>
-<td align="right">14799</td>
-<td align="left">Japan</td>
-<td align="left">Much better</td>
-<td align="right">19</td>
-<td align="left">Van</td>
+<tr>
+<td style="text-align:left;">
+Nissan Van 4
+</td>
+<td style="text-align:right;">
+14799
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Much better
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+Van
+</td>
 </tr>
-<tr class="even">
-<td>Volkswagen Vanagon 4</td>
-<td align="right">14080</td>
-<td align="left">Germany</td>
-<td align="left">average</td>
-<td align="right">NA</td>
-<td align="left">Van</td>
+<tr>
+<td style="text-align:left;">
+Volkswagen Vanagon 4
+</td>
+<td style="text-align:right;">
+14080
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+average
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Van
+</td>
 </tr>
 </tbody>
 </table>
@@ -2185,10 +2812,9 @@ hist(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)),
 </div>
 <div id="cargar-el-paquete-y-los-datos" class="section level2">
 <h2><span class="header-section-number">7.2</span> Cargar el paquete y los datos</h2>
-<pre class="r"><code>library(caret)</code></pre>
-<pre><code>## Loading required package: lattice</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre class="r"><code># Subir los datos del Loan prediction problem III:
+<pre class="r"><code>library(caret)
+
+# Subir los datos del Loan prediction problem III:
 train&lt;-read.csv(&quot;./resources/train_u6lujuX_CVtuZ9i.csv&quot;,stringsAsFactors = T)
 
 # Ver la estructura de los datos:
@@ -2483,9 +3109,8 @@ model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm
 <div id="importancia-de-las-variables" class="section level2">
 <h2><span class="header-section-number">7.8</span> Importancia de las variables</h2>
 <p>Una vez que se han seleccionado las variables, puede ser conveniente indicar cuán importante es cada variable en el modelo. En <code>caret</code> se puede hacer del siguiente modo:</p>
-<pre class="r"><code>library(gbm)</code></pre>
-<pre><code>## Loaded gbm 2.1.5</code></pre>
-<pre class="r"><code>varImp(object=model_gbm)</code></pre>
+<pre class="r"><code>library(gbm)
+varImp(object=model_gbm)</code></pre>
 <pre><code>## gbm variable importance
 ## 
 ##                   Overall
