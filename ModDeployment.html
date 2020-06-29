@@ -358,16 +358,20 @@ $(document).ready(function () {
 </div>
 
 
-<p>#¿Qué es el deployment?</p>
+<div id="qué-es-el-deployment" class="section level1">
+<h1>¿Qué es el deployment?</h1>
 <p>Una vez que se finaliza un reporte RMD, es común publicarlo online para visitarlo posteriormente. La acción de publicar el reporte se denomina <strong>“deployment”</strong>. En esta sección estaremos detallando una forma de realizar el deployment donde se utiliza R y <a href="https://github.com/">Github</a>. (Es necesario tener una cuenta, asique es recomendable registrarse antes de seguir con el tutorial).</p>
-<p>#Pasos a seguir</p>
+</div>
+<div id="pasos-a-seguir" class="section level1">
+<h1>Pasos a seguir</h1>
 <ol style="list-style-type: decimal">
 <li><a href="#site">Crear el archivo &quot;_site.yml&quot;</a></li>
 <li><a href="#render">Renderizar el reporte</a></li>
 <li><a href="#createRepo">Crear repositorio en Github</a></li>
 <li><a href="#upload">Subir los archivos a Github</a></li>
 </ol>
-<p>##Crear el archivo “site.yml” {#site}</p>
+<div id="site" class="section level2">
+<h2>Crear el archivo “site.yml”</h2>
 <p>Antes de renderizar el reporte es necesario crear el archivo &quot;_site.yml&quot;, el cual contiene especificaciones e infromación que R necesita para realizar el render.</p>
 <p>El contenido que debe tener el archivo es muy sencillo, aca va un ejemplo del _site.yml de este reporte:</p>
 <pre class="(r)"><code>name: &quot;R Markdown Deployment&quot;
@@ -377,12 +381,16 @@ output:
     highlight: github</code></pre>
 <p>Este archivo debe crearse en el mismo directorio donde se encuentra el reporte RMD. Una vez creado, estamos listos para hacer la renderización.</p>
 <p><strong>IMPORTANTE:</strong> es necesario que el archivo del reporte tenga el siguiente nombre: “index.Rmd”</p>
-<p>##Renderizar el reporte {#render}</p>
+</div>
+<div id="render" class="section level2">
+<h2>Renderizar el reporte</h2>
 <p>Este paso es muy sencillo, lo unico que debemos hacer es ejecutar el siguiente comando por consola:</p>
 <pre class="(r)"><code>rmarkdown::render_site()</code></pre>
 <p>Si el render se realizó con éxito, el output de consola deberia ser como el siguiente:</p>
 <pre class="(r)"><code>Output created: _site/index.html</code></pre>
-<p>##Crear el repositorio en Github {#createRepo}</p>
+</div>
+<div id="createRepo" class="section level2">
+<h2>Crear el repositorio en Github</h2>
 <p>Para crear el repositorio donde almacenaremos los archivos del sitio debemos hacer click en el siguiente botón (“new”):</p>
 <center>
 <img src="resources/new.png" />
@@ -399,7 +407,9 @@ output:
 <center>
 <img src="resources/gh-pages.png" />
 </center>
-<p>##Subir los archivos a Github {#upload}</p>
+</div>
+<div id="upload" class="section level2">
+<h2>Subir los archivos a Github</h2>
 <p>Lo que resta es subir los archivos de la carpeta llamada &quot;_site“, la cual fue creada por el render y se encuentra en el directorio del reporte. Para esto, con la branch de”gh-pages&quot; seleccionada, clickeamos en “Upload files”:</p>
 <center>
 <img src="resources/upload.png" />
@@ -416,6 +426,8 @@ output:
 <p><strong>[Username de github]</strong>.github.io/<strong>[Nombre del repositorio]</strong>/</p>
 <p>Por ejemplo:</p>
 <p><a href="https://icassol.github.io/CursoR/">icassol.github.io/CursoR</a></p>
+</div>
+</div>
 
 
 

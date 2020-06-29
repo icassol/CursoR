@@ -511,8 +511,14 @@ if (!&quot;factoextra&quot; %in% rownames(installed.packages()))
   install.packages(&quot;factoextra&quot;)
 
 library(ggplot2)
-library(cluster)
-library(factoextra)</code></pre>
+library(cluster)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;cluster&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:maps&#39;:
+## 
+##     votes.repub</code></pre>
+<pre class="r"><code>library(factoextra)</code></pre>
+<pre><code>## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Cálculo de distancia</li>
 </ol>
@@ -728,9 +734,22 @@ fviz_cluster(object = fuzzy_cluster, repel = TRUE, ellipse.type = &quot;norm&quo
 <h3><span class="header-section-number">2.4.1</span> Estudio de la tendencia de clustering</h3>
 <p>Antes de aplicar un método de clustering a los datos es conveniente evaluar si hay indicios de que realmente existe algún tipo de agrupación en ellos. A este proceso se le conoce como assessing cluster tendecy y puede llevarse a cabo mediante test estadísticos (<em>Estadístico de Hopkins</em>) o de forma visual (<em>Visual Assessment of cluster Tendency</em>).</p>
 <p>Para ilustrar la importancia de este pre-análisis inicial, se aplica clustering a dos sets de datos, uno que sí contiene grupos reales (<code>iris</code>) y otro aleatoriamente simulado que no.</p>
-<pre class="r"><code>library(purrr)
-
-# Se elimina la columna que contiene la especie de planta
+<pre class="r"><code>library(purrr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;purrr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:magrittr&#39;:
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from &#39;package:data.table&#39;:
+## 
+##     transpose</code></pre>
+<pre><code>## The following object is masked from &#39;package:caret&#39;:
+## 
+##     lift</code></pre>
+<pre><code>## The following object is masked from &#39;package:maps&#39;:
+## 
+##     map</code></pre>
+<pre class="r"><code># Se elimina la columna que contiene la especie de planta
 datos_iris &lt;- iris[, -5]
 
 # Se generan valores aleatorios dentro del rango de cada variable. Se utiliza la

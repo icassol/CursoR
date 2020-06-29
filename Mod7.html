@@ -2812,9 +2812,9 @@ hist(abs(as.numeric(predsAll)-as.numeric(allcars$Reliability)),
 </div>
 <div id="cargar-el-paquete-y-los-datos" class="section level2">
 <h2><span class="header-section-number">7.2</span> Cargar el paquete y los datos</h2>
-<pre class="r"><code>library(caret)
-
-# Subir los datos del Loan prediction problem III:
+<pre class="r"><code>library(caret)</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre class="r"><code># Subir los datos del Loan prediction problem III:
 train&lt;-read.csv(&quot;./resources/train_u6lujuX_CVtuZ9i.csv&quot;,stringsAsFactors = T)
 
 # Ver la estructura de los datos:
@@ -3109,8 +3109,9 @@ model_gbm&lt;-train(trainSet[,predictors],trainSet[,outcomeName],method=&#39;gbm
 <div id="importancia-de-las-variables" class="section level2">
 <h2><span class="header-section-number">7.8</span> Importancia de las variables</h2>
 <p>Una vez que se han seleccionado las variables, puede ser conveniente indicar cuán importante es cada variable en el modelo. En <code>caret</code> se puede hacer del siguiente modo:</p>
-<pre class="r"><code>library(gbm)
-varImp(object=model_gbm)</code></pre>
+<pre class="r"><code>library(gbm)</code></pre>
+<pre><code>## Loaded gbm 2.1.5</code></pre>
+<pre class="r"><code>varImp(object=model_gbm)</code></pre>
 <pre><code>## gbm variable importance
 ## 
 ##                   Overall
@@ -3182,6 +3183,20 @@ table(predictions)</code></pre>
 <li>De las 153 personas del dataset, 123 (19+104) han sido predichas correctamente. Es decir: 123/153 = 0,8039 (ver en el output <code>Accuracy</code>).</li>
 </ul>
 <p>Los cuadrantes de la tablas de confusión con predicciones booleanas (SI/NO, TIENE/NO TIENE) tienen un nombre propio:</p>
+<pre><code>## data.table 1.12.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com</code></pre>
+<pre><code>## **********
+## This installation of data.table has not detected OpenMP support. It should still work but in single-threaded mode. If this is a Mac, please ensure you are using R&gt;=3.4.0 and have followed our Mac instructions here: https://github.com/Rdatatable/data.table/wiki/Installation. This warning message should not occur on Windows or Linux. If it does, please file a GitHub issue.
+## **********</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
