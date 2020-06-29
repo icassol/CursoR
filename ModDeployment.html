@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Facundo Rivas" />
+
+<meta name="date" content="2020-06-17" />
+
+<title>R Markdown Deployment</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<div class="header">
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
+</div>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Curso R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Mod1.html">Introducción</a>
+</li>
+<li>
+  <a href="Mod2.html">Lenguaje R</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Gráficos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod4.html">Introducción</a>
+    </li>
+    <li>
+      <a href="Mod4_Adv.html">Avanzado</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Mod7.html">Predicción</a>
+</li>
+<li>
+  <a href="Mod8.html">Clustering</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Reportes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod5.html">RMarkdown</a>
+    </li>
+    <li>
+      <a href="ModDeployment.html">Deployment</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Mod6.html">Web</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Markdown Deployment</h1>
+<h4 class="author">Facundo Rivas</h4>
+<h4 class="date">June 17, 2020</h4>
+
+</div>
+
+
+<div id="qué-es-el-deployment" class="section level1">
+<h1>¿Qué es el deployment?</h1>
+<p>Una vez que se finaliza un reporte RMD, es común publicarlo online para visitarlo posteriormente. La acción de publicar el reporte se denomina <strong>“deployment”</strong>. En esta sección estaremos detallando una forma de realizar el deployment donde se utiliza R y <a href="https://github.com/">Github</a>. (Es necesario tener una cuenta, asique es recomendable registrarse antes de seguir con el tutorial).</p>
+</div>
+<div id="pasos-a-seguir" class="section level1">
+<h1>Pasos a seguir</h1>
+<ol style="list-style-type: decimal">
+<li><a href="#site">Crear el archivo &quot;_site.yml&quot;</a></li>
+<li><a href="#render">Renderizar el reporte</a></li>
+<li><a href="#createRepo">Crear repositorio en Github</a></li>
+<li><a href="#upload">Subir los archivos a Github</a></li>
+</ol>
+<div id="site" class="section level2">
+<h2>Crear el archivo “site.yml”</h2>
+<p>Antes de renderizar el reporte es necesario crear el archivo &quot;_site.yml&quot;, el cual contiene especificaciones e infromación que R necesita para realizar el render.</p>
+<p>El contenido que debe tener el archivo es muy sencillo, aca va un ejemplo del _site.yml de este reporte:</p>
+<pre class="(r)"><code>name: &quot;R Markdown Deployment&quot;
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github</code></pre>
+<p>Este archivo debe crearse en el mismo directorio donde se encuentra el reporte RMD. Una vez creado, estamos listos para hacer la renderización.</p>
+<p><strong>IMPORTANTE:</strong> es necesario que el archivo del reporte tenga el siguiente nombre: “index.Rmd”</p>
+</div>
+<div id="render" class="section level2">
+<h2>Renderizar el reporte</h2>
+<p>Este paso es muy sencillo, lo unico que debemos hacer es ejecutar el siguiente comando por consola:</p>
+<pre class="(r)"><code>rmarkdown::render_site()</code></pre>
+<p>Si el render se realizó con éxito, el output de consola deberia ser como el siguiente:</p>
+<pre class="(r)"><code>Output created: _site/index.html</code></pre>
+</div>
+<div id="createRepo" class="section level2">
+<h2>Crear el repositorio en Github</h2>
+<p>Para crear el repositorio donde almacenaremos los archivos del sitio debemos hacer click en el siguiente botón (“new”):</p>
+<center>
+<img src="resources/new.png" />
+</center>
+<p>Luego, le damos un nombre al repositorio, marcamos la opción “initialize this repository with a README” y clickeamos en “Create repository”:</p>
+<center>
+<img src="resources/create.png" />
+</center>
+<p>Después de crear el repositorio debemos crear una nueva “branch” que llamaremos <strong>“gh-pages”</strong> (No hace falta entender qué es una branch, con crearla alcanza). Para esto, clickeamos en el botón donde dice “Branch: master”, ingresamos “gh-pages” y apretamos enter. Esto crea dicha branch y automáticamente nos posisiona en la misma.</p>
+<center>
+<img src="resources/branch.png" />
+</center>
+<p>Branch creada y seleccionada:</p>
+<center>
+<img src="resources/gh-pages.png" />
+</center>
+</div>
+<div id="upload" class="section level2">
+<h2>Subir los archivos a Github</h2>
+<p>Lo que resta es subir los archivos de la carpeta llamada &quot;_site“, la cual fue creada por el render y se encuentra en el directorio del reporte. Para esto, con la branch de”gh-pages&quot; seleccionada, clickeamos en “Upload files”:</p>
+<center>
+<img src="resources/upload.png" />
+</center>
+<p>Seleccionamos todos los archivos que se encuentran dentro de la carpeta &quot;_site&quot; y los arrastramos para subirlos:</p>
+<center>
+<img src="resources/uploading.png" />
+</center>
+<p>Ingresamos un mensaje para el upload de archivos (por ejemplo: “initial commit”) y clickeamos en “Commit changes”:</p>
+<center>
+<img src="resources/commit.png" />
+</center>
+<p>Una vez que finaliza el upload de los archivos a Github nuestro reporte ya está publicado y podemos acceder a él mediante la siguiente URL:</p>
+<p><strong>[Username de github]</strong>.github.io/<strong>[Nombre del repositorio]</strong>/</p>
+<p>Por ejemplo:</p>
+<p><a href="https://icassol.github.io/CursoR/">icassol.github.io/CursoR</a></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Webs con Shiny</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.4.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.4.1/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.4.1/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<div class="header">
+  <img style="width: 100%;" class="center-fit" src="resources/curso-banner.png"/>
+</div>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Curso R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Mod1.html">Introducción</a>
+</li>
+<li>
+  <a href="Mod2.html">Lenguaje R</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod3.html">Basics</a>
+    </li>
+    <li>
+      <a href="basic_statistics_in_R.html">Distribuciones</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Gráficos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod4.html">Introducción</a>
+    </li>
+    <li>
+      <a href="Mod4_Adv.html">Avanzado</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Mod7.html">Predicción</a>
+</li>
+<li>
+  <a href="Mod8.html">Clustering</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Reportes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Mod5.html">RMarkdown</a>
+    </li>
+    <li>
+      <a href="ModDeployment.html">Deployment</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Mod6.html">Web</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Webs con Shiny</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#qué-es-shiny"><span class="toc-section-number">1</span> Qué es Shiny</a></li>
+<li><a href="#estructura-de-una-aplicación-shiny"><span class="toc-section-number">2</span> Estructura de una aplicación Shiny</a></li>
+<li><a href="#mi-primer-shiny-app"><span class="toc-section-number">3</span> Mi primer Shiny app</a></li>
+<li><a href="#ejecución-de-una-shiny-app"><span class="toc-section-number">4</span> Ejecución de una Shiny app</a></li>
+<li><a href="#construcción-de-la-interface-de-usuario-ui"><span class="toc-section-number">5</span> Construcción de la interface de usuario (UI)</a><ul>
+<li><a href="#layouts"><span class="toc-section-number">5.1</span> Layouts</a></li>
+<li><a href="#input-widget"><span class="toc-section-number">5.2</span> Input widget</a></li>
+</ul></li>
+</ul>
+</div>
+
+<!-- see http://rmarkdown.rstudio.com/ for details in formatting -->
+<div id="qué-es-shiny" class="section level1">
+<h1><span class="header-section-number">1</span> Qué es Shiny</h1>
+<p><em>(Para profundizar contenidos de este curso, o aprender otros aspectos no incluidos, sugerimos tener en cuenta <a href="https://shiny.rstudio.com/tutorial/">este tutorial de Shiny</a>).</em></p>
+<p>Shiny es un paquete de R que facilita la creación de aplicaciones web interactivas (aplicaciones) directamente desde R. Shiny viene con una variedad de widgets para la construcción rapida de interfaces de usuario web, nosotros escribimos el codigo en R y shiny hará el trabajo pesado de generar el HTML, css, javascript, jquery, etc.</p>
+<p>Si aún no has instalado el paquete <code>Shiny</code>, abre una sesión R, conéctate a Internet y ejecuta:</p>
+<pre><code>install.packages(&quot;shiny&quot;)
+library(&quot;shiny&quot;)</code></pre>
+</div>
+<div id="estructura-de-una-aplicación-shiny" class="section level1">
+<h1><span class="header-section-number">2</span> Estructura de una aplicación Shiny</h1>
+<p>Las aplicaciones de <code>Shiny</code> deben tener tres componentes:</p>
+<ul>
+<li><p><strong>UI</strong>: un objeto de interfaz (user interface) de usuario. Esta componente: gestiona los inputs y organiza la visualización de los datos. “Dialoga” con el server (el 2º componente), que es quien procesa los datos, quien gestiona la información.</p></li>
+<li><p><strong>server</strong>: una función de servidor (server function). Esta componente tiene las estructuras de datos y la algoritmia de la aplicación.</p></li>
+<li><p><strong>app</strong>: una llamada a la función <code>shinyApp</code>. Es el compomente en donde se define la ubicación del <code>UI</code> y del <code>server</code>. Es el componente que se ejecuta (“Run”) para testear/utilizar la app.</p></li>
+</ul>
+<p>Es decir: La interfaz de usuario (<code>ui</code>) controla el diseño y la apariencia de su aplicación. La función <code>server</code> contiene las instrucciones que el ordenador necesita para construir la aplicación. Finalmente, la función <code>shinyApp</code> crea objetos de aplicación <code>Shiny</code> a partir de un par de <code>UI/server</code> explícito.</p>
+<p>Inicialmente, para aprender, vamos a crear un script “app.R”, que contendrá los tres componentes. Luego, las aplicaciones de Shiny más complejas tienen, al menos, un script para cada componente.</p>
+</div>
+<div id="mi-primer-shiny-app" class="section level1">
+<h1><span class="header-section-number">3</span> Mi primer Shiny app</h1>
+<p>Primero, haremos nuestra primera <code>Shiny app</code>, y luego explicaremos cómo funciona:</p>
+<p>1º Crea un nuevo script.</p>
+<p>2º Pega el siguiente código:</p>
+<pre id="numCode" class="R numberLines"><code>library(shiny)
+
+# Define UI for app that draws a histogram ----
+ui &lt;- fluidPage(
+
+  # App title ----
+  titlePanel(&quot;Hello Shiny!&quot;),
+
+  # Sidebar layout with input and output definitions ----
+  sidebarLayout(
+
+    # Sidebar panel for inputs ----
+    sidebarPanel(
+
+      # Input: Slider for the number of bins ----
+      sliderInput(inputId = &quot;bins&quot;,
+                  label = &quot;Number of bins:&quot;,
+                  min = 1,
+                  max = 50,
+                  value = 30)
+
+    ),
+
+    # Main panel for displaying outputs ----
+    mainPanel(
+
+      # Output: Histogram ----
+      plotOutput(outputId = &quot;distPlot&quot;)
+
+    )
+  )
+)
+
+# Define server logic required to draw a histogram ----
+server &lt;- function(input, output) {
+
+  # Histogram of the Old Faithful Geyser Data ----
+  # with requested number of bins
+  # This expression that generates a histogram is wrapped in a call
+  # to renderPlot to indicate that:
+  #
+  # 1. It is &quot;reactive&quot; and therefore should be automatically
+  #    re-executed when inputs (input$bins) change
+  # 2. Its output type is a plot
+  output$distPlot &lt;- renderPlot({
+
+    x    &lt;- faithful$waiting
+    bins &lt;- seq(min(x), max(x), length.out = input$bins + 1)
+
+    hist(x, breaks = bins, col = &quot;#75AADB&quot;, border = &quot;white&quot;,
+         xlab = &quot;Waiting time to next eruption (in mins)&quot;,
+         main = &quot;Histogram of waiting times&quot;)
+
+    })
+
+}
+
+# Create Shiny app ----
+shinyApp(ui = ui, server = server)</code></pre>
+<p>3º Selecciona todo el texto y ejecútalo. Deberías ver la aplicación funcionando similar a esto:</p>
+<p><img src="https://github.com/icassol/platform-samples/blob/master/HelloShiny.png?raw=true" /></p>
+<p>4º Prueba la aplicación modificando el <strong>sliderInput</strong> del <em>Number of bins:</em>. Verás que se modifica el histograma.</p>
+<p>5º Si quieres, también puedes hacer click en “Open in Browser” para ver la aplicación como una ventana más de tu browser.</p>
+<hr />
+<p>Ahora identifiquemos los tres componentes en el ejemplo anterior:</p>
+<ul>
+<li>el objeto <code>UI</code> (primer componente) está implementado entre las filas 4 y la 32.</li>
+<li>la función <code>server</code> (segundo componente) está implementado entre las filas 35 y 56.</li>
+<li>la llamada a función (tercer componente) está en la última fila (59).</li>
+</ul>
+<p>Es una buena práctica, que cada componente esté en archivos diferentes:</p>
+<ul>
+<li>ui.r: sólo contiene la codificación de interface de usuario.</li>
+<li>server.r: sólo contiene las funciones que debe realizar el servidor.</li>
+<li>app.r: sólo contiene el llamdo a Shiny, en la se señala dónde está es UI y el server.</li>
+</ul>
+<p>Más adelante, vemos un ejemplo sobre esta buena práctica.</p>
+</div>
+<div id="ejecución-de-una-shiny-app" class="section level1">
+<h1><span class="header-section-number">4</span> Ejecución de una Shiny app</h1>
+<ul>
+<li><p>Opción 1: Ejecutando el script <code>app.r</code> presionando el boton “Run”. (Es la opción que utilizaste para ejecutar la app <code>Hello Shiny</code>)</p></li>
+<li><p>Opción 2: También se puede ejecutar el comando por consola:</p></li>
+</ul>
+<pre><code>runApp(&quot;my_app&quot;)</code></pre>
+<hr />
+</div>
+<div id="construcción-de-la-interface-de-usuario-ui" class="section level1">
+<h1><span class="header-section-number">5</span> Construcción de la interface de usuario (UI)</h1>
+<p>La UI en Shiny utiliza código HTML. Vamos a usar la función <code>fluidPage</code> para crear una pantalla que se ajusta automáticamente a las dimensiones de la ventana del navegador. Para diseñar la interfaz de usuario de su aplicación, hay que agregar elementos dentro de la función <code>fluidPage</code>.</p>
+<p>La función <code>fluidPage</code> contiene <code>layouts</code> y, a su vez, los <code>layouts</code> contienen <code>paneles</code>.</p>
+<div id="layouts" class="section level2">
+<h2><span class="header-section-number">5.1</span> Layouts</h2>
+<p>Los <code>layouts</code> se utilizan para organizar los paneles y elementos dentro de un layout existente. A continuación, verás algunos layouts y cómo es su estructura interna:</p>
+<p><img src="https://github.com/icassol/platform-samples/blob/master/Layouts.png?raw=true" /></p>
+<p>Ejemplo:</p>
+<pre id="numCode" class="R numberLines"><code>library(shiny)
+fluidPage(
+  titlePanel(&quot;Hello Shiny!&quot;),
+  sidebarLayout(
+    sidebarPanel(HTML(&#39;&lt;p&gt;
+         &lt;label&gt;A numeric input:&lt;/label&gt;&lt;br /&gt; 
+         &lt;input type=&quot;number&quot; name=&quot;n&quot; value=&quot;7&quot; min=&quot;1&quot; max=&quot;30&quot; /&gt;
+         &lt;/p&gt;&#39;)),
+    mainPanel(
+      p(strong(&quot;bold font &quot;), em(&quot;italic font&quot;)),
+      p(code(&quot;code block&quot;)),
+      a(href=&quot;http://www.google.com&quot;, &quot;link to Google&quot;))
+  )
+)</code></pre>
+<p>En el código anterior, puedes identificar:</p>
+<ul>
+<li>el título del panel (línea 3).</li>
+<li>el uso de layout <code>sidebarLayout</code> (línea 4) con sus dos partes:
+<ul>
+<li><code>sidebarPanel</code> (línea 5).</li>
+<li><code>mainPanel</code> (línea 9).</li>
+</ul></li>
+</ul>
+<hr />
+<p>Como se puede observar en el ejemplo, la UI permite intercalar código HTML.</p>
+</div>
+<div id="input-widget" class="section level2">
+<h2><span class="header-section-number">5.2</span> Input widget</h2>
+<p>Los widgets son controles con los que el usuario va a interactuar, es decir que mediante estos controles el usuario va a comunicarse con nuestra aplicacion, filtrar, seleccionar, ingresar un dato por parámetro.</p>
+<table>
+<thead>
+<tr class="header">
+<th>function</th>
+<th>widget</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>actionButton</td>
+<td>Botón para acciones</td>
+</tr>
+<tr class="even">
+<td>checkboxGroupInput</td>
+<td>Un grupo de checkboxes</td>
+</tr>
+<tr class="odd">
+<td>checkboxInput</td>
+<td>Un simple checkbox</td>
+</tr>
+<tr class="even">
+<td>dateInput</td>
+<td>Seleccion de una fecha</td>
+</tr>
+<tr class="odd">
+<td>dateRangeInput</td>
+<td>Seleccion de un par de fechas</td>
+</tr>
+<tr class="even">
+<td>fileInput</td>
+<td>Subir un archivo</td>
+</tr>
+<tr class="odd">
+<td>helpText</td>
+<td>Texto de ayuda para otro control</td>
+</tr>
+<tr class="even">
+<td>numericInput</td>
+<td>Campo para insertar un dato numÃ©rico</td>
+</tr>
+<tr class="odd">
+<td>radioButtons</td>
+<td>Un grupo de radio buttons</td>
+</tr>
+<tr class="even">
+<td>selectInput</td>
+<td>Clasica caja con opciones para seleccionar</td>
+</tr>
+<tr class="odd">
+<td>sliderInput</td>
+<td>Control para seleccionar un dato numérico</td>
+</tr>
+<tr class="even">
+<td>submitButton</td>
+<td>Un boton de submit</td>
+</tr>
+<tr class="odd">
+<td>textInput</td>
+<td>Campo para ingresar un dato de texto</td>
+</tr>
+</tbody>
+</table>
+<p>Output de algunos widgets:</p>
+<p><img src="https://github.com/icassol/platform-samples/blob/master/Basicwidgets.png?raw=true" /></p>
+<p>Probemos algunos de ellos usando, como base, el layout del ejemplo anterior:</p>
+<pre class="r"><code>library(shiny)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;shiny&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:DT&#39;:
+## 
+##     dataTableOutput, renderDataTable</code></pre>
+<pre><code>## The following object is masked from &#39;package:geosphere&#39;:
+## 
+##     span</code></pre>
+<pre class="r"><code>fluidPage(
+  titlePanel(&quot;Mi primera Shiny App&quot;),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput(&quot;numInput&quot;, &quot;Ingresa un número:&quot;, value = 7, min = 1, max = 30),
+      actionButton(&quot;MiBoton&quot;,&quot;Boton&quot;),
+      checkboxInput(&quot;MiCheBox&quot;, &quot;CheckBox&quot;, FALSE)
+      ),
+    mainPanel(
+      p(strong(&quot;bold font &quot;), em(&quot;italic font&quot;)),
+      p(code(&quot;code block&quot;)),
+      a(href=&quot;http://rusersgroup.com/&quot;, &quot;R User Group&quot;))
+  )
+)</code></pre>
+<div class="container-fluid">
+<h2>Mi primera Shiny App</h2>
+<div class="row">
+<div class="col-sm-4">
+<form class="well">
+<div class="form-group shiny-input-container">
+<label class="control-label" for="numInput">Ingresa un número:</label>
+<input id="numInput" type="number" class="form-control" value="7" min="1" max="30"/>
+</div>
+<button id="MiBoton" type="button" class="btn btn-default action-button">Boton</button>
+<div class="form-group shiny-input-container">
+<div class="checkbox">
+<label>
+<input id="MiCheBox" type="checkbox"/>
+<span>CheckBox</span>
+</label>
+</div>
+</div>
+</form>
+</div>
+<div class="col-sm-8">
+<p>
+<strong>bold font </strong>
+<em>italic font</em>
+</p>
+<p>
+<code>code block</code>
+</p>
+<a href="http://rusersgroup.com/">R User Group</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
