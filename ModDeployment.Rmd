@@ -8,18 +8,18 @@ output:
     highlight: github
 ---
 
-#¿Qué es el deployment?
+# ¿Qué es el deployment?
 
 Una vez que se finaliza un reporte RMD, es común publicarlo online para visitarlo posteriormente. La acción de publicar el reporte se denomina **"deployment"**. En esta sección estaremos detallando una forma de realizar el deployment donde se utiliza R y [Github](https://github.com/). (Es necesario tener una cuenta, asique es recomendable registrarse antes de seguir con el tutorial).
 
-#Pasos a seguir
+# Pasos a seguir
 
 1. [Crear el archivo "_site.yml"](#site)
 2. [Renderizar el reporte](#render)
 3. [Crear repositorio en Github](#createRepo)
 4. [Subir los archivos a Github](#upload)
 
-##Crear el archivo "site.yml" {#site}
+## Crear el archivo "site.yml" {#site}
 
 Antes de renderizar el reporte es necesario crear el archivo "_site.yml", el cual contiene especificaciones e infromación que R necesita para realizar el render. 
 
@@ -37,7 +37,7 @@ Este archivo debe crearse en el mismo directorio donde se encuentra el reporte R
 
 **IMPORTANTE:** es necesario que el archivo del reporte tenga el siguiente nombre: "index.Rmd"
 
-##Renderizar el reporte {#render}
+## Renderizar el reporte {#render}
 
 Este paso es muy sencillo, lo unico que debemos hacer es ejecutar el siguiente comando por consola: 
 
@@ -51,7 +51,7 @@ Si el render se realizó con éxito, el output de consola deberia ser como el si
 Output created: _site/index.html
 ```
 
-##Crear el repositorio en Github {#createRepo}
+## Crear el repositorio en Github {#createRepo}
 
 Para crear el repositorio donde almacenaremos los archivos del sitio debemos hacer click en el siguiente botón ("new"):
 
@@ -77,7 +77,7 @@ Branch creada y seleccionada:
 ![](resources/gh-pages.png) 
 </center>
 
-##Subir los archivos a Github {#upload}
+## Subir los archivos a Github {#upload}
 
 Lo que resta es subir los archivos de la carpeta llamada "_site", la cual fue creada por el render y se encuentra en el directorio del reporte. Para esto, con la branch de "gh-pages" seleccionada, clickeamos en "Upload files":
 
